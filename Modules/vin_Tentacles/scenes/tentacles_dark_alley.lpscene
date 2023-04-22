@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 23 - 4
+WHO: none
+OTHER: !Player.isMale() || [isWithCompanion() && !CurrentCompanion.isMale() && isModEnabled(vin_NTR)]
+
+    // Being outside at night and you may encounter a tentacle monster. If with a female companion, you could either be hero or a coward
+    SceneStart()
+    setBackground(street)
+    "I was out late in a dark alley when suddenly I notice something long and flexible starts popping out of the sewage manhole ... some sort of tentacle ..."
+    Actor = generateCreatureTemporary(Tentacles)
+    Actor.show()
+    "A tentacle monster quickly reveals itself."
+    0:: "Surrender"
+    1:: "Run"
+    2:: "Fight the monster"
+    
+    If 0
+        Player.animate(fightlost)
+        Player:: "Don't hurt me, I surrender!"
+        
+        "Look at those tentacles, how long and powerful they are. How could I possibly win a fight against this monster or outrun it?"
+        
+        If !Player.isMale()
+            "Soon, the tentacles wrap around me and prevent me from escaping ..."
+            "Before long, some of the tentacles were penetrating my holes and soon I was overcome with pleasure to even resist anymore."
+            Sex(Actor, Player)
+        Else
+            "To my relief, the tentacle monster pays me no interest and instead focuses on my companion <CurrentCompanion.name>."
+            "Soon, the tentacles wrap around <CurrentCompanion.name> and prevent <CurrentCompanion.him_or_her> from escaping ..."
+            CurrentCompanion:: "Ahhhhhhhhhhhhhhhhhh"
+            "Before long, some of the tentacles were penetrating <CurrentCompanion.his_or_her> holes and soon <CurrentCompanion.he_or_she> was overcome with pleasure to even resist anymore."
+            "I had no choice but watch"
+            Sex(Actor, CurrentCompanion)
+        Endif
+    Elseif 1
+        "I can't believe it: I managed to actually outrun the monster and got away. Perhaps survival instinct kicks in ..."
+        If isWithCompanion() && !CurrentCompanion.isMale()
+            Player.hide()
+            "Unfortunately, I competely forgot about my companion <CurrentCompanion.name> in my panic and left <CurrentCompanion.him_or_her> back there with the monster."
+            "Soon, the tentacles wrap around <CurrentCompanion.name> and prevent <CurrentCompanion.him_or_her> from escaping ..."
+            CurrentCompanion:: "Ahhhhhhhhhhhhhhhhhh"
+            "Before long, some of the tentacles were penetrating <CurrentCompanion.his_or_her> holes and soon <CurrentCompanion.he_or_she> was overcome with pleasure to even resist anymore."
+            Sex(Actor, CurrentCompanion)
+            CurrentCompanion:rapportwithplayer -= 10
+            CurrentCompanion:attractiontoplayer -= 10
+            Player.show()
+        Endif
+    Else
+        Player.animate(martialart)
+        "In a fury, I actually managed to land a few hits on the monster. I don't think the monster was actually hurt all that much, but not expecting such a fierce resistance, the monster eventually withdrew, perhaps thinking I'm not worth the effort and that there're easier preys out there."
+        Actor.hide()
+        If isWithCompanion() && CurrentCompanion.isInterestedIn(Player)
+            CurrentCompanion:: "You saved me! You were so brave. Who knows what the monster would have done to me if you didn't fight back?"
+            CurrentCompanion:: "I think my hero deserves a reward"
+            0:: "Fuck <CurrentCompanion.name>"
+            1:: "A true <Player.gentleman_or_lady" doesn't demand rewards"
+            
+            If 0
+                Sex(Player, CurrentCompanion)
+            Endif
+            CurrentCompanion:rapportwithplayer += 10
+            CurrentCompanion:attractiontoplayer += 10
+        Endif        
+    Endif
+
+    SceneEnd()
+    timeout(200, tentacles_dark_alley)

@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: camp
+ACTION_NAME: Camp
+WHERE: forest, mountain, river
+WHEN: 0 - 24
+MINUTES: 240 - 400
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: nap
+EFFECTS: mood +20 (END), energy +60 (DURATION), intoxication -50 (DURATION)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: camp
+ANIMATION: camp   

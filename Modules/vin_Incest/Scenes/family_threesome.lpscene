@@ -1,0 +1,43 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 20
+WHO: Actor = getRelative(); Actor2 = getRelative(); If Actor:perversion > 60 && Actor2:perversion > 60 && Actor.isInterestedIn(Player) && Actor2.isInterestedIn(Player) && Actor.isSameGender(Actor2) && !Actor.isSameGender(Player) && Actor:incest > 10 && Actor2:incest > 10
+OTHER: isAtHome()
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Player.hide()
+    "I overheard a conversation between my <Actor.relationship> <Actor.name> and my <Actor2.relationship> <Actor2.name>."
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    Actor:: "Wow, <Player.name> has become such a hot <Player.man_or_woman>."
+    Actor:: "If <Player.he_or_she> isn't my <Actor.callplayer>, I would totally fuck <Player.his_or_her> brains out."
+    Actor2:: "I'm glad I'm not the only one in this family to think the same ... Can you imagine us tag-teaming <Player.him_or_her>?"
+    Actor:: "Wow, you shouldn't have put that idea into my head. I'm going to fantasize about it all night now."
+    Actor2:: "Well, even if <Player.name> isn't available, maybe we can still get a prostitute to have a threesome. We can then imagine it's <Player.him_or_her> we're fucking."
+    "Hmm, I can't believe that I have such a perverted family. What should I do about this?"
+    0:: "Stay quiet"
+    1:: "Tell them off"
+    2:: "Have a threesome"
+    
+    If 1
+        Player.show()
+        Player(Angry):: "I heard everything. That is so inappropriate!"
+        Actor:incest -= 5
+        Actor2:incest -= 5
+        Actor:rapportwithplayer -= 2
+        Actor2:rapportwithplayer -= 2
+    Elseif 2
+        Player.show()
+        Player(Flirty):: "I heard everything ... and you know what ... I'm totally down for that threesome."
+        Actor:: "Oh my ... is this a dream?"
+        Actor2:: "Let's go to your bedroom?"
+        setBackground(home)
+        Sex(Actor, Actor2, Player)
+        Actor:incest += 50
+        Actor2:incest += 50
+    Endif
+    SceneEnd()
+    timeout(300, family_threesome)

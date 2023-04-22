@@ -1,0 +1,140 @@
+!Face Age Controller: old
+Brian: white, oblong
+Christopher: white, square
+CTRLSYFABharatFace: indian, oval
+CTRLSYFAChanarongFace: asian, round
+CTRLSYFACheungFace: asian, oval
+CTRLSYFADaisukeFace: asian, oval
+CTRLSYFADawFace: asian, round
+CTRLSYFADohyunFace: asian, round
+CTRLSYFAEnlaiFace: asian, round
+CTRLSYFAFenggeFace: asian, oval
+CTRLSYFAJianyuFace: asian, oval
+CTRLSYFAJunFace: asian, oval
+CTRLSYFAJunseoFace: asian, oval
+CTRLSYFALayakFace: indian, square
+CTRLSYFAMasamiFace: asian, oval
+CTRLSYFAMinjunFace: asian, oblong
+CTRLSYFAMongkutFace: asian, oval
+CTRLSYFARavindraFace: indian, square
+CTRLSYFAReijiFace: asian, oval
+CTRLSYFASunanFace: asian, round
+CTRLSYFAToshioFace: asian, oval
+CTRLSYFAViroteFace: asian, round
+CTRLSYFAVrateshFace: indian, oblong
+CTRLSYFAWeiFace: asian, oblong
+CTRLSYFAWoojinFace: asian, square
+CTRLSYFAYajnaFace: indian, round
+CTRLSYFAYejunFace: asian, oval
+CTRLSYFEAntoniFace: white, square
+CTRLSYFEBaptisteFace: white, square
+CTRLSYFECesareFace: white, square
+CTRLSYFEConorFace: white, square
+CTRLSYFEDmitryFace: white, oval
+CTRLSYFEEnzoFace: white, square
+CTRLSYFEErikFace: white, square
+CTRLSYFEGlynFace: white, oval
+CTRLSYFEIanFace: white, oval
+CTRLSYFEJamesFace: white, round
+CTRLSYFEKirillFace: white, oval
+CTRLSYFELucaFace: white, square
+CTRLSYFEMagnusFace: white, square
+CTRLSYFEMajFace: white, oval
+CTRLSYFEMatheoFace: white, oval
+CTRLSYFENikolaFace: white, square
+CTRLSYFEOliverFace: white, oblong
+CTRLSYFEOlleFace: white, square
+CTRLSYFEOnniFace: white, square
+CTRLSYFERayanFace: white, round
+CTRLSYFERobertoFace: white, oblong
+CTRLSYFESanderFace: white, square
+CTRLSYFETasosFace: white, square
+CTRLSYFEVilhoFace: white, square
+CTRLSYFEWilliamFace: white, square
+Damien: white, oval
+David: white, oval
+EJEthnicsMale_African_Head: black, oval
+EJEthnicsMale_Asian_Head: asian, oval
+EJEthnicsMale_Caucassian_Head: white, oval
+EJEthnicsMale_Indian_Head: indian, oval
+EJEthnicsMale_Latin_Head: latin, oblong
+EJEthnicsMale_Native_Head: latin, oval
+EJEthnicsMale_Polin_Head: asian, round
+Face Femine 01: feminine, oval
+Face Femine 02: feminine, round
+Face Femine 03: feminine, oval
+Face Femine 04: feminine, oval
+Face Femine 05: feminine, oblong
+Face Femine 06: feminine, oval
+Face Femine 07: feminine, oval
+Face Femine 08: feminine, oval
+Face Femine 09: feminine, round
+Face Femine 10: feminine, square
+FHMSYOrcHead01: fantasy, square
+FHMSYOrcHead02: fantasy, square
+FHMSYVampire: fantasy, oblong
+Jin: asian, round
+Matt: white, square
+Mike: white, square
+PHMSYEarDarkElf: fantasy
+PHMSYEarDroopyElf: fantasy
+PHMSYEarElfLong: fantasy
+PHMSYEarElfMedium: fantasy
+PHMSYEarElfSimple: fantasy
+PHMSYEarElfSpace02: fantasy
+PHMSYEarElfXLong: fantasy
+Preset 01: white, oblong
+Preset 02: white, square
+Preset 03: white, oval
+Preset 04: white, square
+Preset 05: white, oblong
+Preset 06: white, oval
+Preset 07: white, oval
+Preset 08: white, oblong
+Preset 09: white, round
+Preset 10: white, oblong
+Preset 11: indian, oval
+Preset 12: white, oblong
+Preset 13: white, square
+Preset 14: white, square
+Preset 15: white, oblong
+Preset 16: white, square
+Preset 17: white, square
+Preset 18: white, square
+Preset 19: white, square
+Preset 20: white, oval
+Preset 21: white, square
+Preset 22: latin, round
+Preset 23: white, oval
+Preset 24: white, square
+Preset 25: white, square
+Raj: indian, oblong
+Ray: black, oval
+Ryu: asian, oval
+SYFAFAbdelatifNorthAfricanFace: arab, oval
+SYFAFAcylCentralAfricanFace: black, round
+SYFAFAlphaWestAfricanFace: black, round
+SYFAFAndimbaSouthernAfricanFace: black, round
+SYFAFDahabEastAfricanFace: black, round
+SYFAFHichamNorthAfricanFace: black, oval
+SYFAFIssaCentralAfricanFace: black, round
+SYFAFKengoCentralAfricanFace: black, oval
+SYFAFKetumileSouthernAfricanFace: black, oval
+SYFAFLuthuliSouthernAfricanFace: black, oval
+SYFAFMarienCentralAfricanFace: black, oblong
+SYFAFMatarrCentralAfricanFace: black, round
+SYFAFMinyarNorthAfricanFace: arab, oblong
+SYFAFMustaphaWestAfricanFace: black, round
+SYFAFNdiayeWestAfricanFace: black, oval
+SYFAFOgukeyeWestAfricanFace: black, oval
+SYFAFPatriceEastAfricanFace: black, oval
+SYFAFSemereEastAfricanFace: black, oval
+SYFAFSotchaSouthernAfricanFace: black, oblong
+SYFAFSundayWestAfricanFace: black, round
+SYFAFTabanEastAfricanFace: black, square
+SYFAFTauSouthernAfricanFace: black, square
+SYFAFTawfiqNorthAfricanFace: arab, oblong
+SYFAFWambuaEastAfricanFace: black, round
+SYFAFZoubeirNorthAfricanFace: arab, oblong
+Trey: black, oblong
+Tyler: black, oblong

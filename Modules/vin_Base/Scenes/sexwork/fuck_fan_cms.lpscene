@@ -1,0 +1,38 @@
+WHAT: all
+WHERE: all
+WHEN: 8 - 18
+WHO: none
+OTHER: Random(50, 100) < pornfame
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    Actor2 = generatePersonTemporary()
+    Actor.show()
+    Actor2.show()
+    "By chance, I was approached by a couple. One of them is a huge fan of me as a pornstar ..."
+    Actor:: "My god, I can't believe I finally meet you my <Player.king_or_goddess> ... I have fantasized about this moment since the first time I saw you in a video ..."
+    "Wow, this <Actor.guy_or_girl> is a bit cringey ... almost creepy in <Actor.his_or_her> adoration of me ..."
+    "And <Actor.he_or_she> is saying all of this in front of <Actor2.his_or_her> <Actor2.boyfriend_or_girlfriend> too, who doesn't seem too bothered."
+    Actor:: "Honestly, I would give away all my money just to spend one night with you ..."
+    "Okay, this is going too far ... or is it?"
+    0:: "Just sign an autograph and leave"
+    1:: "Fuck <Actor.him_or_her>"
+    2:: "I'm more interested in <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> ..."
+    
+    If 0
+        Player:: "Sorry, I don't do escorts ..."
+    Elseif 1
+        Player:: "Alright ... since you're such a big fan ..."
+        Actor:: "Oh my god ... I can't believe this is happening ..."
+        money += 2000
+        setBackground(home)
+        Sex(Actor, Player)
+    Else
+        Player:: "Don't care much for the money ... but wouldn't mind spending some time with your lovely <Actor2.boyfriend_or_girlfriend> here."
+        Player:: "You can watch of course ... I'm sure you enjoy watching, don't you?"
+        "The <Actor2.boyfriend_or_girlfriend> was happy to go along to fulfil the fan's fantasy ..."
+        setBackground(home)
+        Sex(Player, Actor2)        
+    Endif
+    SceneEnd()
+    timeout(1000, fuck_fan_cms)

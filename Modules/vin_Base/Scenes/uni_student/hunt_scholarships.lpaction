@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: hunt_scholarships
+ACTION_NAME: Hunt for scholarships
+WHERE: university:school
+WHEN: 0 - 24
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: hunt_scholarships
+ANIMATION:

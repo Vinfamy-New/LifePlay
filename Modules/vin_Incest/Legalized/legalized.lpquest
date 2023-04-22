@@ -1,0 +1,6 @@
+ID: legalized
+NAME: Incest Legalized
+DESC: Select this to trigger a scenario where incest becomes legal in the country you're playing in.For now, this first implementation of the scenario simply prevents some scenes from happening and adds a few unique scenes. More content for this legalized incest scenario will come in the future.
+ONCE: true
+CONDITIONS: none
+START: legalized

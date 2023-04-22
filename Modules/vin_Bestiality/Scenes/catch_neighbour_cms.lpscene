@@ -1,0 +1,52 @@
+WHAT: all, -go_to_the_bathroom, -sleep, -sleep_hotel, -nap, -nap_hotel
+WHERE: home
+WHEN: 0 - 24
+WHO: none
+OTHER: Player.isFemale()
+
+    SceneStart()
+    "You hear some very strange sexual noises coming from the house next door. She has only moved in recently and you know that she is single. However, you do remember that when she moved in, she had a male dog with her. Do you ..."
+    0:: "LEAVE WELL ENOUGH ALONE"
+    1:: "GO TO INVESTIGATE"
+    
+    If 0
+        "You decide it's none of your business so you decide to let her have her fun in private."
+    Else
+        "The temptation is too hard to resist. You find that she has left her door unlocked and you quietly walk in. You follow the sound and then you find them ..."
+        Actor = generatePersonTemporary()
+        While !Actor.isFemale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor2 = generateCreatureTemporary(Dog)
+        Actor.show()
+        Actor2.show()
+        "Your neighbour and her dog are having sex!"
+        "Do you ..."
+        0:: "GET THE FUCK OUT OF THERE BEFORE YOU GET CAUGHT"
+        1:: "STAY AND WATCH"
+        
+        If 0
+            "The sight doesn't disgust you but you don't want to watch. Maybe next time you'll feel differently and chose to stay?"
+            perversion += 1
+        Else
+            "The sight of that dog fucking your sexy neighbour is just so hot and so arousing that you can't help but stay to see what happens."
+            Sex(Actor2, Actor)
+            "Your neighbour looks over her shoulder and spots you hiding in the corner. Do you ..."
+            0:: "RUN FOR YOU LIFE"
+            1:: "ASK IF YOU CAN JOIN IN"
+            
+            If 1
+                "Rather than turning and fleeing, you surprise your neighbour - and yourself - by standing your ground and asking if you can join in."
+                Actor.makePermanent()
+                Actor.addNeighbour()
+                Actor:perversion => 100
+                Actor2.makePermanent()
+                Actor:: "Ok... I guess so... I'm sure <Actor2.name> can handle more than one woman at a time!"
+                Sex(Actor2, Player, Actor)
+                perversion += 3
+                exchangeContact(Actor)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(1000, catch_neighbour_cms)

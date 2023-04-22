@@ -1,0 +1,14 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // 'Get handsy' (both your perversion up)
+    
+    SceneStart()
+    "I took every opportunity to feel <Actor.name> up at work and make dirty jokes to <Actor.him_or_her>, which seems to have opened <Actor.him_or_her> up a little bit and making <Actor.him_or_her> more receptive to my advances."
+    perversion += 1
+    Actor:perversion += 2
+    
+    SceneEnd()

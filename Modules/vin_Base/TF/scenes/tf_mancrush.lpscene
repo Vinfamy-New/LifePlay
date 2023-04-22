@@ -1,0 +1,54 @@
+WHAT: all
+WHERE: all
+WHEN: 8-22
+WHO: none
+OTHER: TfGame() && !Player.isMale() && Player.isInterestedInMen() && !isWithCompanion()
+
+    // A friend who you looked up to and had a man crush on before is now interested in you in your female form
+    
+    SceneStart()
+    "I have found that after my transformation, most of the people that knew me still know me, but they all act like they know me as a woman the whole time ..."
+    "... which can be problematic, since sometimes one of my guy friends who I used to watch sports and play video games with would now try to ask me out or even send me their dick pics."
+    "Usually, I find it too weird and just block them."
+    "But this time, it's different ..."
+    Actor = generatePersonTemporary()
+    While !Actor.isMale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.blendPreset(athletic)
+    Actor:age => age + Random(2, 10)
+    Actor:attractiveness => Random(80, 100)
+    Actor:interpersonal => Random(80, 100)
+    Actor:intelligence => Random(80, 100)
+    Actor:fitness => Random(80, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.makeInterested(Player)
+    Actor:attractiontoplayer += 60
+    Actor:rapportwithplayer += 60
+    secondScreen(Actor)
+    Actor.show()
+    Actor:: "<Player.name>, would you like to go on a date with me tonight?"
+    "It's <Actor.name> himself! He's a few years older than me and is someone I have always looked up to. The guy is a true specimen of a man, he's attractive, smart & charismatic. As a man, I had quite a man crush on <Actor.name>, 'no homo' as I kept reminding myself, and could only wish I could be like him, someone who every women want to be with."
+    "'A date?' It seems in this new life, he's the one who want to be with the female version of me ..."
+    "And just that thought alone sends a wave of arousal through my female body ... Suddenly, I find myself fantasizing about <Actor.name> being inside me ... And the scariest thing about it is I don't even need to say 'no homo' this time. Now that my body's female, my man crush on a guy I look up to has now turned into full-blown sexual desires."
+    "Deep inside, I know if I agree on this date with <Actor.name>, I wouldn't able to resist him and it would be a matter of time before I sleep with him and risk forgeting about my past life and fully accepting this life as a woman." 
+    0:: "Go on a date with <Actor.name>"
+    1:: "Block <Actor.name>"
+    
+    If 0
+        secondScreen()
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        Actor.dress()
+        Actor.show()
+        "I agreed to the date and soon <Actor.name> showed up to pick me up."
+        Actor.startDate()
+        "The way he looked at me clearly shows how smitten he was with me, and words could not describe how flattered I was that a guy like that was interested in me ..."
+        "We only just begun our date but it was quite obvious how this date would end. As a man, I tried in vain to be more like him and be as popular as he is with the ladies, maybe it was destiny that I should be turned into a woman myself and let him inside me instead."
+    Else
+        "As much as it pains me, for the sake of one day being a man again, it's best to avoid a guy I feel such a strong attraction to."
+    Endif
+
+    SceneEnd()
+    timeout(200, tf_mancrush)

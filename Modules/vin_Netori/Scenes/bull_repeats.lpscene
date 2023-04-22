@@ -1,0 +1,110 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_NTRCuck)
+OTHER: none
+
+    // Every NPCs that have already got the 'Cuck' tag (which could happen in almost all Netori scenes) will now occasionally invite you over to bang their SO when they watch. Their SO will gradually gain attraction to you and lose attraction to them. Eventually you can ask the SO to simply dump the cuck. Even after the cuck has been dumped, they will eventually start dating someone new and will again ask you to come over again to 'sample the new goods' and repeat the cycle.
+
+    SceneStart()
+    secondScreen(Actor)
+    Actor.show()
+    "<Actor.name> loves nothing more than watching me fucking <Actor.his_or_her> love. This cuckold is asking me to come over <Actor.his_or_her> place again ... This should be good ..."
+    0:: "Be <Actor.name>'s bull again"
+    1:: "Not this time"
+    2:: "Tell <Actor.name> to find another bull"
+    
+    If 0
+        secondScreen()
+        setBackgroundCustom(livingroom)
+        Actor.dress()
+        Actor.show()
+        
+        If Random(0, 100) < 75
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            If Actor2.isValid()
+                Actor2.dress()
+                Actor2.show()
+                "Of course, <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> was there ready to get fucked while <Actor.his_or_her> pathetic <Actor.boyfriend_or_girlfriend> watches as always."
+            Else
+                Actor2 = generatePersonTemporary()
+                While !Player.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                endWhile
+                Actor2.makeInterested(Player)
+                Actor2.makePermanent()
+                addNpcRelationship(Dating, Actor, Actor2)
+                Actor2.dress()
+                Actor2.show()
+                "There, <Actor.name> introduced me to <Actor.his_or_her> new <Actor2.boyfriend_or_girlfriend> <Actor2.name>. Brand new relationship and already playing cuckolding games ... I must say I'm impressed. Maybe <Actor.he_or_she> stated <Actor.his_or_her> fantasy upfront on some dating app and found just the perfect <Actor2.guy_or_girl>."
+            Endif
+            
+            "Soon, I got down to business with <Actor2.name> while <Actor.name> watched."
+            Sex(Player, Actor2)
+            Actor2:attractiontoplayer += 5
+            masochist -= 2
+            Actor:masochist += 2
+            
+            If Actor2:attractiontoplayer > 50 && Actor:masochist > 50
+                "I can't help but notice <Actor2.name> is a lot more into it then usual today and seems a lot more intimate with me."
+                "Maybe <Actor2.he_or_she> has started to fall for me after sleeping with me so many times."
+                0:: "Tell <Actor2.name> to dump <Actor2.his_or_her> placemat <Actor.boyfriend_or_girlfriend> for me"
+                1:: "Continue as the bull in their cuckolding games"
+                
+                If 0
+                    Actor2:: "Of course. You have no idea how long I've waited for you to ask that. I've wanted to get rid of my pathetic <Actor.boyfriend_or_girlfriend> for a real <Player.man_or_woman> for so long ..."
+                    removeNpcRelationship(Actor, Actor2)
+                    Actor2.setDating()
+                    Actor:: "Understandable ... Have a great time, you two. I'll let you know if I ever find another <Actor2.boyfriend_or_girlfriend> to watch you fuck."
+                    Player:: "Yeah, you do that, cuck."
+                Endif
+            Endif
+        Else
+            // The Cuck-tagged NPC above asks you to come over but their SO isn't there this time. Instead, they have there another couple who is looking for a bull and you've been highly recommended.
+            Actor2 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.makeInterested(Player)
+            Actor2.dress()
+
+            "To my surprise, when I arrived at <Actor.name>'s place, <Actor.his_or_her> <Actor2.man_or_girl> isn't there at all."
+            Actor3 = generatePersonTemporary()
+            While !Player.isSameGender(Actor3)
+                Actor3 = generatePersonTemporary()
+            endWhile
+            Actor3.makeInterested(Actor2)
+
+            Actor3.dress()
+            Actor3.show()
+            Actor2.show()
+            
+            "Instead, <Actor.name> introduced me to another couple, <Actor3.name> and <Actor2.name>. <Actor3.name> is a friend of <Actor.his_or_hers> and also fantasizes about being a cuckold."
+            "Of course, I came highly recommended to this couple as a potential bull."
+            0:: "Cuck <Actor3.name> and fuck <Actor3.his_or_her> <Actor2.boyfriend_or_girlfriend> as well"
+            1:: "I don't need another cuckold"
+            
+            If 0
+                Actor2.makePermanent()
+                Actor3.makePermanent()
+                exchangeContact(Actor2)
+                exchangeContact(Actor3)
+                Random
+                    addNpcRelationship(Dating, Actor3, Actor2)
+                    addNpcRelationship(Spouses, Actor3, Actor2)
+                endRandom
+                Player:: "You two came to the right expert ... There's a reason your friend <Actor.name> recommended me so highly. Let me show you ..."
+                Sex(Player, Actor2)
+                "The couple was so delighted with the experience and they practically begged for my number for future romps. Another cuckold and <Actor3.his_or_her> <Actor2.boyfriend_or_girlfriend> added to my collection." 
+            Else
+                Player:: "Sorry, but I'm not a professional bull or anything like that. I don't have that much time to go around fucking so many different people's <Actor2.guys_or_girls>."
+            Endif
+        Endif
+    Elseif 1
+        "I'm not in the mood today."
+    Else
+        "I'm getting tired of this whole cuckolding arrangement, <Actor.he_or_she> should go find someone else for <Actor.his_or_her> games."
+        Actor.setActorVar(tag_NTRCuck, 0)
+    Endif
+    SceneEnd()
+    timeout(50, bull_repeats)

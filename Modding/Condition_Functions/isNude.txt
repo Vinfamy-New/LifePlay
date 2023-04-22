@@ -1,0 +1,15 @@
+Actor.isNude()
+
+USE:
+Check if the actor's Top, Top_Under, Bottom, Bottom_Under slots are all unoccupied
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Clothes
+COMPARE: isNaked()
+
+EXAMPLE:
+    While !Player.isNude()
+        "Off this goes ... but keep the accessories"
+        Player.stripOne()
+    Endwhile

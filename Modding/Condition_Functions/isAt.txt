@@ -1,0 +1,14 @@
+Actor.isAt(Work)
+
+USE:
+Only valid Parameter for now is Work, check if actor's current location is at work
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Location
+COMPARE: 
+
+EXAMPLE:
+    If John.isAt(Work)
+        "John is currently at work"
+    Endif

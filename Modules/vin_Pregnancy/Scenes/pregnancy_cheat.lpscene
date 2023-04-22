@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor2 = getPerson(tag_Pregnant); Actor = Actor2.getBabyDaddy(); If Actor.isDating() && Actor2.isPregnant() && !Actor2.isSameAs(Player) && Random(20, 50) < Actor:attractiontoplayer && Actor2.isInterestedInMen()
+OTHER:
+
+    // At a random time during a neutral NPC's pregnancy, your SO admits that the baby is his. You can simply forgive, dump him or demand tha he helps you make it even by helping you get impregnated by the baby mama's current SO instead.
+    
+    SceneStart()
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> wanted to talk to me about something seemingly very serious, which took me by surprise as our relationship seemed to be going well and we were even thinking about trying for a child together."
+    Actor:: "<Player.name>, you know that our friend <Actor2.name>'s pregnant ... the baby isn't her boyfriend's ... It's mine ... I'm sorry ..."
+    0:: "Break up with him"
+    1:: "Forgive him"
+    2:: "Help me get impregnated by <Actor2.name>'s man to make it even!"
+    
+    If 0
+        Actor.setDatingId()
+        loseDating()
+        "I decided to dump <Actor.name> right away. This affair was unforgivable and I wanted nothing to do with a man with a baggage as large as a lovechild."
+    Elseif 1
+        Actor:attractiontoplayer += 50
+        karma += 50
+        "<Actor.name> couldn't believe my open-mindedness and tell me that <Actor.he_or_she> was so lucky to have a <Player.boyfriend_or_girlfriend> like me."
+    Else
+        "I know that <Actor.name> is also friends with <Actor2.name>'s man, which makes this a double betrayal. I sugget that he makes it right."
+        "He eventually agrees."
+        setBackgroundCustom(livingroom)
+        Actor3 = Actor.getRelatedPerson(Dating, Spouses)
+        If !Actor3.isValid()
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isFemale()
+                Actor3 = generatePersonTemporary()
+            endWhile
+            Actor3:age => Random(18, 40)
+            Actor3.randomizeFace()
+            Actor3.randomizeHairs()
+            Actor3.makePermanent()
+            addNpcRelationship(Dating, Actor, Actor3)
+        Endif
+        Actor3.setWantsBabies()
+        Actor3.dress()
+        Actor3.show()
+        "<Actor.name> invited <Actor3.name> over for a guys' football night one evening only to get him drunk enough before I showed up and took my prize."
+        Sex(Player, Actor3)
+        Player.impregnate(Actor3)
+        
+        "Of course, I tried to make <Actor3.name> cum inside me as many times as I could to make sure that I became pregnant."
+    Endif
+    SceneEnd()
+    timeout(500, pregnancy_cheat)

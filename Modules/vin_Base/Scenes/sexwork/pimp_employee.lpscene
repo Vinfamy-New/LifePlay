@@ -1,0 +1,72 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // Employees you hired at your brothel or stripclub are now treated as sex workers and can be pimped out. If the customer is left unsatisfied, you can offer extra service yourself.
+    SceneStart()    
+    Dice = Random(100, 500)
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)    
+    Actor2 = generatePersonTemporary()
+    While !Actor.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.dress()
+    Actor2.show(2)
+    "Here comes a John ..."
+    Actor2(Flirty):: "How much for your <Actor.handsome_or_pretty> <Actor.stud_or_girl>?"
+    0:: "Turn <Actor2.him_or_her> down"
+    1:: "Rip <Actor2.him_or_her> off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give <Actor2.him_or_her> a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but <Actor.he_or_she> is not working right now ..."
+    Elseif choice*Actor:attractiveness > Actor2:intelligence + Actor2:interpersonal
+        Actor2(Flirty):: "It looks like we have a deal."
+        "Soon enough, we were following <Actor2.him_or_her> to one of the private rooms."
+        If WHERE == stripclub:business || WHERE == stripclub
+            setBackground(home)
+        Endif
+        Dice = Dice*0.5
+        Income = Dice/choice 
+        Actor:perversion += 0.25
+        0:: "Leave them to it"
+        1:: "Peep a bit"
+        
+        If 1
+            Sex(Actor2, Actor)
+        Endif
+        
+        If Random(-100, 0) > Actor2:masochist && Random(0, 100) > Actor:perversion && Player.isInterestedIn(Actor2)
+            "<Actor2.name> is claiming <Actor2.he_or_she> isn't happy with <Actor.name>'s service and is refusing to pay ..."
+            0:: "Persuade <Actor2.him_or_her> to pay"
+            1:: "Threaten <Actor2.him_or_her>"
+            2:: "Give <Actor2.name> some 'extra service' myself"
+            
+            If 0 && Random(0, 100) < interpersonal
+                Actor2:: "Okay fine, you make some good points. I'll pay."
+                money => money + Income
+            Elseif 1 && Random(0, 100) < martial
+                Actor2:: "Alright ... alright ... calm down. You look like you could beat me up ..."
+                Actor2:: "Here's the money ..."
+                money => money + Income
+            Elseif 2
+                Actor2:: "That sounds good to me ... You must have way more experience with this than <Actor.name> since you run the place after all ..."
+                Sex(Actor2, Player)
+                money => money + Income
+            Else
+                Actor2:: "Whatever you say, I'm not paying for such terrible service ..."
+            Endif
+        Else
+            money => money + Income
+        Endif
+    Else
+        Actor2(Angry):: "No way, that's too expensive! You have too high an opinion of your whore. I'll find myself another whore elsewhere."
+    Endif
+    SceneEnd()

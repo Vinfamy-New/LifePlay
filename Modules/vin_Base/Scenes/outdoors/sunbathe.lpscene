@@ -1,0 +1,238 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    Dice = Player.getActorVar(rng_dice)
+    Dice += 1
+    If Dice > 4 // CHANGE HERE
+        Dice = 1
+    Endif
+    Player.setActorVar(rng_dice, Dice)
+    Nothing = false
+    
+    Player.animate(sunbathe)
+    
+    If Dice == 1
+        // A stranger or your companion offers to help you apply sunscreen
+        If CurrentCompanion.isValid() && Random(0, 100) < 50
+            Actor = getCompanion()
+        Else
+            Actor = generatePersonTemporary()
+            Actor.dress()
+            Actor.show()
+        Endif
+        
+        If Actor:perversion + Actor:interpersonal > 50 && Player.isInterestedIn(Actor)
+            Actor.moveToPersonStand(Player, 50)
+            "<Actor.name> approached me and offered to help me apply sunscreen."
+            0:: "Thank you!"
+            1:: "I can do it myself"
+            
+            If 0
+                Player:: "That'll be great, actually."
+                "<Actor.name> started applying sunscreen on me."
+                If Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor:perversion > 50 && Actor:attractiontoplayer > 25
+                    "I don't know if I'm imagining things but it seems <Actor.name> is being a bit overzealous with applying the sunscreen and is almost massaging my whole body, including some of my sensitive spots."
+                    0:: "Put an end to it"
+                    1:: "Flirt back"
+                    
+                    If 0
+                        Player:: "Thank you for your help, but I think I'd take it from here."
+                    Else
+                        "I'm down to play."
+                        Player:: "Yes, that's the spot. Just there ... Yeah ..."
+                        "<Actor.He_or_She> seemed pleasantly surprised that I was so receptive to <Actor.his_or_her> advances, but still seemed reluctant to take it any further."
+                        0:: "Hook up"
+                        1:: !Actor.isContactExchanged():: "Exchange numbers"
+                        2:: "Enough fun today"
+                        
+                        If 0
+                            Player:: "You know what? You can stop applying the sunscreen, since I can now think of something else I'd rather be doing than sunbathing all day."
+                            Player:: "Follow me ..."
+                            0:: "There must be some hidden spot around here"
+                            1:: "Let's find a hotel room nearby"
+                            
+                            If 1
+                                setBackground(home)
+                            Endif
+                            Sex(Actor, Player)
+                        Elseif 1
+                            "We obviously have some chemistry but this is a public place after all. Let's be decent people and exchange numbers to meet another time."
+                            Actor.makePermanent()
+                            exchangeContact(Actor)
+                        Endif
+                    Endif   
+                Else
+                    "<Actor.He_or_She> did a good job. I don't have to worry about skin cancer while tanning now."
+                Endif
+            Else
+                Player:: "No need. Thank you for the offer though."
+            Endif
+        Else
+            Nothing = true
+        Endif
+        
+    Elseif Dice == 2
+        // You decide to sunbathe nude. A stranger or your companion either compliments or disapproves.
+        If perversion > 30
+            "I enjoy sunbathing but don't like tanlines that much. There's an easy solution though: get naked."
+            0:: "Sunbathe naked"
+            1:: "Maybe not"
+            
+            If 0
+                perversion += 0.5
+                Player.strip()
+                Player.animate(sunbathe)
+                
+                If CurrentCompanion.isValid() && Random(0, 100) < 50
+                    Actor = getCompanion()
+                Else
+                    Actor = generatePersonTemporary()
+                    Actor.dress()
+                    Actor.show()
+                Endif
+                
+                Actor.moveToPersonStand(Player, 50)
+                
+                If Actor:perversion < 50
+                    If Actor:masochist < 0
+                        Actor:: "I think you should put some clothes on. This is a public place after all."
+                    Else
+                        "<Actor.name> didn't say a word, but seemed uncomfortable with my nakedness." 
+                    Endif
+                Else
+                    Actor:: "Wow, you're so beautiful! And so confident in your own skin too."
+                    Player:: "Thank you. That's very kind of you."
+                    mood += 5
+                    If Actor:attractiontoplayer > 35 && Actor:perversion > 65 && Player.isInterestedIn(Actor)
+                        "Suddenly, <Actor.name> started caressing my naked body right there and then!"
+                        Actor:: "Sorry, I couldn't help myself ..."
+                        0:: "Put an end to it"
+                        1:: !Actor.isContactExchanged():: "Exchange numbers instead"
+                        2:: "It's <Actor.his_or_her> lucky day!"
+                        
+                        If 0
+                            Player:: "Keep your hands off me please!"
+                        Elseif 1
+                            Player:: "As much as I appreciate the body worship, we're in public after all. Let's exchange numbers and get to know each other more."
+                            Actor.makePermanent()
+                            exchangeContact(Actor)
+                        Else
+                            Player:: "Well, since I'm already naked and ready ... let's go have some fun!"
+                            0:: "There must be some hidden spot around here"
+                            1:: "Let's find a hotel room nearby"
+                            
+                            If 1
+                                setBackground(home)
+                            Endif
+                            Sex(Actor, Player)
+                        Endif
+                    Endif
+                Endif
+           Endif
+        Endif
+    Elseif Dice == 3
+        // A stranger has a perfect view of your bulge or camel toe from the water
+        Actor = generatePersonTemporary()
+        
+        If Actor.isInterestedIn(Player) && Actor:perversion > 50 && Player.isInterestedIn(Actor)
+            Actor.dress()
+            Actor.show()
+            Actor.animate(swim)
+            "I'm sunbathing on a sun lounger with a stranger swimming around nearby."
+            "It wasn't long before I noticed something unusual, the stranger was clearly just pretending to swim, while mostly staying in one place and checking me out."
+            "Then it hit me ..."
+            If Player.isFemale()
+                "From the water looking up, the swimmer must have a perfect view of my camel toe."
+            Else
+                "From the water looking up, the swimmer must have a perfect view of my bulge."        
+            Endif
+            "What should I do?"
+            0:: "Cross my legs"
+            1:: "Smile back"
+            
+            If 1
+                "To <Actor.his_or_her> pleasant surprise, I smiled flirtily at the peeing swimmer."
+                Actor.moveToPersonStand(Player, 50)
+                "Sensing <Actor.his_or_her> chance, <Actor.he_or_she> got out of the water and approached me."
+                Player:: "I see you were enjoying the view."
+                Actor:: "Sorry, I couldn't help myself. You looked sexy sunbathing there."
+                Player:: "You looked rather hot yourself swimming down there. Let's just say the interest is mutual."
+                0:: "Let's bang!"
+                1:: "Exchange numbers"
+                2:: "Enough flirting"
+                
+                If 0
+                    Player:: "What do you say we go find somewhere to have some fun?"
+                    Actor:: "Sounds like music to my ears. Where though?"
+                    0:: "There must be some hidden spot around here"
+                    1:: "Let's find a hotel room nearby"
+                    
+                    If 1
+                        setBackground(home)
+                    Endif
+                    Sex(Actor, Player)
+                Elseif 1
+                    Player:: "Maybe we should exchange numbers and get to know each other more some other time?"
+                    Actor:: "Of course, I have my phone right here. What's your number?"
+                    Actor.makePermanent()
+                    exchangeContact(Actor)
+                Else
+                    "That was just a bit of fun checking out and flirting with someone random. I have no intention to take this any further."
+                Endif                 
+            Else
+                "I quickly crossed my legs, denying the perverted swimmer the view. Embarrassed, <Actor.he_or_she> had no choice but swim away."
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 4
+        // If Netorare is enabled, your companion may accept a stranger's offer to apply sunscreen
+        Actor = generatePersonTemporary()
+        If CurrentCompanion.isValid() && isModEnabled(vin_NTR) 
+            CurrentCompanion.animate(sunbathe)
+            Actor.moveToPersonStand(CurrentCompanion, 50)
+            "<CurrentCompanion.name> is also sunbathing next to me and a stranger offers to help <CurrentCompanion.him_or_her> apply sunscreen. I wonder what <Actor.his_or_her> real motive is."
+            0:: "Stop it"
+            1:: "Stay silent"
+            
+            If 0
+                masochist -= 0.25
+                Player:: "It's okay. <CurrentCompanion.He_or_She>'s with me. I'll help <CurrentCompanion.him_or_her> with the sunscreen if needed."
+            Elseif 1
+                masochist += 0.25
+                CurrentCompanion:: "That'll be great, actually."
+                "The stranger started applying sunscreen on <CurrentCompanion.name>."
+                If Actor.isInterestedIn(CurrentCompanion) && CurrentCompanion.isInterestedIn(Actor) && Actor:perversion > 50
+                    "I don't know if I'm imagining things but it seems this stranger is being a bit overzealous with applying the sunscreen and is almost massaging <CurrentCompanion.name>'s whole body, including some of <CurrentCompanion.his_or_her> sensitive spots."
+
+                    If CurrentCompanion:perversion < 50
+                        CurrentCompanion:: "Thank you for your help, but I think I'd take it from here."
+                    Else
+                        "What's even more shocking: <CurrentCompanion.name> seemed down to play with this complete stranger."
+                        CurrentCompanion:: "Yes, that's the spot. Just there ... Yeah ..."
+                        "The stranger seemed pleasantly surprised that <CurrentCompanion.name> was so receptive to <Actor.his_or_her> advances"
+                        "Eventually though, they got even more comfortable with each other and disappeared together somewhere, not caring at all that I was right there."
+                        masochist += 0.25
+                        Sex(Actor, CurrentCompanion)
+                    Endif   
+                Else
+                    "Thankfully, it turned out the stranger genuinely just wanted to help."
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Else
+        Nothing = true
+    Endif
+    
+    If Nothing
+        "Nothing unusual happened."
+    Endif
+    
+    SceneEnd()

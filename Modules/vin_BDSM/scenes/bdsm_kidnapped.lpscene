@@ -1,0 +1,44 @@
+WHAT: sleep, sleep_hotel, nap, nap_hotel
+WHERE: all
+WHEN: 0-24
+WHO: none
+OTHER: !Player.isMale() && isModEnabled(vin_NonConsensual) && Random(0, 100)*Random(0, 1) > energy - intoxication
+
+    SceneStart()
+    Player.closeEyes(true)
+    "I'm deep in my sleep ..."
+    setBackground(street)
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    Actor.show()
+    Actor.moveToPersonStand(Player)
+    "Unbeknown to me, I was kidnapped and taken to some sort of dungeon ..."
+    Player.dressBondage()
+    Player.dressBondage(Handcuffs)
+    "My kidnapper put some bondage clothes on me to restrain me ... <Actor.He_or_She> was clearly getting off on this."
+    Player.closeEyes(false)
+    Actor:: "Wakey, wakey, <Player.handsome_or_beautiful>!"
+    Player:: "What!? Where am I?"
+    Actor:: "In my dungeon, now it's time to get fucked ..."
+    0:: "Struggle out of my restrains"
+    1:: "Submit"
+    
+    If 0 && Random(0, 200) < fitness + martial
+        Player.clearBondage()
+        "I managed to break free of the most important restrains holding me in place ..."
+        Actor.hide()
+        "I then ran away and after a while I managed to leave my kidnapper far behind ..."
+        "Phew, that was a close call ..."
+    Else
+        "Unfortunately, the bondage gear that my kidnapper put on me held me tightly in place and despite my best effort, I couldn't break free ..."
+        "I have no choice but endure a night with my kidnapper, letting <Actor.him_or_her> do whatever <Actor.he_or_she> wants ..."
+        Sex(Actor, Player)
+        masochist += 1
+    Endif
+    
+    
+    SceneEnd()
+    timeout(800, bdsm_kidnapped)

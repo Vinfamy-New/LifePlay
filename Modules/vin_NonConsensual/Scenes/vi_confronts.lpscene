@@ -1,0 +1,132 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_Rapist); If !Actor.isDating()
+OTHER:
+
+    // Once assaulted by a known NPC, you will eventually be prompted to confront them, either sending them to prison (or use that as a threat to make them pay up) or ending up giving them another chance to assault you. Repeat until Stockholm Syndrome develops and you either fall in love or you may surrender as their slave and them as your master.
+
+    SceneStart()
+    secondScreen(Actor)
+    Actor.dress()
+    Actor.show()
+    "I was previously raped by <Actor.name>. I know where <Actor.he_or_she> lives. Maybe I should go confront <Actor.him_or_her>?"
+    secondScreen()
+    "What should I do about my rapist <Actor.name>?"
+    0:: "Go and face my rapist, alone"
+    1:: "Go to the police instead to report the assault"
+    2:: "Not today"
+    3:: "Forgive and forget the whole thing"
+    
+    If 0
+        "I knock on my rapist's door ... My heart is beating fast!"
+        setBackgroundCustom(livingroom)
+        Actor.show()
+        "<Actor.name> came out and opened the door. I couldn't help but feel shaken when face-to-face with my rapist."
+        If masochist < 0
+            "I angrily confronted <Actor.name> and accused <Actor.him_or_her> of rape. I threatened to report the sexual assault to the police."
+        Elseif masochist < 15
+            "I calmly accused <Actor.name> of rape. I mentioned that I was considering legal action."    
+        Elseif Actor:masochist < 30
+            "I started by accusing <Actor.name> of rape but couldn't bring myself to threaten <Actor.him_or_her> with anything. I couldn't help but feel weak, helpless and very intimidated by my rapist."        
+        Elseif Actor:masochist < 60
+            "For some reason, I lost my nerves and ended up staying completely silent, trying to avoid eye contact with my rapist."        
+        Else
+            "I completely broke down in front of <Actor.name>. Deep inside, I felt resorted to what would surely happen again now that I was alone with my rapist once more."           
+        Endif
+        If Random(0, 100) < Actor:masochist
+            Actor:: "I'm sorry, I don't know what got into me that night. I wasn't myself."
+            Actor:: "Please, there's no need to make this a bigger deal than it is. Let's keep this between us. No-one else needs to know."
+            0:: "Forgive <Actor.him_or_her>
+            1:: "Demand money"
+            2:: "Walk away for now"
+            
+            If 0
+                Actor.setActorVar(tag_Rapist, 0)
+                "<Actor.name> seemed sincere and genuinely regretful of <Actor.his_or_her> past action ... I guess I should just forgive and move on with my life."
+            Elseif 1
+                "I continued to threaten reporting to the police and demanded that <Actor.name> pay up to keep my mouth shut."
+                "Having no choice, <Actor.he_or_she> agreed to pay me some compensation."
+                Actor.setActorVar(tag_Rapist, 0)
+                money += 1000
+                "At least I got something positive out of this horrible experience ... but at the same time, I couldn't help like selling my body for money in a way."
+            Endif
+        Else
+            masochist += Random(0, 5)
+            Actor:: "Your mouth may says something completely different but I know the real reason you're here, looking for me all alone."
+            Actor:: "You liked it, didn't you? I loved being dominated and raped by me. Despite not being consensual, the sex we had was the best of your life, wasn't it?"
+            Player:: "..."
+            Actor::: "You came here all alone. You could have just called the cops yet you came back to the <Actor.man_or_woman> who raped you. Deep inside, you craved more, didn't you?"
+            Player:: "..."
+            "I couldn't utter a single word ..."
+            Actor:: "Fine. I'll give you what you want. I'll fuck your brains out once again ..."
+            "<Actor.name> grabbed me again, just like last time."
+            Player:: "Please ... no ... not again ..."
+            If martial - intoxication - masochist > Actor:martial - Actor:intoxication
+                "I managed to break free of <Actor.name> this time. Despite my panic, I managed to get away from <Actor.his_or_her> place."
+            Else
+                masochist += Random(0, 5)
+                Actor:attractiontoplayer += Random(0, 5)
+                "I tried to struggle against <Actor.his_or_her> assault but <Actor.he_or_she> laughed at my frankly pathetic resistance ..."
+                "Maybe <Actor.he_or_she> was right: Maybe I wanted this all along!"
+                TalkNonConsensual()
+                If !Actor.isMale() && Player.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                SexNoAffair(Player, Actor)
+                
+                If Random(75, 100) < masochist && Random(0, 100) < 75
+                    Actor.setActorVar(tag_Rapist, 0)
+                    "After <Actor.he_or_she> was done with me, I couldn't help but start weeping and admitted that I was worthless and should rightfully submit to <Actor.him_or_her> as my <Actor.master_or_mistress>."
+                    "As a slave, I swore to obey <Actor.name>'s every commands. In fact, satisfying all <Actor.his_or_her> needs is all that I was born for."
+                    Actor.setActorVar(tag_Master, 1)
+                    exchangeContact(Actor)
+                    If isModEnabled(vin_BDSM)
+                        Player.strip()
+                        Player.dressBondage(Collar)
+                        "To show <Actor.his_or_her> newly recognized ownership of me, my <Actor.Master_or_Mistress> put a collar around my neck and forbid me from ever removing it."
+                    Endif
+                    Actor:masochist => 100
+                Elseif Random(50, 100) < Actor:attractiontoplayer
+                    Actor.setActorVar(tag_Rapist, 0)
+                    exchangeContact(Actor)
+                    "I couldn't help but notice that <Actor.name> was a lot gentler with me this time." 
+                    "My rapist finally admitted that despite repeatedly fucking me against my will, <Actor.he_or_she> had dveloped real intimate feelings for me. <Actor.He_or_She> asked me to become <Actor.his_or_her> <Player.boyfriend_or_girlfriend>."
+                    "A case of reverse Stockholm Syndrome I see."
+                    0:: "Become <Actor.name>'s <Player.boyfriend_or_girlfriend>"
+                    1:: "Just keep <Actor.him_or_her> around as a fuckbuddy"
+                    2:: "Reject <Actor.him_or_her>"
+                    
+                    If 0
+                        "My head tells me I'm making a stupid decision, getting into a relationship with my rapist. But my heart tells me otherwise."
+                        Actor.setDating()
+                        "Who knows you can conquer a <Actor.guy_or_girl>'s heart by repeatedly letting <Actor.him_or_her> rape you!"
+                    Elseif 1
+                        Actor.setActorVar(tag_fwb, 1)
+                        "The truth is, I could never fall in love with my rapist, but I couldn't help deny the pleasure from the rough sex that <Actor.he_or_she> has been giving me, probably the best sex of my life. I led <Actor.name> on to believe that I was genuinely interested in <Actor.him_or_her> romantically, just so that I can continue getting fucked by <Actor.him_or_her>." 
+                    Endif
+                Endif
+            Endif
+        Endif
+    Elseif 1
+        setBackground(police)
+        "I decided to do the right thing and reported <Actor.name> to the police."
+        If Random(0, 100) < interpersonal + intelligence
+            "Thankfully, the cops took me seriously and arrested <Actor.name> immediately."
+            "The evidence I provided at the trial was overwhelming and my rapist eventually received a long prison sentence. I will probably never have to face my rapist again."
+            masochist -= 10
+            Actor.setActorVar(tag_Rapist, 0)
+            Actor.deletePerson()
+        Else
+            "Unfortunately, still shaken by the whole ordeal, I made some inconsistent statements while reporting to the cops, who didn't take my accusation seriously at all."
+        Endif
+    Elseif 2
+        "It's someone I will have to confront eventually, but I simply don't have the guts to do it yet."
+    Else
+        "What's the point? Confronting my rapist would just make the thing bigger than it already is. Let's just put this behind me and move on with my life."
+        Actor.setActorVar(tag_Rapist, 0)
+    Endif
+    SceneEnd()
+    timeout(100, vi_confronts)

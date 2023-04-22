@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: offer_bull_best
+ACTION_NAME: Get cuckolded by an animal
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 30
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: offer_bull_best
+ANIMATION:
+WHO: Bull = getTarget(); If isModEnabled(vin_NTR) && Player.isDating() && Bull.isCreature()

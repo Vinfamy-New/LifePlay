@@ -1,0 +1,17 @@
+wasCondomUsedDuringLastSex()
+
+USE: 
+Returns true if condoms were used during last sex
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Sex
+COMPARE: wasCondomUsedDuringLastSex()
+EXAMPLE:
+    sex(Player, Actor)
+    If !wasCondomUsedDuringLastSex() && Random(0,100)<=3
+        contactSTD()
+        "Oh no, I have a STD."
+    EndIf
+
+

@@ -1,0 +1,21 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Impregnated)
+OTHER: none
+
+    If !Actor.isMale()
+        SceneStart()
+        Actor.dress()
+        Actor.show(2)
+        "<Actor.name> is pregnant. She just announced the news on Facebook."
+        0:: "Good for her"
+        1:: "I always fantasize about sex with a pregnant woman"
+
+        "I suspected as much: her belly clearly got bigger in recent months."
+        Actor.setActorVar(tag_Pregnant, 1)
+        If 1
+            perversion += Random(0,0.5)
+        Endif
+        SceneEnd()
+    Endif

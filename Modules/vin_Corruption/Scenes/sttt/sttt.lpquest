@@ -1,0 +1,6 @@
+ID: sttt
+NAME: Sleep to the Top
+DESC: It's time I replace my boss as the Department Head. Using sex and seduction, I believe it can be done.
+ONCE: false
+CONDITIONS: none
+START: sttt_start

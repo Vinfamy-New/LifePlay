@@ -1,0 +1,30 @@
+WHAT: all
+WHERE: prison
+WHEN: 8 - 20
+WHO: none
+OTHER: !Player.isPregnant() && !Player.isMale()
+
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While !Actor.isMale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    "My lawyer is suggesting that I let him impregnate me so that I can get my sentence reduced for being an expecting mother ..."
+    0:: "Good idea"
+    1:: "Just his excuse to get laid ..."
+    
+    If 0
+        Actor.makePermanent()
+        Player.impregnate(Actor)
+        sentence *= 0.5
+        Sex(Actor, Player)
+    Else
+        "I bet these sleazy lawyers suggest this to all their female clients ..."
+    Endif
+    SceneEnd()
+    timeout(500, prison_pregnancy)

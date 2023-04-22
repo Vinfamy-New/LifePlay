@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getSpecific(ExDating)
+OTHER: OpenRelationship() || !Player.isDating()
+
+    // An ex suddenly invites you over and reveals they're now in a poly relationship and want you to be part of it.
+    
+    SceneStart()
+    Actor.dress()
+    secondScreen(Actor)
+    Actor.show()
+    "My ex <Actor.name> is calling me. Well, that's certainly unusual ..."
+    "To make things even more weird, <Actor.He_or_She> invites me over for dinner with <Actor.him_or_her> and the new <Player.man_or_woman> in <Actor.his_or_her> life. Maybe it's a trap for the new <Player.man_or_woman> to beat me up or something?"
+    0:: "Agree to the dinner"
+    1:: "That would be awkward"
+    
+    If 0
+        secondScreen()
+        setBackgroundCustom(kitchen)
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Player)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor.show()
+        Actor2.makePermanent()
+        Actor2.dress()
+        Actor2.show()
+        addNpcRelationship(Dating, Actor, Actor2)
+        addNpcRelationship(Poly, Actor, Actor2)
+        "There, I was introduced to <Actor.name>'s new <Actor2.boyfriend_or_girlfriend> <Actor2.name>, who seems alright. Is my ex trying to get me jealous or something?"
+        Player:: "I'm not going to lie, I wasn't expecting an invitation from you today."
+        Actor:: "Let me explain ..."
+        "<Actor.name> proceeds to explain that <Actor.name> and <Actor2.name> has agreed from the start of their relationship that their past relationship failures all came down to the fact that neither of them were suitable for monogamous commitments."
+        "As such, their relationship is an open and polyamorous one, and we could think of no-one better for my ex to be intimate on the side than me ..."
+        0:: "Agree to date my ex again while <Actor.he_or_she>'s also with <Actor2.name>"
+        1:: "Too weird for me, sorry"
+        
+        If 0
+            Actor2:: "We're so glad you accept. Let us celebrate."
+            Sex(Player, Actor)
+            Sex(Player, Actor2, Actor)
+            Actor.setDating()
+            exchangeContact(Actor)
+            exchangeContact(Actor2)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(1000, poly_ex)

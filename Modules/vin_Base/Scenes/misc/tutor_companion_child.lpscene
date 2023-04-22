@@ -1,0 +1,62 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor:age > 40 && !Actor.isDating() && !Actor.isRelative() && !Actor.isExRelative()
+OTHER: intelligence > 50
+
+    SceneStart()
+    Actor:: "Hey, I remember you mentioned you took this subject at university and did very well academically, right?"
+    Actor2 = Actor.getRelatedPerson(ParentChild)
+    If Actor2.isValid() && Actor2:age < Actor:age
+        Actor2.dress()
+    Else
+        Actor2 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2:age => Actor:age - Random(18, 25)
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        Actor2.dress()
+        Actor2.makePermanent()
+        addNpcRelationship(ParentChild, Actor, Actor2)
+    Endif
+    Actor:: "My <Actor2.son_or_daughter> <Actor2.name> is having an exam in the same subject soon. Would you mind tutoring <Actor2.him_or_her> a bit?"
+    0:: "Agree to tutor <Actor.name>'s <Actor2.son_or_daughter>"
+    1:: "Decline"
+    
+    If 0
+        Actor:rapportwithplayer += 5
+        setBackground(home)
+        Actor2.show()
+        Actor:: "Here <Actor2.he_or_she> is ... I'll leave you two to studying."
+        Actor.hide()
+        "I started tutoring <Actor2.name> ..."
+        "Should I make a move on <Actor2.him_or_her>?"
+        0:: "Try to fuck <Actor.name>'s <Actor2.son_or_daughter>"
+        1:: "Stay gentle"
+        
+        If 0
+            If Random(0, 100) < Actor2:attractiontoplayer + Actor2:perversion
+                Actor2:: "Now I see why you agreed to tutor your friend's <Actor2.son_or_daughter> in the first place ... Have a thing for a younger lover, I see? Lucky for you, I have a thing for older <Player.men_or_women> myself ... especially my <Actor.Dad_or_Mom>'s friends ..."
+                Sex(Player, Actor2)
+                
+                If Random(0, 100) < 50
+                    Actor.show()
+                    Actor:: "What was that noise? Are you two okay ... What the fuck!"
+                    If Actor:perversion > 50 || Actor.hadSex()
+                        "<Actor.name>'s shock soon turned into excitement as <Actor.he_or_she> soon joined <Actor.his_or_her> <Actor2.son_or_daugher> in having fun with me ..."
+                        Sex(Player, Actor, Actor2)
+                    Else
+                        Actor:: "How dare you seduce my precious <Actor2.son_or_daughter>? I trusted you to be a role model. Get out of my apartment this instance."
+                        Actor:rapportwithplayer -= 20
+                        endDate()
+                    Endif
+                Endif
+            Else
+                Actor2:: "What are you doing? Please keep your hand off me ..." 
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, tutor_companion_child)

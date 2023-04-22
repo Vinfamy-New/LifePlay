@@ -1,0 +1,97 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If isWithCompanion()
+        endDate()
+    Endif
+    stage = imp_stage.getGlobal()
+    Actor = impEx.getActorAlias()
+
+    If stage == 1 // TRAIN
+        setBackground(home)
+        Actor.dress()
+        Actor.show()
+        
+        "I've promised to train my ex <Actor.name> in how to use her new female body, ideally by inviting another lover that used to be the bull that she watched me fuck as a cuckold boyfriend."
+        0:: "Pick a man to train <Actor.name>"
+        1:: Actor:perversion > 70:: "Complete her training"
+        
+        If 0
+            "Who should I be?"
+            selectNpc()
+            
+            Actor2 = getSelectedNpc()
+            
+            If Actor2.hadSex() && Actor2.isMale()
+                Actor:perversion += 10
+                Actor.makeInterested(Actor2)
+                Actor2.dress()
+                Actor2.show()
+                "I invited my lover <Actor2.name> over to fuck me first."
+                Sex(Actor2, Player)
+                "After that, I introduce <Actor2.name> to <Actor.name>. Of course, he didn't recognize her in this form, having no idea that she had fantasized about being fucked by him many times while being a male cuckold watching us."
+                "This time, she could have what she wants with her new female body."
+                Sex(Actor2, Actor)
+            Else
+                "This person is either not male or hasn't had sex with me myself yet."
+            Endif
+        Else
+            imp_stage.setGlobal(2)
+            "I think <Actor.name> is now fully comfortable with her female body sexually and has no problems finding men to fuck without my help."
+            "I still have plenty of influence over her though and will have a big say on what kind of lifestyle she'll lead from now on."
+        Endif
+    Elseif stage == 2 // RESULT
+        Actor.dress()
+        Actor.show()
+        "Now that my ex <Actor.name> is fully comforable in her new body and definitely capable of leading her own sex life without my help, I guess it's decision time what kind of lifestyle I should encourage her to lead."
+        0:: "Continue being a free spirit, fucking any guys you want"
+        1:: "Matchmake her with a family member, to continue part of my life"
+        
+        If 0
+            "<Actor.name> agrees and promises to regularly report back to me with her latest conquests. I'll always have the right to share them with her of course."
+            Actor.setActorVar(tag_imp, 1)
+            QuestEnd()
+        Elseif 1
+            "In her male form, she could have been my husband, but that doesn't mean that in her female form, she can't continue to be part of my family."
+            "In fact, I can think of a few male candidates in my family that would be a good husband for my ex."
+            "Let's go through them ..."
+            
+            Ongoing = true
+            Actor2 = getRelative()
+            While Actor2.isValid() && Ongoing
+                If Actor2.isMale()
+                    secondScreen(Actor2)
+                    Actor2.show()
+                    "Should I matchmake my ex <Actor.name> with my <Actor2.relationship> <Actor2.name>?"
+                    0:: "Yes"
+                    1:: "No"
+                    
+                    If 0
+                        Ongoing = false
+                    Endif
+                    
+                    secondScreen()
+                Endif
+                
+                If Ongoing
+                    Actor2 = getRelative()
+                Endif
+            Endwhile
+            
+            If Actor2.isValid()
+                "I soon introduced <Actor.name> to my <Actor2.relationship>, who had no idea that was my ex that had transitioned to a woman."
+                "As it turned out, they ended up having incredible chemistry."
+                Sex(Actor, Actor2)
+                "And soon they tied the knot and <Actor2.name> became officially a member of my family."
+                addNpcRelationship(Spouses, Actor2, Actor)
+                QuestEnd()
+            Else
+                "I couldn't think of anyone suitable. Let's have another think about this another day."
+            Endif
+        Endif
+    Endif      
+    SceneEnd()

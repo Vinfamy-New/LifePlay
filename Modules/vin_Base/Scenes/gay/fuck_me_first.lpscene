@@ -1,0 +1,74 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If !Actor.isMale() && Actor.isInterestedInMen() && Actor:perversion > 30
+OTHER: Player.isInterestedInMen()
+
+    // If you're male, in a relationship with a woman but also interested in men, she'll eventually offer you an arrangement where she brings hot men home but "wanna f my girlfriend? gotta f me first".
+    
+    SceneStart()
+    Arranged = Actor.getActorVar(tag_gaybait)
+    
+    If Arranged > 0
+        "I was home not expecting anything when my <Actor.boyfriend_or_girlfriend> <Actor.name> decided to bring home some random guy she met at a club."
+        Actor.dress()
+        Actor.show()
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isMale()
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2.dress()
+        Actor2.show()
+        "The poor guy was shocked and terrified at seeing another his date's <Player.boyfriend_or_girlfriend> there and was ready to turn and run for the hills."
+        "Of course this was all part of an arrangement I had with <Actor.name> to share her male conquests, although we agreed I could turn down a guy at the last minute."
+        0:: "Wanna fuck my <Actor.boyfriend_or_girlfriend>? Gotta fuck me first!"
+        1:: "Pretend to be angry and kick him out"
+        
+        If 0
+            Actor2:: "I can't believe I'm doing it ... but I want to fuck your <Actor.boyfriend_or_girlfriend> so much ..."
+            Sex(Player, Actor2)
+            Actor:: "That was hot baby ... but we wouldn't want to break our promise to our guest here. It's my turn now."
+            Sex(Actor2, Actor)
+            Actor:attractiontoplayer += 1
+        Else
+            Player:: "That's my <Actor.boyfriend_or_girlfriend>, asshole! Get the fuck out of here or you'll end up in a ditch."
+            Actor2.hide()
+            "Poor guy couldn't get out of there quick enough."
+            Actor:: "Aw ... you ruined the fun ... I really wanted to fuck that guy."
+            Player:: "Sorry, babe, but we had an arrangement and I just didn't fancy that guy."
+        Endif
+    Else
+        Actor.dress()
+        Actor.show()
+        Actor:: "Baby, I think it's time you're honest with yourself and with me ..."
+        Actor:: "I've seen the way you look at some guys ..."
+        Actor:: "I've seen how you focus on the pornstar's big dick when we watch porn together ..."
+        Actor:: "You're bi ..."
+        0:: "Deny it"
+        1:: "Admit my sexual interests in men"
+        
+        If 0
+            Player:: "Baby, I love you. I don't know what you're talking about. I'm not into men at all."
+            timeout(1000, fuck_me_first)
+        Else
+            Player:: "You're right. I can't deny I've always found certain men attractive and had sexual experience with men in the past."
+            Player:: "But in all my time with you, I've been faithful I swear. I've been suppressing that side of me."
+            Actor:: "Don't worry, baby. I trust me."
+            Actor:: "I just think, maybe you don't have to suppress it ..."
+            Player:: "What do you mean?"
+            Actor:: "You know ... I could bring guys home that I fancy ... You could be there and demand that they fuck you first before fucking me."
+            Actor:: "We both get what we want ..."
+            0:: "Agree to the arrangement"
+            1:: "No way"
+            
+            If 0
+                Actor.setActorVar(tag_gaybait, 1)
+                Player:: "Okay baby, we have a deal. Just make sure you bring cute guys home for both of us to enjoy!"
+                startOpenRelationship()
+            Else
+                timeout(500, fuck_me_first)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, fuck_me_first)

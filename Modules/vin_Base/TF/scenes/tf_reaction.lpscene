@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: all, -home, -prison, -work
+WHEN: 0-24
+WHO: none
+OTHER: TfGame() && !Player.isMale()
+
+    // Scenes that show how differently people react to you in your new female body: catcall, hold doors, ask for number etc
+    
+    SceneStart()
+    "I was just going about my day when I walked past a stranger ..."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    Actor:interpersonal => Random(50, 100)
+    Actor.dress()
+    Actor.show()
+    Actor.moveToPersonStand(Player, 100)
+    If Actor:perversion > 75
+        "<Actor.He_or_She> catcalled at me then approached me and touched my ass."
+        "<Actor.He_or_She> then grabbed my hand, put <Actor.his_or_her> phone on it and rather smirkly demand that I put my number on it."
+        "I suppose you'd better come to terms with the fact that as a woman now, I will occasionally come across people like this."
+        "I can't tell if I'm annoyed or a bit turned on by such cocky and sleazy behavior though ... I must admit that I admire the confidence, I would never have had the balls to do this to a girl when I was male."
+    Elseif Actor:perversion > 50
+        "<Actor.He_or_She> gave me a super cheesy pickup line, that I couldn't help but laugh at a bit."
+        "<Actor.He_or_She> then wasted no time and confidently asked for my number."
+        "I suppose you'd better come to terms with the fact that as a woman now, I will occasionally be the target of these cringey pickup lines."
+        "I did laugh instinctively though and couldn't help but feel a little spark with the cheesy <Actor.guy_or_girl>, so maybe the pickup line did work after all. Maybe when I was a man, I shouldn't have worried so much about coming across as too cheesy and should have simply taken my shot to actually approach the girl."        
+    Elseif Actor:perversion > 25
+        "<Actor.He_or_She> held the door for me to walk past before giving me a nice compliment."
+        "Still being as polite as possible, <Actor.He_or_She> asked for my number."
+        "I must admit it feels nice to be appreciated and pampered a bit with this whole 'Ladies First' etiquette and couldn't help but smile at the <Actor.guy_or_girl>."
+        "Maybe I should have been a bit more gentlemanly when I was a man."        
+    Else
+        "<Actor.He_or_She> seemed shy and it was clear as day <Actor.he_or_she> was instantly attracted to me, just couldn't open <Actor.his_or_her> mouth to say anything."
+        "I couldn't help but sympathize a bit, when I was still a guy, there were plenty of girls who I had a crush on but never had the courage to actually approach."
+        "Maybe I should give this shy <Actor.guy_or_girl> a lucky break and directly offer my number?"
+    Endif
+    "Should I give <Actor.him_or_her> my number?"
+    0:: "Give the stranger my number"
+    1:: "Maybe not"
+    
+    If 0
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        "We exchanged numbers and parted ways"
+    Endif
+    SceneEnd()
+    timeout(50, tf_reaction)

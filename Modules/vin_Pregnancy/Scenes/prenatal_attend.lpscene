@@ -1,0 +1,127 @@
+WHAT: all
+WHERE: all
+WHEN: 8 - 20
+WHO: Actor = getPerson(tag_DaddyKnows)
+OTHER: Player.isPregnant() && !Player.isMale()
+
+    SceneStart()
+    "Now that I'm pregnant, I should probably attend some prenatal classes, which will help me prepare myself physically and mentally for the pregnancy, delivery and motherhood."
+    0:: "Go there myself"
+    1:: "Ask <Actor.name> to drive me there"
+    2:: "Too busy for that right now"
+    
+    If 2
+        "Maybe another day"
+    Else
+        Dest = findNearbyBuilding(community_centre)
+        moveTo(Dest)
+        setBackground(community_centre)
+        SpouseCame = false
+        If 1
+            If Random(0, 50) < Actor:attractiontoplayer
+                "<Actor.name> was happy to drive me to the prenatal class."
+                Actor.dress()
+                Actor.show()
+                SpouseCame = true
+            Else
+                "Despite my request, <Actor.name> said <Actor.he_or_she> was too busy to take me there."
+                "It's no big deal. I can go there myself."
+            Endif
+        Endif
+        If Random(0, 100) < 50   // instructor
+            Actor2 = generatePersonTemporary()
+            While Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+            "The instructor for today's class is <Actor2.name>. She's very knowledgeable and helpful."
+            If SpouseCame
+                Actor2.makeInterested(Actor)
+                "I couldn't help but notice that the instructor was eyeing my <Actor.boyfriend_or_girlfriend> up quite flirtatously though."
+                "Is this what prenatal instuctors do? Trying to sleep with all their pregnant students' spouses?"
+                0:: "Just go home"
+                1:: "Invite the instructor for a threesome with <Actor.name>"
+                
+                If 1
+                    "The instructor was at first taken aback by my invitation, but quickly warmed up to the idea and followed us home. After all, it was her that wasn't so subtle in showing an interest in my <Actor.boyfriend_or_girlfriend> after all."
+                    moveTo(home)
+                    setBackground(home)
+                    "Besides, I suppose this is a good reward for <Actor.name>, having been a supportive enough partner to drive me to prenatal classes."
+                    If OpenRelationship()
+                        "After all, we're in an open relationship, so these spontaneous threesomes should be part of the experience really ..."
+                    Endif
+                    SexNoAffair(Actor, Actor2, Player)
+                Endif
+            Else
+                Actor2.makeInterested(Player)
+                "I couldn't help but notice that the instructor was eyeing me up quite flirtatously though."
+                "Is this what prenatal instuctors do? Trying to sleep with all their pregnant students?"
+                0:: "Just go home"
+                1:: "Have some fun with the instructor"
+                
+                If 1
+                    "The instructor was at first taken aback by my invitation, but quickly warmed up to the idea and followed me home. After all, it was her that wasn't so subtle in showing an interest in me, in all my pregnant glory, after all."
+                    moveTo(home)
+                    setBackground(home)
+                    "<Actor.name> should be kicking <Actor.himself_or_herself> for not taking me to the class today, otherwise I might have been generous enough to share the intructor with <Actor.him_or_her> for a threesome."
+                    Sex(Actor2, Player)
+                Endif
+            Endif
+        Else  // another couple
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor3 = generatePersonTemporary()
+            While Actor3.isMale()
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3.setMorphValue(Genesis8Female__PBMPregnant, 0.5)
+            Actor2.dress()
+            Actor3.dress()
+            Actor2.show()
+            Actor3.show()
+            "The class itself wasn't anything special, but I met up with an interesting couple, <Actor2.name> and <Actor3.name>."
+            "They weren't shy to admit that <Actor3.name>'s baby isn't <Actor2.name>'s, but a result of a wild swinger's orgy ..."
+            "And <Actor2.name> is cool with that because that's part of their open relationship agreement."
+            If OpenRelationship()
+                "I'm in an open relationship myself so this sort of thing isn't anything too strange for me."
+            Else    
+                "What a strange lifestyle, I wonder if <Actor.name> would have been as open-minded?"
+            Endif
+            If SpouseCame
+                "After the class finishes, the couple asks me and <Actor.name> if we would want to swing with them." 
+                0:: "Not for us"
+                1:: "Why not?"
+                
+                If 1
+                    "Since neither me nor <Actor3.name> can get pregnant again from this .. what's the harm?"
+                    blockPregnancy()
+                    moveTo(home)
+                    setBackground(home)
+                    If OpenRelationship()
+                        "After all, we're in an open relationship ourselves, we're no stranger to swinging ourselves."
+                    Endif
+                    "First, <Actor.name> and <Actor3.name> got it on."
+                    SexNoAffair(Actor, Actor3)
+                    "Then it was my and <Actor2.name>'s turn."
+                    SexNoAffair(Actor2, Player)
+                Endif
+            Else
+                "After the class finishes, the couple asks me to join them for a threesome." 
+                0:: "Not for me"
+                1:: "Why not?"
+                
+                If 1
+                    "Since I cannot get pregnant again from this .. what's the harm? Serves <Actor.name> right for not taking me to the class today!"
+                    blockPregnancy()
+                    moveTo(home)
+                    setBackground(home)
+                    Sex(Actor2, Player, Actor3)
+                Endif
+            Endif            
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, prenatal_attend)

@@ -1,0 +1,148 @@
+WHAT: all
+WHERE: all, -home, -work, -prison
+WHEN: 0-24
+WHO: none
+OTHER: !Player.isEthnic(asian) && martial > 50 && !isTimingOut(strt_asian_f) && likes_asian > 0
+
+    SceneStart()
+    stage = asianmartial.getGlobal()
+    "I'm fairly interested in and good at martial arts, enough to reliably win the tournaments that randomly pop up occasionally, while researching uncommon techniques I find out about a mysterious, closely-guarded style."
+    0:: "Learn more about it"
+    1:: "Dismiss it"
+    
+    If 0
+        stage += 1
+        
+        If stage == 1
+            "While starting to learn more about the technique, I soon recieve an anonymous and rather brutally racist letter telling you how you're seeking secrets that are 'not for your kind; and how the sender won't stand by and let an 'ancient and pure style be sullied by filth like you'."
+        Elseif stage < 6
+            setBackground(street)
+
+            setRaceGenerated(asian)
+            
+            Actor = generatePersonTemporary()
+            If Actor.isMale()
+                Actor.blendPreset(strt_asian_m)
+            Else
+                Actor.blendPreset(strt_asian_f)
+            Endif
+            
+            Actor2 = generatePersonTemporary()
+            If Actor2.isMale()
+                Actor2.blendPreset(strt_asian_m)
+            Else
+                Actor2.blendPreset(strt_asian_f)
+            Endif
+            Actor.dress()
+            Actor2.dress()
+            Actor.show()
+            Actor2.show()
+            
+            "One day, I was just going about my business when I was ambushed by two Asian assailants"
+            Actor.animate(martialart)
+            Actor2.animate(martialart)
+            Player.animate(martialart)
+            "I had no choice but fight back."
+            If martial + fitness + muscle > Actor:martial*stage
+                Actor.hide()
+                Actor2.hide()
+                If stage > 6
+                    "I managed to defeat my assailants ..."
+
+                    Actor4 = getPerson(tag_martialmaster)
+                    
+                    If !Actor4.isValid()
+                        Actor4 = generatePersonTemporary()
+                        While !Player.isInterestedIn(Actor4)
+                            Actor4 = generatePersonTemporary()
+                        Endwhile
+                        If Actor4.isMale()
+                            Actor4.blendPreset(strt_asian_m)
+                        Else
+                            Actor4.blendPreset(strt_asian_f)
+                        Endif
+                        Actor4.makePermanent()
+                        Actor4.setActorVar(tag_martialmaster, 1)
+                    Endif
+                    
+                    "I manage to get an address from a note in the attacker's pocket."
+                    Actor.show()
+                    Actor2.show()
+                    Actor4.dress()
+                    Actor4.show()
+                    "You go there and find that this has all been orchestrated by a master of the style, who is all too happy to insult you face to face before trying to beat your ass themselves."
+                    Actor4.animate(martialart)
+                    Player.animate(martialart)
+                    "The fight begins"
+                    If martial + fitness + muscle > Actor4:martial*stage
+                        Actor4.animate(fightlost)
+                        "I defeated the master!"
+                        0:: "Be a gracious victor"
+                        1:: isModEnabled(vin_NonConsensual):: "Get your revenge with sex"
+                        
+                        If 0
+                            If stage == 7
+                                Actor4:: "It was just a fluke"
+                            Elseif stage == 8
+                                "The master just frown and silently leaves the room."
+                            Else
+                                "They finally admit they were wrong, that despite your race you're absolutely worthy of the style... and very attractive too..."
+                                0:: "Fuck <Actor4.him_or_her>"
+                                1:: "Decline"
+                                
+                                If 0
+                                    Sex(Player, Actor4)
+                                    "Afterwards, <Actor4.name> gave me <Actor4.his_or_her> number and asked me to come and 'practice' anytime."
+                                    exchangeContact(Actor4)
+                                Endif
+                                Actor4.setActorVar(tag_martialmaster, 0)
+                                stage => 0
+                            Endif
+                        
+                        Else
+                            Filter(Aggressive)
+                            Sex(Player, Actor4)
+                        Endif
+                    Else
+                        Player.animate(fightlost)
+                        "Unfortunately, <Actor4.he_or_she> was too good for me ..."
+                        "They threw me out ..."
+                        stage -= 2
+                    Endif
+                Else
+                    "I managed to defeat my assailants, who turned and ran away"
+                    Actor3 = getCompanion()
+                    If Actor3.isValid() && Actor3.isInterestedIn(Player) && Actor3.hadSex()
+                        "My victory has left my companion <Actor3.name> all horny. <Actor3.He_or_She> wants me to bang <Actor3.him_or_her> now!"
+                        0:: "Claim my prize"
+                        1:: "Decline"
+                        
+                        If 0
+                            Sex(Player, Actor3)
+                        Endif
+                    Endif
+                Endif
+            Else
+                Player.animate(fightlost)
+                "Unfortunately, they were too good for me ..."
+                
+                stage -= 1
+                
+                Actor3 = getCompanion()
+                If isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual) && Actor3.isValid() && !Actor3.isMale()
+                    "My loss has left my companion <Actor3.name> vulnerable ... My assailant turned their attention to <Actor3.him_or_her>"
+                    Actor3(Crying):: "No! Please stop ... I beg you ... Somebody help ..."
+                    "<Actor3.His_or_Her> cries for help went unheard and I had no choice but watch <Actor3.him_or_her> endure it all."
+                    Filter(Aggressive)
+                    TalkNonConsensual()
+                    SexNoAffair(Actor, Actor3)
+                Endif
+            Endif
+        Endif
+    Else
+        timeoutPrecise(2000, asian_learn_martial_cms)    
+    Endif
+    
+    asianmartial.setGlobal(stage)
+    SceneEnd()
+    timeout(200, asian_learn_martial_cms)

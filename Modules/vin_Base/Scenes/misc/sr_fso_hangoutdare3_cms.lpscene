@@ -1,0 +1,95 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: Player.isMale() && Random(35, 100) < perversion && isModEnabled(vin_NTR)
+
+    // similar to the last 2 hangout dares the player asks their girlfriend to be lewd at a hangout. There are a few options.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I was looking at some dares on a website that I could give to my lover and found one that peaked my interest."
+    "What was it?"
+    0:: "I wanted to film my girl have sex with her male best friend while I did her best female friend"
+    1:: "I want to watch you masturbate in at the window where everyone outside can see you while our friends are coming over!"
+    2:: "Nevermind. My ideas seem unsafe sometimes."
+
+    If 0
+        Player:: "Hey babe can I film you having sex with your best male friend while I go at your female best friend? Bascially a little swinging?"
+        Actor:: "Oh wow! Can't believe how naughty you are sometimes! Heh sure, but you have to promise if it starts making you jealous we all stop doing this."
+        Player:: "Don't worry I'll let you know if I can't take it."
+        Actor:: "Alright then, just remember I love you! This is for you!"
+        
+        setBackgroundCustom(livingroom)
+        "Her two best friends then came over after we invited them." 
+        
+        Actor1 = generatePersonTemporary()
+        While !Actor1.isMale()
+            Actor1 = generatePersonTemporary(
+        Endwhile
+        Actor1:age => Actor:age + Random(-3, 3)
+        Actor1.randomizeFace()
+        Actor1.randomizeHairs()
+        Actor1.dress()
+        Actor1.show()
+        "The male best friend is called <Actor1.name>"
+        
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isFemale()
+            Actor2 = generatePersonTemporary(
+        Endwhile
+        Actor2:age => Actor:age + Random(-3, 3)
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        Actor2.dress()
+        Actor2.show()
+        "The female best friend is called <Actor2.name>"
+
+        "While we were watching a movie she then told them what we were thinking of doing."
+        "Thankfully, instead of being offended, they agreed"
+        Sex(Actor1, Actor)
+        Sex(Player, Actor2)
+        Sex(Actor, Actor2)
+        Sex(Player, Actor1, Actor, Actor2)
+        Actor:attractiontoplayer += 5
+    Elseif 1
+        Player:: "Hey I dare you to masturbate in the window while our friends come over to hangout with us!" 
+        Actor:: "Oh gosh!"
+        Player: "Please love?"
+        Actor:: "Alright, for you!" 
+        setBackgroundCustom(livingroom)
+        "Who is the first to invite?"
+        selectNpc()
+        Actor1 = getSelectedNpc()
+        Actor1.dress()
+        Actor1.show()
+        
+        "Who is the second to invite?"
+        selectNpc()
+        Actor2 = getSelectedNpc()
+        Actor2.dress()
+        Actor2.show()
+        
+        "They showed up, only to find my <Actor.boyfriend_or_girlfriend> masturbating."
+        Filter(Solo)
+        Sex(Actor)
+        
+        If Random(0, 100) < 25
+            If Random(0, 100) < 50 && Actor1.isInterestedIn(Actor)
+                "<Actor1.name> couldn't resist and ask to have sex with <Actor.name>. I happily agreed."
+                Sex(Actor1, Actor)
+            Else
+                "<Actor2.name> couldn't resist and ask to have sex with <Actor.name>. I happily agreed."
+                Sex(Actor2, Actor)            
+            Endif
+        Elseif Random(0, 100) < 33
+            "Neither of them could resist and asked me to allow them to double-team her. I happily agreed."
+            Sex(Actor1, Actor1, Actor)
+        Else
+            "Unfortunately, they both just stood there and watched, never having the guts to ask for some action."
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(180, sr_fso_hangoutdare3_cms)

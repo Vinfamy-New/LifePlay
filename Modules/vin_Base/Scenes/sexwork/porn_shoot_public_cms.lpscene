@@ -1,0 +1,58 @@
+WHAT: all
+WHERE: all, -work
+WHEN: 8 - 18
+WHO: none
+OTHER: Random(1, 150) < pornfame
+
+    SceneStart()
+    Dice = Random(500, 2000)
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    Actor.show(2)
+    "A porn director wants to book me for a scene with <Actor.name> ..."
+    "This scene will be shot in public, with hired bystanders as well." 
+    0:: "Turn down the offer"
+    1:: "Rip the director off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give the director a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but I have a holiday planned on the day of the shoot ..."
+    Elseif 3 || Random(0, 100) < choice*pornfame
+        "The porn director accepted my demands and soon enough we were meeting at the shoot location that we agreed on."
+        setBackground(street)
+        Actor.show()
+        Actor2 = generatePersonTemporary()
+        Actor3 = generatePersonTemporary()
+        Actor2.dress()
+        Actor2.show()
+        Actor3.show()
+        Actor3.dress()
+        "Jeez, there are quite a few bystanders here. I suppose I was told beforehand."
+        Sex(Actor, Player)
+        money => money + Dice/choice
+        pornfame += 0.5
+        perversion += 0.25
+        "The bystanders look very excited about my performance, some of them seem keen to join in the fun ..."
+        0:: "Fuck two bystanders too"
+        1:: "Not part of the agreement"
+        
+        If 0
+            "Porn fans love spontaneous sluts that would fuck anyone! This would do wonders for my popularity."
+            Sex(Player, Actor2, Actor3)
+            pornfame += 2
+        Endif
+    Else
+        "No way, that's way above the market rate for this type of shoots! You have too high an opinion of yourself, honey. You should ask the other pornstars how much they charge."
+    Endif
+    
+    SceneEnd()
+    timeout(200, porn_shoot_public_cms)

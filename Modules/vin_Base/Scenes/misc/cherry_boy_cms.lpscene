@@ -1,0 +1,76 @@
+WHAT: all
+WHERE: all
+WHEN: 16-20
+WHO: Actor = getPerson(true); If Actor:age > 40 && !Actor.hasRelationship(ParentChild) && !Actor.isDating() && !Actor.isRelative() && Actor:rapportwithplayer > 20 && Actor:perversion > 60 && !Actor.isExRelative()
+OTHER:
+
+    SceneStart()
+    Actor2 = Actor.generatePersonMatchRace()
+    Actor2:age => 18
+    Actor2.randomizeFace()
+    Actor2.randomizeHairs()
+    addNpcRelationship(ParentChild, Actor, Actor2)
+    secondScreen(Actor)
+    Actor.dress()
+    Actor.show()
+    "<Actor.name> invited me to <Actor.his_or_her> <Actor2.son_or_daughter>'s 18th birthday party. I have never met the young <Actor2.man_or_lady>, I wonder why I would be invited."
+    0:: "Attend the party"
+    1:: "Turn down the invitation"
+    
+    If 0
+        secondScreen()
+        setBackgroundCustom(livingroom)
+        Actor.show()
+        Actor2.dress()
+        Actor2.show()
+        Actor3 = getSpecific(Dating)
+        If Actor3.isValid()
+            Actor3.dress()
+            Actor3.show()
+            "<Actor3.name> also came with me to the party."
+        Endif
+        Actor.moveToPerson(Player)
+        "The party eventually wound down and I'm one of the last guests left, <Actor.name> took me to one side to say something."
+        Actor:: "How fast time flies ...  My <Actor2.son_or_daughter> also turned 18 and would soon attend university ..."
+        Actor:: "<Actor2.He_or_She> is still a virgin, you see. And we agreed it would be much better for <Actor2.he_or_she> to head to university with some experience under <Actor2.his_or_her> belt."
+        Actor:: "Obviously I don't want <Actor2.him_or_her> to do it with just some random kid from <Actor2.his_or_her> high school."
+        Actor:: "Maybe you'd like the honour?"
+        0:: "Pop <Actor.name>'s <Actor2.son_or_daughter>'s cherry"
+        1:: Actor3.isValid() && Actor3.isFemale() && isModEnabled(vin_NTR) && Actor2.isMale():: "Let <Actor3.name> do it"
+        2:: "No"
+        
+        If 0
+            If Actor2.isMale() && !Player.isMale()
+                "Should I take myself off birth control and ask <Actor2.name> not to bother with a condom in order to get pegnant? Being impregnated by a virgin would be quite an experience."
+                0:: "Yes"
+                1:: "No"
+                
+                If 0
+                    Player.impregnate(Actor2)
+                    Actor2.setWantsBabies(true)
+                Endif
+            Elseif !Actor2.isMale() && Player.isMale()
+                "Should I not bother with a condom and ask <Actor2.name> not to take a Plan B pill tomorrow in order to get her pegnant? Being impregnated during your first time would be quite an experience for the barely legal girl."
+                0:: "Yes"
+                1:: "No"
+                
+                If 0
+                    Actor2.impregnate(Player)
+                    Actor2.setWantsBabies(true)
+                Endif                
+            Endif
+            Sex(Player, Actor2)
+        Elseif 1
+            "Should I take <Actor3.name> off birth control and ask <Actor2.name> not to bother with a condom in order for my <Actor3.boyfriend_or_girlfriend> to get pegnant? Her being impregnated by a virgin would be quite an experience."
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                Actor3.impregnate(Actor2)
+                Actor2.setWantsBabies(true)
+            Endif
+            Sex(Actor2, Actor3)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, cherry_boy_cms)

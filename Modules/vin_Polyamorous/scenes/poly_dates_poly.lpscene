@@ -1,0 +1,48 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 17-21
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If !Actor.livesWithPlayer() && Actor2.livesWithPlayer() && Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor)
+OTHER: OpenRelationship() && !isWithCompanion()
+
+    // Non-live-in partner comes to your house, intending to ask you out for a surprise date, only to be greeted by a live-in partner while you're away. They may go on a date without you then and 'report' back to you. 
+    
+    SceneStart()
+    Actor2.dress()
+    Actor.dress()
+    secondScreen(Actor2)
+    Actor2.show()
+    "I wasn't at home when I suddenly received a call from one of my live-in polyamorous lovers, <Actor2.name>. I wonder if something happened at home?"
+    Actor2:: "Baby, <Actor.name> is here looking for you. <Actor.He_or_She> wanted to surprise you with a sexy date, but you're not home ..."
+    "Ah ... <Actor.name> is another lover in our polyamorous arrangement who doesn't live with me."
+    0:: "Tell <Actor.name> to come meet me up here instead"
+    1:: "Tell <Actor.name> and <Actor2.name> to go on the date with each other"
+    
+    If 0
+        Player:: "No problems. Just tell <Actor.him_or_her> to come pick me up from here."
+        secondScreen()
+        Actor.show()
+        "After some time, <Actor.name> showed up and we began our date."
+        Actor.startDate()
+    Else
+        Player:: "Why don't you go on that date with <Actor.name> instead of me?"
+        Player:: "I'm sure <Actor.he_or_she> has something sexy planned, so don't forget to report back to me all the dirty details."
+        Actor2:: "Alright honey, you're the best!"
+        Actor2:: "Expect a video call from us later!"
+        secondScreen()
+        "<Actor2.name> wasn't joking ... A couple hours later, <Actor2.name> gave me another video call."
+        setBackground(home)
+        Player.hide()
+        Actor.show()
+        Actor2.show()
+        "Looks like the date went really well, they ended up in some nice hotel room."
+        animatePair(Actor, Actor2, Kissing)
+        "They began to make out with each other."
+        "Soon enough things were getting steamier."
+        Sex(Actor, Actor2)
+        addNpcRelationship(Dating, Actor, Actor2)
+        Actor:attractiontoplayer += 3
+        Actor2:attractiontoplayer += 3
+        Player.show()
+    Endif
+    SceneEnd()
+    timeout(300, poly_dates_poly)

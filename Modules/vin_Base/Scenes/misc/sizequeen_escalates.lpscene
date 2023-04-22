@@ -1,0 +1,86 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: none
+OTHER: Player.isInterestedInMen()
+
+    // If you're interested in men, you can get a scene series where you go on the NSFW side of Reddit to hunt down men with increasingly big dicks to test your limit (the scene series stay at this stage if the 'Doggy' module is disabled). Eventually though, no human could keep up with your escalating sizequeen needs and you decide to try a horse instead.
+    
+    SceneStart()
+    Stage = Player.getActorVar(tag_sizequeen)
+    If Stage == 0
+        "I'm attracted to men, but how important is dick size in a potential partner to me?"
+        0:: "It's the most important trait ... I'm a total size <Player.king_or_queen>"
+        1:: "It's not the tool, it's how he uses it"
+        
+        If 0
+            "I'm horny for big dicks ... I really should keep an eye out for them ..."
+            Player.setActorVar(tag_sizequeen, 1)
+        Else
+            timeout(2000, sizequeen_escalates)
+        Endif
+    Elseif Stage < 5 || !isModEnabled(vin_Bestiality)
+        "My ever escalating desires as a size <Player.king_or_queen> leads me to frequent various NSFW subreddits where men post their dick pics. I can't help but want bigger and bigger."
+        Bull = generatePersonTemporary()
+        While !Bull.isMale()
+            Bull = generatePersonTemporary()
+        endWhile
+        secondScreen(Bull)
+        Bull.show()
+        If Stage == 1
+            Bull.setMorphValue(XY__Penis size, 0.2)
+        Elseif Stage == 2
+            Bull.setMorphValue(XY__Penis size, 0.3)
+        Elseif Stage == 3
+            Bull.setMorphValue(XY__Penis size, 0.4)
+        Elseif Stage == 4
+            Bull.setMorphValue(XY__Penis size, 0.5)
+        Elseif Stage == 5
+            Bull.setMorphValue(XY__Penis size, 0.6)
+        Elseif Stage == 6
+            Bull.setMorphValue(XY__Penis size, 0.7)
+        Else
+            Bull.setMorphValue(XY__Penis size, 0.8)
+        Endif
+
+        "While browsing today, one guy immediately caught my attention with his impressive member."
+        0:: "Slide into <Bull.his_or_her> DM"
+        1:: "This is escalating too fast ..."
+        
+        If 0
+            secondScreen()
+            "Challenge accepted. I can't wait to test my limit against that huge cock."
+            Stage += 1
+            Player.setActorVar(tag_sizequeen, Stage)
+            "Being someone who openly posts his nude and dick pic online for everyone to see, this Reddit member of course isn't shy to go fuck a fan of his member."
+            Bull.show()
+            "Soon enough, I invite the lucky guy to my place. And I wasn't disappointed ... Definitely no Photoshop involved in those impressive dick pics"
+            Sex(Bull, Player)
+        Elseif 1
+            "I can't keep going for bigger and bigger. My hole will get destroyed at this rate."
+        Endif
+    Else
+        "I've let myself fallen down the size <Player.king_or_queen> rabbit hole. Nowadays, any guys that are average simply can't satisfy me, and I'm running out of men with big enough dicks."
+        "There's really only one option left ..."
+        "Well-endowed guys have the habit of calling their members horsecocks, but those are nothing compared to the real thing ..."
+        0:: "Find a horse to test my limit"
+        1:: "I've gone too far"
+        
+        If 0
+            "Instead of Reddit, I turn to a zoophilia forum on the dark web and soon finds a horse owner willing to lend their horse to someone curious about bestiality."
+            setBackground(river)
+            "We soon agreed to meet up at a secluded place to do the deed"
+            Bull = generateCreatureTemporary(Horse)
+            While !Bull.isMale()
+                Bull = generateCreatureTemporary(Horse)
+            endWhile
+            Bull.show()
+            "I wasn't disappointed. Really, no human can compare with this monster."
+            Sex(Bull, Player)
+        Else
+            "I really should calm down and rediscover my love for human dicks ..."
+            Player.setActorVar(tag_sizequeen, 2)
+        Endif
+    Edif
+    SceneEnd()
+    timeout(150, sizequeen_escalates)

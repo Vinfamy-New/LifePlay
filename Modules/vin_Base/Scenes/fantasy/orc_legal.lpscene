@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: none
+OTHER: PercentageOrcs > 0
+
+    // Orcs have become infamous for sexual crimes involving multiple perpetrators. One law-abiding group of orcs (with a gender you're interested in) decides to instead start a legal escort service for customers with gangban g fantasy to fulfill their urges without harming anyone.
+    
+    SceneStart()
+    "Orcs are known for their high sex drive and tribal spirit. As such, they have gained somewhat of a notoriety for gang-rape and are always the number one suspects for police for such cases."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    endWhile
+    Actor.blendPreset(Orc)
+    Actor.makeInterested(Player)
+    secondScreen(Actor)
+    Actor.show()
+    "Apalled at the infamy their community had gained, a group of law-abiding orcs decided to instead start a legal escort service for customers with gangbang fantasy to fulfill their urges without harming anyone."
+    "The rates they're charging is only a fraction of what human escorts charge."
+    0:: "Get payed to get gangbanged by the orcs"
+    1:: "Good for them!"
+    
+    If 0
+        money += 200
+        If Player.isVirgin()
+            money += 2000
+        Endif
+        secondScreen()
+        Actor.show()
+        "Their service is truly professional. Soon, the orcs arrive at my place as promised, led by <Actor.name>."
+        Actor2 = generatePersonTemporary()
+        While !Actor.isSameGender(Actor2)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.blendPreset(Orc)
+        Actor2.makeInterested(Player)
+        Actor2.show()
+        "The second in command is <Actor2.name>"
+        Actor3 = generatePersonTemporary()
+        While !Actor.isSameGender(Actor3)
+            Actor3 = generatePersonTemporary()
+        endWhile
+        Actor3.blendPreset(Orc)
+        Actor3.makeInterested(Player)
+        Actor3.show()
+        "The third in the hierarchy is <Actor3.name>"
+        Actor4 = generatePersonTemporary()
+        While !Actor.isSameGender(Actor4)
+            Actor4 = generatePersonTemporary()
+        endWhile
+        Actor4.blendPreset(Orc)
+        Actor4.makeInterested(Player)
+        Actor4.show()
+        "Finally, it's <Actor4.name>"
+        "Let the fun begin!"
+        
+        If Player.isSameGender(Actor)
+            Sex(Actor, Actor2, Player)
+            Sex(Actor3, Actor4, Player)
+        Else
+            Sex(Actor, Actor2, Actor3, Actor4, Player)
+        Endif
+    Else
+        "Well, that's a good way to go about things. I'm sure they'll get plenty of horny customers."
+    Endif
+    SceneEnd()
+    timeout(300, orc_legal)

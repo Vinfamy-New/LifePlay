@@ -1,0 +1,32 @@
+WHAT: all
+WHERE: fraternity
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Fraternity); If !Actor.isSameGender(Player)
+OTHER: OpenRelationship()
+
+    // If you're in a fraternity / sorority, you may be asked to share a poly partner with all your frat bros / sorority sisters.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> is staying over with me tonight at our <Player.fraternity_or_sorority> house."
+    "I can't help but notice a lot of my <Player.fraternity_or_sorority> <Player.brothers_or_sisters> have been checking <Actor.name> out all day, <Actor2.name> chief among them."
+    "Well, us <Player.fraternity_or_sorority> <Player.brothers_or_sisters> are supposed to share anything but it's no secret that my relationship with <Actor.name> is a polyamorous one."
+    "This might a good opportunity to improve my bond with the others. I'm sure <Actor.name> will be down for an experience of <Actor.his_or_her> life also."
+    0:: "Share <Actor.name> with all my <Player.fraternity_or_sorority> <Player.brothers_or_sisters>"
+    1:: "Forget it"
+    
+    If 0
+        Actor2.show()
+        "As expected, my <Player.fraternity_or_sorority> <Player.brother_or_sister> <Actor2.name> was the first to accept my invitation."
+        Actor3 = getSpecific(Fraternity)
+        Actor3.show()
+        "Then, it was <Actor3.name>."
+        Actor4 = getSpecific(Fraternity)
+        Actor4.show()
+        "Finally, <Actor4.name> was the last <Player.brother_or_sister> to answer the call to arms."
+        "Let the battle begin."
+        Sex(Player, Actor2, Actor3, Actor4, Actor)
+    Endif
+    SceneEnd()
+    timeout(500, poly_frat)

@@ -1,0 +1,22 @@
+WHAT: all
+WHERE: clothes, department_store, shoes, sports
+WHEN: 9 - 21 
+WHO: Actor = getCompanion(); If Actor:perversion > 70 && Actor:attractiveness > 70
+OTHER: perversion < 50
+
+    SceneStart()
+    "I'm going shopping with <Actor.name>, who is not shy to point out that my fashion style is way too traditional."
+    Actor:: "<Player.Man_or_Girl>, you dress like my <Player.grandpa_or_grandma>."
+    "<Actor.name> picked out some more revealing clothes for me that leave very little to the imagination ..."
+    0:: "Follow <Actor.name>'s fashion advice"
+    1:: "Stick to my principle"
+    
+    If 0
+        Player.dress()
+        Actor:rapportwithplayer += 2
+        perversion += 1
+    Else
+        Actor:rapportwithplayer -= 1
+    Endif
+    SceneEnd()
+    timeout(200, dress_revealing)

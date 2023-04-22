@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: subor_errand
+ACTION_NAME: Send to my home on an errand
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 30
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: subor_errand
+ANIMATION:
+WHO: Actor2 = getTarget(); If Player.isDating() && [Actor2.isEmployee() || [Actor2.isColleague() && jobexperience - Actor2:jobexperience > 30]]

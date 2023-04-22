@@ -1,0 +1,91 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor2 = getCompanion(); If !Actor2.hasRelationship(ParentChild, ParentSiblingSiblingChild, GrandParentGrandChild) && [Actor2:rapportwithplayer > 20 || Actor2.isDating()] && !Actor2.isRelative() && !Actor2.isExRelative()
+OTHER: likes_older < -20 && !Player.isAsexual()
+
+    // While hanging out with your friend / significant other, they might introduce you to their +18 child (from a previous relationship), niece / nephew / grandson / granddaughter who checks you out (depending on how far in the negative territory your likes_older stat goes)  
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "I was spending time with <Actor2.name> when we decided to just go chill at <Actor2.his_or_her> place."
+    "There were just the two of us watching TV in the living room when a stranger unlocked the front door and walked in."
+    Actor = Actor2.generatePersonTemporaryMatchRace()
+    While !Player.isInterestedIn(Actor)
+        Actor = Actor2.generatePersonTemporaryMatchRace()
+    Endwhile
+    Actor.makeInterested(Player)
+    
+    Actor:age => age + likes_older*0.5
+    Actor:age += Random(-5, 5)
+    Actor:attractiveness => Random(70, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor:likes_older => 2*[age - Actor:age]
+    Actor:attractiontoplayer += Random(25, 50)
+    
+    Actor.makePermanent()
+    If Actor2:age - Actor:age < 18
+        addNpcRelationship(ParentSiblingSiblingChild, Actor2, Actor)
+        If Actor.isMale()
+            rela = "nephew"
+        Else
+            rela = "niece"
+        Endif
+    Elseif Actor2:age - Actor:age < 40
+        addNpcRelationship(ParentChild, Actor2, Actor)
+        If Actor.isMale()
+            rela = "son"
+        Else
+            rela = "daughter"
+        Endif    
+    Else
+        addNpcRelationship(GrandParentGrandChild, Actor2, Actor)
+        If Actor.isMale()
+            rela = "grandson"
+        Else
+            rela = "granddaughter"
+        Endif        
+    Endif
+    
+    Actor.dress()
+    Actor.show()
+    Actor.moveToPersonStand(Player, 100)
+    
+    Actor2:: "Oh, you're home. You haven't met <Player.name> yet, have you?"
+    Actor:: "Nice to meet you, <Player.name>!"
+    Actor2:: "<Player.name>, this is my <rela>."
+    Player:: "Nice to meet you too ..."
+    "I must admit: <Actor2.name>'s <rela> is a rather hot younger <Actor.man_or_girl> ... and I happen to always have a thing for younger <Actor.men_or_women>."
+    "I could swear <Actor.he_or_she> is checking me out too"
+    Actor.moveToPerson(Player)
+    "<Actor2.name>'s <rela> decided to sit down with us to watch TV together ..."
+    Actor2:: "<Player.name>, I hope you don't mind if I leave you in my <rela>'s company for a couple minutes? I need to go to the bathroom."
+    Player:: "No problem ..."
+    Actor2.hide()
+    "Well, <Actor2.name>, little does <Actor2.he_or_she> know, I can do a lot more than 'not minding' <Actor2.his_or_her> <rela> in <Actor2.his_or_her> absence ..."
+    0:: "Make my move with <Actor2.name>'s <rela>"
+    1:: "Just watch TV in peace"
+    
+    If 1
+        "It's too risky and <Actor2.name>'s <rela> isn't THAT hot!"
+    Else
+        Player:: "So ... now that we're alone ... do you always eye-bang all the mature <Player.men_or_women> that <Actor2.name> brings home?"
+        Actor:: "Sorry ... I didn't mean to make you feel uncomfortable ... I just couldn't help myself ... you're such a sexy <Player.daddy_or_mama> ... And I always fantasize about older <Player.men_or_women>"
+        Player:: "Don't worry ... I didn't say I was uncomfortable ... quite the contrary in fact ... Here, let me show you ..."
+        exchangeContact(Actor)
+        animatePair(Player, Actor, Kissing)
+        "We started making out rather passionately, things are moving fast ..."
+        0:: "Have a quickie right here"
+        1:: "Exchange numbers to see <Actor.him_or_her> privately later" 
+        
+        If 0
+            Sex(Actor, Player)
+        Else
+            "It's too risky with <Actor2.name> possibly returning from the bathroom at any moment and catching us in our act."        
+        Endif
+        Actor2.show()
+        "Before <Actor2.name> returned from the bathroom, we managed to swap numbers to continue 'getting to know each other' when <Actor2.he_or_she> isn't around. I wonder how <Actor2.name> would react to me hooking up with <Actor2.his_or_her> <rela>."
+    Endif
+    SceneEnd()
+    timeout(200, friend_younger)

@@ -1,0 +1,27 @@
+Changing the values here won't take effect in game, I just listed the numbers used by the game here for those curious.
+The format is as follows:
+
+{IndexNumber}: Tags: {EnergyCostForGuy}, {EnergyCostForGirl}, {OrgasmRateforGuy}, {OrgasmRateForGirl}
+
+For same-sex scenes, 'Guy' would be the top, 'Girl' would be the bottom.
+
+0: Piledriver: 1.0, 0.8, 0.8, 1.0
+1: Missionary: 0.8, 0.2, 0.8, 0.8
+2: ProneBone: 1.0, 0.6, 0.9, 0.9
+3: Doggy, Doggystyle, Dog: 0.9, 0.4, 0.8, 0.8
+4: Cowgirl, Cow, Cowboy: 0.3, 1.0, 1.0, 0.8 
+5: ReverseCowgirl, ReverseCow, ReverseCowboy: 0.3, 1.0, 1.0, 0.7
+6: Sidefuck, Spooning, Spoon, Sideway: 0.9, 0.6, 0.8, 0.8
+7: Tribadism, Scissor, Scissoring: 0.7, 0.7, 0.7, 0.7
+8: Boobjob, Titfuck, Tittyfuck, Titsfuck, RubBoobs: 0.2, 0.2, 0.5, 0.1
+9: 69: 0.5, 0.5, 0.5, 0.5
+10: Deepthroat: 0.7, 0.5, 0.6, 0.1
+11: Blowjob: 0.2, 0.5, 0.5, 0.1
+12: Handjob, Fleshlight: 0.2, 0.3, 0.4, 0.1
+13: Fingering, FingerPussy, FingerAss, Fisting, RubPussy, RubAss, Vibrator: 0.3, 0.2, 0.1, 0.4
+14: Licking, LickPussy, Cunnilingus: 0.4, 0.3, 0.1, 0.5
+15: NonSexual, Kissing, Non-Sexual, Makeout: 0.1, 0.1, 0.1, 0.1
+
+
+Aggressive, Rough: {EnergyCostForGuy} * 1.5
+AggressiveFM: {EnergyCostForGirl} * 1.5

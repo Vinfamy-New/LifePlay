@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: ask_help_groom
+ACTION_NAME: Ask for help grooming my privates
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 15 - 30
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: ask_help_groom
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isRelative()

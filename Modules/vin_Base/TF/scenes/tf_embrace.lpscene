@@ -1,0 +1,30 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: none
+OTHER: TfGame() && !Player.isMale()
+
+    // Weekly triggered inner thought scene where you can choose to embrace your new female identity more or resist it, which affects submissivenesss, interpersonal, attractiveness, and how much you enjoy intercours e as a woman.
+    
+    SceneStart()
+    "So, it's been another week living as a woman for me. Have I actually enjoyed it? Should I continue to remind myself everyday that I'm a man and convince myself I will return to my male form one day? Or should I start accepting my new reality and enjoy my life as a woman."
+    0:: "Embrace my female identity more"
+    1:: "Resist and try to remember I'm a man"
+    
+    If 0
+        masochist += 5
+        interpersonal += 2
+        attractiveness += 2
+        prone_to_orgasm += 5
+        "I learn to be more comfortable in my female body. I try to take care of my physical appeal more and behave myself in a more feminine demeanor. I allow myself to feel insecure and vulnerable sometimes."
+        "Being more comfortable in my own skin also means my female body becomes more receptive to sexual stimulations."
+    Else
+        masochist -= 5
+        interpersonal -= 2
+        attractiveness -= 2
+        prone_to_orgasm -= 5
+        "I continue to resist this change and reject my female body and keep up my hope of returning to my male form one day. I make little effort to look good as a woman or to adopt a feminine demeanor when speaking. I act tough and try not to show too much emotion."
+        "Being a man in a female body, my body could hardly enjoy sexual stimulations all that much."        
+    Endif
+    SceneEnd()
+    timeoutPrecise(168, tf_embrace)

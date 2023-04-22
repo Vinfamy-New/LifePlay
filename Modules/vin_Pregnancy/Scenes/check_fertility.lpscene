@@ -1,0 +1,35 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    If Player.isPregnant()
+        "I'm currently pregnant. It's pointless to check my fertility level since I cannot get pregnant again."
+    Else
+        fer = fertility*1
+        ferDan = fer*10
+        If Actor.isMale()
+            "My fertility level is <fer>%"
+        Else
+            "My fertility level is <fer>% on normal days and <ferDan>% on dangerous days"
+        Endif
+        Actor = generatePersonTemporary()
+        While Actor.isSameGender(Player)
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.dressUniform(Nurse)
+        Actor.show()
+        "The nurse who did the test was <Actor.name>."
+        If Actor:perversion > 60
+            Actor:: "You know, since you're so concerned about your fertility level, why don't we do a more 'practical' test? Numbers can be misleading, you know! Real results are what matter."
+            0:: "Fuck the nurse to test how fertile I am"
+            1:: "No"
+            
+            If 0
+                Sex(Actor, Player)
+            Endif
+        Endif
+    Endif
+    SceneEnd()

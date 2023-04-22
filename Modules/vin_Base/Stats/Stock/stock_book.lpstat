@@ -1,0 +1,9 @@
+STAT_ID: stock_book
+STAT_NAME: Unread books; how many you have in your inventory, buy more at shops
+PLAYER_ONLY: true
+HIGHER_BETTER: true
+STAT_MIN: 0
+STAT_MAX:
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 0
+NPC_ONLY: false

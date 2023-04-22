@@ -1,0 +1,49 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Where should we go? The idea is to be away from people, just me and <Actor.name>. I'm sure <Actor.name> would appreciated the open air. It's not part of an animal's instinct to be locked up among human civilization all day."
+    0:: "A secluded beach"
+    1:: "A forest"
+    2:: "A riverbank"
+    3:: "A mountain"
+    
+    If 0
+        setBackground(beach)
+    Elseif 1
+        setBackground(forest)
+    Elseif 2
+        setBackground(river)
+    Else
+        setBackground(mountain)
+    Endif
+    
+    If !Actor.hadSex()
+        "Being in the wilderness seems to have liberated <Actor.name> and unleashed <Actor.his_or_her> animalistic instinct. After all, before domestication by human, the wild is animals like <Actor.name>'s natural habitat."
+        "Unfortunately, there aren't any wild or feral animals here for <Actor.name> to be part of a pack with, or to mate ..."
+        "Mating is of course a crucial part of what defines an animal. It's a shame that we humans intervene in that instinct and only allow animals like <Actor.name> to mate as and when it fits our financial benefits."
+        "In fact, it's clear from <Actor.name>'s behavior that <Actor.name> is suddenly overcome with an urge to mate now that <Actor.he_or_she>'s returned to nature."
+        "I must say I'm a bit flattered that <Actor.name> is so clearly aroused and ready to mate even when there isn't any of <Actor.his_or_her> own species around, just me, and <Actor.he_or_she> doesn't mind and is apparently down to fuck anyway"
+        "Wait ... I can't be considering this surely ... Fucking like animals with an actual animal in the wild ..."
+    Else
+        "My relationship with <Actor.name> has long exceeded your typical owner-pet relationship and crossed into intimate territory. However, it's getting boring that we can only show our interspecies passion to each other in the privacy of my home. I can't help but fantasize about fucking like literal animals in the wilderness. After all, before domestication by human, the wild is animals like <Actor.name>'s natural habitat, it's only fitting that we mate there"
+    Endif
+
+    "Am I really going for this?"
+    0:: "Have sex with <Actor.name> ..."
+    1:: "No"    
+    
+    If 0
+        If !Actor.hadSex()
+            "I guess there's no-one around ... I won't pretend I haven't fantasized about this before. This just seems like the natural place to try it."
+        Else
+            "Of course, it would be cruel to be one of <Actor.name>'s past mates, take <Actor.him_or_her> back to the wild and then deny <Actor.his_or_her> natural instinct."
+        Endif
+        Sex(Actor, Player)
+        perversion += Random(0, 2)
+        Actor:attractiontoplayer += Random(0, 2)     
+    Endif
+    SceneEnd()

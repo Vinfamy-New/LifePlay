@@ -1,0 +1,27 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Race = Actor.getRace()
+    MyRace = Player.getRace()
+    "I've always had a major thing for a <Actor.handsome_or_beautiful> <Race> like <Actor.name> and couldn't help but fantasize about taking <Actor.him_or_her> to bed. Should I be direct and confess my little <Race> fetish to <Actor.name> now?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        If Actor.isInterestedIn(Player) && Random(0, 50) < Actor:attractiontoplayer
+            Actor:: "It's rare to find an <MyRace> with such a clear preference for people like me. Even rarer to find someone so willing to admit their <Race> fetish."
+            Actor.makePermanent()
+            exchangeContact(Actor)
+            Actor:: "Alright, you got my attention. You want to know what it feels like to fuck a true <Race> like me? I'll be honoured to show you ..."
+            setBackground(home)
+            "Soon, we were back at the nearest hotel ... so that I can fulfil my <Race> sex fantasy."
+            Sex(Actor, Player)
+        Else
+            Actor:: "I'm flattered but you're not my type. I'm sure you'll soon find another <Race> who would be interested though."
+        Endif
+    Endif
+    SceneEnd()

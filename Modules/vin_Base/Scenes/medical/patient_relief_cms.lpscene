@@ -1,0 +1,32 @@
+WHAT: all
+WHERE: hospital:work
+WHEN: 18-4
+WHO: none
+OTHER: none
+
+     
+    // patient presses call button,and is visibly aroused when our doctor/nurse arrives to their bed. Complains about painful erection/arousal and asks for assistance "relieving" this. Player should have the option to provide oral relief or give an icepack to the patient. 
+
+    SceneStart()
+    "A patient presses the call button."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.show()
+    "When I arrive, I can't help but notice that the patient is visibly aroused"
+    "The patient proceeds to complain about the painful <Actor.erection_or_arousal> and asks for my assistance relieving this."
+    0:: "Give an icepack"
+    1:: "Perform oral sex instead"
+    
+    If 0
+        "I stayed professional and gave the patient an icepack to relieve <Actor.his_or_her> pain."
+    Else
+        perversion += 1
+        "Might as well have some fun with this ..."
+        Filter(Oral)
+        Sex(Player, Actor)
+    Endif
+     
+    SceneEnd()
+    timeout(200, patient_relief_cms)

@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: surrogate 
+ACTION_NAME: Become a surrogate mother
+WHERE: hospital, doctor, community_centre
+WHEN: 0 - 24
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS: false (IS_MALE)
+MOVE_FIRST: true
+SCENE_ALWAYS: surrogate 
+ANIMATION:   

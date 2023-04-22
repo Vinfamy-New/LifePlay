@@ -1,0 +1,59 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24 
+WHO: Actor = getSpecific(Dating); Actor2 = getRelative(Child); If Actor.isFemale() && Actor2.isFemale() && !Actor.isPregnant() && !Actor2.isPregnant()
+OTHER: masochist > 90 && Player.isMale() && isPlayerMarried()
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "By now, I have realized that I'm a massively submissive cuckold who loves nothing more than having another man dominating me and fucking my wife."
+    "I might as well ask a real man to take over as <Actor.name>'s husband since I'm not worthy anymore..."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "Who would be a suitable bull?"
+        selectNPC()
+        Actor3 = getSelectedNPC()
+        If Actor3.isMale() && Actor3.isValid()
+            "<Actor3.name> accepted my offer to replace me as <Actor.name>'s husband."
+            Actor.setDatingId()
+            loseDating()
+            AddNpcRelationship(Spouses, Actor3, Actor)
+            "Tonight is <Actor3.name> and <Actor.name>'s wedding night ..."
+            Actor3.dress()
+            Actor3.show()
+            Actor3:: "Ah, my new bride, I can't wait to show your placemat ex-husband how I impregnate you tonight ..."
+            Actor:: "Of course, honey. I took myself off birth control for this."
+            0:: "Watch my ex-wife get impregnated by the new bull husband I've chosen for her"
+            1:: "Too far! No pregnancy!"
+            
+            If 0
+                Actor3:: "Look at your pathetic ex-husband. Too eager to watch his ex-wife get impregnated by a real man to say a word."
+                Actor.impregnate(Actor3)
+                Sex(Actor3, Actor)
+            Else
+                Player:: "No way ... that's taking this too far ..."
+                Actor3:: "Shut up! Who asked for your opinion? She's my wife now, remember?"
+                Actor.impregnate(Actor3)
+                Sex(Actor3, Actor)
+                Actor:: "Oh baby, I could tell by your powerful cum that a baby was made tonight ..."
+                Actor:: "Look at my pathetic ex-husband, trying to pull out of the deal in the last minute ... Having regrets now? Too late, I'm <Actor3.name>'s woman now!"
+                Actor:: "Your little resistance deserves some more punishment."
+                Actor:: "I tell you what, I'm not the only woman in this household that deliberately took herself off birth control for this wedding night."
+                Actor:: "Come in, sweetheart!"
+                Actor2.dress()
+                Actor2.show()
+                "Oh no, it's my daughter <Actor2.name>, my ex-wife told her about this?"
+                Actor:: "My sweet daughter, why don't you show our new man of the house some appreciation?"
+                Actor2:: "Of course, mom ..."
+                Actor2.impregnate(Actor3)
+                Sex(Actor3, Actor2)
+            Endif
+        Else
+            "That's not even a guy ..."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(1000, owned_ntr_cms)

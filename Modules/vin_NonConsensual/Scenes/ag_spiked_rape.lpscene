@@ -1,0 +1,145 @@
+WHAT: all, -go_to_the_bathroom
+WHERE: bar, nightclub
+WHEN: 21 - 4
+WHO: Actor4 = getPerson(); If !isWithCompanion() && Random(40, 500) < perversion && Random(-100, 0) > masochist
+OTHER: none
+
+    SceneStart()
+    If !Actor.isValid()
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.dress()
+        Actor.show(2)
+    Endif
+    If Actor.isTemporary()
+        "Wow, what a <Actor.handsome_or_beautiful> <Actor.guy_or_girl> standing there at the bar."
+    Else
+        "I'm hanging out with <Actor.name>."
+    Endif
+    "Should I offer <Actor.him_or_her> a drink?"
+    0:: "Yes"
+    1:: "No"
+
+    If 0
+        If Actor.isDating()
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show(4)
+            Actor2(Happy):: "One Margarita and one Gin & Tonic coming ..."
+            Actor2(Evil):: "Listen buddy, I can tell you and your <Actor.boyfriend_or_girlfriend> has lost that spark for a while ... <Actor.He_or_She> is not up for a hot date tonight and you know it"
+            "What the hell! What rotten luck I have to receive some unsolicited reality check from a bartender ..."
+            Actor2(Evil):: "... unless you're smart enough to cheat. For a generous tip, I can put some special aphrodisiac powder in <Actor.his_or_her> Margarita that will guarantee to spice up your sex life ..."        
+        Else
+            Player(Happy):: "I'm sorry if this is all too sudden. But you're the most <Actor.handsome_or_beautiful> <Actor.guy_or_girl> I've ever seen. I'd love nothing more than being able to buy you a drink."
+            Actor(Happy):: "Of course! I'd love to have a drink with you."
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show(4)
+            Actor2(Happy):: "One Margarita and one Gin & Tonic coming ..."
+            Actor2(Evil):: "Listen buddy, I can tell you're trying to get with that <Actor.handsome_or_beautiful> <Actor.guy_or_girl>. I must say though <Actor.he_or_she> is kinda out of your league to be honest ..."
+            "What the hell! What rotten luck I have to receive some unsolicited reality check from a bartender ..."
+            Actor2(Evil):: "... unless you're smart enough to cheat. For a generous tip, I can put some special aphrodisiac powder in <Actor.his_or_her> Margarita that will guarantee you score tonight ... Come on buddy, you're the underdog - only a fool would play fair here."
+        Endif
+        "Should I spike <Actor.his_or_her> drink with aphrodisiac?"
+        0:: "Spike the drink"
+        1:: "No way"
+
+        If 0
+            money -= Random(200, 500)
+            masochist -= Random(0, 2)
+            perversion += Random(0, 2)
+            If Actor.isDating()
+                "The bartender is right. Our sex life recently could do with some extra spice and this aphrodisiac drink can do the trick nicely"                
+            Else
+                "The bartender is right. This <Actor.man_or_woman> is so out of my league that spiking <Actor.his_or_her> drink is my only hope."
+            Endif
+            karma -= 10
+            Actor2.hide()
+            "Soon enough, I was back with drinks for both of us. We enjoyed our drinks while having a pleasant conversation. "
+            "A while later ..."
+            "<Actor.His_or_Her> speech is becoming slurred now. <Actor.He_or_She> is also starting to sweat with arousal. It seems the drug is taking effect."
+            IRape = false
+
+            If isModEnabled(vin_NTR)
+                "After waiting a little while more, a unexpected situation occurred ..."
+                Actor3 = generatePersonTemporary()
+                While !Actor.isInterestedIn(Actor3)
+                    Actor3 = generatePersonTemporary()
+                Endwhile
+                Actor3.dress()
+                Actor3.show()
+                Actor3.movetoPersonStand(Actor)
+                "Many other <Player.guys_or_girls> from the club keeps approaching and hitting on <Actor.name>, and it's clear the aphrodisiac I gave <Actor.him_or_her> is making <Actor.him_or_her> more and more interested in them."
+                0:: "Intervene and claim <Actor.name> as my prize"
+                1:: "Do nothing"
+                2:: "Pretend to get a phone call and step outside"
+                3:: "Encourage <Actor.name> to go for it"
+                
+                If 0 
+                    IRape = true
+                Elseif 1
+                    If Actor.isDating()
+                        If masochist - Actor:masochist > 30
+                            Actor:: "Hey, I'm gonna go to the bathroom and fuck this <Actor3.guy_or_girl>, you can wait here or come watch"
+                            setBackground(shower)
+                            Sex(Actor3, Actor)                            
+                        Elseif Actor:perversion > 70 && Actor:attractiontoplayer < 20
+                            Actor:: "Honey, can you get me another drink please?"
+                            setBackground(shower)
+                            "When I'm back with the drinks, <Actor.name> is no longer there and my instinct told me to check in the bathroom ..."
+                            Sex(Actor3, Actor)
+                        Else
+                            Actor3.hide()
+                            "Fortunately for me, <Actor.name> cut down all the other advances and stayed with me."
+                            IRape = true
+                        Endif
+                    Else
+                        "<Actor.name> politely asked me to wait while they go have some fun with the next flirter."
+                        "I had no choice but oblige."
+                        setBackground(shower)
+                        Sex(Actor3, Actor)   
+                    Endif
+                Elseif 2
+                    setBackground(shower)
+                    Sex(Actor3, Actor)                     
+                Else
+                    setBackground(shower)
+                    Sex(Actor3, Actor)
+                Endif
+            Else
+                IRape = true
+            Endif
+            
+            If IRape
+                "Let's get <Actor.him_or_her> out of here and into the nearest hotel room."
+                "A while later ..."
+                setBackground(home)
+                If Actor:martial*0.5 - Actor:intoxication > martial - intoxication
+                    "Despite the spiked drink, unfortunately for me, <Actor.name> still managed to struggle against me and ran off."
+                Else
+                    "<Actor.name> struggled a bit initially, but <Actor.his_or_her> drugged up self was no match for my strength in the end."
+                    Player(Flirty):: "Now, let us have some fun, because you're gonna forget all about this in the morning!"
+                    "<Actor.name> is so drugged up with aphrodisiac that <Actor.he_or_she> starts begging me to give it to <Actor.him_or_her>."
+                    Filter(Aggressive)
+                    TalkNonConsensual()
+                    SexNoAffair(Player, Actor)
+                    
+                    If !Actor.isTemporary()
+                        Actor.setActorVar(tag_Raped, 1)
+                    Endif
+                Endif
+            Endif
+        Else
+            Player(Angry):: "I'm not Bill Cosby! What kind of bartender are you?"
+            Actor2.hide()
+            "Having turned down the bartender's evil plan, I returned to the <Actor.handsome_or_beautiful> <Actor.guy_or_girl> with the drinks and we had a brief conversation."
+            "It didn't lead anywhere and I didn't even manage to get <Actor.his_or_her> number. <Actor.He_or_She> was out of my league."
+            "Oh well ... at least I didn't use dodgy methods to try to sleep with <Actor.him_or_her> and I'm proud of my decision."
+        Endif
+    Else
+        "No way. <Actor.He_or_She> is way too hot for me and completely out of my league."
+    Endif
+    SceneEnd()
+    timeout(250, ag_spiked_rape)

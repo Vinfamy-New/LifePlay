@@ -1,0 +1,37 @@
+WHAT: all
+WHERE: pool, river, beach, park, farm, festival, forest, mountain
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    "I was just enjoying a nice day outdoors when I spotted something rather shocking ..."
+    Actor = generatePersonTemporary()
+    Actor2 = generatePersonTemporary()
+    Actor.show()
+    Actor2.show()
+
+    animatePair(Actor, Actor2, Oral)
+    
+    "A naked couple is going at it, not caring one bit that they're in public and could easily be caught. They must be exhibitionists ..."
+    0:: "Peep on them"
+    1:: "Look elsewhere"
+    
+    If 0
+        perversion += 0.25
+        Sex(Actor, Actor2)
+        "That was pretty hot actually ..."
+        0:: "Join them"
+        1:: "Leave them be"
+        
+        If 0
+            perversion += 0.25
+            Player:: "Looks like you guys are having a lot of fun. You don't mind if I join, do you?"
+            Actor:: "Welcome ... welcome ... be our guest."
+            Sex(Actor, Player, Actor2)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(100, exhibitionists_caught)

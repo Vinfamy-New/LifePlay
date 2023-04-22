@@ -1,0 +1,102 @@
+WHAT: whore_out, whore_out_brothel
+WHERE: sexwork, brothel
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Colleague); If Actor:perversion > 60 && Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor)
+OTHER: none
+
+    SceneStart()
+    Actor.dress()
+    Actor.show(2)
+    "Here comes a John ..."
+    
+    If Random(0, 100) < 35 && [Actor.isMale() || [Actor.isTrans() && !Player.isMale()]] 
+        If Random(0, 100) < 50
+            Actor(Flirty):: "How much for a blowjob?"
+            Actor:likes_oral => Random(50, 100)
+            Dice = Random(200, 300)
+            Filter(Blowjob)
+        Else
+            Actor(Flirty):: "How much for a handjob?"
+            Dice = Random(100, 200)
+            Filter(Handjob)
+        Endif
+    Elseif Actor.isFemale() && Random(0, 100) < 15
+        Actor(Flirty):: "How much for you to eat my pussy?"
+        Actor:likes_oral => Random(50, 100)
+        Dice = Random(200, 300)
+        Filter(LickPussy)        
+    Else
+        If Random(0, 100) < 80 || [Player.isFemale() && !Actor.isMale()]
+            Actor(Flirty):: "How much for me to do whatever I want to you?"
+            Dice = Random(300, 400)
+        Else
+            Actor(Flirty):: "How much for anal?"
+            Actor:likes_anal => Random(50, 100)
+            Dice = Random(400, 500)
+            Filter(Anal)
+        Endif    
+    Endif
+    
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    
+    Actor:: "Wait ..."
+    Actor:: "My God! Isn't it you, <Player>? From the office. I had no idea you have this as your second job ..."
+    "Oh dear ... I can't believe I ran into a colleague from my day job ... This is embarassing ..."
+    
+    "Should I be professional as a sex worker and service <Actor.him_or_her> anyway?"
+    0:: "Turn <Actor.him_or_her> down"
+    1:: "Service <Actor.him_or_her> anyway"
+    
+    If 0
+        Player(Sad):: "Sorry, but it's too weird ... I see you every day at work ... I can't do this."
+    Else
+        Player:: "But we aren't at the office, are we? So let's forget about that and get on with it!"
+        Actor(Flirty):: "Of course, darling."
+        If WHERE == brothel
+            "Soon enough, I was following <Actor.him_or_her> to one of the brothel's rooms."
+        Else
+            "Soon enough, I was following <Actor.him_or_her> to a nearby motel room."
+            setBackground(home)
+        Endif
+        Sex(Actor, Player)                 
+        money => money + Dice
+        Plaything = Plaything.getGlobal()
+        If Plaything == 0
+            "<Actor.name> paid me fairly but I'm now afraid <Actor.he_or_she> might tell the boss from the my office job about this second gig that I have ..."
+            0:: "Beg <Actor.name> to not tell my boss"
+            1:: "Let <Actor.him_or_her> do whatever"
+            
+            If 0
+                Actor:: "Fine ... I gave me good service. I'll keep my mouth shut."
+            Else
+                setBackground(work)
+                Actor2 = getSpecific(Boss)
+                dressFormal()
+                Actor2.dress()
+                Actor2.show()
+                "As expected, <Actor.name> ran <Actor.his_or_her> mouth to the boss, who called me in for a chat. Oh god, am I about to get fired ...?"
+                Actor2:: "<Player.name>, <Actor.name> told me about this interesting second job you have ... and about how good you are at it."
+                Actor2:: "Since you obviously are in need of money, I have a proposal."
+                Actor2:: "I can pay you a large sum of money upfront now in the condition that from now on, you will be the office plaything."
+                Actor2:: "That way, office morale would be kept high and with this money, you won't need that second job anymore, you can do whatever you're already doing as a prostitute right here in the office."
+                0:: "Accept the payment"
+                1:: "Reject the offer"
+                
+                If 0
+                    Actor2:: "Good, now your first assignment is to service me ..."
+                    Sex(Actor2, Player)
+                    Plaything.setGlobal(1)
+                Else
+                    Actor2:: "Fine, but then you will be treated just like any other employees so don't let your job performance be affected by staying up all night for this second gig, or you'll be fired!"
+                    jobperformance -= 10
+                Endif
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, john_colleague)

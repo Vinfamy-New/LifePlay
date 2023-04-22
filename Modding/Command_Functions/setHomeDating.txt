@@ -1,0 +1,15 @@
+Building.setHomeDating()
+
+USE:
+Set a specific building as your SO's home
+
+TYPE: Command, Reference
+RETURNS: /
+THEME: Relationships
+COMPARE:
+
+EXAMPLE:						
+                loseHome()
+                Loc = Actor.getBuilding(home)
+                Loc.setHomeDating()
+                "I decided to move out of my current place and moved in to <Actor.name>'s place."

@@ -1,0 +1,48 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "While browsing the internet, I accidentally came across an advertisement by a cult looking for a woman to take part in a ritual sacrifice."
+    "Sacrifice sounds scary but all she had to do was to stand there naked while the cult members try to summon the demon they worship."
+    "In other words, standing there naked while a bunch of lunatics chant gibberish around her and nothing happens..."
+    Actor2 = getSpecific(Dating)
+    
+    "I couldn't believe my eyes to see how much they were paying though ... These cultists are out of their mind!"
+    0:: !Player.isMale():: "Take part in the cult's ritual sacrifice"
+    1:: Actor2.isValid() && !Actor2.isMale():: "Convince my girl <Actor2.name> to do it"
+    2:: "Don't even think about it"
+    
+    If 2
+        "They may be idiots, but idiots can be dangerous ..."
+    Else
+        If 0
+            Sacra = Player
+        Elseif 1
+            Sacra = Actor2
+            Actor2.dress()
+            Actor2.show()
+            "<Actor2.name> was reluctant at first but was convinced by the amount of money on offer. <Actor2.He_or_She> too believes these cultists are idiots and standing there naked while they chant rubbish will be an easy pay day."
+            "Still, <Actor2.he_or_she> insisted that I come along in case the cultists themselves may be dangerous."
+        Endif
+        
+        setBackground(street)
+        "The day is here ..."
+        
+        "Urgh ... the cultists do their ritual in the middle of nowhere ... Well, at least they pay in advance."
+        money += 500
+        Sacra.strip()
+        
+        "They started chanting gibberish ... Damn, these idiots really take this seriously!"
+        Actor = generateCreatureTemporary(Tentacles)
+        Actor.show()
+        "Suddenly, to my horror and the cultists' delight, a demon actually appeared out of the darkness. Full of vicious tentacles, he eagerly wrapped around and enjoyed his offered sacrifice."
+        Sacra:: "Ahhhhhhhhhhhhhhhhhhh"
+        Actor:: "I see my faithful servants have brought a beautiful woman to enjoy. Well done, I shall grant you all the power and wealth you want."
+        Sex(Actor, Sacra)
+    Endif
+    
+    SceneEnd()
+    timeout(1000, tentacles_cult)

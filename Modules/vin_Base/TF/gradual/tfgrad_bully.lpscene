@@ -1,0 +1,156 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: TfGame() && Player.isMale()
+
+    // Find out the bully that used to humiliate and emasculate you at school is now a petty criminal in the same city as you and abusing his girlfriend who's stuck in a toxic relationship -> Stalk the couple online and get aroused by how dominant your bully looks in every photo with her -> Befriend his girlfriend and offer her your shoulder to cry on, but only to hear all about your bully's alpha behavior and how addicted to his rough fucking she is -> Send her a malware to hack into her phone to see all your bully's dick pics and their rough fucking clips -> Introduce the bully's girlfriend to a female relative, knowing full well she has the same weakness for bad boys and soon you're peeping on her bringing your bully home
+    
+    SceneStart()
+    dys = Player.getActorVar(tf_dys) 
+    stage = Player.getActorVar(tfgrad_bully)
+    
+    Actor = getPerson(tag_tfgradbully)
+    If Actor.isValid()
+        Actor2 = Actor.getRelatedPerson(Dating)
+        If dys > 66 && stage > 2
+            If dys > 76 && Random(0, 100) < 50
+                "I've been consoling my bully's girlfriend for a while now, mostly just taking advantage of her trust to gain personal information and material so that I can satisfy my fantasy of imagining myself as my bully's sissy."
+                "The thing is this girl looks nothing like me, so it shatters the illusion sometimes when I'm trying to imagine myself in her place."
+                "A female relative of mine, however, would be the perfect 'female protagonist' for this game I'm secretly playing with my bully. I think I know at least one of them has a weakness for bad boys too."
+                0:: "Pick one of my female family members as my bully's next victim"
+                1:: "Can't put family in harm because of a fantasy!"
+                
+                If 0
+                    "Which family member should I pick?"
+                    selectNpc()
+                    Actor3 = getSelectedNpc()
+                    
+                    If Actor3.isValid() && !Actor3.isMale() && Actor3.isRelative()
+                        "I didn't even have to do much 'evil matchmaking'. I simply had to introduce my <Actor3.relationship> to my bully's girlfriend, adding her to the 'mental support network'."
+                        "Soon enough, they become BFFs and my <Actor3.relationship> swears to protect my bully's girlfriend from him ..."
+                        "Only to be exposed for her inner submissiveness and weakness for bad boys when actually faced with my bully ..."
+                        "Of course, he's soon fucking them both ..."
+                        "It's perfect for me that my <Actor3.relationship> is now my bully's latest sidechick."
+                        "He now has a new place to fuck his girls ... my house ..."
+                        setBackground(home)
+                        Actor3.show()
+                        Actor2.show()
+                        Actor.show()
+                        "In the comfort of my own home, I now regularly have the opportunity to peep on my school bully fucking his girlfriend, fucking my <Actor3.relationship> ... or both at the same time."
+                        "Even more perfect, I now have the perfect girl to imagine myself as ... who's related to me and could easily be what I'd look like as a woman."
+                        Sex(Actor, Actor3, Actor2)
+                        dys += 5
+                        stage => 5
+                    Else
+                        "Can't think of any suitable candidate ..."
+                    Endif
+                Endif
+            Else
+                secondScreen(Actor2)
+                Actor2.show()
+                "I've been acting as the shoulder to cry on for my bully's girl for a while now and she seems to trust me completely, despite me not really doing anything to help yet except listening."
+                "If only she knew I have been jerking off hearing stories of his dominance over her, imagining myself in her place."
+                secondScreen()
+                "But I want something more explicit than just stories. And from her stories of him luring her back after each 'breakup' by sending her pics of his huge dick and videos of him fucking her brains out, she must have plenty on her phone. And that trust she has in me can be useful to obtain them."
+                0:: "Send her a malware to hack into her phone"
+                1:: "I'm not that desperate to see my bully's dick"
+                
+                If 0
+                    "And I'm in. I now have access to all the photos and videos on her phone."
+                    Actor.show()
+                    "So many dick pics from him ... So big ... no wonder he's so arrogant and dominant. Big dick energy is real!"
+                    Actor2.show()
+                    "And then there are all the homemade porn he made of them together, with or without her permission. Perfect jerk-off material that's way hotter if I imagine myself in her place."
+                    blockPregnancy()
+                    Sex(Actor, Actor2)
+                    dys += 4
+                    stage => 4
+                Endif
+            Endif
+        Elseif dys > 33 && stage > 1
+            secondScreen(Actor2)
+            Actor2.show()
+            "I've been secretly following my former bully and his girl's social media profiles since the day I accidentally came across him again."
+            "It seems that their relationship has only gotten more and more toxic and abusive with his girl posting teary depressing mental breakdowns every day."
+            "I probably should feel sorry for her ... but with how quickly she seems to go straight back to her psycho boyfriend after each 'breakup', I can't help but feel intrigued at the magnetic force such a dominant and masculine alpha male can hold over a woman."
+            "Heck, I'm not even a woman and I would know! He totally dominated and emasculated me in school."
+            secondScreen()
+            "Maybe I should befriend her and act as a 'nice guy finishes last', a shoulder for her to cry on ... and to tell all about her passionate addiction to my bully."
+            0:: "Befriend my bully's girl"
+            1:: "Let's not get too close"
+            
+            If 0
+                "Timing my introduction along with one of their many mini 'breakups', I offered to be her friend and mental support to help her escape this toxic relationship. Of course, I simply wanted to hear all about it."
+                "And hearing all about it I did."
+                "She talked to me about his controlling behavior, his domestic violence and most importantly, his animalistic rough fucking of her that's become both a pain and an addiction to her."
+                "Of course, all of these would be evidence against him if I'm a domestic abuse lawyer, but I'm not one and hearing about how my buly dominates a woman simply turns me on and can't have enough of all the details from her."
+                "It sounds crazy, but honestly, I wouldn't mind swapping places with her. She gets to escape the abuse ... And I would finally be put where I belong, to prove that the bully was right all along calling me a sissy and a little girl in school."
+                "Everytime I put down the phone after a heart-to-heart with my bully's girl, I won't lie. I couldn't help but masturbate thinking about how hot it all was."
+                Filter(Solo)
+                Sex(Player)
+                dys += 3
+                stage => 3
+            Endif
+        Else
+            "Having found out that my bully from school is now some sort of criminal in this city and trapping some girl in a toxic relationship, I've become a bit curious if I can track him down on social media."
+            0:: "Stalk my former bully and his girl online"
+            1:: "I don't want anything to do with him"
+            
+            If 0
+                "I managed to find both his and his girlfriend's Facebooks and my God, the guy is very more huge and tough-looking than the bully he was at school."
+                "His girlfriend looks to be completely submissive and at his mercy in each of their photos together."
+                "With such a dominant attitude, of course he can easily dominate a girl ... he certainly dominated me in school, called me a sissy, a soy boy, a little girl ..."
+                "How pathetic I was ... not being able to stand up for myself against my bully back then ..."
+                "Was? Look at me now, checking out my former bully's photos online and instead of feeling the urge for revenge, I once again feel weak, vulnerable and even a bit turned on by his dominance over his girl."
+                dys += 2
+                stage => 2
+            Endif
+        Endif
+    Else
+        setBackground(street)
+        Actor = generatePersonTemporary()
+        While !Actor.isMale()
+            Actor = generatePersonTemporary()
+        endWhile
+        Actor:age => age + Random(0, 3)
+        Actor.blendPreset(bodybuilder)
+        Actor.randomizeFace()
+        Actor.randomizeHairs()
+        Actor.dress()
+        Actor.show()
+        Actor:: "Don't you dare talk back to me, you whore!"
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isFemale()
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "I'm done. I'm leaving you. I can't stand the abuse from you or your gang brothers anymore!"
+        Actor:: "Yeah right, you said that a million times before. You'll be back. Deep inside, you know you need a strong man in your life, not those beta soy boys."
+        "Growing up, I was bullied and emasculated as a 'beta soy boy' by a guy. Could this be him?"
+        0:: "It's him! My bully from school"
+        1:: "Nope, just another random asshole"
+        
+        If 0
+            Actor.makePermanent()
+            Actor2.makePermanent()
+            Actor.setActorVar(tag_tfgradbully, 1)
+            addNpcRelationship(Dating, Actor, Actor2)
+            "I did a double-check and my god, it's him! What are the odds of him being in this city?"
+            "He used to beat up, humiliate and emasculate me so much at school."
+            "It's no surprise that he grew up to be someone who look so dangerous and part of some gang ... and an abusive partner to boot."
+        Endif
+    Endif
+    
+    Player.setActorVar(tfgrad_bully, stage)
+    If dys > 100
+        dys => 100
+    Endif
+    "My gender dysphoria level is now <dys>."
+    Player.setActorVar(tf_dys, dys)
+    If dys > 90
+        followUp(tfgrad_magic)
+    Endif
+    SceneEnd()
+    timeout(100, tfgrad_bully)

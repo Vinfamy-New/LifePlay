@@ -1,0 +1,129 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 21
+WHO: Actor = getSpecific(Dating); If !Actor.isTrans() && Actor:age > age - 10 + likes_older*0.5 && Actor:age < age + 10 + likes_older*0.5
+OTHER:
+
+
+    // If you're already in an age-gap relationship, your SO may tell you that they went to an all-(fe)male high school and are having a class reunion soon and want you to come with them. Once there, you'll be like a kid in a candy shop with so many candidates at the age you like. You can either cheat and take one of your SO's former classmates to the bathroom discreetly, or ask for your SO's permission and invite the whole group back to your place for a 'after-party', i.e. (reverse) gangban g. 
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> was from a somewhat conservative family and as a teen, <Actor.he_or_she> was sent to an all-<Actor.male_or_female> high school."
+    "Still, <Actor.he_or_she> enjoyed <Actor.his_or_her> time there and made long-lasting friends."
+    "In fact, they're having another class reunion soon ... <Actor.name> told me about the event but seemed unsure whether to bring me along, even though it's pretty normal to bring your significant other to these reunions."
+    "I suspect <Actor.he_or_she> was worried that <Actor.his_or_her> former classmates would judge <Actor.him_or_her> for being in a relationship with someone my age."
+    "Some people can be super judgmental and even associate age gap relationships with gold digging and so on ..."
+    0:: "Insist on accompanying <Actor.name> to the class reunion"
+    1:: "Let <Actor.him_or_her> go alone"
+    
+    If 0
+        "I eased <Actor.name>'s concerns and insisted on coming along. <Actor.He_or_She> was happy to bring me."
+        setBackground(bar)
+        "At the class renuion, as suspected, there were indeed some judgmental people who looked at me funny and avoided talking to us. Thankfully, some of the classmates that <Actor.name> were closest to had no problems with our age gap relationships at all."
+        
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Actor)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2.makeInterested(Player)
+        
+        Actor2:age => Actor:age
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        Actor2:likes_older => 2*[age - Actor2:age]
+        Actor2:attractiontoplayer += Random(25, 50)
+        
+        "In fact, some of them already knew about me anyway from <Actor.name>'s social media posts."
+        
+        Actor3 = generatePersonTemporary()
+        While !Actor3.isSameGender(Actor)
+            Actor3 = generatePersonTemporary()
+        Endwhile
+        Actor3.makeInterested(Player)
+        
+        Actor3:age => Actor:age
+        Actor3.randomizeFace()
+        Actor3.randomizeHairs()
+        Actor3:likes_older => 2*[age - Actor3:age]
+        Actor3:attractiontoplayer += Random(25, 50)
+        
+        Actor4 = generatePersonTemporary()
+        While !Actor4.isSameGender(Actor)
+            Actor4 = generatePersonTemporary()
+        Endwhile
+        Actor4.makeInterested(Player)
+        
+        Actor4:age => Actor:age
+        Actor4.randomizeFace()
+        Actor4.randomizeHairs()
+        Actor4:likes_older => 2*[age - Actor4:age]
+        Actor4:attractiontoplayer += Random(25, 50)
+        
+        Actor2.dress()
+        Actor2.show()
+        
+        Actor3.dress()
+        Actor3.show()
+        
+        Actor4.dress()
+        Actor4.show()
+        
+        "After a while, we ended up in a group of five just hanging out and chatting with <Actor.name>'s former classmates <Actor2.name>, <Actor3.name> and <Actor4.name>."
+        "It's no surprise that they were the most cool with the age gap in our relationship, <Actor2.name> is seeing someone my age as well, <Actor3.name> used to date one while <Actor4.name> has been checking me out the whole time ..."
+        "And it's hardly a shock that these <Player.men_or_women> my age would be interested in these <Actor.guys_or_ladies> ... They're all very hot and very much my taste ... Shame that I'm already with <Actor.name>, but I can't deny that my eyes are having a feast tonight being surrounded by so many hot <Actor.men_or_women> at the age I like ..."
+        "I wish I could have them all ... or maybe I can ..."
+        0:: "Follow one of <Actor.name>'s former classmates to the bathroom discreetly"
+        1:: "Convince <Actor.name> to let me have a gangbang with all <Actor.his_or_her> former classmates"
+        2:: "Some fantasies should remain fantasies ..."
+        
+        If 0
+            "With free-flowing alcohol, they're all gonna head to the bathroom one by one sooner or later ... All I have to do is be patient and strike at the right opportunity ..."
+            "Who should I try to have a bathroom quickie with?"
+            0:: "<Actor2.name>"
+            1:: "<Actor3.name>"
+            2:: "<Actor4.name>"
+            
+            If 0
+                Quickie = Actor2
+                Actor3.hide()
+                Actor4.hide()
+            Elseif 1
+                Quickie = Actor3
+                Actor2.hide()
+                Actor4.hide()
+            Else
+                Quickie = Actor4
+                Actor2.hide()
+                Actor3.hide()
+            Endif
+            
+            Actor.hide()
+            "As expected, no bladder is invincible and soon <Quickie.name> needed to go the bathroom."
+            "Moments later, I excused myself as well. Unbeknown to <Actor.name> and the rest of <Actor.his_or_her> classmates standing there, I had a naughty idea on my mind."
+            setBackground(shower)
+            "I followed <Quickie.name> to the bathroom. As soon as <Quickie.he_or_she> saw me there, <Quickie.he_or_she> understood what I had in mind right away and we got down to business."
+            Sex(Player, Quickie)
+            "We then put our clothes back on and went back to my <Actor.boyfriend_or_girlfriend> and the rest of the classmates."
+        Elseif 1
+            Player.moveToPersonStand(Actor, 100)
+            "I took my <Actor.boyfriend_or_girlfriend> to one side and admitted that I found all <Actor.his_or_her> former classmates hot as hell and tried to convince <Actor.him_or_her> to let me fuck them all."
+            If OpenRelationship() || Actor:attractiontoplayer > 50 || Actor:perversion > 50 || Actor:masochist > 25
+                Actor:: "Of course, baby. I would be a hypocrite if I turn you down. After all, it's hardly a secret that you find <Actor.men_or_women> my age attractive ... You must be a like a kid in a candy shop here being surrounded by all my former classmates."
+                Actor.moveToPersonStand(Actor2, 100)
+                "<Actor.name> then went back to <Actor.his_or_her> friends and invited them back to our place for after-drinks, away from all the judgmental people and so that I could personally thank them for their open-mindedness. The three of them got the message right away and was delighted to come along."
+                
+                moveTo(home)
+                setBackground(home)
+                "Once we were back at our place, we had one more drink before moving things to the bedroom. I can't help but feel like the luckiest <Player.guy_or_girl> in the world right now ..."
+                Sex(Player, Actor, Actor2, Actor3, Actor4)
+            Else
+                Actor:: "What? No way! I'm not letting you fuck all my friends! Do you take me for a cuck or something?"
+            Endif        
+        Else
+            "I'm sure I'll fantasize about being gangbanged by all these <Actor.guys_or_ladies> in my dream tonight ... But making it happen is beyond the realm of possibility."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, oldyoung_dating_reunion)

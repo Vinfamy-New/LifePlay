@@ -1,0 +1,81 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24 
+WHO: Actor = getCreature(); Actor2 = getRelative(); If Actor.hadSex() && Player.isInterestedIn(Actor) && Actor2.isSameGender(Player) && Actor2.isInterestedIn(Actor) && !Actor2.hasRelationship(Dating, Spouses) && Actor2.livesWithPlayer()
+OTHER: !Player.isDating()
+
+    // If you're not dating any human and has a relative living with you with the same gender and sexual orientation as you, they complain about the unfulfilled needs of being single and the pain of betrayal in the past and ask you how you seem to cope so well. You could share your secret and boast about how loyal your animal lover is. You can then demonstrate it.
+    // If you demonstrated in the above scene, you come home from work one day to them having a try themselves. You can get angry or match-make them with your current pet or another.
+    // If you match-make, you come home sometimes with the interspecies couple going at it and you could join.
+    
+    SceneStart()
+    stage = Actor2.getActorVar(best_relative)
+    If stage < 1
+        setBackground(livingroom)
+        "I was just chilling with my <Actor2.relationship> in our living room when <Actor2.he_or_she> got sad all of a sudden."
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "<Actor2.callplayer>, how do you cope with being single so well?"
+        Player:: "What? What do you mean?"
+        Actor2:: "You're always so happy despite being single and not having any serious <Actor.guys_or_girls> in your life. I'm single after so many failed relationships and painful betrayals and I'm miserable all the time."
+        Actor2:: "So many unfulfilled needs ... physical and emotional ..."
+        Actor2:: "Are you having some fun with some special <Actor.guy_or_girl> that I don't know about perhaps? Cause for me, being single sucks ... but so do rebound relationships ..."
+        "Well, I'm indeed having fun with someone, but not quite a <Actor.guy_or_girl>. I've been enjoying some bestial passion with my pet <Actor.name>, and the amazing sex we've been having has made me stop caring about <Actor.guys_or_girls> quite frankly. <Actor.name> is just superior in every way in the sack and would never betray me."
+        "Of course, my <Actor2.relationship> doesn't know any of that and so <Actor2.he_or_she> remains baffled at how much happier I am at being single than <Actor2.him_or_her>."
+        "Maybe I should share my secret?"
+        0:: "Tell <Actor2.relationship> about my secret passion with my pet"
+        1:: "Keep quiet"
+        
+        If 0
+            Actor.show()
+            Actor2:: "Now everything makes sense. No wonder you always seem so overly 'close' with your pet ..."
+            Player:: "Honestly, now that I've tasted the forbidden fruit with <Actor.name>, I don't think I would ever go back to normal <Actor.men_or_women>."
+            Player:: "Not only is <Actor.he_or_she> far superior in bed, <Actor.he_or_she> just doesn't have the same emotional baggage and remain loyal to me no matter what ..."
+            Player:: "Here, let me show you how well we really get along"
+            Sex(Actor, Player)
+            "My <Actor2.relationship> was fascinated by what <Actor2.he_or_she> was witnessing. I could tell <Actor2.he_or_she> was beginning to question whether <Actor2.he_or_she> really needs a <Actor.man_or_woman> in <Actor2.his_or_her> life wrecking <Actor2.him_or_her> emotionally, or maybe <Actor2.he_or_she> should just go and get <Actor2.his_or_her> own loyal animal lover."
+            Actor2.setActorVar(best_relative, 1)
+        Else
+            timeout(1000, best_relative)
+        Endif
+    Elseif stage < 2
+        setBackground(livingroom)
+        "Phew, that was a tiring day at work. Thankfully, the boss at least let me leave a bit earlier than usual."
+        "Wait, where is my <Actor2.relationship>? <Actor2.He_or_She>'s usually chilling in the living room when I get home."
+        "And what's that sound coming out from my <Actor2.relationship>'s bedroom? Sounds like <Actor2.he_or_she>'s in pain ..."
+        Player:: "<Actor2.relationship>, are you okay?"
+        Player:: "What the fuck!"
+        setBackground(home)
+        Sex(Actor, Actor2)
+        Actor2:: "Oh no, you caught us red-handed. Let me explain, <Actor2.callplayer> ..."
+        Actor2:: "I got so curious after the last time you showed me how you and your pet usually fucked."
+        Actor2:: "I've been feeling lonely so I couldn't resist having a go myself when you're not home."
+        Actor2:: "I didn't mean to steal your pet lover ..."
+        0:: "My animal lover is your animal lover too!"
+        1:: "Go adopt your own animal to fuck!"
+        
+        If 0
+            Player:: "It's okay ... you could have <Actor.name> as well. I'm not possessive and more than happy to share with my dear <Actor2.relationship>."
+            Player:: "In fact, why don't we have some fun together right now?"
+            Sex(Actor, Player, Actor2)
+            Actor2.setActorVar(best_relative, 2)
+            Actor2:rapportwithplayer += 20
+        Else
+            "I gave my <Actor2.relationship> an earful and warned <Actor2.him_or_her> to never touch my <Actor.name> again."
+            Actor2:rapportwithplayer -= 10
+            timeout(1000, best_relative)
+        Endif
+    Else
+        "I come home from work only to find my <Actor2.relationship> already naked and fucking our animal lover <Actor.name>"
+        Sex(Actor, Actor2)
+        "Of course, I've already given <Actor2.him_or_her> permission to do this. In fact, I wouldn't mind joining them right now ..."
+        0:: "Join them"
+        1:: "Not in the mood"
+        
+        If 0
+            Sex(Actor, Player, Actor2)
+            Actor2:rapportwithplayer += 5
+        Endif    
+    Endif
+    SceneEnd()
+    timeout(200, best_relative)

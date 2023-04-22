@@ -1,0 +1,78 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_Rapist); If !Actor.isDating()
+OTHER:
+    
+    // There's a chance you've been secretly filmed listening to rap music and may have to pay for it or it may get uploaded online giving others the wrong idea that you enjoy rap music.
+    
+    SceneStart()
+    Rapist = Actor.getActorVar(tag_Rapist)
+    
+    If Rapist > 1
+        "Despite my best effort to take it down, the video of me being raped by <Actor.name> is still online for all to see ... As they say, once it's in the internet, it's there forever."
+        Actor2 = getPerson(true)
+        If Actor2.isInterestedIn(Player) && Player.isInterestedIn(Actor2) && !Actor2.isDating() && Actor2:perversion > 50 && Actor2:masochist < -33
+            "I was just going about my day at home, trying not to think too much about the crisis I'm in, when someone I know, <Actor2.name>, knocked on the door."
+            Actor2.dress()
+            Actor2.show()
+            "Without thinking too much about it, I opened the door only for <Actor2.name> to attack me right away."
+            Actor2:: "I saw the video, you <Player.manwhore_or_whore>! You enjoy getting raped, don't you? If <Actor.name> can have you, I ought to have you as well."
+            0:: "Fight <Actor2.him_or_her> off"
+            1:: "Surrender and get raped again"
+            
+            If 0 && martial > Actor2:martial
+                Actor2.animate(fightlost)
+                "I managed to fight off my attacker and avoid getting raped again."
+                Player:: "Fuck off before I call the police!"
+            Else
+                masochist += 2
+                Player.animate(fightlost)
+                "Oh no, I was overwhelmed again and knocked down."
+                "It's happening again ... I'm getting raped again by another attacker."
+                If Player.isMale() && !Actor2.isMale()
+                    Filter(AggressiveFM)                
+                Else
+                    Filter(Aggressive)
+                Endif
+                TalkNonConsensual()
+                SexNoAffair(Actor2, Player)
+                Actor2.setActorVar(tag_Rapist, 1)
+                "Still recovering from yet another rape, I can't help but wonder whether I should have just given into <Actor.name>'s blackmail demands. Have I started a vicious circle of being a target for rapists by allowing that video to be online?" 
+            Endif
+        Else
+            secondScreen(Actor2)
+            Actor2.show()
+            Actor2:: "<Player.name>, is everything okay? Tell me if you need someone to talk, okay. I'm here for you."
+            "That's a bit random ... <Actor2.he_or_she> must have seen the video and felt the need to comfort me ..."
+            secondScreen()
+            "Oh well, I suppose that's not a bad reaction from someone I know."
+        Endif
+    Else
+        Actor.dress()
+        Actor.show()
+        "My rapist <Actor.name> has the <Actor.balls_or_gall> to show up at my place today again."
+        "<Actor.He_or_She> is blackmailing me, having filmed <Actor.himself_or_herself> raping me and now threatening to upload it online. It would be the perfect evidence against <Actor.him_or_her> in court for a sexual assault case. However, my life would also be destroyed if the footage is online."
+        0:: "Fuck <Actor.him_or_her> again"
+        1:: "Bribe <Actor.him_or_her> with cash"
+        2:: "Refuse to be blackmailed"
+        
+        If 0
+            "Well, <Actor.he_or_she> already got to enjoy my body, consensual or not ... It's not like I'm losing anything more." 
+            Sex(Actor, Player)
+            masochist += 1
+        Elseif 1
+            Actor:: "Haha I would have preferred sex but some money is always nice."
+            money -= 100
+        Else
+            "I stay strong and refuse to give in to my rapist's demands. After all, uploading the footage online would potentially send <Actor.him_or_her> straight to jail."
+            If Random(0, 100) > Actor:intelligence + Actor:masochist
+                "Unfortunately, my rapist wasn't bluffing and went ahead and upload the video online. Infuriatingly, the police does nothing and no matter how hard I try, I can't seem to take it down quick enough before it's uploaded elsewhere."
+                Actor.setActorVar(tag_Rapist, 2)
+            Else
+                "As expected, my rapist was just bluffing and didn't go through with the threat of uploading the footage online."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(400, vi_filmed)

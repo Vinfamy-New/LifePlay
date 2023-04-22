@@ -1,0 +1,36 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: none
+OTHER: Player.isRace(Vampire)
+
+    // If you're a vampire, you come home to find an amateur hunter waiting for you, only to be ambushed and easily knocked out by you. If you simply feed on them and throw them out, or use hypnotism to make them obedient. 
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "I come home one day to find a stranger sneaking around with some silly-looking homemade weapons and artifacts. This is clearly a vampire hunter, an amateur one at that."
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    "I easily ambush and overwhelm the idiot and knock <Actor.him_or_her> out."
+    Actor.animate(fightlost)
+    "What should I do about this amateur?"
+    0:: "Suck some blood and throw <Actor.him_or_her> out"
+    1:: "Use hypnotism to make <Actor.him_or_her> my obedient sex slave"
+    
+    If 0
+        animatePair(Player, Actor, Kissing)
+        "For an idiot, that vampire hunter does have some tasty blood"
+        energy => energy + 50
+    Else
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer => 100
+        Actor:masochist => 100
+        "I use my vampiric power to brainwash the vampire hunter into falling in love with me, while at the same time being completely submissive to me."
+        "It's time to test my new toy."
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        Sex(Player, Actor)
+    Endif
+    SceneEnd()
+    timeout(500, vampire_amateur)

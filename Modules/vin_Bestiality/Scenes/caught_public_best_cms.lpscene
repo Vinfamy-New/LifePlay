@@ -1,0 +1,55 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0 - 24 
+WHO: Actor = getCompanionCreature(); If Actor.hadSex()
+OTHER:
+
+    SceneStart()
+    "I already had some forbidden fun with <Actor.name>, but it's safe as a secret when we only do it at home. However, the thrill of doing something so dangerous in public excites me so much."
+    0:: "Fuck <Actor.name> right here"
+    1:: "Don't risk it"
+    
+    If 0
+        Sex(Actor, Player)
+        Actor2 = getPerson(true)
+        Actor2.dress()
+        Actor2.show()
+        
+        Actor2:: "Oh my God, <Player.name>? What the fuck are you doing?"
+        Player:: "Oh no, I got caught, by someone I know no less ... I wonder how <Actor2.name> is going to react ..."
+        If Actor2.isMale()
+            If Actor2:perversion > 50 && Actor2:attractiontoplayer > 50
+                "Thankfully, <Actor2.name> simply continued enjoying the show."
+            Elseif Actor2:perversion > 50 && Actor2:attractiontoplayer <= 50
+                "<Actor2.name> continued enjoying the show, even calling other people to watch as well. None of them reported me though, thankfully"
+            Elseif Actor2:perversion <= 50 && Actor2:attractiontoplayer > 50
+                "<Actor2.name> demands that I fuck him to keep him quiet."
+                "I have no choice ..."
+                Sex(Actor2, Player)
+            Else
+                "Unfortunately, <Actor2.name> immediately called the cops ... who promptly arrested me."
+                sentence => 36
+                followUp(imprisoned)
+            Endif
+        Else
+            If Actor2:perversion > 50 && Actor2:attractiontoplayer > 50
+                "Thankfully, <Actor2.name> simply joined in."
+                Sex(Actor, Actor2, Player)
+            Elseif Actor2:perversion > 50 && Actor2:attractiontoplayer <= 50
+                "Thankfully, <Actor2.name> demands to have a try in the next round."
+                "I have no choice"
+                Sex(Actor, Actor2)
+            Elseif Actor2:perversion <= 50 && Actor2:attractiontoplayer > 50
+                "<Actor2.name> demands that I fuck her to keep her quiet."
+                "I have no choice ..."
+                Sex(Actor2, Player)
+            Else
+                "Unfortunately, <Actor2.name> immediately called the cops ... who promptly arrested me."
+                sentence => 36
+                followUp(imprisoned)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, caught_public_best_cms)
+    

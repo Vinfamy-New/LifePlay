@@ -1,0 +1,54 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // When walking your dog, you can click on any NPC and choose "Assault with dog"
+    
+    SceneStart()
+    "A <Actor.handsome_or_beautiful> <Actor.man_or_woman> has caught my attention but I don't think I stand much of a chance of seducing <Actor.him_or_her> the normal way."
+    "But I'm not one to give up easily and the idea of forcing things comes into my head. The fact that I'm with my loyal pet dog <Actor2.name> gives me a realistic option to strike."
+    0:: "Assault my victim with my dog's help"
+    1:: "Try to restrain myself"
+    
+    If 0
+        Random
+            setBackground(street)
+            setBackground(park)
+        endRandom
+        "I decide to trail my unsuspecting victim until <Actor.he_or_she> reaches a secluded part of town."
+        "I didn't even need to be stealthy and in my victim's eyes, I'm just a harmless pet owner walking a dog. Wholesome ... and a perfect cover in a plain sight."
+        Actor2.moveToPersonStand(Actor, 50)
+        "When the opportunity arises, I order my loyal dog to attack my victim."
+        Player.moveToPersonStand(Actor, 50)
+        "Terrified and distracted by my dog's aggressive behavior, my victim never expected me to come up behind <Actor.him_or_her> and knock <Actor.him_or_her> out with one blow."
+        Actor.animate(fightlost)
+        Player:: "Good job, <Actor2.name>. Now, stand guard and bark to scare off anyone going near while I have some fun with our new friend here."
+        If Actor.isMale() && !Player.isMale()
+            Filter(AggressiveFM)
+        Else
+            Filter(Aggressive)            
+        endIf
+        Sex(Player, Actor)
+        "While enjoying my prize, I hear some of <Actor2.name>'s aggressive barking. My loyal dog must have scared off some of the pedestrians from heading this way and catching me in the act. All in all, meticulous service by <Actor.name> to its owner."
+        0:: "Buy <Actor.name> some treat on the way back"
+        1:: "Let <Actor.name> breed the victim as well"
+        2:: "It's only <Actor.his_or_her> job"
+        
+        If 0
+            money -= 5
+            Actor:rapportwithplayer += 5
+            "Good dog deserves some rewards."
+        Elseif 1
+            "With my loyal dog, my plan couldn't have gone so smoothly. It's only fair that <Actor.name> gets to breed my victim as a reward as well."
+            Sex(Actor2, Actor)
+            
+            If !Actor.isMale()
+                "Looks like <Actor2.name> is having a lot of fun and still has a lot energy left. My victim has also completely succumbed to lust."
+                "I guess I won't mind Round 2 myself."
+                Sex(Actor2, Player, Actor)
+            Endif
+        Endif
+    Endif
+    SceneEnd()

@@ -1,0 +1,14 @@
+animatePair(Actor1, Actor2, SexAnimationFilter)
+
+USE:
+Pick a random sex animation using tag for two actors to play with each other without actually starting a sex scene, used for kissing etc
+
+TYPE: Command, Ref
+RETURNS: /
+THEME: Animations
+COMPARE:
+
+
+
+
+

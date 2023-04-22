@@ -1,0 +1,69 @@
+WHAT: all
+WHERE: home
+WHEN: 16-20
+WHO: Actor = getSpecific(Dating); Actor2 = Actor.getRelatedPerson(Poly)
+OTHER:
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    Actor:: "Baby, can I have the apartment all for myself this evening. I'm thinking about inviting <Actor2.name> for dinner ... and some special dessert."
+    "<Actor2.name> is <Actor.name>'s other <Actor2.boyfriend_or_girlfriend> that I allow <Actor.him_or_her> to have." 
+    0:: "Okay"
+    1:: "I can stay and cook for you two!"
+    2:: "Not here!"
+    
+    If 0
+        Actor:attractiontoplayer += 2
+        masochist += 1
+        Actor.hide()
+        setBackground(department_store)
+        "I decided to allow <Actor.name> and <Actor.his_or_her> own <Actor2.boyfriend_or_girlfriend> <Actor2.name> some private time together in my apartment, so I agreed to go shopping that evening."
+        "I could barely concentrate on the shopping itself though, my mind too busy fantasizing about what kind of fun the two of them are having on my own bed ..."
+    Elseif 1
+        masochist += 2
+        Actor:attractiontoplayer += 3
+        Actor:: "How thoughtful of you, baby ... Cooking and doing the dishes for us so that we can enjoy our time together even more? You're one of a kind as a <Player.boyfriend_or_girlfriend>."
+        setBackgroundCustom(kitchen)
+        Actor2.dress()
+        Actor2.show()
+        "That evening, <Actor2.name> came over for dinner with <Actor.name>, with me volunteering to be their personal chef and <Player.waiter_or_waitress>."
+        Actor2:: "Thank you for the dinner, <Player.name>. How kind of you to allow us to have a date here and even cook for us!"
+        Actor:: "Baby, would you mind staying here and doing the dishes? I think <Actor2.name> and I will enjoy the dessert in the bedroom ..."
+        Actor.hide()
+        Actor2.hide()
+        "And with that, <Actor2.name> and <Actor.name> went together to the bedroom. Moaning sound follows soon enough ..."
+        0:: "Peek on them"
+        1:: "Just do the dishes"
+        
+        If 0
+            "I couldn't help myself ... dishes can wait ..."
+            setBackground(home)
+            Sex(Actor, Actor2)
+            "Looks like my dinner gave them plenty of energy for love-making. Am I really content to just be a servant tonight?"
+            0:: "Join them"
+            1:: "Go back to the kitchen quietly"
+            
+            If 0
+                Player:: "<Actor2.name>, I hope you don't mind if I join you two now? After all, I did make you two dinner."
+                Actor2:: "Of course, join us. It's your bed after all!"
+                Sex(Player, Actor, Actor2)
+                masochist -= 1
+                Actor:attractiontoplayer += 3
+                Actor2:attractiontoplayer += 3
+            Endif
+        Else
+            "I'll just stay in the kitchen to do the dishes and let them have their fun ..."
+            masochist += 1
+        Endif
+    Else
+        Player(Angry):: "No way! Just because I agreed that you could have your own <Actor2.boyfriend_or_girlfriend> doesn't mean you can invite <Actor2.him_or_her> here and fuck on our bed!"
+        Actor:attractiontoplayer -= 3
+        Actor2:attractiontoplayer -= 3
+        masochist -= 2
+        timeout(600, poly_poly_borrow)        
+    Endif
+
+    SceneEnd()
+    timeout(300, poly_poly_borrow)

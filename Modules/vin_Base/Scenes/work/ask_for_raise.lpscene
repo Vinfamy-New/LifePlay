@@ -1,0 +1,58 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If isTimingOut(ask_for_raise)
+        "It's not a good idea to ask for a raise twice in 3 months."
+    Else
+        Actor = getSpecific(Boss)
+        Actor.dress()
+        Actor.show()
+        "I'm starting to feel underpaid for my level of performance and contributions to the company. Maybe I should be direct with the boss and ask for a raise?"
+        0:: "Ask for a salary raise"
+        1:: "Too risky"
+        
+        If 0
+            timeoutPrecise(2190, ask_for_raise)
+            "I decided to talk to my boss and raise my concern of being unfairly underpaid."
+            If Random(0, 500) < interpersonal + jobperformance
+                "I managed to convince my boss to increase my salary."
+                Salary = getSalary()
+                Salary *= Random(1.1, 1.3)
+                Salary.setSalary()
+                timeout(5000, underpaid)
+                "This is great news, but should I show my appreciation to the boss even more?"
+                0:: Actor.isInterestedIn(Player) && [Actor.hadSex() || Actor:perversion > 50 || Actor:attractiontoplayer > 30]:: "Thank <Actor.name> with sex"
+                1:: "<Actor.He_or_She> wouldn't be interested anyway"
+                
+                If 0
+                    Sex(Actor, Player)
+                Endif
+            Else
+                "The discussion did not go well at all ... Not only did my boss reject my request outright, he was visibly upset."
+                0:: "Offer to sleep with <Actor.him_or_her> for the raise"
+                1:: "Give up"
+                
+                If 0
+                    If Actor.hadSex() || Actor:attractiontoplayer > 40 || [Actor:perversion > 70 && Actor.isInterestedIn(Player)]
+                        Actor:: "Fine ... since you're so persistent ..."
+                        Sex(Actor, Player)
+                        "I managed to 'convince' my boss to increase my salary."
+                        Salary = getSalary()
+                        Salary *= Random(1.1, 1.3)
+                        Salary.setSalary()
+                        timeout(5000, underpaid)                    
+                    Else
+                        Actor:: "How dare you suggest something like this? Get out of my office!"
+                        jobperformance -= Random(0, 10)
+                    Endif
+                Else
+                    jobperformance -= Random(0, 5)            
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

@@ -1,0 +1,99 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_john); Actor2 = getRelative(); If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor)
+OTHER:
+
+    // One of your regular Johns brings a friend and you serve them, although your John's friend was initially reluctant having just started a committed relationship with someone (who your John hasn't even met), but they gave in to peer pressure in the end. A few days later, you get confronted by a relative you thought were single, who told you that the reluctant guy/girl you served earlier was their brand new boyfriend/girlfriend! They demand that you bring them along the next time your regular John calls you, for the perfect revenge.
+
+    SceneStart()
+    secondScreen(Actor)
+    Actor.show()
+    "One of my regular customers, <Actor.name> got in touch with me again and wanted to 'meet' tonight ... <Actor.He_or_She> mentioned <Actor.he_or_she> would be with a friend also, but would pay me generously for a threesome."
+    0:: "Get paid for a threesome with <Actor.name> and <Actor.his_or_her> friend"
+    1:: "Not tonight"
+    
+    If 0
+        Actor3 = Actor2.getRelatedPerson(Spouses, Dating)
+        If !Actor3.isValid()
+            Actor3 = generatePersonTemporary()
+            While !Actor.isSameGender(Actor3)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+        Endif
+        "Why not? <Actor.name> is always generous and this isn't my first threesome ..."
+        secondScreen()
+        SetBackground(home)
+        Actor3.dress()
+        Actor3.show()
+        Actor.dress()
+        Actor.show()
+        "I arrive at a nice hotel room where <Actor.name> and <Actor.his_or_her> friend <Actor3.name> were already there waiting for me."
+        "<Actor3.name> was initially reluctant, apparently being in a committed relationship with someone."
+        Actor:: "Give me a break! How committed can your relationship be if I'm your best friend and I haven't even met <Actor2.him_or_her>! Just relax and have some fun!"
+        "<Actor3.name> gave in to peer pressure in the end. For my part, I didn't care much, I was there to provide a service and earn that cash."
+        Sex(Actor, Actor3, Player)
+        money += Random(300, 500)
+        Actor:: "I filmed the whole thing by the way. I'll send you the video to you later on, <Actor3.name> ..."
+        Actor3:: "Oh, no need to do this ..."
+        Actor:: "Come on, it's a good memory that us friends share together, don't you think?"
+        "Something tells me that sending a threesome sex tape to someone in a committed relationship was probably a disaster waiting to happen, but none of my business."
+        Actor.hide()
+        Actor3.hide()
+        
+        setBackgroundCustom(livingroom)
+        Actor2.dress()
+        Actor2.show()
+        "A few days later, I was just chilling in my apartment when my <Actor2.relationship> barged in."
+        Actor2:: "You <Player.manwhore_or_slut>! How could you?"
+        "My <Actor2.relationship> then proceeded to show me on <Actor2.his_or_her> phone the threesome sex tape that was filmed by <Actor.name> a few days ago."
+        Actor2:: "<Actor3.name> is my <Actor3.boyfriend_or_girlfriend>! Out of all the potential Johns out there willing to pay for you, did you really have to fuck <Actor3.him_or_her> as well?"
+        "Oh no ..."
+        Player:: "I swear I didn't know ... I wouldn't have done it if I knew ..."
+        Player:: "Besides, your <Actor3.boyfriend_or_girlfriend> didn't really want to cheat on you, <Actor3.he_or_she> was uncomfortable with the whole thing. It's <Actor3.his_or_her> friend's idea."
+        Actor2:: "It's the other <Actor.guy_or_girl> in the video, right?"
+        Player:: "Yeah, <Actor.his_or_her> name is <Actor.name>. <Actor.He_or_She> is one of my regulars ... They're best friends aparently."
+        Actor2:: "How comes my <Actor3.boyfriend_or_girlfriend> never introduced me to this 'best friend' of <Actor3.his_or_hers>? What other sick things have they been doing together, I wonder?"
+        Actor2:: "You know what ... I have an idea ... You owe me one."
+        Actor2:: "Bring me along whenever you go see <Actor.name> next. Just tell <Actor.him_or_her> I'm new to the job."
+        Actor2:: "If my <Actor3.boyfriend_or_girlfriend> can fuck my <Actor2.callplayer>, I can fuck <Actor3.his_or_her> best friend."
+        "I know revenge is never healthy, but turning my <Actor2.relationship> down would really damage our relationship since I already wronged <Actor2.him_or_her>."
+        "Should I agree to my <Actor2.relationship>'s plan?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "I called <Actor.name> to tell <Actor.him_or_her> about the 'fresh meat'. Soon enough, we were meeting at a hotel room that we agreed on. As usual, <Actor.name> didn't spare any expenses for this hotel either."
+            setBackground(home)
+            "Having no idea that my <Actor2.relationship> is actually <Actor.his_or_her> best friend's <Actor2.boyfriend_or_girlfriend>, <Actor.name> was delighted to see who I brought <Actor.him_or_her> and got down to business with <Actor2.name> right away."
+            Sex(Actor, Actor2)
+            perversion += 0.25
+            "<Actor.name> is certainly enjoying <Actor.his_or_her> new paid-for conquest almost a bit too much, being none the wiser that it was all a trap. <Actor.He_or_She> has never been this aroused even with me."
+            0:: "Join them"
+            1:: "Just leave them be"
+            
+            If 0
+                Player:: "I hope you haven't forgotten about me already now that you get your hand on someone new."
+                Actor:: "Don't worry ... you'll forever be my favourite."
+                Sex(Actor, Player, Actor2)
+            Endif
+            "Aside from paying <Actor2.name> enough to pay off <Actor2.his_or_her> debt, <Actor.name> also gave me a big tip for introducing <Actor2.name> to <Actor.him_or_her>."
+            money += Random(200, 400)
+            
+            If Actor3.isTemporary()
+                "Of course, my <Actor2.relationship> filmed the whole thing and sent it to <Actor2.his_or_her> <Actor3.boyfriend_or_girlfriend> before breaking up with <Actor3.him_or_her> ..."
+                "<Actor2.He_or_She> got <Actor2.his_or_her> revenge. When <Actor.name> found out that I set <Actor.him_or_her> up to unknowingly betray <Actor.his_or_her> friend, <Actor.he_or_she> also cut contact with me and never asked for my service again. I lost a generous regular customer, but that's better than losing a <Actor2.relationship> I suppose."
+                blockContact(Actor)
+                Actor.setActorVar(tag_john, 0)
+            Else
+                "My <Actor2.relationship> did film the whole thing but lost <Actor2.his_or_her> nerve in the end and didn't actually send it to <Actor2.his_or_her> <Actor3.boyfriend_or_girlfriend> ..."
+                "Miraculously, they stayed together. I guess my <Actor2.relationship> already got the satisfaction of revenge and that was enough for <Actor2.him_or_her>."
+                "I would love to see <Actor.name>'s face whenever <Actor3.name> finally decides to introduce my <Actor2.relationship> to <Actor3.his_or_her> best friend though."
+            Endif
+        Else
+            "My <Actor2.relationship> got really angry and our relationship was seriously damaged."
+            Actor2:rapportwithplayer -= 30
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, john_regular_relative)

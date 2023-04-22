@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: attempt_assault
+ACTION_NAME: Spike drink with aphrodisiac
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 20
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: ag_spiked_rape
+ANIMATION: drinkglass
+WHO: Actor = getTarget(); If !Actor.isCreature() && [WHERE == nightclub || WHERE == bar || WHERE == pub || WHERE == fraternity]

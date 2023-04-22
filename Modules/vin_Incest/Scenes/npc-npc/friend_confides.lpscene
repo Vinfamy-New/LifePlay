@@ -1,0 +1,52 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); Actor2 = Actor.getRelatedPerson(Siblings, Cousins); If !Actor.hasRelationship(Spouses, Dating) && !Actor2.hasRelationship(Spouses, Dating) && [Actor:rapportwithplayer > 50 || isQuestCompleted(legalized)] && !Actor.isDating() && !Actor2.isDating() && Actor:perversion > 50 && Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && !Actor.isExRelative() && !Actor2.isExRelative() && !Actor.isRelative() && Actor:interpersonal > 30
+OTHER: none
+
+    SceneStart()
+    addNpcRelationship(Dating, Actor, Actor2)
+    "I was hanging out with <Actor.name> when <Actor.he_or_she> nervously started to confide in me some secret. Seems important."
+    Actor:: "You remember <Actor2.name>, who I introduced to you previously?"
+    If Actor2.hasRelationship(Siblings)
+        Player:: "Yes, I remember, <Actor2.he_or_she> is your <Actor2.brother_or_sister>, right?"
+    Else
+        Player:: "Yes, I remember, <Actor2.he_or_she> is your cousin, right?"    
+    Endif
+    Actor:: "Well, please don't tell anyone else this, but <Actor2.name> and I, we're actually a lot more ... intimate than that."
+    "It turns out <Actor.name> has a thing for incest ... not sure how I should react to this."
+    0:: "Act repulsed"
+    1:: "Act neutral"
+    2:: "Act enthusiastic"
+    
+    If 0
+        Actor:: "I guess I was wrong to consider you a friend ... I didn't expect you to be so judgmental."
+        Actor:rapportwithplayer -= 10
+    Elseif 1
+        Player:: "Well, whatever makes you happy, I suppose."
+        If isQuestCompleted(legalized)
+            Player:: "Besides, didn't they make it legal recently? So, you're not breaking any law."
+        Endif
+    Else
+        Player:: "Damn <Actor.dude_or_girl>! You're living the dream!"
+        Actor:rapportwithplayer += 10
+        Actor:: "I'm so glad that you understand. You're a true friend. Here, look."
+        "<Actor.name> proceeded to show me some cheesy photos of <Actor.him_or_her> and <Actor2.name> showing affection on <Actor.his_or_her> phone, nothing hardcore though."
+        0:: "You two make a cute couple"
+        1:: "Push for naughtier content"
+        
+        If 0
+            Actor:: "Thank you!"
+        Else
+            Player:: "That's all? Don't you have something more hardcore with <Actor2.name>?"
+            Actor:: "Well, I do ... What the hell! Since I already shared with you my deepest secret, might as well show you all."
+            "<Actor.name> proceeded to show me a video of them two indulging in incestuous desire!"
+            setBackground(home)
+            Player.hide()
+            Actor.strip()
+            Sex(Actor, Actor2)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(500, friend_confides)

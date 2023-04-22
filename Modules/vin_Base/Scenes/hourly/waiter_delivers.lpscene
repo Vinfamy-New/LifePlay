@@ -1,0 +1,30 @@
+WHAT: work_hourly
+WHERE: restaurant, cafe, biergarten, pub
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "My place I work at offers a delivery menu as well. I've been asked to make a takeout delivery ... Not my favorite part of the job, but it must be done."
+    setBackgroundCustom(livingroom)
+    Actor = generatePersonTemporary()
+    If Random(0, 100) < Actor:perversion
+        Actor.show()
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer => 30
+        "The customer opened the door to receive the delivery, completely naked!"
+        Actor:: "You know ... I've been very lonely recently after my last breakup ... having to eat takeout all alone. You wouldn't mind keeping me company for a while, would you?"
+        0:: "Fuck the customer"
+        1:: "Just take the money and leave"
+        
+        If 0
+            Sex(Player, Actor)
+        Endif
+    Else
+        Actor.dress()
+        Actor.show()
+        "It was just an usual delivery and I even received some tips."
+        money += 5
+    Endif
+    SceneEnd()
+    timeout(50, waiter_delivers)

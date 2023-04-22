@@ -1,0 +1,38 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If !Player.isMale()
+        If fertility > 0
+            "I decided to get an IUD inserted. I'm now very unlikely to get pregnant."
+            fertility => 0
+        Else
+            "I decided to get my IUD removed. My fertility level is now normal."
+            fertility => 3
+        Endif
+    Else
+        Actor = getSpecific(Dating)
+        If Actor.isValid()
+            Actor.show()
+            Actor.dress()
+            "I'm not a woman. Do I mean this instead for my <Actor.boyfriend_or_girlfriend> <Actor.name>?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                If Actor:fertility_npc > 0
+                    "I convinced <Actor.name> to get an IUD inserted. She's now very unlikely to get pregnant."
+                    Actor:fertility_npc => 0
+                Else
+                    "I convinced <Actor.name> to get her IUD removed. Her fertility level is now normal."
+                    Actor:fertility_npc => 3
+                Endif
+            Endif
+        Else
+            "I'm not a woman nor do I have a partner to convince for an IUD procedure."
+        Endif
+    Endif
+    SceneEnd()

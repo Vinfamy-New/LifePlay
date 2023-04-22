@@ -1,0 +1,43 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // Action-triggered scene, suggest a companion you're not dating to get an abortion (wildly varying chance of success, the biggest factor being who the father is and who the NPC is in a relationship with; even if successful, lose some rapport/affection - if failed, lose a fuckton, and probably a bunch of karma too)
+    SceneStart()
+    "It won't be an easy conversation to have and <Actor.name> may end up becoming very upset. Am I sure I want to try to convince her to have an abortion?"
+    If !Actor.isDating()
+        "The fact that I'm not even in a relationship with <Actor.name> makes this an even riskier conversation to have."
+    Endif
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Success = false
+        If !Actor.isDating()
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            If Actor:masochist + Actor:attractiontoplayer > 100 && [!Actor2.isValid() || Actor.hadSex()] 
+                Success = true
+            Endif
+        Endif
+        If Success || [Actor:masochist + Actor:attractiontoplayer > 100 && Actor.isDating()]
+            Actor:: "I guess you're right ..."
+            Loc = findNearbyBuilding(hospital)
+            moveTo(Loc)        
+            Actor.strip()
+            Actor.endPregnancy()
+            "Thankfully the procedure went according to plans, with no lasting impact on <Actor.name>'s future health and fertility."
+            Actor:attractiontoplayer -= 10
+            Actor:rapportwithplayer -= 10
+        Else
+            Actor:: "I can't believe what's coming out of your mouth! How heartlesss can you be?"
+            Actor:: "No way! I'm keeping the baby no matter what you think!"
+            Actor:attractiontoplayer -= 30
+            Actor:rapportwithplayer -= 30
+        Endif
+        karma -= 5
+    Else
+        "Let's think about this some more ..."
+    Endif
+    SceneEnd()

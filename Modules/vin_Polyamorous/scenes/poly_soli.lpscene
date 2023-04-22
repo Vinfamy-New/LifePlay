@@ -1,0 +1,39 @@
+WHAT: all
+WHERE: restaurant, nightclub, bar, cafe, cinema, coffee, department_store, hotel, jewellery, pub, tea
+WHEN: 0-24
+WHO: Actor = getCompanion(); Actor2 = getSpecific(Dating); If Actor.isDating()
+OTHER:
+
+    // If you're on a nice date with a poly partner, they may insist that another poly partner of yours that they get along with join you
+    
+    SceneStart()
+    "I'm on a nice and quite expensive date with my <Actor.boyfriend_or_girlfriend> <Actor.name>." 
+    "I wanted to make this just the two of us and initially decided to leave my other <Actor2.boyfriend_or_girlfriend> <Actor2.name> at home."
+    "However, <Actor.name> took pity on <Actor2.him_or_her> and wanted to invite <Actor2.him_or_her> to come along."
+    0:: "Spend a bit more and treat them both to a nice date"
+    1:: "Stick to the original plan"
+    
+    If 0
+        Actor:attractiontoplayer += 3
+        Actor2:attractiontoplayer += 3
+        money -= Random(50, 100)
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "Thank you for thinking of me, <Actor.name>."
+        Player:: "I'm glad to see you two get along so well."
+        Actor:: "We do. In fact, we have such a good chemistry together that you'll have an amazing happy ending with both of us when we get back home tonight."
+        0:: "Why not here and now?"
+        1:: "Go back home after the date"
+        
+        If 0
+            Actor:: "Only because you've been so generous with us, honey."
+            Sex(Player, Actor, Actor2)
+        Else
+            moveTo(home)
+            setBackground(home)
+            "With that promise, I couldn't help but be excited for the rest of the date. And when we finally got home, we got down to business right away."
+            Sex(Player, Actor, Actor2)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, poly_soli)

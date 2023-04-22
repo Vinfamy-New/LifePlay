@@ -1,0 +1,36 @@
+WHAT: watch_sport, watch_sport_in
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); If !Actor.isDating() && Actor:rapportwithplayer > 35 && Actor.isInterestedIn(Player) && Actor:attractiveness < 75 && !Actor.isVirgin() && Actor:perversion > 65
+OTHER:
+
+
+    SceneStart()
+    "I was watching a game with <Actor.name>, which only just started but already promised to be a very hotly contested match between two equally strong teams."
+    "<Actor.name> proposes a bet on which team wins"
+    0:: "Bet"
+    1:: "No"
+    
+    If 0
+        If Random(0, 100) < 50
+            "The team I bet on eventually won the game and I got some extra cash as a result."
+            money += 100
+        Else
+            "It's not my lucky day and I ended up betting on the losing team."
+            0:: "Pay up"
+            1:: "Bullshit your way out of paying"
+            2:: "Pay with sex instead"
+            
+            If 0
+                money -= 100
+            Elseif 1
+                "<Actor.name> wasn't too happy but finally let the whole thing go."
+                Actor:rapportwithplayer -= 5
+            Else
+                "It's no big deal. Just some fun between friends. Better than losing money."
+                Sex(Actor, Player)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, soldier_july2_cms)

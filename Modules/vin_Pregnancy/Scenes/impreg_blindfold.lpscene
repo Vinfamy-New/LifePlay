@@ -1,0 +1,61 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor2 = getCompanion(); Actor = Actor2.getRelatedPerson(Dating, Spouses); If Actor2:perversion > 30 && !Actor2.isFemale() && !Actor.isMale() && Actor2:rapportwithplayer > 30 && !Actor2.isDating()
+OTHER: !Player.isFemale()
+
+    SceneStart()
+    "I was spending time with my friend <Actor2.name> and couldn't help but notice <Actor2.he_or_she> seemed down today. Something was clearly wrong."
+    Actor.setWantsBabies()
+    Actor2:: "You know, my <Actor.boyfriend_or_girlfriend> <Actor.name> and I have been trying for a baby for a few months. She's absolutely obsessed with the idea of becoming a mom."
+    Player:: "Yeah, she does seem like the maternal type."
+    Actor2:: "Thing is ... I just found out from the doctor that I was infertile ..."
+    Actor2:: "If she ever finds that out, she'll dump me for sure. A baby is all she ever wants."
+    "After some more depressing monologues, <Actor2.name> suddenly brightened up and came up with an idea."
+    "<Actor2.He_or_she> wanted to trick <Actor.name> into having blindfold sex, only for me to come in and impregnate her. As far as <Actor.name> would be aware, the child would be <Actor2.name>'s."
+    0:: "Go along with the plan"
+    1:: "That's crazy!"
+    
+    If 0
+        "I agreed to help my friend impregnate <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend>."
+        setBackground(home)
+        Player.hide()
+        Actor.show()
+        Actor.animate(na_sleep)
+        Actor.dressBondage(Blindfold)
+        "<Actor2.name> sneaked into their apartment before getting intimate with <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> that night, where <Actor2.he_or_she> convinced <Actor.name> to put on a blindfold during sex."
+        "As agreed, right at that moment I came inside the room."
+        Actor:: "Baby, what's taking you so long?"
+        Actor2:: "I'm right here, darling. Here I go ..."
+        "'I' refer to me of course."
+        blockPregnancy()
+        Sex(Player, Actor)
+        "While penetrating <Actor.name> and trying to get <Actor.him_or_her> pregnant, a bold idea came into my head."
+        "Why am I impregnating a woman on behalf of another man and taking no credit of it? Is that what I really want? Or would I prefer to claim both the woman and the baby as mine?"
+        0:: "Take off <Actor.name>'s blindfold and steal <Actor2.name>'s <Actor.boyfriend_or_girlfriend>"
+        1:: "Go through with the original plan"
+        
+        If 0
+            Actor.clearBondage()
+            "To <Actor2.name>'s shock and horror, I removed <Actor.name>'s blindfold midway through sex and exposed <Actor2.him_or_her>."
+            Player:: "Your pathetic <Actor2.boyfriend_or_girlfriend> is infertile and asks me to impregnate you instead ..."
+            Player:: "Since you obviously want a baby so much, why not just skip the middle man and be with me?"
+            "After the initial shock of finding out it was me who has been penetrating her tonight, <Actor.name> eventually smiled and nodded."
+            Actor:: "You're right. If <Actor2.he_or_she> can't even impregnate me, what's the point? I'd rather be with fertile dick and have many children!"
+            removeNpcRelationship(Actor2, Actor)
+            Actor.setDating()
+            "Humiliated, <Actor2.name> quietly left, leaving me and <Actor2.his_or_her> ex to our mating session." 
+            Actor2:rapportwithplayer -= 50
+            Sex(Player, Actor)
+            Actor.impregnate(Player)
+        Else
+            "I don't want to betray my friend, nor do I want a child ..."
+            Sex(Player, Actor)
+            Actor.impregnate(Actor2)
+            "I have a sneaky feeling that was enough to get <Actor.name> pregnant, and as far as she was concerned, the baby was <Actor2.name>'s."
+            Actor2:rapportwithplayer += 50
+        Endif
+    Endif
+    endDate()
+    SceneEnd()
+    timeout(300, impreg_blindfold)

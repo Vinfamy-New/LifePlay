@@ -1,0 +1,13 @@
+Actor.setWantsBabies(bool)
+
+USE:
+Set an actor to either trying for a child or not, affecting whether protection is asked for during sex
+
+TYPE: Command, Ref
+RETURNS: /
+THEME: Pregnancy
+COMPARE:
+
+
+
+

@@ -1,0 +1,38 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); Actor2 = getPerson(true); If !Actor.isMale() && Actor2.isMale() && Actor2.isInterestedIn(Actor) && Actor2:rapportwithplayer > 30
+OTHER: Player.isMale() && Random(35, 100) < perversion && isModEnabled(vin_NTR)
+
+    // Summery - gf/wife accidently has sex with wrong person due to player setting this up. They wear an identical costume that another guy is wearing and intentionally make sure the player's girl and the guy go together in a dark room.
+
+    SceneStart()
+    "I was talking with a friend who is interested in my gf. We were thinking about setting up a cosplay costume party and wear identical costumes. We would then trick her into having sex with both of us at seperate times throughout the party."
+    0:: "Now that I think about it. This is pretty mean. Nevermind."
+    1:: "This will be a hot memory." 
+    2:: Actor2.hasRelationship(Spouses, Dating):: "I'll ask him to include his girl as well for me." 
+
+    If 0 
+        "Bad idea. Let's not ..."
+    Else
+        setBackgroundCustom(livingroom)
+        Actor2.dressUniform(Police)
+        Player.dressUniform(Police)
+        Actor2.show()
+        Player.show()
+        Actor.dress()
+        Actor.show()
+        If 1 
+            "I managed to set everything up perfectly. My <Actor.boyfriend_or_girlfriend> is now with my friend and going to do a 7 minutes in heaven dare." 
+            Sex(Actor2, Actor)
+        Else
+            Actor3 = Actor2.getRelatedPerson(Spouses, Dating)
+            Actor3.dress()
+            Actor3.show()
+            "I managed to set everything up perfectly with my friend's help. My girl is with him and his is with me."
+            Sex(Player, Actor3)
+            Sex(Actor2, Actor)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(220, sr_fso_costumeparty_dare1_cms)

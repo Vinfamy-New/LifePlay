@@ -1,0 +1,75 @@
+WHAT: all
+WHERE: all
+WHEN: 16-20
+WHO: Actor2 = getRelative(Child, StepChild); Actor = Actor2.getRelatedPerson(ParentChild); If Actor2.isVirgin() && !Actor.isMale() && Actor2.isMale()
+OTHER: Player.isMale()
+    
+    SceneStart()
+    secondScreen(Actor)
+    Actor.dress()
+    Actor.show()
+    "<Actor.name> asked me to come to our <Actor2.son_or_daughter>'s <Actor2:age>th birthday party. It's my child after all. I really should go."
+    0:: "Attend the party"
+    1:: "Turn down the invitation"
+    
+    If 0
+        secondScreen()
+        setBackgroundCustom(livingroom)
+        Actor.show()
+        Actor2.dress()
+        Actor2.show()
+        Actor.moveToPerson(Player)
+        "The party eventually wound down. <Actor.name> took me to one side to say something."
+        Actor:: "How fast time flies ...  Our <Actor2.son_or_daughter> is already <Actor2:age> ..."
+        Actor:: "<Actor2.He_or_She> is still a virgin, you see. And we agreed it would be much better for <Actor2.him_or_her> to get some experience under <Actor2.his_or_her> belt."
+        Actor:: "Obviously I don't want <Actor2.him_or_her> to do it with just some random kid."
+        Actor:: "So I wanted to do it myself"
+        0:: "Good idea"
+        1:: "Stop her"
+        
+        If 0
+            Impregnating = false
+            Actor:: "Should I take myself off birth control?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                Impregnating = true
+                Actor.setWantsBabies(true)
+            Endif
+            Actor2:: "Should I wear a condom, Dad?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 1             
+                Actor2.setWantsBabies(true)
+                If Impregnating
+                    Actor.impregnate(Actor2)
+                    "Looks like <Actor.name> is ovulating. She must be highly fertile tonight."
+                    Actor.setActorVar(tag_incest_cherry_boy_cms_preg, 1)
+                    Actor2.setActorVar(tag_incest_cherry_boy_cms_impreg, 1)
+                Endif
+            Else
+                Impregnating = false
+            Endif
+            Sex(Actor2, Actor)
+            If Impregnating
+                Actor2:: "Can I try impregnate Mom again?"
+                0:: "Yes"
+                1:: "No"
+                
+                If 0
+                    Sex(Actor2, Actor)
+                    "When she is ovulating, she sends for me ..."
+                    0:: "Join in but wear a condom"
+                    1:: "No"
+                    
+                    If 0
+                        Sex(Player, Actor2, Actor)
+                    Endif
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(5000, incest_cherry_boy_cms)

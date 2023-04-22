@@ -1,0 +1,111 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); If Actor.isFemale()
+OTHER: Player.isMale() && isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual) && isModEnabled(vin_Incest)
+ 
+    //player learn's his lover's perverted uncle is in town and is going to be visiting and staying at their house overnight. The player decides they might want to be perverted and get something to happen.
+    
+    SceneStart()
+    "I learned my <Actor.boyfriend_or_girlfriend>'s perverted uncle is coming over this week. Maybe I should get something to happen..."
+    Actor2 = Actor.getRelatedPerson(ParentSiblingSiblingChild)
+    
+    If !Actor2.isValid()
+        Actor2 = Actor.generatePersonTemporaryMatchRace()
+        While !Actor2.isMale()
+            Actor2 = Actor.generatePersonTemporaryMatchRace()
+        Endwhile
+        Actor2:perversion => Random(75, 100)
+        Actor2:age => Actor:age + Random(15, 30)
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+    Endif
+    "If I do this right I might even get to make a video of something hot. Or perhaps even sell the video for cash!"
+    0:: "I think I'll flash my girl's ass off to him. I'll get her to wear a dress without panties and bam! Skirt lift! Bet he would enjoy that."
+    1:: "I'll ask him if he would pay to watch from the closet as I have sex with <Actor.name>."
+    2:: "I'll get my girlfriend drunk and give her uncle something to spike her next drink with then we will make a video of him doing her."
+    3:: "Let's not do anything crazy"
+
+    If 0
+        Player:: "Hey love. So I want you to wear a dress or skirt without panties today."
+        Actor:: "Are you sure? We will have company!" 
+        Player:: "I know, but the idea of my girl having no panties with a dress on while company is over is pretty hot!"
+        Actor:: "Fine, but this guy is my pervy uncle. Trust me when I say this isn't a safe idea."
+        setBackgroundCustom(livingroom)
+        Actor2.dress()
+        Actor2.show()
+        "Once her uncle arrived we all gathered to eat in the living room. I snuck over to him and whispered my plan to expose her ass to him."
+        "He told me he will make sure to take some good pictures for us, and he is very happy to have met me. He can't believe she is dating someone as pervy as he is."
+        "When my lover was walking by us both her back was pointed towards him I accidently dropped my fork down beside her. She bent over to grab the fork while she did this I grabbed her dress and fully pulled it up."
+        While Actor.isEquipped(Bottom) || Actor.isEquipped(Bottom_Under)
+            Actor.stripOne()
+            "Off this goes"
+        Endwhile
+        "This showed off her entire lower region to him as she was bent over and now skirt lifted infront of him. She got alittle mad at me but I managed to convince her it was an accident and I tripped when getting up and grabbed her for balance."
+        Actor2:: "Hey thanks for the show ealier. Listen I would love to visit in the future again! Here is my contant info if you ever want to hang out."
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+        addNpcRelationship(ParentSiblingSiblingChild, Actor2, Actor)
+    Elseif 1
+        setBackgroundCustom(kitchen)
+        Actor2.dress()
+        Actor2.show()
+        "When dinner ended and we were all getting ready to go to bed that night I told her uncle everything. He quickly agreed he would pay a small amount of cash to see her nude and getting dicked down."
+        setBackground(home)
+        Sex(Player, Actor)
+        
+        "After having sex I noticed we do have a blind fold I could use on her and let her uncle slip in..."
+        0:: "Nah she is mine. I love showing her off but that crosses a line."
+        1:: "This is a great idea!"
+        
+        If 0
+            "Me and her uncle exhanged contant info and he told me he would enjoy visiting again."
+        Else
+            Actor.dressBondage(Blindfold)
+            "My <Actor.boyfriend_or_girlfriend> and her uncle have sex while she is blind folded."
+            Sex(Actor2, Actor)
+            "Me and my girl's uncle exhanged contant info. He told me he will visit again one day and greatly enjoyed the stay. He paid more than the agreed price as well."
+            money += 200
+        Endif
+        
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+        addNpcRelationship(ParentSiblingSiblingChild, Actor2, Actor)
+    Elseif 2
+        setBackgroundCustom(livingroom)
+        Actor2.dress()
+        Actor2.show()
+        Actor.animate(drinkglass)
+        Player.animate(drinkglass)
+        Actor2.animate(drinkglass)
+        "I ended up making sure my girlfriend got somewhat drunk while her uncle was hanging out with us. I then told him the plan and gave him something to spike her next drink with."
+        "He offered her another drink" 
+        
+        If Random(0, 100) < 50
+            "She drinks it. Now completely intoxicated, she was forced into sex with her uncle"
+            Filter(Aggressive)
+            Sex(Actor2, Actor)
+        If she drinks it then they will proceed to have sex together while the player films then it becomes a threesome after the two finish up.
+
+        If she does not drink the player instead has the option to make her breasts get exposed past her top by "accident" and the uncle will take some pictures.
+        "She did not want to drink anymore but she is pretty drunk. Maybe I could show her breasts off to her uncle."
+        0:: "I'll show her breasts off to him at least he can take a picture to remember."
+        1:: "I...changed my mind. Maybe fate is saying not to do anything lewd with him."
+        
+        If 0
+            While Actor.isEquipped(Top) || Actor.isEquipped(Top_Under)
+                Actor.stripOne()
+                "Off this goes"
+            Endwhile
+            Actor2.animate(camera)
+            "I exposed her boobs while her uncle took a few snaps"
+        Endif
+        
+        "Me and her uncle exhanged contant info and he told me he would enjoy visiting again."
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+        addNpcRelationship(ParentSiblingSiblingChild, Actor2, Actor)        
+    Endif
+
+    SceneEnd()
+    timeout(180, sr_fso_homemade_video_cms)

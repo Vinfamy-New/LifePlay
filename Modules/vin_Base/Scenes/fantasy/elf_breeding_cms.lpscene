@@ -1,0 +1,140 @@
+WHAT: all
+WHERE: sports_centre
+WHEN: 0 - 24
+WHO: none
+OTHER: !Player.isFemale() && Player.isRace(Elf) && [Player.isInterestedInWomen() || Player.isInterestedInTrans()] && muscle + fitness > 160 && PercentageElves > 0 && isModEnabled(vin_Pregnancy)
+
+    SceneStart()
+    "Finishing my workout routine, I headed for the the locker room to clean up and change."
+    "Stepping inside, I couldn't help but notice how unusually empty and quiet it was..."
+    0:: "That's actually quite nice, lets me wrap things up in peace."
+    1:: "It's a little suspicious, I'll just head home as I am."
+    
+    If 0
+        "As I opened my locker, I was suddenly grabbed from behind! As a cloth was held over my mouth and nose, I caught glimpses of green in my peripheral vision before everything faded."
+
+        setBackground3d(Modules/vin_Base/Bedrooms/9.lpworld)
+
+        "When I came to, I found myself chained to a chair in a basement, a pair of muscular orcs standing watch over me. When they noticed my eyes open, one called to someone else, 'Boss, the knife-ear's awake.' An even more ripped orc stepped into view..."
+        
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.blendPreset(Orc)
+        Actor:attractiveness => Random(75, 85)
+        Actor:fitness => Random(70, 100)
+        Actor:muscle => Random(70, 100)
+        Actor.makeInterested(Player)
+
+        "She looked me over." 
+        Actor:: "So, someone considers <Player.himself_or_herself> a big, strong little elf, huh?" 
+        "She grinned" 
+        Actor:: "Y'know what, I like that. Most of you lot can't be bothered to improve your bodies - more should be like you. Matter of fact... that's why we brought you here."
+        "The guards unchained me from the chair, and the leader had me follow her into another room... where three elven ladies huddled blindfolded against the wall."
+        
+        Actor2 = getPerson(tag_Elf)
+        
+        If !Actor2.isValid() || Actor2.isMale()           
+            Actor2 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.blendPreset(Elf)
+            Actor2:attractiveness => Random(65, 80)
+            Actor2:fitness => Random(40, 100)
+            Actor2.makeInterested(Player)
+        Endif
+        
+        Actor3 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor3)
+            Actor3 = generatePersonTemporary()
+        Endwhile
+        Actor3.blendPreset(Elf)
+        Actor3:attractiveness => Random(65, 80)
+        Actor3:fitness => Random(40, 100)
+        Actor3.makeInterested(Player)
+        
+        Actor4 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor4)
+            Actor4 = generatePersonTemporary()
+        Endwhile
+        Actor4.blendPreset(Elf)
+        Actor4:attractiveness => Random(65, 80)
+        Actor4:fitness => Random(40, 100)
+        Actor4.makeInterested(Player)
+        
+        Actor2.show()
+        Actor3.show()
+        Actor4.show()
+        
+        If !Actor2.isTemporary()
+            "I even recognized one of them, it's <Actor2.name> ... poor girl ..."
+        Endif
+
+        Bonus = false
+        Actor:: "You're gonna give these cunts a good breeding, make some knife-eared babies that might actually give a shit about what matters. Been pumping 'em full of traditional orc breeding potion, so one rut should probably do it."
+        0:: "Rape my kindred pregnant? I'm not going to play stud for this green fuck!"
+        1:: "Hell yeah, not going to pass up an opportunity to spread these genes! Especially when even my hereditary enemies respect them..."
+        
+        If 0
+            "She growls in frustration." 
+            Actor:: "Fine... how about I sweeten the deal, huh? I'll let you breed me too. Don't you lot beat off over shit like that? Getting to knock up a properly strong woman, not like your pathetic, delicate waifs?"
+            0:: "This is just getting even more repulsive..."
+            1:: "Actually, yeah, that's totally worth preying on my own people!"
+
+            If 0
+                Ahead = false
+                Actor:: "Really gonna turn down an offer this great, you smug fuck? Y'know what, fine. Physically decent but still too much of a bitch to breed, no surprise there."
+            Else
+                Ahead = true
+                Bonus = true
+            Endif
+        Else
+            Ahead = true
+        Endif
+        
+        If Ahead
+            "And just like that, I proceeded to fuck each of the elven girls in turn."
+            Sex(Player, Actor2)
+            Sex(Player, Actor3)
+            Sex(Player, Actor4)
+            
+            If Random(0, 100) < 80
+                Actor2.impregnate(Player)
+            Endif
+            
+            If Random(0, 100) < 80
+                Actor3.impregnate(Player)
+            Endif
+            
+            If Random(0, 100) < 80
+                Actor4.impregnate(Player)
+            Endif
+
+            If !Bonus
+                Actor:: "Impressive stamina, for an elf. With any luck, those will all take and the world will have some slightly less pitiful members of your kind soon."
+            Else
+                Actor:: "Impressive stamina, for an elf. You might even have enough left in you to get me off before you nut in me. Come on then, let's get to it! Just downed one of those breeding potions myself."
+                Sex(Player, Actor)
+                
+                If Random(0, 100) < 50
+                    Actor.impregnate(Player)
+                Endif
+                Actor:: "Yup, totally decent. Wonder how your jizz will compete with my eggs..."
+            Endif
+        Endif
+        
+        Actor:: "Now, time for you to get out of here..."
+        "A damp rag is again held over my face, and I pass out again."
+        setBackground(street)
+        Actor.hide()
+        Actor2.hide()
+        Actor3.hide()
+        Actor4.hide()
+        "When I come to, I'm lying in the alley behind the gym..."
+    Else
+        "It wasn't the most comfortable drive home, but oh well. I couldn't help but wonder if I'd missed out on something interesting though..."
+    Endif
+    SceneEnd()
+    timeout(300, elf_breeding_cms)

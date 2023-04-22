@@ -1,0 +1,125 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If Random(50, 100) < Actor:perversion
+OTHER: OpenRelationship() && isModEnabled(vin_NTR)
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor2 = generatePersonTemporary()
+    If isModEnabled(vin_Interracial)
+        setRaceGenerated(Actor, false)
+    Endif
+    While !Actor.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makeInterested(Actor)
+    
+    Actor2:age => Actor:age + Actor:likes_older*0.5
+    Actor2.randomizeFace()
+    Actor2.randomizeHairs()
+    Actor2.dress()
+    Actor.dress()
+    Actor.show()
+    "I was spending time with one of my lovers <Actor.name> when <Actor.he_or_she> hands me <Actor.his_or_her> phone to show me someone else's photo."
+    secondScreen(Actor2)
+    Actor2.show()
+    Actor:: "What do you think about this <Actor2.guy_or_girl>?"
+    Player:: "Why are you asking me? Who is <Actor2.he_or_she>?"
+    Actor:: "You know ... you and me, we're in an open relationship after all ..."
+    Player:: "Yes ... and?"
+    Actor:: "I've been sleeping with this <Actor2.guy_or_girl>, <Actor2.name> ... <Actor2.He_or_She> knows about our polyamory, so <Actor2.he_or_she> asks me to be <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> as well ..."
+    Actor:: "I wanted to say yes right away ... but I thought I would ask you to be sure ... you're okay with me having my own relationship with someone else, right? It's not breaking any of our rules ..."
+    0:: "I'm cool with that"
+    1:: "No way ..."
+    2:: "I want to meet <Actor2.name> first"
+    3:: "I'll introduce you to someone I know instead"
+    
+    If 0
+        Actor:attractiontoplayer += 10
+        Actor2:perversion => Random(50, 100)
+        Actor2.makePermanent()
+        If Actor2.isInterestedIn(Player) && Actor2:attractiontoplayer < 0
+            Actor2:attractiontoplayer => Random(0, 50)
+        Endif
+        addNpcRelationship(Dating, Actor, Actor2)
+        addNpcRelationship(Poly, Actor, Actor2)
+        Actor:: "You're most generous lover ever! Don't worry, you'll always be my first love!"
+        Actor:: "Here, let me show you how much I love you ..."
+        0:: "Have sex with <Actor.name>"
+        1:: "Any videos of you and <Actor2.him_or_her>?"
+        2:: "I'm not in the mood"
+        
+        If 0
+            Sex(Player, Actor)
+        Elseif 1
+            masochist += 2
+            Actor:: "I didn't realize you prefer watching ..."
+            Actor:: "Yes, we did record everything the last time we messed up around after a date ..."
+            Actor:: "Let me show you ..."
+            Player.hide()
+            setBackground(home)
+            Sex(Actor2, Actor)
+        Endif
+    Elseif 1
+        Actor:: "Alright ... I guess we had a different idea of what an open relationship means ..."
+        Actor:attractiontoplayer -= 3
+    Elseif 2
+        Actor:: "Huh? Do you want to interview <Actor2.him_or_her> or something? Fine, I'll arrange for you two to meet."
+        secondScreen()
+        Actor2.show()
+        "<Actor2.name> is here. I could tell why <Actor.name> would find <Actor2.name> attractive. <Actor2.He_or_She> is also well-spoken and open-minded. No red flags, really."
+        0:: "Give them my blessing"
+        1:: Player.isInterestedIn(Actor2):: "If you want to fuck my <Actor.boyfriend_or_girlfriend>, you have to fuck me first"
+        2:: "How about a threesome to see if we could all get along?"
+        3:: "Discourage <Actor.name>"
+        
+        If 3
+            "I tell <Actor.name> that I feel something uneasy about <Actor2.name> and pretend to worry about <Actor.his_or_her> safety."
+            "Thankfully, <Actor.name> bought into my bullshit and eventually grew apart from <Actor.his_or_her> lover on the side."
+        Else
+            If 0
+                Player:: "Sure, you guys seem so happy together, I wouldn't stand between you."
+            Elseif 1
+                Actor2:: "Okay, if that's what it takes ..."
+                Sex(Player, Actor2)
+                "That was quite good actually. I decided to give them my blessing. Hopefully, <Actor.name> being in a relationship with <Actor2.name> will mean I will get to fuck <Actor2.name> more in the future."
+            Elseif 2
+                Actor2:: "Of course, you've made a good point ..."
+                Sex(Player, Actor2, Actor)
+                "We got along just fine during that fun experience. I decided to give them my blessing. Hopefully, <Actor.name> being in a relationship with <Actor2.name> will mean more threesomes in the future."
+            Endif
+            
+            Actor2:perversion => Random(50, 100)
+            Actor2.makePermanent()
+            If Actor2.isInterestedIn(Player) && Actor2:attractiontoplayer < 0
+                Actor2:attractiontoplayer => Random(0, 50)
+            Endif            
+            addNpcRelationship(Dating, Actor, Actor2)
+            addNpcRelationship(Poly, Actor, Actor2)
+        Endif
+    Else
+        secondScreen()
+        Player:: "We're polyamorous so I'm not against the idea of you dating someone else at the same time."
+        Player:: "But baby, I don't know this <Actor2.name> <Actor2.guy_or_girl> at all so I'm not too comfortable with bringing a complete stranger into our life."
+        Player:: "If you're going to see someone else, I'd rather that person be someone I know."
+        Actor:: "That's fair, honey. Just find me someone I'd like, okay?"
+        "Who should I pick to start dating <Actor.name> on the side?"
+        selectNpc()
+        Actor3 = getSelectedNpc()
+        
+        If Actor3.isValid() && Actor.isInterestedIn(Actor3) && Actor3.isInterestedIn(Actor)
+            "<Actor.name> was thrilled with my suggestion. As things turned out, <Actor.name> has already had <Actor.his_or_her> eyes on my friend <Actor3.name> for a while now but didn't think I would be cool with it."
+            Actor3.dress()
+            Actor3.show()
+            "One day, I invited <Actor3.name> over ... to fuck my <Actor.boyfriend_or_girlfriend> of course."
+            Sex(Actor, Actor3)
+            "Afterwards, we discussed the arrangement. <Actor3.name> was hesitating at first, thinking it must be some kind of trap, but eventually when <Actor3.he_or_she> realized we were serious, <Actor3.he_or_she> couldn't believe <Actor3.his_or_her> luck."
+            addNpcRelationship(Dating, Actor, Actor3)
+            addNpcRelationship(Poly, Actor, Actor3)
+        Else
+            "Unfortunately, <Actor3.name> isn't <Actor.name>'s type. Let's think about this some more some other time."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(333, poly_poly)

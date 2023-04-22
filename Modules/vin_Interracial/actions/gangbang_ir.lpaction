@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: gangbang_ir
+ACTION_NAME: Organize an interracial gangbang
+WHERE: home
+WHEN: 0 - 24
+MINUTES: 5 - 5
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT:
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: gangbang_ir
+ANIMATION: call

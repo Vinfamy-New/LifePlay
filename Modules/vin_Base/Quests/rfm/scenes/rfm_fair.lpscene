@@ -1,0 +1,209 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    endorse = rfm_endorse.getGlobal()
+    dressFormal()
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    "On the campaign trail, I meet with an influential community leader whose endorsement would really help my chances."
+    If Actor:politics < -90 // FAR LEFT
+        Random
+            "<Actor.He_or_She> wants absolute Marxist income equality utopia."
+            "<Actor.He_or_She> wants maximum tax rates for the wealthy enough to abolish the bourgeois class."
+            "<Actor.He_or_She> wants maximum government spending on social programs and infrastructure even if it means taking on more debts."
+            "<Actor.He_or_She> wants nationalization of the most important businesses."
+            "<Actor.He_or_She> demands that all healthcare to be free for everyone no matter the cost to the government."
+            "<Actor.He_or_She> demands open borders and immediate citizenships for everyone who comes here whatever the circumstances."
+            "<Actor.He_or_She> doesn't care if an immigrant is documented or not and finds the idea of prosecuting and deporting them inhumane."
+            "<Actor.He_or_She> demands all education to be free with stipends funded by the government, even for <Actor.his_or_her> 7th Master's degree in Fine Art History."
+            "<Actor.He_or_She> believes we are whoever we feel like being and one can identify as attack helicopter if they want to."
+            "<Actor.He_or_She> demands that we all 'JUST STOP OIL' right now!"
+        endRandom
+    Elseif Actor:politics < -56 // LEFT
+        Random
+            "<Actor.He_or_She> wants income equality as the main priority for the government."
+            "<Actor.He_or_She> wants rich people taxed as much as feasible."
+            "<Actor.He_or_She> wants as high government spending on social programs and infrastructure as sustainable."
+            "<Actor.He_or_She> wants the strictest possible regulations on business."
+            "<Actor.He_or_She> wants healthcare to be free or at least affordable to most citizens."
+            "<Actor.He_or_She> thinks immigration is a huge positive to the country and policies should be as open as possible."
+            "<Actor.He_or_She> believes the majority of undocumented immigrants should be given amnesty and only the criminals should be prosecuted and deported."
+            "<Actor.He_or_She> believes education should be free, including one's first bachelor's degree."
+            "<Actor.He_or_She> wants unpenalized and easy access to abortion."
+            "<Actor.He_or_She> wants more government support for LGBTQ rights and considers it one of the most important issues."
+            "<Actor.He_or_She> wants to ban many economic activities that may create jobs but could potentially harm the environment."            
+        endRandom
+    Elseif Actor:politics < -23 // CENTRE-LEFT
+        Random
+            "<Actor.He_or_She> considers income equality as an objective to at least aim for."
+            "<Actor.He_or_She> wants higher tax rates on the wealthy."
+            "<Actor.He_or_She> wants decent government spending on social programs and infrastructure but is mindful of the budget."
+            "<Actor.He_or_She> wants strong enough regulations on business to protect citizens without dampening the economy."
+            "<Actor.He_or_She> wants healthcare to be affordable to those who need it the most, but is mindful of costs to the government."
+            "<Actor.He_or_She> thinks immigration is, by and large, a net positive to the country and should be encouraged as long as we vet out the criminals and security threats."
+            "<Actor.He_or_She> believes undocumented immigrants who have lived here long enough while contributing to society should be given amnesty."
+            "<Actor.He_or_She> thinks education should be free ideally, but could live with loans from government that get forgiven in a reasonable time."
+            "<Actor.He_or_She> is in favor of unpenalized access to abortion but notes it's important to stress abortion as last resort." 
+            "<Actor.He_or_She> supports LGBTQ rights but admits even <Actor.he_or_she> is confused sometimes by all the new gender identities and pronouns."
+            "<Actor.He_or_She> wants to restrict polluting businesses but understand th need for patience as a lot of people's livelihoods are on the line."               
+        endRandom
+    Elseif Actor:politics > 90 // FAR RIGHT
+        Random
+            "<Actor.He_or_She> openly mocks income equality as snowflakes' wet dream."
+            "<Actor.He_or_She> wants the wealthy to be exempt from taxes as they're already trickling down."
+            "<Actor.He_or_She> thinks social programs and certain infrastructure are complete wastes of money."
+            "<Actor.He_or_She> thinks businesses should be given free reign without regulations."
+            "<Actor.He_or_She> wants most taxes to be exempt."
+            "<Actor.He_or_She> thinks government spending should be the absolute minimum."
+            "<Actor.He_or_She> mentions Venezuela and considers any universal and affordable healthcare schemes by the government as the first step towards communism."
+            "<Actor.He_or_She> wants the borders to be closed and thinks immigrants are rarely good people."
+            "<Actor.He_or_She> wants all undocumented immigrants to be prosecuted and deported, even children."
+            "<Actor.He_or_She> thinks all abortion doctors should be jailed for murders."
+            "<Actor.He_or_She> belives there's a huge gay conspiracy and they're even putting something in the water that makes the frogs gay."
+            "<Actor.He_or_She> thinks climate change is a hoax."              
+        endRandom
+    Elseif Actor:politics > 56 // RIGHT
+        Random
+            "<Actor.He_or_She> thinks income equality is not realistic nor sustainable at all."
+            "<Actor.He_or_She> doesn't believe the wealthy should be taxed more, or it would discourage businesses."
+            "<Actor.He_or_She> doesn't see much need for government spending on social programs and infrastructure but could tolerate it if it's well under budget."
+            "<Actor.He_or_She> thinks regulations on business should be eased to boost the economy."
+            "<Actor.He_or_She> wants much lower taxes."
+            "<Actor.He_or_She> thinks government spending should be quite conservative."
+            "<Actor.He_or_She> opposes universal healthcare and favors competition to government schemes from private insurance companies."
+            "<Actor.He_or_She> is against mass immigration but is okay with the top-tier specialists coming in."
+            "<Actor.He_or_She> wants most undocumented immigrants to be prosecuted and deported, except some of the most vulnerable fleeing the most desperate situations."
+            "<Actor.He_or_She> believe parents who want to home-school their kids or send them to private school should be able to get vouchers for opting out of the public school system."
+            "<Actor.He_or_She> is against abortion rights and considers abortion a loss of an innocent child's life."
+            "<Actor.He_or_She> thinks LGBTQ rights have gone out of control and we must protect our children from their propaganda."
+            "<Actor.He_or_She> thinks the threat of global warming is overstated by scientists and business and employment should be prioritised instead."                         
+        endRandom
+    Elseif Actor:politics > 23 // CENTRE-RIGHT
+        Random
+            "<Actor.He_or_She> thinks income equality is nice to keep in mind, but a bit impractical to do implement literally."
+            "<Actor.He_or_She> believes the wealthy shouldn't be taxed so much more that would just end up encouraging them to evade taxes altogether."
+            "<Actor.He_or_She> doesn't mind some government spending on social programs and infrastructure but highlights the need to budget."
+            "<Actor.He_or_She> doesn't mind strong regulations on business as long as they don't negatively affect the economy."
+            "<Actor.He_or_She> wants lower taxes."
+            "<Actor.He_or_She> thinks government should be a bit careful with their spending."
+            "<Actor.He_or_She> doesn't mind some sort of affordable healthcare program for those in need, as long as <Actor.he_or_she> doesn't get taxed more to fund it."
+            "<Actor.He_or_She> thinks immigration can be useful in certain cases to fill out the gaps in the job market."
+            "<Actor.He_or_She> believes undocumented immigrants should be prosecuted and deported in principle, but could make exceptions for those with no criminal record."
+            "<Actor.He_or_She> has no problems with free education and generous student loans as long as the government can afford it themselves and doesn't tax everyone else to fund it."
+            "<Actor.He_or_She> is generally against abortion in most cases, but could see the need for it in some extreme cases." 
+            "<Actor.He_or_She> won't be seen at a Pride Parade but has no problems with whatever LGBTQ people do in their personal lives."
+            "<Actor.He_or_She> likes to consider the economic impact of environmental regulation and believes the free market will find its own solution to environmental problems."
+        endRandom
+    Else // CENTRIST
+        Random
+            "<Actor.He_or_She> could see both sides of the debate on income equality."
+            "<Actor.He_or_She> could see both sides of the debate on higher tax rates on the wealthy."
+            "<Actor.He_or_She> could see both sides of the debate on government spending."
+            "<Actor.He_or_She> could see both sides of the debate on stronger regulations on business."
+            "<Actor.He_or_She> could see both sides of the debate on universal healthcare."
+            "<Actor.He_or_She> could see both sides of the debate on immigration."
+            "<Actor.He_or_She> could see both sides of the debate on amnesty for undocumented immigrants."
+            "<Actor.He_or_She> could see both sides of the debate on free public education."
+            "<Actor.He_or_She> could see both sides of the debate on abortion."
+            "<Actor.He_or_She> could see both sides of the debate on LGBTQ rights."
+            "<Actor.He_or_She> could see both sides of the debate on environmental policy."
+        endRandom       
+    Endif
+    Opi = 0
+    "How should I respond? Agreeing would most likely win me an important endorsement but I'm on camera here so I shouldn't stray too far from my core voter base."
+    0:: "Strongly disagree and offer a far more consersative opinion"
+    1:: "Disagree and offer a more consersative opinion"
+    2:: "Slightly disagree and offer a bit more consersative opinion"
+    3:: "Agree with <Actor.him_or_her>"
+    4:: "Slightly disagree and offer a bit more liberal opinion"
+    5:: "Disagree and offer a more liberal opinion"
+    6:: "Strongly disagree and offer a far more liberal opinion"
+
+    If 0
+        Opi => Actor:politics + 150
+    Elseif 1
+        Opi => Actor:politics + 100
+    Elseif 2
+        Opi => Actor:politics + 50
+    Elseif 3
+        Opi => Actor:politics
+    Elseif 4
+        Opi => Actor:politics - 50
+    Elseif 5
+        Opi => Actor:politics - 100
+    Else
+        Opi => Actor:politics - 150    
+    Endif
+    
+    If Opi < -100
+        Opi => -100
+    Elseif Opi > 100
+        Opi => 100
+    Endif
+    
+    If [Opi - Actor:politics < 40 && Opi - Actor:politics > 0] || [Actor:politics - Opi < 40 && Actor:politics - Opi > 0]
+        "The community leader was pleased with my response and decided to officially endorse my candidacy for mayor. Fantastic!"
+        endorse += Actor:interpersonal
+    Else
+        "The community leader was disappointed in my response and told me they would endorse another candidate."
+        0:: "Respect <Actor.his_or_her> choice"
+        1:: "Meet in secret for some dirty dealings"
+        
+        If 0
+            "Oh well, you win some, you lose some."
+        Else
+            setBackground(livingroom)
+            "<Actor.name> agreed to meet me in private, away from cameras capturing everything we says."
+            Actor2 = getSpecific(Dating)
+            If Actor2.isValid()
+                Actor2.dress()
+                Actor2.show()
+            Endif
+            Actor:: "Well, I suppose there was something you didn't want to say on camera"
+            0:: "Promise a policy <Actor.he_or_she> wants once in office"
+            1:: "Offer sex for <Actor.his_or_her> endorsement"
+            2:: Actor2.isValid():: "Offer my <Actor2.boyfriend_or_girlfriend> <Actor2.name> for <Actor.his_or_her> endorsement"
+            
+            If 0 && Random(50, 100) < interpersonal
+                "I managed to reassure <Actor.him_or_her> that I only said what I said earlier to please my voter base. I will actually implement some of the policies <Actor.he_or_she> wants once I've been elected."
+                
+                "The influential community leader decided to officially endorse my candidacy for mayor. Fantastic!"
+                endorse += Actor:interpersonal
+            Elseif 1 && Actor:attractiontoplayer + Actor:perversion > 75
+                Actor:: "I've always wanted to fuck a future Mayor!"
+                Sex(Actor, Player)
+                
+                "The influential community leader decided to officially endorse my candidacy for mayor. Fantastic!"
+                endorse += Actor:interpersonal
+            Elseif 2 && Actor:attractiontoplayer + Actor:perversion > 75
+                Actor:: "I've always wanted to fuck a future First <Actor2.Gentleman_or_Lady> of the city!"
+                Sex(Actor, Actor2)
+
+                "The influential community leader decided to officially endorse my candidacy for mayor. Fantastic!"
+                endorse += Actor:interpersonal
+            Else
+                "The community leader turned down my dirty offer and walked away from our secret meeting."
+            Endif
+        Endif
+    Endif
+    
+    If Opi - politics < 60 || politics - Opi < 60
+        "My public response is consistent enough with the message I have been delivering to my existing supporters, so no big drama was caused!"
+    Else
+        "Unfortunately, my public response earlier was caught on camera and seen by some of my existing supporters, who were too pleased by it and accused me of being a typically flippant politician trying to win votes by saying whatever one wants to hear."
+        "One important supporter actually withdrew their endorsement ..."
+        endorse -= Random(0, 100)
+    Endif
+    If endorse < 0
+        endorse => 0
+    Elseif endorse > 1000
+        endorse => 1000
+    Endif
+    rfm_endorse.setGlobal(endorse)
+    SceneEnd()
+    

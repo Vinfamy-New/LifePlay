@@ -1,0 +1,49 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Actor.isEmployee() || [Actor.isColleague() && jobexperience - Actor:jobexperience > 30]
+        Subor = true
+    Else
+        Subor = false
+    Endif
+    Player.stripOne()
+    "I quickly flashed <Actor.name> my private parts."
+    perversion += 0.5
+    If Random(100, 200) < Actor:attractiontoplayer + perversion || [Random(66, 133) < Actor:attractiontoplayer + perversion + Actor:masochist && Subor]
+        Actor:attractiontoplayer += 0.5
+        Actor:perversion += 0.5
+        If Subor
+            Actor:: "I can tell you enjoy being quite forward and bold to our subordinates ..."
+        Endif
+        Actor(Flirty):: "I must say that's not a bad sight at all. Wanna show me what you can do with it?"
+        0:: "It's my lucky day!"
+        1:: "Actually, I didn't intend for this to get this far ..."
+        
+        If 0
+            Sex(Player, Actor)
+        Endif
+    Elseif Actor.hadSex() || Random(40, 100) < Actor:attractiontoplayer + perversion || [Random(26, 66) < Actor:attractiontoplayer + perversion + Actor:masochist && Subor]
+        "<Actor.name> didn't say a word but smiled at me."
+        If Subor
+            "Of course, I can't tell if <Actor.he_or_she> actually enjoyed that or is just trying not to upset me since <Actor.he_or_she> is one of my subordinates."
+        Else
+            "<Actor.He_or_She> definitely enjoyed what <Actor.he_or_she> saw."
+        Endif
+        Actor:attractiontoplayer += 0.5
+        Actor:perversion += 0.5
+    Else
+        If Subor
+            Actor(Angry):: "Please cover up! It's making me a bit uncomfortable. You're my boss after all ..."
+        Else
+            Actor(Angry):: "What the fuck! That's so inappropriate! Cover up you perv!"
+        Endif
+        Actor:attractiontoplayer -= 1
+        If WHERE != home && WHERE != fraternity && WHERE != brothel && WHERE != stripclub && WHERE != prison
+            followUp(public_indecency)
+        Endif
+    Endif
+    SceneEnd()

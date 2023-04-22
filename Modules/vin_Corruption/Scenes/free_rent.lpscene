@@ -1,0 +1,91 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Landlord); If Actor.isInterestedIn(Player) && [Actor:perversion > 70 || Actor:attractiontoplayer > 40 || Actor.hadSex()]
+OTHER:
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Zero = 0
+    CurrentRent = getRent()
+    "My perverted <Actor.landlord_or_landlady> is offering to forgo this month's rent payment if I sleep with <Actor.him_or_her> ..."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "It's just sex, one night with the <Actor.him_or_her> and I can save so much money!"
+        
+        // If you're banging your landlord for rent, you may show up to do your part one day only for them to be with some of their buddies as well, or be shocked to find another of your neighbours already there as part of the same arrangement.
+        
+        perversion += 2
+        If Random(0, 100) < 33
+            Actor2 = getSpecific(Neighbour)
+            While !Actor2.isSameGender(Player) && Actor2.isValid()
+                Actor2 = getSpecific(Neighbour)
+            Endwhile
+            Actor2.show()
+            "To my shock, when I arrive in the landlord's bedroom to fulfil my part of the bargain, I find that that one of the other tenants, my neighbour <Actor2.name>, was there as well, already naked no less."
+            "I put two and two together and figured that my neighbour has also agreed to this dirty deal with the landlord ..."
+            "And now the landlord wants both of us to tend to <Actor.his_or_her> needs at the same time ..."
+            "There's no going back now ... I have to do this ... threesome or otherwise."
+            Sex(Actor, Actor2, Player)
+        Elseif Random(0, 100) < 50 && !Player.isSameGender(Actor)
+            "To my shock, when I arrive in the landlord's bedroom to fulfil my part of the bargain, I find that that <Actor.he_or_she> is already waiting for me there with some of <Actor.his_or_her> friends"
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2:age => Actor:age + Random(-5, 5)
+            
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            Actor2.dress()
+            Actor2.show()
+            "The first one introduces <Actor2.himself_or_herself> as <Actor2.name>."
+            
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Actor)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3:age => Actor:age + Random(-5, 5)
+            
+            Actor3.randomizeFace()
+            Actor3.randomizeHairs()
+            Actor3.dress()
+            Actor3.show()
+            "The second one introduces <Actor3.himself_or_herself> as <Actor3.name>."
+            
+            Actor4 = generatePersonTemporary()
+            While !Actor4.isSameGender(Actor)
+                Actor4 = generatePersonTemporary()
+            Endwhile
+            Actor4:age => Actor:age + Random(-5, 5)
+            
+            Actor4.randomizeFace()
+            Actor4.randomizeHairs()
+            Actor4.dress()
+            Actor4.show()
+            "The third one introduces <Actor4.himself_or_herself> as <Actor4.name>."
+
+            "The eager looks on all their faces told me the story right away, I was to pleasure all of them at the same time today ..."
+            "There's no going back now ... I have to do this ... gangbang or otherwise."
+            Sex(Actor, Actor3, Actor2, Actor4, Player)
+        Else
+            "Let's get this over and done with ..."
+            Sex(Actor, Player)            
+        Endif
+                
+        If CurrentRent > 0
+            SavedRent.setGlobal(CurrentRent)
+            Zero.setRent()
+        Endif 
+    Else
+        "I'd rather pay with money ..."
+        If CurrentRent == 0
+            CurrentRent = SavedRent.getGlobal()
+            CurrentRent.setRent()
+        Endif
+    Endif
+    SceneEnd()
+    timeoutPrecise(672, free_rent, free_rent_ntr)

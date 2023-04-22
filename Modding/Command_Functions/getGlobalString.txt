@@ -1,0 +1,13 @@
+GlobalVariable.getGlobalString() returns String
+
+USE:
+Get the string value of a global variable. If there's no global variable under such name, returns 0.
+
+TYPE: Command, non-Ref (ref-like syntax)
+RETURNS: string
+THEME: Variables
+COMPARE: clearGlobal, setGlobalString
+
+EXAMPLE:
+    pie = pieString.getGlobalString()
+    "I could go for a slice of <pie> right now!"

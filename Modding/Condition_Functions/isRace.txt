@@ -1,0 +1,14 @@
+Actor1.isRace(Race)
+
+USE:
+Check if actor is a specific fantasy race: Human, Elf, Orc, Vampire.
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Fantasy
+COMPARE: isSameRace
+
+EXAMPLE:
+    If John.isRace(Human)
+        "John is human."
+    Endif

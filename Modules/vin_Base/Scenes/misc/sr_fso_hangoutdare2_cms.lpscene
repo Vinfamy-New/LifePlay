@@ -1,0 +1,87 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: Player.isMale() && Random(35, 100) < perversion && isModEnabled(vin_NTR)
+
+
+    // Summery - player asks their gf/wife to put on a show at a hangout, a few choices are there.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    
+    "I was looking at some dares on a website that I could give to my lover and found one that peaked my interest."
+    Actor2 = getCreature()
+
+    "What was it?"
+    0:: Actor2.isValid() && Actor2.isCreatureType(Dog) && isModEnabled(vin_Bestiality):: "It was having my gf/wife wear a skirt without anything under it and then my dog 'accidently' getting onto her."
+    1:: "It was inviting some friends over and then having my lover flash them."
+    2:: "It was setting up my girl to have sex with a few male friends of hers while I watched." 
+    3:: "I changed my mind it wasn't anything worth doing."
+
+    If 0
+        Player:: "Dare you to go wear a skirt without any underwear!" 
+        Actor:: "Oh naughty! Well we are at home...Ok. I'll do it!"
+        Actor2.show()
+        Actor.strip()
+        animatePair(Actor2, Actor, Doggy)
+        "Sometime later when your girlfriend/wife bent over to pickup an item she accidently dropped your dog jumped onto her!"
+        Actor:: "Oh no! Get off! Whats going on!" 
+        Sex(Actor2, Actor)
+    Elseif 1
+        Player:: "Hey would you be willing to strip down nude infront of some people for me?"
+        If Actor:perversion > 42
+            Actor:: "Heh sure. But you owe me love!"
+            setBackgroundCustom(livingroom)
+            Actor.strip()
+            "After your friends arrived they noticed your nude lover and couldn't help but ask how you managed to get her to do that. To which she responded it is a secret!" 
+            "The hangout ends eventually but not before your friends go one asks about having a quick little fun session with your girl."
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                count = 0
+                While count < 5
+                    Actor2 = getPerson(true)
+                    If Actor2.isInterestedIn(Actor) && Actor2:rapportwithplayer > 20
+                        Actor2.dress()
+                        Actor2.show()
+                        "<Actor2.name> was among the guests interested in having some fun with my girl."
+                        Sex(Actor2, Actor)
+                    Endif
+                    Actor2.delete()
+                    count += 1
+                Endwhile
+            Endif
+            "What a fun night."
+        Else
+            Actor:: "Oh god! No way!"
+        Endif
+    Elseif 2
+        Player:: "Hey could I watch you do something lewd with some guy friend's of yours?"
+        Actor:: "Well...I guess. But it won't hurt you right? I don't want you to feel bad after..."
+        Player:: "Trust me it won't hurt me! If I change my mind I'll let you know before you start!"
+        "Her friends arrive and they ask you one last time if this is alright with you."
+        0:: "Yes go for it."
+        1:: "Actually I changed my mind."
+        
+        If 0
+            count = 0
+            While count < Random(2, 3)
+                Actor2 = generatePersonTemporary()
+                While !Actor.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.dress()
+                Actor2.show()
+                "<Actor2.name> was among <Actor.name>'s friends who were invited and now about to fuck my girl."
+                Sex(Actor2, Actor)
+                Actor2.delete()
+                count += 1
+            Endwhile        
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(174, sr_fso_hangoutdare2_cms)

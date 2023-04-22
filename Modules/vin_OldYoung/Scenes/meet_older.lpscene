@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: all, -home, -work, -prison, -fraternity
+WHEN: 0 - 24
+WHO: none
+OTHER: likes_older > 10 && !Player.isAsexual()
+
+    // Randomly triggered scene for a younger player character that prefers older where a DILF / MILF (depending on your gender & sexual orientation) approaches you
+    
+    SceneStart()
+    "I was just going about my day when a stranger approaches me."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    
+    Actor:age => age + likes_older*0.5
+    Actor:age += Random(-5, 5)
+    Actor:attractiveness => Random(70, 100)
+    Actor:interpersonal => Random(70, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor:likes_older => 2*[age - Actor:age]
+    Actor:attractiontoplayer += Random(25, 50)
+    
+    Actor.dress()
+    Actor.show()
+    Actor.moveToPersonStand(Player, 100)
+    "The stranger introduced <Actor.himself_or_herself> as <Actor.name> and was rather confident about telling me <Actor.he_or_she> finds me attractive and asking me out on a date ..."
+    "And I must admit: <Actor.name> is a rather hot older <Actor.gentleman_or_lady>, around <Actor:age> years old if I have to guess, ... and I happen to always have a thing for older <Actor.men_or_women>. <Actor.His_or_Her> confidence in approaching a younger <Player.guy_or_girl> like me is kinda sexy too ... Many others may feel insecure about coming across as a creep."
+    0:: "Agree to a date right now"
+    1:: "Give <Actor.him_or_her> my number for a future date"
+    2:: "Turn <Actor.him_or_her> down"
+    
+    If 2
+        "I told <Actor.name> I was not interested and <Actor.he_or_she> left me alone."
+    Else
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        
+        If 0
+            "<Actor.name> is exactly my type, I can't help myself but agree to a date right now"
+            Actor.startDate()
+            "Hopefully it will be a good experience. Since we're obviously into each other, this may turn out to be a rather hot date."
+        Else
+            "Although <Actor.name> seems my type, I don't want to seem over eager. Let's just give <Actor.him_or_her> my number and hang out another day to get to know each other better."        
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, meet_older)

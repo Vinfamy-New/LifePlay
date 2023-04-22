@@ -1,0 +1,51 @@
+WHAT: whore_out, whore_out_brothel, whore_out_online
+WHERE: all
+WHEN: 8 - 21
+WHO: none
+OTHER: Random(0, 150) < pornfame + attractiveness + intelligence
+
+    // Asked to accompany a rich and powerful John to high-class events to to seal business deals
+    SceneStart()
+    "One of the most well-paid gigs for sex workers like me is to accompany powerful businesspeople to high-class events and help seal business deals"
+    "Of course, this usually involves both signining a contract and having a celebratory threesome."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    dressFormal()
+    Actor.dress()
+    secondScreen(Actor)
+    Actor.show()
+    "<Actor.name> is one such client, who is requesting my service tonight and is willing to pay generously for it."
+    0:: "Go with <Actor.name> to meet <Actor.his_or_her> client"
+    1:: "Not tonight"
+    
+    If 0
+        secondScreen()
+        setBackground(restaurant)
+        "I was asked to meet <Actor.name> at a fine dining restaurant."
+        Actor.show()
+        Actor.moveToPerson(Player)
+        
+        Actor2 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        
+        "After a few minutes, the client showed up too."
+        Actor2.dress()
+        Actor2.show()
+        Actor2.moveToPerson(Actor)
+        Player.moveToPersonStand(Actor)
+
+        "The portions at this expensive restaurant are ridiculously small. Might as well, since <Actor.name> and <Actor2.name> weren't doing much eating."
+        "After some intense negotiations during which I just stood there like a trophy, they finally seemed to come to an agreement."
+        "They signed the contract and <Actor.name> suggested that they should celebrate back in a hotel room"
+        setBackground(home)
+        "I guess this is where my job begins ...."
+        Sex(Actor, Player, Actor2)
+        money += 750
+    Endif
+    SceneEnd()
+    timeout(300, high_class_pg)

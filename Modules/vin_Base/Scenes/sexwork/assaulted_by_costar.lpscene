@@ -1,0 +1,98 @@
+WHAT: onlyfans, look_for_porn_shoot
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: isModEnabled(vin_NonConsensual) && !Player.isGay()
+
+    // the final 25% of update will be about prostitutes being "rap... music" by pimps and johns, about 'rough' por n co-stars and about being 'strongly convinced' to enter the adult industry.
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While Actor.isSameGender(Player)
+        Actor = generatePersonTemporary()
+    Endwhile
+    "A pornstar I've never worked with is apparently running <Actor.his_or_her> own niche porn studio. <Actor.He_or_She> wants to meet me in a motel room in quite a remote location for a shoot ... The rate <Actor.he_or_she> is offering to me is twice what the mainstream porn studios usually offer."
+    0:: "Sure, niche porn usually pays well"
+    1:: "No way, sounds too dodgy"
+    
+    If 0
+        setBackground(home)
+        Player:: "So here's the room ... it's rather disgusting actually ... But the promised pay more than makes up for it. Maybe the niche is all about fucking in disgusting rooms?"
+        Actor.show()
+        Actor:: "Surprise!"
+        "Suddenly, my supposed co-star / director appeared out of nowhere, butt-naked."
+        
+        Actor(Flirty):: "You're hot but you're so stupid. What are you doing, showing up here all alone? It must be my lucky day, cause I can rape you all night and won't have to pay a single dollar for it"
+        "Oh no, I don't like how this is going ..."
+        0:: "Run"
+        1:: "Attack"
+        2:: "Accept your fate"
+        
+        If 0
+            "I decided to make a run for it!"
+            If Random(0, 200) < Player:fitness
+                setBackground(street)
+                Actor.hide()
+                "I did it! The thug was long left behind and I escaped. Phew, that was close."
+                Rape = false
+            Else
+                money -= Random(30, 300)
+                "I tried to escape but the thug was too fast for me and knocked me down to the floor before I could reach the door."
+                Actor(Evil):: "I think you can just run away? You should have saved the energy to endure a hard pounding from me tonight."
+                Rape = true
+            Endif    
+        Elseif 1
+            Player.animate(martialart)
+            Player.moveToPersonStand(Actor, 100)        
+            Player(Furious):: "You messed with the wrong <Player.guy_or_girl>! Take this."
+            faceEachOther(Actor, Player)
+            Actor.animate(martialart)        
+            Actor(Furious):: "You dare sucker-punch me? I'll teach you a lesson."
+            "A fierce fight ensued ..."
+            Player.animate()
+            Actor.animate()        
+            If martial > Actor:martial
+                Rape = false
+                Actor.animate(fightlost)
+                Actor(Pain):: "Ah!"
+                Player(Angry):: "That should teach you to never lure sex workers into danger anymore."
+            Else
+                money -= Random(30, 300)
+                Rape = true
+                Player.animate(fightlost)
+                Player(Pain):: "Ah!"
+                Actor(Evil):: "Ha! You really thought you could match me in a fight? I have to say - this just makes me want to fuck your brains out even more, you'll see how I conquer this wild bitch tonight!"            
+            Endif
+        Else
+            "You don't need to be a rocket scientist to understand what will happen to a sex worker lured into a trap ... Might as well let <Actor.him_or_her> have what <Actor.he_or_she> wants and it would be a lot less painful and my life might be spared. Let's just hope <Actor.he_or_she> is not one of those serial killers targeting prostitutes ..."
+            Rape = true
+        Endif
+        
+        If Rape
+            Player.animate(fightlost)
+            "Soon, <Actor.he_or_she> was ripping my clothes off and proceeded to force <Actor.himself_or_herself> upon me."
+            If 2
+                Player(Crying):: "Please ... you can enjoy my body as much as you want... just don't hurt me ..."
+            Else
+                Player(Crying):: "No! Please stop ... I beg you ... Somebody help ..."
+            Endif
+            If Random(0, 100) < 30
+                "All of a sudden, I heard a police siren. The thug was terrified and made a run for it."
+                Actor.hide()
+                "Three cops arrived at the scene, finding me in all state of undress. Apparently the motel owner heard what was happening and called the cops, who responded immediately. Good thing they did, this night could have gone a lot worse."
+                mood -= Random(0, 50)
+            Else
+                "My cries for help went unheard in that disgusting motel room and I had no choice but endure the worst night of my life at the hand of this vile <Actor.man_or_woman>."
+                If Actor.isMale()
+                    Filter(Aggressive)
+                Else
+                    Filter(AggressiveFM)
+                Endif
+                TalkNonConsensual()
+                SexNoAffair(Actor, Player)
+                Actor.hide()
+                mood => 0
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, assaulted_by_costar)

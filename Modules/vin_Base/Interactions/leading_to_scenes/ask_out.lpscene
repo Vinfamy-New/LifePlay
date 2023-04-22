@@ -1,0 +1,23 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Actor.isEmployee() || [Actor.isColleague() && jobexperience - Actor:jobexperience > 30]
+        Subor = true
+    Else
+        Subor = false
+    Endif
+    
+    If Actor.isDating() || Actor.isRelative() || [Random(0, 100) < interpersonal && [Actor:rapportwithplayer > 10 || Actor:attractiontoplayer > 10]] || Subor
+        Actor(Happy):: "Of course, I'll follow your lead."
+        Actor.startDate()
+        If Subor
+            "Of course, I can't tell if <Actor.he_or_she> actually wants to spend time with me outside of work or just feels obliged to, fearing that rejecting me could affect <Actor.his_or_her> job."
+        Endif
+    Else
+        Actor(Sad):: "Sorry, I don't feel like hanging out with you today."
+    Endif
+    SceneEnd()

@@ -1,0 +1,13 @@
+showMapView(Radius)
+
+USE:
+Allows you to switch to the map view during scenes, possibly with a random location within a specified radius from your current location
+
+TYPE: Command, Reference
+RETURNS: /
+THEME: Camera
+COMPARE:
+
+EXAMPLE:						
+    showMapView(100)
+    "This shows I'm on the move during the scene"

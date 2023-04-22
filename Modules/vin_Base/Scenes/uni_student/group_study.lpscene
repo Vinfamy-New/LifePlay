@@ -1,0 +1,71 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // When group studying, some classmates will actually study with you, their own intelligence provides further boost to your intelligence increases. And of course, some group sex potential.
+    
+    SceneStart()
+    Actor = getSpecific(Coursemate)
+    If Actor.isValid()
+        Actor2 = getSpecific(Coursemate)
+        Actor.dress()
+        Actor2.dress()
+        Actor.show()
+        Actor2.show()
+        "I spent some time studying some of the materials given in class with two of my classmates, <Actor.name> and <Actor2.name>."
+        "By discussing with people with different perspectives on the same subject, I gained a deeper insight into the subject matter."
+        intelligence += Actor:intelligence*0.005 + Actor2:intelligence*0.0025
+        "Although studying in group makes the session more fun, it doesn't make us all immune to boredom and soon none of us could study anymore."
+        0:: "Invite <Actor.name> and <Actor2.name> to chill at my place"
+        1:: "I have others to hang out with"
+        
+        If 0
+            "It's a good opportunity to bond with my classmates."
+            moveTo(home)
+            setBackground(home)
+            "We ordered some takeaway and chit chat some more."
+            Actor:rapportwithplayer += 2
+            Actor2:rapportwithplayer += 2
+            Actor:attractiontoplayer += 2
+            Actor2:attractiontoplayer += 2
+            If Player.isInterestedIn(Actor) || Player.isInterestedIn(Actor2)
+                "Of course, now that both of them are inches away from my bed, maybe I have something else in mind other than just a friendly gathering among classmates?"
+                0:: "Suggest a threesome"
+                1:: "I don't have anything dirty in mind"
+                
+                If 0
+                    If Random(40, 60) < Actor:perversion || Actor.hadSex() || Random(20, 40) < Actor:attractiontoplayer
+                        Actor:: "Sounds good to me! What about you, <Actor2.name>?"
+                        If Random(40, 60) < Actor2:perversion || Actor2.hadSex() || Random(20, 40) < Actor2:attractiontoplayer
+                            Actor2:: "Sounds like a lot of fun actually. Great way to relieve after such a long study session."
+                            Sex(Player, Actor, Actor2)
+                        Else
+                            Actor2:: "No, thanks. I think it's time that I leave."
+                            Actor2.hide()
+                            "I think <Actor.name> and I scared <Actor2.name> off with our perverted idea. No threesome for us today ..."
+                            If Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+                                "Still, only <Actor2.name> left. <Actor.name> is very much still here and interested, threesome or otherwise."
+                                0:: "Fuck <Actor.name>"
+                                1:: "<Actor2.name> killed the mood"
+                                
+                                If 0
+                                    Sex(Player, Actor)
+                                Endif
+                            Else
+                                "What a shame ..."
+                            Endif
+                        Endif
+                    Else
+                        Actor:: "No way, you're joking, right?"
+                        Actor2:: "Yeah, sorry, I'm not interested either ..."
+                    Endif
+                Endif
+            Endif
+        Endif
+    Else
+        "No classmates to study with me."
+    Endif
+    SceneEnd()
+    

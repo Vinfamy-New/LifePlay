@@ -1,0 +1,82 @@
+WHAT: whore_out_online, whore_out, whore_out_brothel
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(0, 100) < attractiveness
+
+    // While looking for Johns, you may receive a high-paying offer to be the gift in a secretive birthday party, either alone or with other workers as well. It turns out the birthday boy/girl is an A-list celebrity (using one of the real face imports I did last year). There's a chance that the celeb is so satisfied with this 'gift' that they become one of your regular Johns from then on, which in time could end up as a sugar arrangement or an actual relationship.
+    
+    SceneStart()
+    "I was given a very high-paying offer to be the 'gift' in a birthday party. The whole thing seems very secretive though and the identity of who I would be servicing was kept confidential."
+    0:: "Accept the offer"
+    1:: "I don't like anything secretive"
+    
+    If 0
+        money += Random(1000, 2000)
+        "Whatever ... as long as I'm well compensated ... Probably some married politician trying to protect their reputation."
+        setBackground(fraternity)
+        "Here I am at this birthday party, organized in luxurious mansion no less. Whoever celebring their birthday must be loaded. No wonder the offer pays so well."
+        If Random(0, 150) > attractiveness
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Player)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2:attractiveness => Random(75, 100)
+            Actor2:age => Random(18, 25)
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            Actor2.dressUniform(sexwork)
+            Actor2.show()
+            "I wasn't the only escort invited to the party though, joining me there was <Actor2.name>, another high-class escort."
+        Endif
+        
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        Endwhile
+        
+        If Actor.isMale()
+            Actor.blendPreset(LeonardoD)
+            Actor:age => 47
+        Else
+            Random
+                Actor.blendPreset(EmmaW)
+                Actor.blendPreset(RihaN)
+                Actor.blendPreset(TaylorS)
+                Actor.blendPreset(YiL)
+            endRandom
+            Actor:age => 31
+        Endif
+        
+        Actor:attractiveness => Random(90, 100)
+        
+        Actor.makeInterested(Player)
+        
+        Actor.dress()
+        Actor.show()
+        "I couldn't believe my luck when I finally found out the identity of the mysterious birthday <Actor.boy_or_girl>."
+        "It's <Actor.name> <Actor.name_last> <Actor.himself_or_herself>, one of the hottest A-list celebrities right now."
+        "Honestly, I would fuck <Actor.him_or_her> for free with pleasure. I can't believe I'm actually getting paid to sleep with someone that millions of <Player.guys_or_girls> would fantasize about."
+        
+        If Actor2.isValid()
+            "Soon enough, <Actor2.name> and I were asked to come over and attend to <Actor.name>'s needs on <Actor.his_or_her> birthday, which we gladly did."
+            Sex(Actor, Player, Actor2)
+        Else
+            "Soon enough, I was asked to come over and attend to <Actor.name>'s needs on <Actor.his_or_her> birthday, which I gladly did."
+            Sex(Actor, Player)
+        Endif
+        
+        If Actor:attractiontoplayer > 30 || !Actor.isTemporary() || Actor:perversion > 75
+            "Not only did <Actor.name> give me a generous tip, this A-list celebrity went ahead and asked for my number so that <Actor.he_or_she> could request my service again soon."
+            "I can't help but feel extremely proud that I now have a famous person as one of my regular customers. It's almost as if I've reached the peak of the escort business itself."
+            If Actor.isTemporary()
+                Actor.makePermanent()
+            Endif
+            exchangeContact(Actor)
+            Actor.setActorVar(tag_john, 1)
+            timeoutPrecise(20000, john_celeb)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(500, john_celeb)

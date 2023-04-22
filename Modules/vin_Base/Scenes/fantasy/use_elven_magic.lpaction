@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: use_elven_magic
+ACTION_NAME: Use elven magic
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 20 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: use_elven_magic
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && Player.isRace(Elf)

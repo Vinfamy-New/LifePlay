@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: review_employee
+ACTION_NAME: Give employee performance review
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 30
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: review_employee
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isEmployee()

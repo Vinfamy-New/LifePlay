@@ -1,0 +1,19 @@
+Actor.favoriteHome(bool)
+
+USE:
+Add or remove this person's home as one of your favorites / shortcuts
+
+TYPE: Command, Reference
+RETURNS: /
+THEME: Relationships
+COMPARE:
+
+EXAMPLE:						
+            If 1
+                "<Actor.name> no longer lives with me and has found another place to live."
+                Actor.setLivingWithPlayer(false)
+                Actor.favoriteHome()
+            Elseif 2
+                "<Actor.name> moved out of <Actor.his_or_her> current place and moved in with me."
+                Actor.favoriteHome(false)
+                Actor.setLivingWithPlayer(true)

@@ -1,0 +1,105 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Neighbour); If !Actor.isAsexual() && Random(75, 500) < Actor:perversion 
+OTHER: isAtHome()
+
+    // If you have a neighbour with high perversion, you may overhear them having an org y next door and be convinced to join
+    SceneStart()
+
+    "Judging from the noise, my neighbour is having one hell of a party. I started with loud music, but now, I can't help but hear some rather intimate noises by multiple people. Maybe they're just having a Pornhub movie night, or is it possible that an actual orgy is taking place over there?"
+    0:: "Ignore"
+    1:: masochist < 50:: "Complain"
+    2:: "Peep"
+
+    If 0
+        "Good for <Actor.him_or_her> I guess. I can't ban my neighbours from sex! Must be having a time of <Actor.his_or_her> life!"
+    Elseif 1
+        Player(Angry):: "For god sake, keep it down. Do you want the entire building to know what you're up to?"
+        Actor:rapportwithplayer -= Random(0, 5)
+        masochist -= Random(0, 1)
+    Else
+        perversion += Random(0, 0.5)
+        "My curiousity got the better of me and I just had to see this ..."
+        karma -= 1
+        "I came over and found my neighbour's front door wide open, apparently it's a free for all party. With ease, I managed to get a pretty good view of what was going on ..."
+        setBackgroundCustom(livingroom)
+        Actor.show()        
+        "There was my neighbour <Actor.name> butt naked"
+
+        
+        If Player.isSameGender(Actor)
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.show()
+            "And a guest, also naked ..."
+            
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Actor)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3.show()
+            "And another guest ..."
+
+            Actor4 = generatePersonTemporary()
+            While Actor4.isSameGender(Actor)
+                Actor4 = generatePersonTemporary()
+            Endwhile
+            Actor4.show()
+            
+            "The final guest is the lone <Actor4.man_or_woman> in the party ... lucky <Actor4.guy_or_girl>!"
+            "Looks like they're about to go at it again"
+            Sex(Actor, Actor2, Actor3, Actor4)
+        Else
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.show()
+            "And a guest, also naked ..."
+            
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Actor)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3.show()
+            "And another guest ..."
+
+            Actor4 = generatePersonTemporary()
+            While !Actor4.isSameGender(Actor)
+                Actor4 = generatePersonTemporary()
+            Endwhile
+            Actor4.show()
+            "And the last one"
+
+            If Actor.isMale()
+                "There's another guest as well, the lone girl of the party, who's passed out on the couch. It doesn't take a rocket scientist to figure out what activities they have been doing that makes the poor girl so exhausted."
+                Actor2:: "Damn, she's out of it"
+                Actor3:: "Maybe we were too rough on her"
+                Actor4:: "Who do we do now ... this is turning into a sausage party without the girl ..."
+            Else
+                "A bunch of naked and drunk ladies of course lead to a lot of steamy lesbian sex."
+                Sex(Actor, Actor2)
+                Sex(Actor3, Actor4)
+            Endif            
+        Endif
+        "All of this looks like a lot of fun actually ... I'm feeling rather tempted to join them ..."
+        0:: "Offer to join them"
+        1:: "Enough"
+        
+        If 0
+            Player(Flirty):: "Looks like you guys are having some fun there? Mind if I join?"
+            Actor(Flirty):: "I didn't realize my neighbour and I are such kindred spirits ... Come on and join us then, what are you waiting for?"
+            Sex(Actor, Actor2, Actor3, Actor4, Player)
+            Actor:rapportwithplayer += Random(0, 10)
+            Actor:attractiontoplayer += Random(0, 10)
+            Player:perversion += Random(0, 1)
+        Else
+            "I should get out of here before I get caught."
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(300, neighbour_orgy)

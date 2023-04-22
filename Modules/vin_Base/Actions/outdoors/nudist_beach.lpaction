@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: nudist_beach
+ACTION_NAME: Go to the nudist beach
+WHERE: beach
+WHEN: 6 - 18
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: perversion +0.1 (DURATION), arousal +5.0 (DURATION), mood +5 (END)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: nudist_beach
+ANIMATION:

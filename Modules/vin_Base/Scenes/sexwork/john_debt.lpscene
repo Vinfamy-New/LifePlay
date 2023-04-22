@@ -1,0 +1,116 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: money < -500
+
+    SceneStart()
+    "I'm in so much debt and one of the loan sharks I owed money to is also a pimp."
+    setBackground(street)
+    "He forces me to come with him to a street corner to whore myself out to start paying back some of the debt. I have no choice but follow him."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    Actor.show(2)
+    "Here comes a John ..."
+    
+    If Random(0, 100) < 35 && [Actor.isMale() || [Actor.isTrans() && !Player.isMale()]] 
+        If Random(0, 100) < 50
+            Actor(Flirty):: "How much for a blowjob?"
+            Actor:likes_oral => Random(50, 100)
+            Dice = Random(200, 300)
+            Filter(Blowjob)
+        Else
+            Actor(Flirty):: "How much for a handjob?"
+            Dice = Random(100, 200)
+            Filter(Handjob)
+        Endif
+    Elseif Actor.isFemale() && Random(0, 100) < 15
+        Actor(Flirty):: "How much for you to eat my pussy?"
+        Actor:likes_oral => Random(50, 100)
+        Dice = Random(200, 300)
+        Filter(LickPussy)        
+    Else
+        If Random(0, 100) < 80 || [Player.isFemale() && !Actor.isMale()]
+            Actor(Flirty):: "How much for me to do whatever I want to you?"
+            Dice = Random(300, 400)
+        Else
+            Actor(Flirty):: "How much for anal?"
+            Actor:likes_anal => Random(50, 100)
+            Dice = Random(400, 500)
+            Filter(Anal)
+        Endif    
+    Endif
+    
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    
+    "How much should I charge <Actor.him_or_her>?"
+    0:: "Turn <Actor.him_or_her> down"
+    1:: "Rip <Actor.him_or_her> off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give <Actor.him_or_her> a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but I'm not working right now ..."
+        "Angry that I drove away an opportunity to pay back some of the debt, the loan shark gave me an earful and decided to charge me some loan interest for wasting his time."
+        money -= 50
+    Elseif choice == 3 || choice*attractiveness > Actor:intelligence + Actor:interpersonal
+        Actor(Flirty):: "It looks like we have a deal, darling."
+        "The client paid upfront, only for the money to be immediately taken by my loan shark to go towards my debt."
+        If WHERE == brothel
+            "Soon enough, I was following <Actor.him_or_her> to one of the brothel's rooms."
+        Else
+            "Soon enough, I was following <Actor.him_or_her> to a nearby motel room."
+            setBackground(home)
+        Endif
+        Sex(Actor, Player)
+        If WHERE == brothel
+            BroMu = 10                
+        Else
+            BroMu = 1
+        Endif            
+        If Random(0, 0.5)*Actor:fitness < fitness*BroMu           
+            money => money + Dice/choice
+            
+            If Random(5, 30) < Actor:attractiontoplayer
+                "Aside from our agreed fee, the John also gave me a big tip."
+                money += Dice/choice/2
+                "I can't help but notice how smitten this John has become with me after sex ... looks like <Actor.he_or_she> is going to become a regular customer ..."
+                Actor.makePermanent()
+                Actor.setActorVar(tag_john, 1)
+            Endif
+            
+            
+            Illegal = Player.getActorVar(sexwork_illegal)
+            If Illegal > 0
+                If Random(0, 50) < sneak*BroMu
+                    "Even though prostitution is now illegal in this country, I got away with this particular transaction without incident"
+                Elseif Random(0, 100) < 20
+                    "Unfortunately for me, prostitution is illegal in this country and I wasn't sneaky enough."
+                    "As soon as I put my clothes back on, I realized the cops were there waiting for me ..."
+                    sentence => 30
+                    followUp(imprisoned)
+                Endif
+            Endif
+        Else
+            Actor.hide()
+            "Oh no, the John made a run for it and disappeared before paying me ..."
+            "Damn it! Can't keep working for free like this. Maybe I should improve my fitness in case I need to chase down Johns like this in the future"
+            mood -= 5
+            "Angry that I screwed up an opportunity to pay back some of the debt, the loan shark gave me an earful and decided to charge me some loan interest for wasting his time."
+            money -= 50
+        Endif
+    Else
+        Actor(Angry):: "No way, that's too expensive! You have too high an opinion of yourself, honey. I'll find myself another whore elsewhere."
+        "Angry that I drove away an opportunity to pay back some of the debt, the loan shark gave me an earful and decided to charge me some loan interest for wasting his time."
+        money -= 50
+    Endif
+    
+    SceneEnd()
+    timeout(100, john_debt)

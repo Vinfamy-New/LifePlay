@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: climb_together
+ACTION_NAME: Climb together
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: energy -20.0 (DURATION), fitness +0.1 (DURATION), attractiveness +0.01 (DURATION), muscle +0.03 (DURATION), mood +3 (END)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: climb
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && WHERE == mountain

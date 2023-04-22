@@ -1,0 +1,42 @@
+WHAT: all
+WHERE: all, -home, -prison, -work
+WHEN: 0-24
+WHO: none
+OTHER: TfGame() && !Player.isMale() && !Player.isVirgin()
+
+    // You meet someone who recognizes you and remembers you as male, who has gone through either same or opposite transformation as you. Since you're in the same boat, you may decide to help each other get comfortable with your new bodies.
+    
+    SceneStart()
+    "I was just going about my day when I walked past someone who I didn't recognize at first ..."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    Actor.dress()
+    Actor.show()
+    Actor:: "My God, is that you?"
+    "To my shock, this <Actor.guy_or_girl> called out my name, my old male name! <Actor.He_or_she> then told me <Actor.his_or_her> real name. <Actor.He_or_She> was one of my <Actor.female_or_male> friends, who was turned into a <Actor.man_or_woman> just last week."
+    "We compared our experiences and they matched perfectly. Whatever mystery turned me into a woman also turned my friend into a <Actor.man_or_woman>."
+    "I wasn't the only one affected."
+    "My friend, who now went by <Actor.name>, invited me back to <Actor.his_or_her> apartment to discuss this further."
+    setBackground(home)
+    "We spent a long time talking and consoling each other. It's good to know that at least someone still remembers my previous life. <Actor.name>, however, seemed totally resigned to fate and didn't believe at all that <Actor.he_or_she> could ever return to <Actor.his_or_her> previous life."
+    "Soon enough though, the conversation turned to the topic of our new bodies. <Actor.name> confessed that <Actor.he_or_she> got aroused all the time in this new body but had only masturbated a couple of times and hadn't had the courage to actually try sex with another person yet, which was something that must happen before <Actor.he_or_she> could really embrace this new life."
+    blockPregnancy()
+    "I must admit I have already experimented a bit more with my female body. Maybe since we're also in the same boat, I should offer to be <Actor.his_or_her> first and help <Actor.him_or_her> get comfortable with <Actor.his_or_her> new body."
+    0:: "Offer to take <Actor.name>'s 'virgnity'"
+    1:: "I'm sure <Actor.he_or_she> could figure that out <Actor.himself_or_herself>"
+    
+    If 0
+        "<Actor.name> agreed that I was the best person to do it with, so we soon began our experience sharing session."
+        Sex(Player, Actor)
+        Actor.hide()
+        setBackground(street)
+        "The next day, I received a text message from <Actor.name>"
+        Actor:: "<Player.name>, thank you for last night. I will never forget what you've done for me."
+        Actor:: "However, I think it's best if we never see each other again as to not remind each other about our previous lives. As you know, I don't hold out any hopes of returning to my previous body and losing my virginity last night was the last step I needed to accept this new life."
+        "I tried calling <Actor.him_or_her> only to find my number blocked ... Oh well, I guess <Actor.he_or_she> made <Actor.his_or_her> choice to enjoy life as a <Actor.man_or_woman> and just needed me to open the floodgate."
+    Endif
+    SceneEnd()
+    timeout(1000, tf_sameboat)

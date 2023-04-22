@@ -1,0 +1,43 @@
+WHAT: work_hourly
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Boss); If Random(0, 70)*Random(0, 1) > intelligence && !Actor.hadSex()
+OTHER:
+
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    Actor:: "<Player.name>? What are you doing here? Are you ... working here?"
+    Actor:: "You're not supposed to have a side gig! You broke your employment contract!"
+    Punished = true
+    "Damn it, I was just trying to make some extra income alongside my office job but my rotten luck had my boss walking in on my shift here today."
+    0:: "Try to explain"
+    1:: "Calm <Actor.name> down with sex"
+    
+    If 0
+        "I made up some excuses and a sob story about how my financial situation forced me to go against company rules to make some extra income, and that it will never happen again."
+        If Random(0, 50) < Actor:rapportwithplayer
+            Punished = false
+            Actor:: "Okay, I'm not insensitive to your situation. Just don't do it again!"
+        Else
+            "Unfortunately, the boss was having none of it."
+        Endif
+    Else
+        Actor:: "Please, don't fire me and just ignore this please. I really need the job at your office. I'll do anything."
+        If Actor.isInterestedIn(Player) && [Actor:perversion > 60 || Actor:attractiontoplayer > 35] 
+            Punished = false
+            Actor:: "Fine, then follow me back to my place, now!"
+            setBackground(home)
+            Sex(Actor, Player)
+        Else
+            "Unfortunately, the boss doesn't seem interested in what I was subtly offering."
+        Endif
+    Endif
+    
+    If Punished
+        Actor:: "You can be sure that this will be reflected very badly in your next performance review. In fact, I wouldn't be so sure you'll still have the job after that review."
+        jobperformance -= 50
+    Endif
+    SceneEnd()
+    timeoutPrecise(1000000, boss_discovers_hourly)

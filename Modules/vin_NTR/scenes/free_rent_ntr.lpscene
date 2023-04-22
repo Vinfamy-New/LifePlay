@@ -1,0 +1,53 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Landlord); Actor2 = getSpecific(Dating); If Actor.isInterestedIn(Actor2) && Actor:perversion > 70
+OTHER:
+
+    SceneStart()
+    If OpenRelationship() || Actor2:perversion > 75 || Actor2:masochist < -50 || masochist > 50
+        Ignored = true
+    Else
+        Ignored = false
+    Endif
+    Actor.dress()
+    Actor.show()
+    Zero = 0
+    CurrentRent = getRent()
+    "My perverted <Actor.landlord_or_landlady> is offering to forgo this month's rent payment if I let <Actor.him_or_her> sleep with my <Actor2.boyfriend_or_girlfriend> <Actor2.name> ..."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        masochist += 1
+        Actor2:masochist -= 1
+        Actor2:perversion += 1
+        "It's just sex, let my landlord spend one night with my <Actor2.boyfriend_or_girlfriend> and I can save so much money!"
+        Actor2.dress()
+        Actor2.show()
+        If Ignored
+            "Thankfully, <Actor2.name> had the same attitude to things and agreed to the arrangement."
+            perversion += 2
+            Sex(Actor, Actor2)
+            If CurrentRent > 0
+                SavedRent.setGlobal(CurrentRent)
+                Zero.setRent()
+            Endif
+        Else
+            Actor2:attractiontoplayer -= 2
+            "Unfortunately, <Actor2.name> was disgusted that I would let <Actor2.him_or_her> sleep with the landlord just to save on rent and made it clear it wasn't happening."
+            "I'll have no choice but pay the rent as usual this month."
+            If CurrentRent == 0
+                CurrentRent = SavedRent.getGlobal()
+                CurrentRent.setRent()
+            Endif            
+        Endif
+    Else
+        "I'd rather pay with money ..."
+        If CurrentRent == 0
+            CurrentRent = SavedRent.getGlobal()
+            CurrentRent.setRent()
+        Endif
+    Endif
+    SceneEnd()
+    timeoutPrecise(672, free_rent, free_rent_ntr)

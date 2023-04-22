@@ -1,0 +1,70 @@
+WHAT: all
+WHERE: all
+WHEN: 8 - 22
+WHO: Actor = getCompanion(); If !Actor.isMale() && Actor.isDating()
+OTHER: Player.isMale() && Random(40, 100) < perversion && isModEnabled(vin_NTR)
+
+    SceneStart()
+    "You just got a terribly dirty idea. Your <Actor.boyfriend_or_girlfriend> has taken nudes for you in the past. Why not send one of them to someone to see their reaction?"
+    0:: "Yes, this is a great idea."
+    1:: "What am I thinking? This is a terrible idea."
+
+    If 0
+        "How exactly?"
+        0:: "I’ll use her phone to send one of her nudes to a contact I know."
+        1:: "I’ll ask her to send a nude to a random contact on her phone. (Requires her perversion at 40 or she will say “Baby so you really want me to do such a thing? Do you even love me? No way!” and the event ends.) If she has enough perversion then she will send the nude to someone and let you see the response.
+
+        If 1 && Actor:perversion < 40
+            Actor:: "Baby so you really want me to do such a thing? Do you even love me? No way!"
+        Else
+            If 0
+                "Who should I send it to?"
+                selectNpc()
+                Actor2 = getSelectedNpc()
+                
+                "I sent <Actor2.name> <Actor.name>'s nudes."
+            Else
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.makePermanent()
+                "<Actor.name> sent her nudes to a guy she had a crush on, called <Actor2.name>."
+            Endif
+        Endif
+        
+        secondScreen(Actor2)
+        Actor2.show()
+        "Now, let's see how <Actor2.name> responds ..."
+        
+        If Actor2:perversion > 40
+            "<Actor2.name> sent a nude back."
+        Elseif Actor2:perversion > 60 && Actor2:masochist < -50 && choice == 1
+            "<Actor2.name> invites <Actor.name> over to have sex." 
+            0:: "Allow it"
+            1:: "Put a stop to it"
+            
+            If 0
+                secondScreen()
+                "I helpfully drove <Actor.name> over to <Actor2.name>'s place."
+                setBackground(home)
+                Actor2.dress()
+                Actor2.show()
+                "Once there, I waited outside while they had sex."
+                Sex(Actor2, Actor)
+            Endif
+        Elseif Actor2:perversion > 40 && Actor2:masochist < -25
+            Actor2:: "Send another!"
+            0:: "Send another"
+            1:: "Put a stop to it"
+            
+            If 0
+                "Another nude was sent to <Actor2.name>"
+            Endif
+        Else
+            "No response from <Actor2.name>."
+        Endif
+        Actor2:rapportwithplayer += 2
+    Endif
+    SceneEnd()
+    timeout(150, sr_fso_phone_dare1_cms)

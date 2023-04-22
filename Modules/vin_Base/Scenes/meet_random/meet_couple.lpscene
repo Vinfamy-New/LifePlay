@@ -1,0 +1,46 @@
+WHAT: all
+WHERE: all, -home, -fraternity
+WHEN: 7-19
+WHO: none
+OTHER: Random(0, 300) < interpersonal || [ [WHAT == socialize || WHERE == nightclub] && Random(0, 100) < interpersonal] || [isWithCompanion() && Random(0, 200) < CurrentCompanion:interpersonal] || [WHERE == home && Random(0, 2000) < interpersonal]
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    Actor2 = generatePersonTemporary()
+    Actor.dress()
+    Actor2.dress()
+    Actor.show()
+    Actor2.show()
+    "Just by chance, I came across a couple, <Actor.name> and <Actor2.name>. Seems like decent people."
+    0:: "Exchange numbers"
+    1:: "Maybe not"
+    
+    If 0
+        "We exchanged contacts. It would be good to get to know them better."
+        Actor.makeInterested(Actor2)
+        Actor2.makeInterested(Actor)
+        If Actor.isInterestedIn(Player) && Actor:attractiontoplayer < 0
+            Actor:attractiontoplayer => Random(0, 50)
+        Endif
+        If Actor2.isInterestedIn(Player) && Actor2:attractiontoplayer < 0
+            Actor2:attractiontoplayer => Random(0, 50)
+        Endif
+        Actor.makePermanent()
+        Actor2.makePermanent()
+        exchangeContact(Actor)
+        exchangeContact(Actor2)
+        If Random(0, 100) < Actor:age + Actor2:age
+            addNpcRelationship(Spouses, Actor, Actor2)
+            "They seem to be in a happy marriage."
+        Else
+            addNpcRelationship(Dating, Actor, Actor2)
+            "They seem to be in a happy relationship"
+        Endif
+        If isModEnabled(vin_Polyamorous) && Random(100, 200) < Actor:perversion + Actor2:perversion
+            addNpcRelationship(Dating, Actor, Actor2)
+            addNpcRelationship(Poly, Actor, Actor2)
+            "I can't help but notice there's something unusual and very ... open about how they act as a couple though. My guts feeling tells me that they're probably polyamorous."            
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, meet_couple)

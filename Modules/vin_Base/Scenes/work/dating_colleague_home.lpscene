@@ -1,0 +1,139 @@
+WHAT: all
+WHERE: work
+WHEN: 17 - 22
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Colleague); If Actor.isColleague() && Actor:attractiontoplayer > 20
+OTHER:
+
+    // If your SO's working in the same office, after 5 PM you may get a scene where your SO asks to go home together, there they can ask if you want dinner, a shower together or straight to bed for some stress relief. A single colleague may see your great chemistry and feel a bit down, and you two can be nice and invite them over for dinner as well. Obviously, threesome potential or your colleague may end up meeting a relative living with you instead.
+
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    Actor.moveToPersonStand(Player, 50)
+    Actor:: "Baby, I've finished work for the day. Are you finishing as well? Let's head home together ..."
+    0:: "Go home with <Actor.name>"
+    1:: "I'm not done yet"
+    
+    If 0
+        Player:: "Sure"
+        If !Actor2.hasRelationship(Spouses, Dating) && !Actor2.isDating() && Actor2:rapportwithplayer > 20
+            Actor2.dress()
+            Actor2.show()
+            "Just as we were about to leave the office, a colleague also leaving made a passing comment."
+            Actor2:: "You two are such a great couple. It must be nice to spend so much time together both at work and at home."
+            Actor2:: "My previous relationship ended because we spent so much time apart working that we hardly spent any time together."
+            Actor2:: "So here I am ... going home all alone from work ... going to cook alone, eat alone, Netflix and chill with myself ..."
+            0:: "Sorry to hear"
+            1:: "Why don't you join us for dinner?"
+            
+            If 0
+                Player:: "I'm sure you'll find someone soon."
+                Alone = true
+                Actor2.hide()
+            Else
+                Actor2:: "Oh that's very kind of you. I'd love to."
+                Alone = false
+            Endif
+        Else
+            Alone = true
+        Endif
+        
+        moveTo(home)
+        If Alone
+            setBackgroundCustom(livingroom)
+            Actor:: "Home sweet home!"
+            Player:: "I was thinking maybe we should ..."
+            0:: "Make dinner first"
+            1:: "Shower together first"
+            2:: "Go straight to bed"
+            
+            If 0
+                setBackground(kitchen)
+                "We decided to make dinner together and ate."
+                Energy += 30
+                cooking += 2
+                Actor:cooking += 2
+            Elseif 1
+                setBackground(shower)
+                Player.strip()
+                Actor.strip()
+                "We decided to shower together and soon got intimate right there in the shower."
+                Sex(Player, Actor)
+                perversion += 0.5
+                Actor:perversion +=0.5
+                Energy += 20
+            Else
+                Actor:: "Oh baby, I was so horny at work today. I want to have you right away."
+                Player:: "Let's relieve all the stress with some fun"
+                setBackground(home)
+                Sex(Player, Actor)
+                perversion += 1
+                Actor:perversion += 1
+            Endif
+            Actor:attractiontoplayer += 2
+            Actor:rapportwithplayer += 2
+        Else
+            setBackgroundCustom(livingroom)
+            Actor:: "Home sweet home!"
+            setBackgroundCustom(kitchen)
+            "We invited our guest <Actor2.name> to sit down while we put together a quick meal, a little bit extra special compared to our simple dinner. We have guest to cheer up after all."
+            "We also brought out a nice bottle of win we've been saving to treat <Actor2.name>."
+            Actor2:rapportwithplayer += 5
+            Actor2:attractiontoplayer += 2
+            Actor3 = getRelative()
+            If Actor3.isValid() && Actor3.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor3) && Actor3.livesWithPlayer()
+                Actor3.dress()
+                Actor3.show()
+                Actor3.moveToPersonStand(Player, 50)
+                "Just as we're about to start digging in, my <Actor3.relationship> <Actor3.name> arrived home."
+                Actor3:: "Hmm, that smelt good ... can I join? Oh, sorry, you have a guest over?"
+                Player:: "It's okay, this is our colleague <Actor2.name>. <Actor2.name>, this is my <Actor3.relationship> <Actor3.name>."
+                Actor3:: "Nice to meet you, <Actor2.name>!"
+                Actor2:: "How come you two never mention to me that <Player.name> has such a hot <Actor3.relationship> ...?"
+                "Oh wow, is <Actor2.name> so sick of loneliness and <Actor2.he_or_she> hits on any <Actor3.guys_or_girls> that come along ..."
+                "Although, maybe this isn't the worst idea in the world."
+                0:: "Try to match-make <Actor2.name> with my <Actor3.relationship>"
+                1:: "Signal to my <Actor3.relationship> to keep distance"
+                
+                If 0
+                    Player:: "Why don't you sit down and join us? We cooked plenty tonight. Besides, <Actor2.name> here is looking to make new friends anyway."
+                    Actor3.moveToPerson(Actor2)
+                    Actor3:: "Sounds great to me"
+                    "My <Actor3.relationship> and <Actor2.name> indeed got along very well ... so well that <Actor2.name> didn't have to worry about going home alone that night ..."
+                    setBackground(home)
+                    Player.hide()
+                    Actor.hide()
+                    "Because <Actor2.he_or_she> ended up in my <Actor3.relationship>'s bed, that is."
+                    Sex(Actor3, Actor2)
+                    Player.show()
+                    If !Actor3.hasRelationship(Spouses, Dating) && Actor3:perversion < 70
+                        "Amazingly, as fate would have it, the two of them ended up as a couple ... I didn't realize I had such a golden touch as a matchmaker."
+                        addNpcRelationship(Dating, Actor3, Actor2)
+                    Else
+                        "Unfortunately for <Actor2.him_or_her>, things didn't work out between <Actor2.him_or_her> and my <Actor3.relationship> in the end and it was no more than a one-night stand."
+                    Endif
+                Else
+                    Actor3:: "Alright, I'll leave you three to it. I've already eaten anyway."
+                Endif
+            Else
+                "What we didn't expect was for our guest to help <Actor2.himself_or_herself> to two-third of the bottle. One can sympathize with <Actor2.his_or_her> bad mood."
+                0:: "Cheer my single colleague up with a threesome"
+                1:: "No way"
+                
+                If 0
+                    "I whisper into <Actor.name>'s ear my naughty idea to cheer own mutual colleague up."
+                    "<Actor.name> decided to go along with it."
+                    Player:: "<Actor2.name>, don't feel sad and lonely. We're here for you."
+                    Sex(Player, Actor, Actor2)
+                Endif
+            Endif
+        Endif
+    Else
+        Player:: "You go ahead, babe. I still have some work to do. I'll see you at home."
+        Actor:: "Okay ... don't stay too long ..."
+        Actor:attractiontoplayer -= 1
+    Endif
+    
+    SceneEnd()
+    timeoutPrecise(72, dating_colleague_home)

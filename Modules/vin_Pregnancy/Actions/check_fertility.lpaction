@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: check_fertility
+ACTION_NAME: Check fertility
+WHERE: hospital, doctor
+WHEN: 0 - 24
+MINUTES: 1 - 2
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: check_fertility
+ANIMATION:   

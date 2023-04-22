@@ -1,0 +1,88 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If Actor.isInterestedInMen() && Actor:perversion > 30
+OTHER: OpenRelationship() || Player:masochist > 30
+
+    // Similar to the above, but for your SO wih you as the cuck looking for well-endowed bulls instead.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Stage = Actor.getActorVar(tag_sizequeen)
+    If Stage == 0
+        "I notice <Actor.name> checking out some subreddits for men with big dicks in the browser's history on our shared laptop. What should I do about this?"
+        0:: "Encourage <Actor.name> to embrace being a size <Actor.king_or_queen>"
+        1:: "My tool, however small, should do the job just fine"
+        
+        If 0
+            "<Actor.He_or_She> is horny for big dicks ... I tell <Actor.him_or_her> that I love nothing more than to help <Actor.him_or_her> get them ..."
+            Actor.setActorVar(tag_sizequeen, 1)
+        Else
+            timeout(2000, sizequeen_escalates_ntr)
+        Endif
+    Elseif Stage < 5 || !isModEnabled(vin_Bestiality)
+        "<Actor.name>'s ever escalating desires as a size <Actor.king_or_queen> and my willingness to watch my <Actor.boyfriend_or_girlfriend> stretched to the limit leads us to frequent various NSFW subreddits where men post their dick pics. We can't help but want bigger and bigger."
+        Bull = generatePersonTemporary()
+        While !Bull.isMale()
+            Bull = generatePersonTemporary()
+        endWhile
+        secondScreen(Bull)
+        Bull.show()
+        If Stage == 1
+            Bull.setMorphValue(XY__Penis size, 0.2)
+        Elseif Stage == 2
+            Bull.setMorphValue(XY__Penis size, 0.3)
+        Elseif Stage == 3
+            Bull.setMorphValue(XY__Penis size, 0.4)
+        Elseif Stage == 4
+            Bull.setMorphValue(XY__Penis size, 0.5)
+        Elseif Stage == 5
+            Bull.setMorphValue(XY__Penis size, 0.6)
+        Elseif Stage == 6
+            Bull.setMorphValue(XY__Penis size, 0.7)
+        Else
+            Bull.setMorphValue(XY__Penis size, 0.8)
+        Endif
+
+        "While browsing today, one guy immediately caught our attention with his impressive member."
+        0:: "Slide into <Bull.his_or_her> DM"
+        1:: "This is escalating too fast ..."
+        
+        If 0
+            secondScreen()
+            "Challenge accepted. I can't wait to watch <Actor.name> test my limit against that huge cock."
+            Stage += 1
+            Actor.setActorVar(tag_sizequeen, Stage)
+            "Being someone who openly posts his nude and dick pic online for everyone to see, this Reddit member of course isn't shy to go fuck a fan of his member, especially when <Actor.his_or_her> own <Player.boyfriend_or_girlfriend> is the one who initializes contact."
+            Bull.show()
+            "Soon enough, we invite the lucky guy to our place. And we weren't disappointed ... Definitely no Photoshop involved in those impressive dick pics"
+            Sex(Bull, Actor)
+        Elseif 1
+            "We can't keep going for bigger and bigger. <Actor.name>'s hole will get destroyed at this rate."
+        Endif
+    Else
+        "I've let <Actor.name> fallen down the size <Actor.king_or_queen> rabbit hole. Nowadays, any guys that are average like myself simply can't satisfy my <Actor.boyfriend_or_girlfriend>, and we're running out of men with big enough dicks."
+        "There's really only one option left ..."
+        "Well-endowed guys have the habit of calling their members horsecocks, but those are nothing compared to the real thing ..."
+        0:: "Find a horse to test <Actor.name>'s limit"
+        1:: "We've gone too far"
+        
+        If 0
+            "Instead of Reddit, we turn to a zoophilia forum on the dark web and soon finds a horse owner willing to lend their horse to someone curious about bestiality."
+            setBackground(river)
+            "We soon agreed to meet up at a secluded place to do the deed"
+            Bull = generateCreatureTemporary(Horse)
+            While !Bull.isMale()
+                Bull = generateCreatureTemporary(Horse)
+            endWhile
+            Bull.show()
+            "We weren't disappointed. Really, no human can compare with this monster."
+            Sex(Bull, Actor)
+        Else
+            "We really should calm down and let <Actor.name> rediscover <Actor.his_or_her> love for human dicks ..."
+            Actor.setActorVar(tag_sizequeen, 2)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, sizequeen_escalates_ntr)

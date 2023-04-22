@@ -1,0 +1,120 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    // You may caress a bit and get told off or flirted with
+    
+    Actor.animate(sunbathe)
+    
+    Player.moveToPersonStand(Actor, 50)
+    "I approached <Actor.name> and offered to help <Actor.him_or_her> apply sunscreen."
+    
+    If Actor:perversion > 25
+        Actor:: "That'll be great, actually."
+        "I started applying sunscreen on <Actor.name>."
+        If isModEnabled(vin_Netori) && Random(0, 100) < 33 && Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor)
+            // If Netori is enabled, the target's signicant other may cause a scene and gets asked to leave, leaving the target alone and embarrassed.
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Player)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+            Actor2.moveToPersonStand(Player, 50)
+            "Barely moments later, an angry <Actor2.guy_or_girl> showed up and threatened me."
+            Actor2:: "Leave my <Actor.boyfriend_or_girlfriend> alone!"
+            Actor2:: "And you, <Actor.name>, how could you do this to me? I was gone to the bathroom for 5 minutes and you're already cheating on me with another <Player.guy_or_girl> ..."
+            "The jealous <Actor2.boyfriend_or_girlfriend> was being very loud and causing a big scene so it was no surprise when someone from the management asked <Actor2.him_or_her> to leave the venue."
+            Actor2:: "Fine ... I couldn't care less about such an <Actor2.manwhore_or_whore> of a <Actor.boyfriend_or_girlfriend> anyway ..."
+            Actor2.hide()
+            "<Actor.name> is now left alone and too embarrassed to speak."
+            Player:: "I'm sorry about that misunderstanding. I didn't mean to upset your <Actor2.boyfriend_or_girlfriend> so much just by offering to help you with the sunscreen ..."
+            Actor:: "No, it's not your fault. <Actor2.He_or_She>'s always like that. You know what, I gave <Actor2.him_or_her> plenty of time to change <Actor2.his_or_her> possessive and jealous nature but think I'm done with <Actor2.him_or_her> now ..."
+            Actor:: "Would you give that <Actor2.asshole_or_bitch> exactly what <Actor2.he_or_she> deserves by fucking me?"
+            "Not everyday that you receive such an offer from someone you've barely laid a finger on ..."
+            0:: "Why not?"
+            1:: "You're not thinking straight"
+            
+            If 0
+                Actor:: "Okay, take me somewhere. Anywhere, I don't care anymore."
+                0:: "There must be some hidden spot around here"
+                1:: "Let's find a hotel room nearby"
+                
+                If 1
+                    setBackground(home)
+                Endif
+                Sex(Actor, Player)
+            Else
+                karma += 10
+                Player:: "I can't take advantage of you being so emotional and vulnerable right now."
+                Player:: "Revenge is only toxic. You should calm down first."
+                0:: "Just console <Actor.name> a bit more"
+                1:: "Exchange numbers"
+                
+                If 1
+                    Player:: "Listen, you seem like a great <Actor.guy_or_girl> and I'd love to get to know you more once you've calmed down."
+                    Player:: "Let's exchange numbers."
+                    Actor.makePermanent()
+                    exchangeContact(Actor)
+                Endif
+            Endif
+        Else
+            "Should I behave appropriately or should I push my luck and caress <Actor.name> a bit?"
+            0:: "Touch <Actor.name> sensually"
+            1:: "Just apply the sunscreen as required"
+            
+            If 0
+                "I decided to be a bit overzealous with applying the sunscreen and was almost massaging <Actor.his_or_her> whole body, including some of <Actor.his_or_her> sensitive spots."
+                
+                If Random(50, 100) > Actor:perversion + Actor:attractiontoplayer 
+                    Actor:: "Thank you for your help, but I think I'd take it from here."
+                Else
+                    "No disapproval of my behavior so far, it looks like <Actor.he_or_she>'s down to play."
+                    Actor:: "Yes, that's the spot. Just there ... Yeah ..."
+                    
+                    If !CurrentCompanion.isSameAs(Actor) && CurrentCompanion.hadSex() && CurrentCompanion:perversion > 50
+                    
+                        // If your companion is a past lover with high perversion, you may work together in turning target on, leading to a threesome. 
+                        
+                        CurrentCompanion.moveToPersonStand(Actor, 50)
+                        CurrentCompanion:: "Actually, I think this spot may be even better."
+                        "Out of nowhere, <CurrentCompanion.name> joins us and also starts caressing <Actor.name>. The two of us worked together to turn this lucky sunbather on."
+                        Actor:: "Damn it, I can't hold it anymore. I want you, both of you, right here, right now!"
+                        Sex(Actor, Player, CurrentCompanion)
+                    Else
+                        "I was pleasantly surprised that <Actor.he_or_she> was so receptive to my advances, but should I take it any further?"
+                        0:: "Hook up"
+                        1:: !Actor.isContactExchanged():: "Exchange numbers"
+                        2:: "Enough fun today"
+                        
+                        If 0
+                            Player:: "You know what? I think I should stop applying the sunscreen, since I can now think of something else we could be doing together than sunbathing all day."
+                            Actor:: "I'm thinking the same thing ..."
+                            Player:: "Follow me ..."
+                            0:: "There must be some hidden spot around here"
+                            1:: "Let's find a hotel room nearby"
+                            
+                            If 1
+                                setBackground(home)
+                            Endif
+                            Sex(Actor, Player)
+                        Elseif 1
+                            "We obviously have some chemistry but this is a public place after all. Let's be decent people and exchange numbers to meet another time."
+                            Actor.makePermanent()
+                            exchangeContact(Actor)
+                        Endif
+                    Endif
+                Endif   
+            Else
+                Actor:: "Thank you, you did a great job! I guess I don't have to worry about skin cancer while tanning now."
+            Endif
+        Endif
+    Else
+        Actor:: "No need. Thank you for the offer though."
+    Endif
+    
+    SceneEnd()

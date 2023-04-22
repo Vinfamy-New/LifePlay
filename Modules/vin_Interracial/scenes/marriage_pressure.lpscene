@@ -1,0 +1,75 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isDating() && Actor.hadSex() && [Random(20, 200) < 100 - Actor:perversion || [Actor.isDeflowered() && Random(10, 100) < 100 - Actor:perversion]] && [[Actor.isEthnic(arab) || Actor.isEthnic(indian)] || [[Actor.isEthnic(asian) || Actor.isEthnic(latin)] && Random(0, 100) < 50]]
+OTHER: !isPlayerMarried() && !Player.isSameGender(Actor)
+
+    // If you're dating someone of Arab or South Asian descent (possible also if Latin or East Asian, but much lower chance) and have slept with them (chances double if you were their first), there's a chance their parents will eventually give them an ultimatum to either get you to marry them now, or break up with you and marry a 'nice traditional' boy/ girl from a family they know all the way back in their home country. You can give in and get married, or convince your bf/ gf to become estranged from their parents (success depends on their attraction to you) or just let them leave you to please their parents.
+    
+    SceneStart()
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> seems quite moody today. Maybe something is wrong?"
+    Actor:: "Baby, we need to talk ..."
+    "This sounds serious ... But why? I thought our relationship was going so well ..."
+    Actor:: "You know my parents immigrate to this country from a very traditional country. Although they're now naturalized citizens, they still stick to their old beliefs, especially when it comes to relationship, sex and marriage."
+    Actor:: "They're not naive and know too well we're having pre-marital sex. It doesn't mean that they're pleased with it or the fact that I'm yet to be married at my age."
+    Actor:: "In their homeland, people my age already have kids!"
+    Player:: "Okay ... maybe we should talk to them then ..."
+    Actor:: "It would pointless. In fact, they've given me an ultimatum to either to marry you within the next few months, or end our relationship and marry this 'nice & traditional" <Player.boy_or_girl> from their village all the way back from the 'motherland'."
+    Actor:: "I've never even met this <Player.guy_or_girl>! But if I refuse their request, they threatened to disown me as their <Actor.son_or_daughter>."
+    0:: "Give in to the pressure and marry <Actor.name>"
+    1:: "No harm being estranged from such abusive parents!"
+    2:: "I guess we weren't meant for each other."
+    
+    If 0
+        Player:: "Ideally, I wouldn't have wanted to rush things but I really believe in our future together, so I guess it's not the end of the world to hurry things along a bit to please your parents."
+        Actor:attractiontoplayer += 10
+        Actor:: "I'm so lucky to have such an understanding <Player.boyfriend_or_girlfriend>."
+        Actor.setActorVar(tag_pressure, 1)
+        Breakup = false
+        followUp(marriage_proposal)
+    Elseif 1
+        Player:: "Don't you realize? Your parents are being nothing but controlling and abusive. And I'm pretty sure that arranged marriages are illegal in this country."
+        Player:: "And what if we get married now? What does that change exactly? They will continue to get involved in businesses not theirs to begin with. Will they also decide how many children we'll have? Will they also be forced into early marriages by their backwards grandparents?"
+        Player:: "Why would you worry so much about being disowned by such terrible parents? It could be a blessing in disguise. Or they may just be bluffing to scare you into submission."
+        If Random(20, 60) < Actor:attractiontoplayer
+            Breakup = false
+            Actor:: "You're right ... I have to stand firm, under whatever pressure they put me under. If they don't think I'm fit to be their <Actor.son_or_daughter> anymore because of this, then so be it."
+            "Eventually, not being able to change our mind, <Actor.name>'s parents gave up and let us continue our unmarried relationship ... for now."
+            "As expected, they were simply bluffing and didn't actually have the heart to disown their own <Actor.son_or_daughter>, which isn't exactly good news for me as they may come back with more pressure to get married in the future."
+        Else
+            Breakup = true
+            Actor:: "I'm sorry, baby. I love you but I owe my parents everything. I cannot betray them like that ..."
+        Endif
+    Else
+        Breakup = true
+    Endif
+    
+    If Breakup
+        Actor:: "I guess all good things do come to an end ..."
+        Player:: "I never expected our time together would end like this ..."
+        Actor:: "You shouldn't blame yourself. I wish I could just ignore my parents' wishes, but I just can't."
+        Actor:: "Have a good life, <Player.name>. I'm sure you'll find someone else without the family baggage that I have."
+        "And just like that, our relationship was over ..."
+        
+        setRaceGenerated(Actor, true)
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Player)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.makeInterested(Actor)
+        Actor2.makePermanent()
+        secondScreen(Actor2)
+        Actor2.show()
+        Actor.ModifyRaceFetish(Actor2, -100, -50)
+        
+        "Barely two months later, <Actor.name> got married to the <Actor2.guy_or_girl> that <Actor.his_or_her> parents had hand-picked all the way back from their home country. I was initially worried that <Actor.name> would have to move back there and live with <Actor.his_or_her> new <Actor2.husband_or_wife> and I would lose all contact for good. Fortunately, the new <Actor2.husband_or_wife> wanted to move to this country instead and the marriage was enough to secure permanent residences and soon, citizenships, for <Actor2.him_or_her> and <Actor2.his_or_her> entire family."
+        
+        Actor.setDatingId()
+        loseDating()
+        addNpcRelationship(Spouses, Actor, Actor2)
+               
+        Actor.endDate()
+    Endif
+
+    SceneEnd()
+    timeout(500, marriage_pressure)

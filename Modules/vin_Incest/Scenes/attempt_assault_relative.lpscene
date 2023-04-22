@@ -1,0 +1,76 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: Actor = getTarget()
+OTHER:
+
+    SceneStart()
+    "Even though <Actor.name> is my <Actor.relationship>, I can't help but desire <Actor.him_or_her>."
+    "Unfortunately for me, <Actor.he_or_she> hasn't been receptive at all to any of my advances."
+    "Maybe my last resort is to simply force <Actor.him_or_her> into it somehow ..."
+    0:: "Come up with a plan to rape my <Actor.relationship>"
+    1:: "Let's try and control my urges"
+    
+    If 0
+        moveTo(home)
+        Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+        "I reckon I have a few options on how to go about this."
+        0:: "Spiked drink"
+        1:: Actor2.isValid() && Actor.livesWithPlayer() && !Actor.isVirgin():: "Blackmail about affair"
+        2:: Actor.livesWithPlayer():: "Rape <Actor.him_or_her> in <Actor.his_or_her> sleep"
+        
+        If 0   // SPIKED DRINK
+            setBackgroundCustom(livingroom)
+            "I invited my <Actor.relationship> for a movie night. <Actor.He_or_She> didn't suspect a thing ..."
+            Player:: "Look, I even made you your favorite cocktail for the movie night."
+            "Little did <Actor.name> know, that cocktail was spiked with the strongest date rape drug available."
+            Actor:: "Wow, what's the occasion? Why are you so nice to me all of a sudden?"
+            Player:: "What are you talking about? Can't you just be nice to you as your <Actor.callplayer>?"
+            "A while later ..."
+            "<Actor.His_or_Her> speech is becoming slurred now. It seems the drug is taking effect. Let's get <Actor.him_or_her> out of the living room and into my bedroom."
+            setBackground(home)
+            "I pushed <Actor.him_or_her> onto the bed."
+            Actor.animate(na_sleep)
+            Player(Flirty):: "Now, let us have some fun, because you're gonna forget all about this in the morning!"
+            If !Player.isMale() && Actor.isMale()
+                Filter(AggressiveFM)
+            Else
+                Filter(Aggressive)
+            Endif
+            TalkNonConsensual()
+            SexNoAffair(Player, Actor)
+            Actor:incest += 50
+        Elseif 1   // BLACKMAIL
+            setBackgroundCustom(livingroom)
+            "Well, thanks to my bedroom being literally next to <Actor.his_or_hers>, I happened to know about an affair my <Actor.relationship> has been having."
+            "I'm sure <Actor.he_or_she> would do anything to keep the affair from being exposed to <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name>."
+            Actor:rapportwithplayer -= 100
+            Player(Evil):: "I'll keep it short then: I know all about your little affair. And you're going to have to let me fuck you to keep my mouth shut in front of <Dating.name>."
+            Actor:: "But you're my <Actor.callplayer> ... how could you do this to me?"
+            Player:: "I could and I did ... and I will get what I want"
+            Player:: "Now, it's up to you ... one night with me or <Actor2.name> dumping your ass ... your choice."
+            Actor:: "Okay, fine ... if that's what it takes to keep this a secret."
+            Sex(Player, Actor)
+            Actor:incest += 50
+        Else  // SLEEP
+            "Let's do this the old-fashioned way ... <Actor.he_or_she> is currently living with me, which provides a perfect opportunity."
+            setBackground(home)
+            Player.hide()
+            "Later that night ..."
+            Actor.animate(na_sleep)
+            "<Actor.He_or_She> kept <Actor.his_or_her> door unlocked. Perfect!"
+            Player.show()
+            Player(Evil):: "Dear <Actor.relationship> ... you sleep so soundly ... you have no idea how long I've wanted this ... and I'm going to give it to you whether you like it or not."
+            If !Player.isMale() && Actor.isMale()
+                Filter(Sleeping)
+            Else
+                Filter(Aggressive)
+            Endif
+            TalkNonConsensual()
+            SexNoAffair(Player, Actor)
+            Actor:incest += 50            
+        Endif
+        endDate()
+    Endif
+    
+    SceneEnd()

@@ -1,0 +1,238 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "The world is far from being a fair place for all and there are plenty of people who are unfortunate to be born in poor or war-torn countries seeking a better life in my country."
+    "Of course, the government can't just give out permanent residence to everyone in the world who wants it, so many desperate people from all over the world are here on temporary visa or even illegally."
+    "While they face threats of deporting to their home countries if caught breaking immigration laws, there are certain charities and religious organizations that help shelter those most vulnerable in the meantime."
+    "Still, even these organizations can't guarantee them stable lives and their futures depend on whether they can find an actual sponsor."
+    "Employers can be sponsors, but the government only grants work permits to those considered experts in their fields."
+    "For most average immigrants though, immigration via family is their only option, or in the case of not already having any family member with existing citizenship, marrying a citizen is."
+    "Being a citizen of this country, I could potentially help an immigrant securing their future by arranging a fake marriage with them."
+    0:: "Get introduced to an immigrant seeking permanent residence"
+    1:: "I'm not risking scamming the government for some stranger's sake"
+    
+    If 0
+        "Should I state a preference for a particular region of the world that the immigrant comes from?"
+        0:: "Africa"
+        1:: "South Asia"
+        2:: "Middle East"
+        3:: "Latin America"
+        4:: "East Asia"
+        5:: "Eastern Europe"
+        
+        If 0
+            setRaceGenerated(black)
+        Elseif 1
+            setRaceGenerated(indian)    
+        Elseif 2
+            setRaceGenerated(arab)        
+        Elseif 3
+            setRaceGenerated(latin)    
+        Elseif 4
+            setRaceGenerated(asian)    
+        Else
+            setRaceGenerated(white)    
+        Endif
+                
+        "Eventually, I was put in touch with an immigrant who was initially on a short-term visa but has long overstayed the duration and was now facing increasing risk of deportation."
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        Endwhile
+        
+        If Actor.isEthnic(black) && Actor.isMale() && !isTimingOut(strt_black_m)
+            Actor.blendPreset(strt_black_m)
+            
+        Elseif Actor.isEthnic(black) && !Actor.isMale() && !isTimingOut(strt_black_f)
+            Actor.blendPreset(strt_black_f)
+
+        Elseif Actor.isEthnic(indian) && Actor.isMale() && !isTimingOut(strt_indian_m)
+            Actor.blendPreset(strt_indian_m)
+            
+        Elseif Actor.isEthnic(indian) && !Actor.isMale() && !isTimingOut(strt_indian_f)
+            Actor.blendPreset(strt_indian_f)
+            
+        Elseif Actor.isEthnic(arab) && Actor.isMale() && !isTimingOut(strt_arab_m)
+            Actor.blendPreset(strt_arab_m)
+            
+        Elseif Actor.isEthnic(arab) && !Actor.isMale() && !isTimingOut(strt_arab_f)
+            Actor.blendPreset(strt_arab_f)
+
+        Elseif Actor.isEthnic(latin) && Actor.isMale() && !isTimingOut(strt_latin_m)
+            Actor.blendPreset(strt_latin_m)
+            
+        Elseif Actor.isEthnic(latin) && !Actor.isMale() && !isTimingOut(strt_latin_f)
+            Actor.blendPreset(strt_latin_f)
+            
+        Elseif Actor.isEthnic(asian) && Actor.isMale() && !isTimingOut(strt_asian_m)
+            Actor.blendPreset(strt_asian_m)
+            
+        Elseif Actor.isEthnic(asian) && !Actor.isMale() && !isTimingOut(strt_asian_f)
+            Actor.blendPreset(strt_asian_f)
+
+        Elseif Actor.isEthnic(white) && Actor.isMale() && !isTimingOut(strt_white_m)
+            Actor.blendPreset(strt_white_m)
+            
+        Elseif Actor.isEthnic(white) && !Actor.isMale() && !isTimingOut(strt_white_f)
+            Actor.blendPreset(strt_white_f)
+        Endif
+
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+        "Should I meet <Actor.name> to discuss our arrangement."
+        0:: "Arrange a meeting with <Actor.name>"
+        1:: "Look for someone else another day"
+        
+        If 0
+            Actor.ModifyRaceFetish(Player, 0, 100)
+            Actor.makeInterested(Player)
+            secondScreen()
+            "Soon enough, we meet up."
+            Actor.show()
+            "What <Actor.he_or_she> gets out of this fake marriage arrangement is obvious: a future in this country. However, <Actor.he_or_she> seems to be a wise <Actor.guy_or_girl> who understands that there's usually no free favor. <Actor.name> asked me what I would want to get out of the arrangement."
+            0:: "Money"
+            1:: "Sex"
+            2:: "I just want to help someone in need"
+            3:: "Actually, I want to bail on this whole arrangement"
+            
+            If 3
+                "On second thought, I don't want to get in trouble with the goverment for exploiting immigration laws."
+            Else
+                If 0
+                    "<Actor.name> fully expected my answer and offered all the money <Actor.his_or_her> family saved up back home. This was their last hope it seemed. It's make or break for them."
+                    money += 5000
+                    Nice = false
+                    "I guess some people may consider it shitty to exploit people in desperate situation, but in my mind, I deserve to be compensated for taking on the risk of breaking the law."
+                    karma -= 10
+                Elseif 1
+                    "I smiled and told <Actor.name> my real reason for wanting to do this: My sexual desire for a <Actor.race> <Actor.man_or_woman> like <Actor.him_or_her> ..."
+                    If Actor.isEthnic(black) && Actor.isMale() && !isTimingOut(strt_black_m)
+                        "I can't help but fantasize about black men and their big black cocks and how they will really stretch my poor little <Player.race> body to its limits."
+                        
+                    Elseif Actor.isEthnic(black) && !Actor.isMale() && !isTimingOut(strt_black_f)
+                        "I can't help but fantasize about those strong black women and their voluptuous curves. Personally, I've always preferred thicker women to the skinny fashion model types."
+
+
+                    Elseif Actor.isEthnic(indian) && Actor.isMale() && !isTimingOut(strt_indian_m)
+                        "I can't help but fantasize about these exotic South Asian men with their dark skin matched by thick black body hair."
+                        
+                    Elseif Actor.isEthnic(indian) && !Actor.isMale() && !isTimingOut(strt_indian_f)
+                        "There are just something about exotic yet sexually repressed South Asian women that really attract me to them. I also don't mind my ladies being a bit on a hairier side."
+
+                        
+                    Elseif Actor.isEthnic(arab) && Actor.isMale() && !isTimingOut(strt_arab_m)
+                        "I can't help but fantasize about these exotic Arab men with their manly black beard and hairy chest."
+                        If Player.isMale()
+                            "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                        Else
+                            "I find their more dominant attitude towards women somewhat arousing too."
+                        Endif
+                        
+                    Elseif Actor.isEthnic(arab) && !Actor.isMale() && !isTimingOut(strt_arab_f)
+                        "There are just something about exotic yet sexually repressed Arab women that really attract me to them."
+                        If !Player.isMale()
+                            "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                        Else
+                            "I find their more traditional attitude towards the role of the woman in a relationship somewhat arousing too."
+                        Endif
+
+
+                    Elseif Actor.isEthnic(latin) && Actor.isMale() && !isTimingOut(strt_latin_m)
+                        "I can't help but fantasize about these passionate Latino men with their tanned skin and dark handsome features. It's so sexy when they talk dirty in their mother tongue."
+                        
+                    Elseif Actor.isEthnic(latin) && !Actor.isMale() && !isTimingOut(strt_latin_f)
+                        "I can't help but fantasize about those sexy Latinas with their voluptuous curves and fiery passion. I'd love nothing more but to dance with them all night."
+
+                        
+                    Elseif Actor.isEthnic(asian) && Actor.isMale() && !isTimingOut(strt_asian_m)
+                        "I can't help but fantasize about these cute youthful-looking East Asian men. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair."
+                        "I also find their intelligence and more gentle and shy demeanor absolutely irresistible."
+                        
+                    Elseif Actor.isEthnic(asian) && !Actor.isMale() && !isTimingOut(strt_asian_f)
+                        "There are just something about smart but shy youthful-looking East Asian women that really attract me to them. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair. I also don't mind my ladies being all natural down there."
+                        "I find their somewhat more submissive behavior in a relationship quite arousing too."
+                    Endif
+                    karma -= 10
+                    "I told <Actor.name> that I don't need any money from <Actor.him_or_her>, but during the few months it would take between our fake wedding and <Actor.his_or_her> permanent residence being confirmed, our temporary marriage arrangement must still be consummated and <Actor.he_or_she> must attend to me sexually whenever I demand."
+                    "<Actor.name> sighed but eventually accepted <Actor.his_or_her> fate. I believe <Actor.he_or_she> called it a sacrifice at one point. I guess some people may consider it shitty to exploit people in desperate situation, but in my mind, I deserve to be compensated for taking on the risk of breaking the law."
+                Elseif 2
+                    "<Actor.name> was shocked by my kindness and called me <Actor.his_or_her> guardian angel."
+                    Actor:attractiontoplayer += 50
+                    Actor:rapportwithplayer => 100
+                    karma += 20
+                Endif
+                
+                setBackground(biergarten)
+                "Just a month later ..."
+                Player.dressUniform(Wedding)
+                Actor.dressUniform(Wedding)
+                "We had our fake wedding with fake guests."
+                
+                moveTo(home)
+                setBackground(home)
+                If 1
+                    "Of course, it wasn't fake in terms of sex. As per our agreement, <Actor.name> let me fuck <Actor.him_or_her> on our 'wedding night'."
+                    Sex(Player, Actor)
+                    
+                    Player.strip()
+                    Actor.strip()
+                    
+                    "<Actor.name> was basically crying afterwards, probably thinking about how <Actor.he_or_she> sacrificed <Actor.his_or_her> body for a stable future."
+                    
+                    Player.dress()
+                    Actor.dress()
+                    "And then we fucked almost every day during our short-term 'marriage' whenever I want. I just couldn't get enough of my <Actor.race> fucktoy."
+                    Sex(Player, Actor)
+                Else
+                    "I honored our previous agreement and didn't try anything sexual with <Actor.him_or_her> during our time living in the same home to keep up appearance in the eyes of the immigration officers" 
+                Endif
+                
+                Player.strip()
+                Actor.strip()                
+                Player.dress()
+                Actor.dress()
+                
+                "Time flies and after a few months, <Actor.name> obtained <Actor.his_or_her> permanent residence."
+                If 2 && Random(35, 65) < Actor:attractiontoplayer
+                    Actor.makePermanent()
+                    exchangeContact(Actor)
+                    "We were supposed to get divorced and go on our separate ways as agreed beforehand, but suddenly <Actor.name> stopped me to say something."
+                    Actor:: "<Player.name>, I think I've fallen in love with you for real ..."
+                    Actor:: "You're the kindest <Player.man_or_woman> I've ever known. So many people out there just want to exploit others in desperate situation whenever they can."
+                    Actor:: "Yet I've done me and my family the biggest favour possible and asked for nothing in return"
+                    Actor:: "And you've treated me with absolute respect in the few months we lived together"
+                    Actor:: "So maybe we don't have to get divorced ... maybe we're meant to be together ..."
+                    0:: "Become <Actor.name>'s <Player.husband_or_wife> for real"
+                    1:: "Let's step back a bit"
+                    
+                    If 0
+                        Player:: "<Actor.name>, I think I've fallen in love with you too. I know we probably don't have the most romantic 'How We Met?' story to tell, but I think we could make it work."
+                        Actor.setDating()
+                        loseHomeDating()
+                        If Actor.isDominantSex(Player)
+                            Player.matchLastName(Actor)
+                        Else
+                            Actor.matchLastName(Player)
+                        Endif
+                        Actor.setActorVar(tag_Married, 1)
+                        getMarried()
+                        "And just like that, the divorce papers were never signed and our fake marriage turned into a real love story. And at long last, we consummated our marriage, months after our wedding night."
+                        
+                        Sex(Player, Actor)
+                    Else
+                        Player:: "<Actor.name>, I like you too, but to actually jump into marriage life after only few months of knowing each other under these circumstances is all too rushed."
+                        Player:: "Let's just finalize this divorce and then we can hang out as friends in the future, and who knows, maybe we can be more then"
+                        "<Actor.name> was disappointed but we did in fact stay in touch after our divorce. It's up to me if I want to give it a try. <Actor.He_or_She>'s just a phone call away."
+                    Endif
+                Else
+                    "We quickly got a painless divorce as agreed beforehand and went on our separate ways. <Actor.name> never bothered to get in contact with me again, no doubt wanting to forget the past memories of the extent <Actor.he_or_she> had to go to in order to live in this country permanently."
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

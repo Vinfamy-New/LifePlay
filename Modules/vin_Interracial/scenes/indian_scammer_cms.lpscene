@@ -1,0 +1,64 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: none
+OTHER: !isTimingOut(strt_indian_f) && !isTimingOut(strt_indian_m) && !Player.isEthnic(indian)
+
+    // indian/south asian telemarketer calls you randomly and tries to trick you into giving them money. you can either fall for it, trick them into giving you money, seduce them, or get them to meet up and go on a date
+    
+    SceneStart()
+    "I was just working on my computer when my phone suddenly rang from an unknown number."
+    setRaceGenerated(indian)
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    endWhile
+    secondScreen(Actor)
+    Actor.show()
+    Actor:: "Hello, this is <Actor.John_or_Jane> Smith, Level 4 Technician from Microsoft, Washington office. We've detected malicious activity on your computer."
+    0:: "Follow <Actor.his_or_her> every instructions"
+    1:: "It's clearly a scam!"
+    
+    If 0
+        "Oh no ... my computer got a virus ... I must follow this kind Microsoft technician's every instructions at once ..."
+        "And I did ... only to lose quite a lot of money as it turned out to be a sophisticated scam ..."
+        money -= 1000
+    Else
+        "Yeah right ... <Actor.John_or_Jane> Smith definitely sounds like the name of someone with a thick South Asian accent ..."
+        0:: "Hang up the phone"
+        1:: intelligence > 70:: "Trick the scammer out of <Actor.his_or_her> money instead"
+        2:: "Stop scamming people, I'll help you immigrate here and be your <Player.sugardaddy_or_sugarmama>"
+        
+        If 0
+            Player:: "Not interested. Bye!"
+        Elseif 1
+            "Little did the scammer know ... I've learned a trick or two from watching YouTube videos by Jim Browning."
+            "I managed to reverse the scammer's connection to my computer and managed to hack <Actor.his_or_her> South Asian bank account and transfer some money to me instead."
+            money += 200
+        Else
+            Player:: "Listen ... I know you're scamming me ... You don't have to do this, you know ... Judging by your accent, you're based in a call centre somewhere in India, aren't you? I know you're only doing this out of poverty"
+            Player:: "I happen to have a thing for South Asian <Actor.men_or_women> myself so how about I make you an offer ..."
+            Player:: "I'll fly you to this country for a new life and I'll be supporting you financially in exchange for some regular intimacy?"
+            "It didn't take long for the South Asian scammer to agree to my proposal ... easy money and a brighter future in a more developed country? <Actor.He_or_She> couldn't say no to that."
+            Actor.makePermanent()
+            secondScreen()
+            Actor.dress()
+            "Just a few weeks later, my new imported lover arrived in the country and I immediately showered <Actor.him_or_her> with luxury. <Actor.He_or_She> was in awe of it all."
+            "Why not? I'll be sure to be extra generous on the first date."
+            setBackground(restaurant)
+            Actor.show()
+            "Among other things, I took <Actor.name> to a really fancy restaurant and wined and dined <Actor.him_or_her> like money was no object. Afterwards, I suggested that we head to a suite I had booked at a 5-star hotel nearby."
+            setBackground(home)
+            Actor.makePermanent()
+            "This hotel suite cost me a fortune. And I hope that <Actor.name> knows what I'm expecting from <Actor.him_or_her> for my generousity."
+            Sex(Player, Actor)
+            perversion += Random(0, 0.5)
+            "We spent the night together. The morning after, I paid for breakfast, and before heading off to work, I told <Actor.name> that I will call <Actor.him_or_her> soon and left <Actor.him_or_her> a generous envelope. Needless to say, <Actor.name> is now my sugarbabe."
+            money -= Random(1100, 1500)
+            SugarBabe = Actor.getID()
+            SugarBabe.setGlobal(SugarBabe)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, indian_scammer_cms)

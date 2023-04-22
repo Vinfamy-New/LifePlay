@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: mentor_subordinate
+ACTION_NAME: Mentor subordinate
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 60 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: mentor_subordinate
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isEmployee() || [Actor.isColleague() && jobexperience - Actor:jobexperience > 30]

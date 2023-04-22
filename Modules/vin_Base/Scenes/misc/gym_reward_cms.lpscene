@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: sports_centre
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating) 
+OTHER: Player:fitness < 50 && Player.isMale()
+
+    SceneStart()
+    moveTo(home)
+    setBackground(home)
+    Actor.dress()
+    Actor.show()
+    "After a hard workout I come home from the gym, greeted with a warm smile by my loving <Actor.boyfriend_or_girlfriend>."
+    Actor:: "Ohh babe, I'm so proud of you! You seemed like you wanted to give up earlier and stay home today but.. you went to the gym anyway.."
+    Actor:: "I bet you're *so* tired right now..."
+    Player:: "It was a hard workout indeed..."
+    Actor:: "Mmm... you know what?..."
+    Actor:: "Why don't you.. just lay down for me like this...?"
+    Player.animate(na_sleep)
+
+    Actor:: "Relax babe...and let me just...give you a little something something, huh?"
+
+    Actor:: "I think you deserve a reward... for not quitting this little journey and staying motivated.."
+
+    Player:: "You mean...you are gonna...?"
+
+    Actor::"I mean exactly what you think I mean..."
+
+    Actor::"Don't worry about a thing... just let me show you how proud I really am..."
+
+    Filter(Blowjob)
+    Sex(Player, Actor)
+
+    Actor:: "I'm so proud of you baby... I know it can be hard sometimes and there are days when you feel like quitting but.. Just think about me then! I always got your back.. and I'll motivate you again... Any time you need it!"
+
+    "With those words my <Actor.boyfriend_or_girlfriend> gives me another intimate kiss, before leaving me in my room"
+    "<Actor.He_or_She> is really the best motivator ever!"
+    
+    Actor:attractiontoplayer += 5
+    
+    SceneEnd()
+    timeout(300, gym_reward_cms)

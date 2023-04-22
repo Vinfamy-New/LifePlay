@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: slave_to_master
+ACTION_NAME: Submit to my master
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: slave_to_master
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && Actor.hadSex() && !Player.isMale()

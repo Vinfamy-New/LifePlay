@@ -1,0 +1,15 @@
+faceEachOther(Actor1, Actor2)
+
+USE:
+Rotate two actors so that they face each other
+
+TYPE: Command, Ref
+RETURNS: /
+THEME: Animations
+COMPARE:
+
+
+
+
+
+

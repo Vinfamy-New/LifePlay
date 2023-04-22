@@ -1,0 +1,65 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getPerson(tag_curiousred)
+OTHER:
+
+
+    SceneStart()
+    "<Actor.name> called me and asked me to hang out, she's the lesbian friend who gave me a blowjob just to know what it felt like ..."
+    0:: "Get a drink with her"
+    1:: "Maybe not"
+    
+    If 0
+        setBackgroundCustom(livingroom)
+        "After getting a few drinks, we end up in her place again ..."
+        "<Actor.name> asks you if you remember what you let her try last time."
+        0:: "No, I don't"
+        1:: "Yes, I remember"
+        2:: "You mean when you gave me a blowjob?"
+        3:: "You mean when you choked on my cock?"
+        
+        If 0
+            "She changed the subject and we talked about something else less awkward."
+        Else
+            If 2
+                Actor:perversion += 2
+            Elseif 3
+                Actor:masochist += 2
+            Endif
+            
+            "She is nervous and asks if she could try that again."
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                "She kneels in front of you and starts giving you a handjob."
+                Filter(Handjob)
+                Sex(Player, Actor)
+                "<Actor.name> is giving me a handjob ..."
+                0:: "Let her continue" 
+                1:: "Tell her to take off her top"
+                2:: "Push her head down to give you a blowjob"
+
+                If 0
+                    "She keeps stroking your cock for a while, and then eventually leans forward and starts sucking your cock."
+                Elseif 1
+                    Actor.strip()
+                    "She takes off her clothes, and then eventually leans forward and starts sucking your cock."
+                    Actor:perversion += 2
+                Else
+                    "She leans forward and starts sucking your cock."
+                    Actor:masochist += 2
+                Endif
+                
+                Filter(Blowjob)
+                Sex(Player, Actor)
+
+                Actor:rapportwithplayer += 10
+                "She says she enjoyed that again and says goodbye, and asks you not to tell her lesbian partner about this."            
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(100, curious_red_2_cms)

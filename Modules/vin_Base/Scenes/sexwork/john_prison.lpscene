@@ -1,0 +1,33 @@
+WHAT: all
+WHERE: prison
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // If you're in prison, as part of penal labour, you may agree to be pimped out to inmates (of appropriate gender) instead, which will eventually lead to a reduction in prison term for good behavior.
+    
+    SceneStart()
+    "As an inmate, I'm forced to do some penal labour. Since the prison has been quite rowdy recently and the prison guards are severely understaffed and overworked to keep order, they came up with an idea to let certain inmates whore themselves out to the particularly troublesome inmates to calm them down. In exchange, we get a minor recommendation to reduce our prison term for good behavior."
+    0:: "Whore myself out to another inmate to reduce prison term"
+    1:: "Not today"
+    2:: "Never!"
+    
+    If 0        
+        "Soon, the prison guard secretly brings a particularly volatile inmate to me to relieve."
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        Endwhile
+        
+        Actor.dressUniform(Prison)
+        Actor.show()
+        "Oh well, there's certainly less pleasurable ways to penal labour than this ..."
+        Sex(Actor, Player)
+        "The inmate I fucked became less of a problem afterwards and I got a green tick for good behavior from the prison guard who arranged the whole thing, which hopefully will reflect well on me when my prison term is next reviewed."
+        sentence -= 1
+    Elseif 2
+        "I may be at the lowest point of my life right now in prison, but still not low enough to sell my body so cheaply."
+        timeout(2000, john_prison)
+    Endif
+    SceneEnd()
+    timeout(100, john_prison)

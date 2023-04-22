@@ -1,0 +1,24 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_DaddyKnows)
+OTHER: Player.isPregnant() && !Player.isMale()
+
+    SceneStart()
+    "Being pregnant is hard. I've been constantly feeling tired recently and don't want to do a thing."
+    energy -= 10
+    If Actor.isValid()
+        "Being my <Actor.boyfriend_or_girlfriend>, <Actor.name> has become the prime victim of my pregnancy-induced laziness recently."
+        0:: "Try not to make <Actor.name> my errand <Actor.boy_or_girl>"
+        1:: "It's good to have an excuse to do nothing"
+        
+        If 0
+            "I try my best to still stay active and useful and not just lie around doing nothing. Everything is a lot more tiring when I'm pregnant though."
+            energy -= 10
+        Else
+            "<Actor.He_or_She> can take this! I'm pregnant for god's sake, is it so bad that <Actor.name> has to do all the chores and errands for us for a few months?"
+            Actor:attractiontoplayer -= 1            
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, pregnancy_arousal, pregnancy_energy, pregnancy_mood)

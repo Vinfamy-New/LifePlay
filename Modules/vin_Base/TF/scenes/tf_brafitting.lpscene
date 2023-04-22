@@ -1,0 +1,61 @@
+WHAT: all
+WHERE: all
+WHEN: 8-20
+WHO: none
+OTHER: TfGame() && !Player.isMale() && [Player.isInterestedInTrans() || Player.isInterestedInWomen()]
+
+    // You decide to go shopping and needs a bra fitting. The clerk helping you (female or futa) might get a little handsy, and it could lead to more.
+    
+    SceneStart()
+    "I should go shopping for some new female clothes and underwear"
+    0:: "Go shopping"
+    1:: "Maybe not"
+    
+    If 0
+        setBackground(clothes)
+        "This shop seems to have some nice clothes at affordable prices."
+        Actor = generatePersonTemporary()
+        While Actor.isMale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        dressFormal()
+        Actor:age => Random(18, 35)
+        Actor:attractiveness => Random(70, 100)
+        Actor.makeInterested(Player)
+        Actor.randomizeFace()
+        Actor.randomizeHairs()
+        Actor.dress()
+        Actor.show()
+        "The sales clerk introduces herself as <Actor.name> and offers to help me with the bra fitting."
+        Actor.moveToPersonStand(Player, 50)
+        "She's rather attractive. In my previous life as a man, I probably would have been delighted if such an attractive woman simply smiled at me, let alone touching my body."
+        "In fact, <Actor.name> seems to take her time taking my measurements and I'm pretty sure she's now fondling my breasts more than what could be considered professional."
+        0:: "Let her get as handsy as she wants"
+        1:: "Ask her to hurry along"
+        
+        If 0
+            animatePair(Actor, Player, Kissing)
+            "Suddenly, <Actor.name> started making out with me while continuing her assault on my body ..."
+            0:: "Escalate things in the changing booth"
+            1:: "Stop her before things get out of control"
+            
+            If 0
+                "As passions flow, we dragged each other into one of the store's changing booths."
+                "I guess being a woman does have its perks. No way as a man could I have ended up banging a girl as hot as this just from buying some clothes."
+                Sex(Actor, Player)
+                "After sex, <Actor.name> seemed in a hurry to get back to the store and attend to other customers. Still, I probably should ask for her number and go out with her sometimes."
+                0:: "Ask for <Actor.name>'s number"
+                1:: "This was just some fun"
+                
+                If 0
+                    Actor.makePermanent()
+                    Actor:perversion => Random(70, 100)
+                    exchangeContact(Actor)
+                    "We exchanged contacts. I should ask her out later on, maybe this could be a start of something special, since our attraction is obviously mutual."
+                    "Who knows going shopping as a girl could have some many unexpected benefits!"
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, tf_brafitting)

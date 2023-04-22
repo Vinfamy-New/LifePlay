@@ -1,0 +1,69 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); Actor2 = getRelative(); If Actor2.livesWithPlayer() && !Actor.isDating() && !Actor.hasRelationship(Spouses, Dating) && Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && Actor.isInterestedInRace(Actor2) && !Actor2.isInterestedInRace(Actor) && !Actor.isSameEthnic(Actor2)
+OTHER: isAtHome()
+
+    // When you're hanging out with a single friend of a different race at home, they may catch a glimpse of a relative living with you and ask you to hook them up. You can either simply say the relative isn't available, or explain that the relative has said some pretty racist stuffs about your friend's race in the past so it wouldn't work. If the latter, the friend will suggest a blind date and promise to change your relative's racist attitude for good after one night of passion. If you say yes, the blind date's success depends on how racist your relative is and your friend's attractiveness and interpersonal stats. 
+    
+    SceneStart()
+    Actorr = Actor.RaceToString()
+    Actor2r = Actor2.RaceToString()
+    "While hanging out with <Actor.name> at home, <Actor.he_or_she> caught a glimpse of my <Actor2.relationship> who was also living with me. I don't think my <Actor2.relationship> even saw <Actor.him_or_her> yet though. Might as well, <Actor2.he_or_she>'s never been too keen on <Actorr> people like <Actor.name> ..."
+    Actor:: "Wow, who was that? You never told me you have such a hot flatmate!"
+    Player:: "Behave yourself, it's my <Actor2.relationship>!"
+    Actor:: "Oh sorry ... your <Actor2.relationship> is a very attractive <Actor2r> <Actor2.man_or_woman> though, I must say ... You reckon you could introduce us?"
+    0:: "Flatly refuse"
+    1:: "Explain my <Actor2.relationship>'s prejudice against <Actorr> people"
+    
+    If 0
+        Player:: "Sorry, but I don't think my <Actor2.relationship> is available. Besides, it would be weird anyway."
+    Else
+        Player:: "Trust me and forget it, it's not a good idea. My <Actor2.relationship> has always been quite prejudiced against <Actorr> people like you. I've heard <Actor2.him_or_her> say some stuffs that can only be described as casual racism."
+        Actor:: "That's because your <Actor2.relationship> hasn't met me yet. Just help me set up a blind date with <Actor2.him_or_her> and I promise I will be able to change your <Actor2.relationship>'s attitude after one night of passion with a real <Actorr> <Actor.man_or_woman>."
+        "Well, <Actor.name> certainly sounds confident at least. I'll give <Actor.him_or_her> that."
+        0:: "Set up a blind date"
+        1:: "It would be nothing but a disaster"
+        
+        If 0
+            "Convinced by my friend's promise, I managed to persuade my <Actor2.relationship> to go on a blind date with this mystery friend of mine. Of course, I was smart enough to list all of <Actor.name>'s positive traits while omitting the crucial fact about his ethnicity."
+            Player.hide()
+            setBackground(restaurant)
+            Actor2.dress()
+            Actor2.show()
+            Actor.moveToPerson(Actor2)
+            "They agreed to meet at a nice restaurant."
+            
+            If Actor.isEthnic(black)
+                Fetish = 1*Actor2:likes_black
+            Elseif Actor.isEthnic(indian)
+                Fetish = 1*Actor2:likes_indian            
+            Elseif Actor.isEthnic(arab)
+                Fetish = 1*Actor2:likes_arab            
+            Elseif Actor.isEthnic(latin)
+                Fetish = 1*Actor2:likes_latin            
+            Elseif Actor.isEthnic(asian)
+                Fetish = 1*Actor2:likes_asian            
+            Elseif Actor.isEthnic(white)
+                Fetish = 1*Actor2:likes_white            
+            Endif
+            
+            If Random(20, 150) < Fetish + Actor:interpersonal + Actor:attractiveness
+                "Despite my <Actor2.relationship>'s initial reservation about being basically tricked into going on a date with a <Actorr> <Actor.man_or_woman>, <Actor.name>'s charm soon won <Actor2.him_or_her> over and quickly overcame any previous prejudice <Actor2.he_or_she> might have held against those sharing the same ethnic background."
+                setBackground(home)
+                "Maybe <Actor.he_or_she> was right to be so confident, as amazingly, <Actor.he_or_she> managed to take my <Actor2.relationship> to bed on that very first date."
+                Sex(Actor, Actor2)
+                "Well, if my <Actor2r> <Actor2.relationship> was ever racist towards <Actorr> people before, <Actor2.he_or_she> must be well and truly converted now ..."
+                Actor2.ModifyRaceFetish(Actor, 100, 200)
+                "Or at least you'd think so ... since the two lovebirds soon start a relationship. I can't believe I matchmake my own <Actor2.relationship> like that. Imagine if they would eventually go on to marry each other!"
+                Player.show()
+                addNpcRelationship(Dating, Actor, Actor2)
+            Else
+                "Unfortunately for my overly confident friend <Actor.name>, my <Actor2.relationship>'s prejudice against people from <Actor.his_or_her> ethnic background was just too strong for <Actor.him_or_her> to ever stand a chance."
+                "The date ended up just being super awkward for both and led nowhere."
+                "Well, at least my <Actor2.relationship> didn't just yell racist things about <Actorr> people at <Actor.name> before storming out dramatically or anything like that." 
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, racist_relative)

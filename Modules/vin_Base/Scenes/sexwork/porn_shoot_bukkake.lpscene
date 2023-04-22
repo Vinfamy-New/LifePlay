@@ -1,0 +1,95 @@
+WHAT: all
+WHERE: all, -work
+WHEN: 8 - 18
+WHO: none
+OTHER: Random(1, 300) < pornfame && [Player.isInterestedInMen() || Player.isInterestedInTrans()]
+
+    SceneStart()
+    Dice = Random(1000, 4000)
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    "A porn director wants to book me for a public bukkake scene with strangers."    
+    "Also called a fan blowbang, this involves giving blowjob to many random dicks and letting them take turns to cum on me ..."
+    0:: "Turn down the offer"
+    1:: "Rip the director off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give the director a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but I have a holiday planned on the day of the shoot ..."
+    Elseif 3 || Random(0, 100) < choice*pornfame
+        "The porn director accepted my demands and soon enough we were meeting at the shoot location that we agreed on."
+        Random
+            setBackground(home)
+            setBackground(bar)
+            setBackground(hairdresser)
+            setBackground(cafe)
+            setBackground(clothes)
+            setBackground(dentist)
+            setBackground(doctor)
+            setBackground(hotel)
+            setBackground(laundry)
+            setBackground(marketplace)
+            setBackground(musical_instrument)
+            setBackground(nightclub)
+            setBackground(work)
+            setBackground(place_of_worship)
+            setBackground(police)
+            setBackground(prison)
+            setBackground(pub)
+            setBackground(restaurant)
+            setBackground(shoes)
+            setBackground(sports_centre)
+            setBackground(supermarket)
+            setBackground(theatre)
+            setBackground(toilets)
+        endRandom
+        money => money + Dice/choice
+        pornfame += 1
+        perversion += 0.5
+        count = 0
+        While count < 7
+            count += 1
+            Actor = generatePersonTemporary()
+            If !Actor.isFemale() && Player.isInterestedIn(Actor)
+                Actor:likes_oral => 100
+                "Here comes another dick that I must bring to coming ..."
+                Filter(Blowjob)
+                Sex(Actor, Player)
+            Endif
+            Actor.hide()
+        Endwhile
+        "That's all for the shoot. My face and body are covered with random strangers' cum ..."
+    Else
+        "No way, that's way above the market rate for this type of shoots! You have too high an opinion of yourself, honey. You should ask the other pornstars how much they charge."
+        0:: "Say nothing"
+        1:: "Cheap motherfucker!"
+        
+        If 1
+            If Random(0, 100) < 30
+                "The director got pissed off and tried to hit me"
+                If Random(0, 100) < martial
+                    "Unfortunately for him, I was no pushover and gave him a good spanking."
+                    "As things would have it, our little incident went viral in the porn industry media and somehow made me even more popular. I guess no publicity is bad publicity. Besides, other directors will have to think twice now before trying to bully me in the future."
+                    pornfame += 2
+                Else
+                    "I tried to stand my ground but ..."
+                    "Unfortunately for me, he was a powerful man and I got quite seriously hurt."
+                    "As things would have it, our little incident went viral in the porn industry media and somehow made me a butt of jokes. No doubt this would affect my future prospects with other directors."
+                    pornfame -= 2                
+                Endif
+            Elseif Random(0, 100) < 50
+                "How dare you? You'll never work for this studio again!"
+                pornfame -= 1
+            Else
+                "Fine, I changed my mind. Let's try negotiating again ..."
+                followUp(porn_shoot_bukkake)
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(300, porn_shoot_bukkake)

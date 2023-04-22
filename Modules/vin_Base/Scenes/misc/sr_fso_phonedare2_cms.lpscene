@@ -1,0 +1,44 @@
+WHAT: all
+WHERE: all
+WHEN: 8 - 22
+WHO: Actor = getCompanion(); If !Actor.isMale() && Actor.isDating()
+OTHER: Player.isMale() && Random(40, 100) < perversion && isModEnabled(vin_NTR)
+
+    // Summery - player convinces their dating companion to sext with one of their own friends while the player watches.
+
+    SceneStart(()
+
+    "I wonder. My <Actor.boyfriend_or_girlfriend> seems to be pretty good at sexing in all honesty. What if I asked <Actor.name> to do this with one of their friends?"
+    0:: "Nah I shouldn't do this. That could turn out bad."
+    1:: "Honestly that sounds pretty hot. I need to see this."
+
+    If 0
+        "I explains my desire to see <Actor.name> sext with someone else."
+        If Actor:perversion > 42
+            Actor:: "Alright, I hope this is as fun for you as you are making it sound to be!" 
+            Player:: "Oh it will trust me, I love when you do dirty dares."
+            Actor2 = generatePersonTemporary()
+            secondScreen(Actor2)
+            Actor2.show()
+            "<Actor.name> then decided to sext a friend that they know, called <Actor2.name>."
+            setBackground(home)
+            Filter(Solo)
+            Sex(Actor)
+            secondScreen()
+            "I get to watch <Actor.name> masturbate then send a video of it to <Actor2.name>." 
+            0:: "Fantasize over the two of them having sex." 
+            1:: "Suddenly jump onto your lover and take them hard"
+
+            If 0
+                SexNoAffair(Actor2, Actor)
+            Else
+                Sex(Player, Actor)
+            Endif
+            Actor:attractiontoplayer += 1
+        Else
+            Actor:: "No way, I'm not doing that."
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(164, sr_fso_phonedare2_cms)

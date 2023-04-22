@@ -1,0 +1,9 @@
+STAT_ID: likes_rough
+STAT_NAME: Likes Rough; How much rough sex acts (which includes not only rough animations but most animations played at high speed) contribute to orgasm
+PLAYER_ONLY: false
+HIGHER_BETTER: no_difficulty_adjustment
+STAT_MIN: -60
+STAT_MAX: 100
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 20
+NPC_ONLY: false

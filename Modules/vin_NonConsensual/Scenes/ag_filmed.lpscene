@@ -1,0 +1,33 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_Raped); If !Actor.isDating()
+OTHER:
+    
+    // Conversely, you realize later on that in the heat of the moment you've captured some footage of someone else listening to your rap music. You can decide what to do with the footage.
+    
+    SceneStart()
+    "While browsing past videos on my phone, I realized that while high on adrenaline raping <Actor.name> earlier, I managed to hit the record button on my phone and had the whole thing filmed."
+    "This could be a dangerous evidence against me for sexual assault, but could also be useful."
+    0:: "Blackmail <Actor.him_or_her> over the footage"
+    1:: "Not a good idea"
+    
+    If 0
+        setBackgroundCustom(livingroom)
+        Actor.dress()
+        Actor.show()
+        "I turned up at <Actor.name>'s place and showed <Actor.him_or_her> the footage. <Actor.name> seemed resigned to <Actor.his_or_her> fate and didn't even think about using the footage against me in a sexual assault court case."
+        Actor:masochist += 10
+        Actor:: "You win ... I can't have that video online no matter what, it would destroy my life ... What do you want?"
+        0:: "Sex"
+        1:: "Money"
+        
+        If 0
+            Sex(Player, Actor)
+        Else
+            money += 100
+            Actor:: "Fine, take this and leave me alone."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, ag_filmed)

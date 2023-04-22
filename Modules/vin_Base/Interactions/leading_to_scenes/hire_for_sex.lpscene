@@ -1,0 +1,33 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()   
+    "Should I pay his hooker for sex?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Three = false
+        If isWithCompanion()
+            "I'm currently hanging out with <CurrentCompanion.name>, should I let <CurrentCompanion.him_or_her> join in for a threesome as well?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                Three = true
+            Endif
+        Endif
+        "I guided the hooker into one of the brothel's bedrooms and we got it on right away."
+        If Three
+            Sex(Player, CurrentCompanion, Actor)
+        Else
+            Sex(Player, Actor)
+        Endif
+        perversion += 1
+        money -= Random(100, 200)
+        "I paid the hooker and we parted ways. Good service that was!" 
+    Endif
+    SceneEnd()

@@ -1,0 +1,27 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 7 - 23
+WHO: Actor = getRelative(); If Actor.livesWithPlayer() && [Actor:incest > 90 || [Actor.hadSex() && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)]]
+OTHER: isAtHome()
+
+    SceneStart()
+    Actor.dress()
+    Actor.show(2)
+    "My <Actor.relationship> and I are lovers now. We couldn't resist messing around with each other all the time."
+    0:: "Go with the flow"
+    1:: "Not now"
+    
+    If 0
+        Actor(Flirty):: "Come here, you ..."
+        Sex(Player, Actor)
+        perversion += Random(0, 0.25)
+        Actor:incest += Random(0, 10)
+    Else
+        If isQuestCompleted(legalized)
+            "Even though incest has been legalized, that doesn't mean we need to fuck ALL the time."
+        Else
+            "We shouldn't be so blatant and risk getting caught by others."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, family_repeat_incest)

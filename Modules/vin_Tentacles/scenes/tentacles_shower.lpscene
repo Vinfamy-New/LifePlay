@@ -1,0 +1,17 @@
+WHAT: go_to_the_bathroom, bathe
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: !Player.isMale()
+
+    // Getting suprised while on the toilet or in the shower by tentacles coming from the drain
+    SceneStart()
+    setBackground(shower)
+    "I was just cleaning up when suddenly I notice something long and flexible starts popping out of the drain ... some sort of tentacle ..."
+    Actor = generateCreatureTemporary(Tentacles)
+    Actor.show()
+    "Before I could react, I was surrounded by tentacles which quickly wrap around me and prevent me from escaping ..."
+    "Before long, some of the tentacles were penetrating my holes and soon I was overcome with pleasure to even resist anymore."
+    Sex(Actor, Player)
+    SceneEnd()
+    timeout(200, tentacles_shower)

@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: open_relationship
+ACTION_NAME: Propose open relationship
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 5 - 10
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: open_relationship
+ANIMATION:
+WHO: Companion = getTarget(); If Companion.isSameAs(CurrentCompanion) && CurrentCompanion.isDating() && !OpenRelationship()

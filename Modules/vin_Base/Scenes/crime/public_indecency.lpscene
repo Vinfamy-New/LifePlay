@@ -1,0 +1,153 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    // Having sex in public has a small chance of someone walking in on you, and depending on the new NPC's stats, they either jerk off, proposition you, sing rap music or call the cops.
+
+    SceneStart()
+    "That was rather risky doing that in public, but it was also ever so exciting!"
+    Cop = false
+    
+    If Random(0, 50) > sneak && Random(0, 100) < 33
+        Cop = true
+    Else
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        endWhile
+        Actor.dress()
+        Actor.show()
+        
+        "I wasn't being discreet enough and some stranger saw me in the act ..."
+        If Actor:perversion < 25
+            Cop = true
+            "Unfortunately the stranger immediately called the cops on me ..."
+        Elseif Actor:perversion < 50
+            "The stranger was shocked by the sight but didn't do anything about it. Well, at least, <Actor.he_or_she> didn't call the cops. It would have been troublesome."
+        Elseif Actor:masochist < -50 && isModEnabled(vin_NonConsensual)
+            "The stranger didn't say a word but immediately tried to overwhelm me and force <Actor.himself_or_herself> on me ..."
+            "A fight started ..."
+            Actor:: "Stop struggling, you <Player.manwhore_or_whore> ... You were asking for this by doing it so publicly!"
+            If martial - intoxication > Actor:martial      
+                "Thankfully, I managed to escape from the pervert's grasp and landed a strong kick on my my assailant."
+            Else
+                "Unfortunately, already tired from my earlier session and ambushed by a stranger, I didn't stand a chance."
+                Actor:: "This is only what you deserve, teasing me in public!"
+                Player:: "No! Please stop ..."
+                If !Actor.isMale() && Player.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                TalkNonConsensual()
+                Sex(Actor, Player)
+            Endif         
+        Elseif Actor:interpersonal > 50
+            "The stranger seemed to take my brazen public act as an invitation and confidently came up to me and suggested that I have some fun with <Actor.him_or_her> next."
+            0:: "Why not?"
+            1:: "Turn <Actor.him_or_her> down"
+            
+            If 0
+                Player:: "Pubic sex with a complete stranger? Sign me up!"
+                Sex(Player, Actor)
+            Else
+                "I might have liked doing in public, it doesn't mean I would do it with a random stranger."
+            Endif
+        Else
+            "The stranger didn't have the confidence to proposition me. Instead, my peeping Tom simply jerked off."
+            Filter(Solo)
+            Sex(Actor)
+            
+            "Maybe I should offer <Actor.him_or_her> a hand?"
+            0:: "Join the masturbating loner"
+            1:: "Ignore <Actor.him_or_her>"
+            
+            If 0
+                Player:: "Sorry I got you so excited. It's only fair that I help you relieve all this pressure."
+                Sex(Actor, Player)
+            Else
+                "What a creep!"
+            Endif
+        Endif
+    Endif
+    
+    // If a cop arrives to arrest you for public indecency, you may able to bribe them with money or your own body, your companion's body or both of yours. If you choose to outrun the cop, your companion may get even more excited after the close escape and want to do it again.
+    
+    If Cop
+        "Sure enough, a cop promptly arrived at the scene."
+        Actor2 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.dressUniform(Police)
+        Actor2.show()
+        Actor2:: "Hands in the air, now! You're under arrest for public indecency"
+        0:: "Run"
+        1:: "Surrender (or negotiate)"
+        
+        If 0
+            If Random(0, 30) < fitness
+                setBackground(street)
+                "I managed to lose the cops. Phew, that was close."
+                If isWithCompanion() && CurrentCompanion.hadSex() && !CurrentCompanion.isCreature()
+                    CurrentCompanion:: "So close in fact. Gosh, that close escape made even more excited again now ..."
+                    0:: "Fuck again!"
+                    1:: "I'm not in the mood anymore"
+                    
+                    If 0
+                        Sex(Player, CurrentCompanion)
+                    Endif
+                Endif
+            Else
+                Player(Angry):: "You're not taking me alive."
+                "Pow!"
+                Player.hide()
+                "A cop fired his gun. It was a perfect shot ..."
+                followUp(death)
+            Endif
+        Else
+            Player.animate(fightlost)
+            Player(Scared):: "Please, don't shoot!"
+            Arrest = true
+            "I put my hands up and surrendered to the cop."
+            0:: "Accept my fate"
+            1:: "Offer my body"
+            2:: CurrentCompanion.isValid() && !CurrentCompanion.isCreature():: "Offer <CurrentCompanion.name>'s body"
+            3:: CurrentCompanion.isValid() && !CurrentCompanion.isCreature():: "Offer both of our bodies"
+            
+            If 1
+                If Random(0, 70) < attractiveness
+                    Arrest = false
+                    Actor2:: "Fine, I guess I can look the other way if you show me a good time."
+                    Sex(Actor2, Player)
+                Else
+                    Actor2:: "Unfortunately for you, I'm not that type of cop. You're still under arrest."
+                Endif
+            Elseif 2
+                If Random(0, 70) < CurrentCompanion:attractiveness
+                    Arrest = false
+                    Actor2:: "Fine, I guess I can look the other way if your friend shows me a good time."
+                    Sex(Actor2, CurrentCompanion)
+                Else
+                    Actor2:: "Unfortunately for you, I'm not that type of cop. You're still under arrest."
+                Endif            
+            Elseif 3
+                If Random(0, 140) < CurrentCompanion:attractiveness + attractiveness
+                    Arrest = false
+                    Actor2:: "Fine, I guess I can look the other way if you and your friend show me a good time together."
+                    Sex(Actor2, Player, CurrentCompanion)
+                Else
+                    Actor2:: "Unfortunately for you, I'm not that type of cop. You're still under arrest."
+                Endif                
+            Endif
+            
+            If Arrest
+                "I was taken into police custody."
+                sentence => Random(30, 90)
+                followUp(imprisoned)
+            Endif
+        Endif
+    Endif
+    SceneEnd()

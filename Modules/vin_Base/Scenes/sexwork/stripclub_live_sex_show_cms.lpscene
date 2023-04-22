@@ -1,0 +1,29 @@
+WHAT: strip
+WHERE: stripclub
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(30, 100) < perversion
+
+    // when stripping at a club, theres a chance for a male/trans stripper live sex show and you are asked to participate, you get to accept or decline. Sex scene starts in the stripclub and tip money will get thrown, you will get a part of it
+    
+    SceneStart()
+    "I just finished one of my performances when I was approached by the club owner who asked me to participate in tonight's live sex show, where I have to fuck some random customers in front of everyone. The tips will be very generous though."
+    0:: "Okay"
+    1:: "I don't do that ..."
+    
+    If 0
+        count = 0
+        While count < 3
+            Actor = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor)
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor.show()
+            "Here's the next customer who participates in tonight's live sex show ..."
+            Sex(Actor, Player)
+            money += Random(100, 300)
+            count += 1
+        Endwhile
+    Endif
+    SceneEnd()
+    timeout(300, stripclub_live_sex_show_cms)

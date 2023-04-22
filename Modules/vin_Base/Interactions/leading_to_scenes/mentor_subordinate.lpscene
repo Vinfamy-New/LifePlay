@@ -1,0 +1,50 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // Mentor (rapport, attraction, their intelligence & your interpersonal all up)
+    // The Mentor interaction mentioned above is the way to go if you're roleplaying a nice non-expoitative boss, since it can result in the subordinate developing a crush on you, no matter their perversion.
+    
+    SceneStart()
+    "I go out of my way to taking <Actor.name> under my wings at work, giving all the support and encourage <Actor.he_or_she> needs."
+    "In turn, this improves our working relationship and <Actor.name> looks up to me more and more."
+    karma += 2
+    interpersonal += 0.5
+    Actor:intelligence += 1
+    Actor:rapportwithplayer += 2
+
+    If Actor.isInterestedIn(Player)
+        If Actor:attractiontoplayer < 0
+            Actor:attractiontoplayer => 0
+        Endif
+        Actor:attractiontoplayer += 3
+        Actor:attractiontoplayer += 0.03*[intelligence + interpersonal]
+        
+        AskOut = true
+        If Actor.isDating() && isWithCompanion()
+            AskOut = false
+        Elseif Actor:attractiontoplayer > 70
+            "As a result of all my mentoring, <Actor.name> seems to have developed a huge obssession over me."
+        Elseif Actor:attractiontoplayer > 45
+            "As a result of all my mentoring, <Actor.name> seems to have developed a genuine attraction towards me."
+        Elseif Actor:attractiontoplayer > 20
+            "As a result of all my mentoring, <Actor.name> seems to have developed a little bit of a crush for me."
+        Else
+            AskOut = false
+        Endif
+        
+        If AskOut
+            "Maybe I should ask <Actor.him_or_her> out after work? Maybe this can turn into more than a professional mentor-mentee relationship?"
+            0:: "Ask <Actor.him_or_her> out"
+            1:: "Let's keep it professional"
+            
+            If 0
+                Actor:attractiontoplayer *= 1.1
+                "<Actor.name> seemed almost delighted that I asked <Actor.him_or_her> out, maybe this date could turn very passionate."
+                Actor.startDate()
+            Endif
+        Endif
+    Endif
+    SceneEnd()

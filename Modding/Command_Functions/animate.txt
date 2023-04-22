@@ -1,0 +1,14 @@
+Actor.animate(animation)
+
+USE:
+Make the actor do something.
+
+Parameter:
+One of: martialart, drinkglass, dance, smoke, pray, sofawatch, browse, call, socialize, work, sweep, bathe, drinkbottle, lecture, theatrewatch, write, groupdance, call, sneak, camera, makeup, eat, toilet, bathe, masturbate, drinktea, smoke, strip, managefinances, receivelapdance, dental, beauty, health, haircut, weights, yoga, na_sleep, na_running
+
+If no parameter is given current animation will be stopped and actor will go idle.
+
+TYPE: Command
+RETURNS: /
+THEME: Animations
+COMPARE: 

@@ -1,0 +1,160 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // In addition to professional por n shoots, you can also make your own content (+ collab with other por nstars) for OnlyFans. Obviously you don't get paid per shoot like studio work so remember to pay out your OnlyFans income each month! Your income grows or declines depending on your attractiveness, por n fame, and how much content you uploaded that month.  
+    SceneStart()
+    Income = Player.getActorVar(OnlyFans)
+    If Income == 0
+        "I don't have an OnlyFans page yet. Set one up now?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "This is a good way to earn a stable monthly income."
+            Player.setActorVar(OnlyFans, 100)
+            timeoutPrecise(720, onlyfans)
+            Last = HoursElapsed
+            Player.setActorVar(OnlyFans_Last, Last)
+        Endif
+    Else
+        "I have an OnlyFans page"
+        Last = Player.getActorVar(OnlyFans_Last)
+        Income *= 1 - [HoursElapsed - Last]/4320
+        
+        Last = HoursElapsed
+        Player.setActorVar(OnlyFans_Last, Last)
+        
+        Player.setActorVar(OnlyFans, Income)
+        If Income < 1000
+            Factor = 0.5
+        Elseif Income < 3000
+            Factor = 1
+        Elseif Income < 10000
+            Factor = 0.3
+        Else
+            Factor = 0.1
+        Endif
+        Selfie = Factor*[pornfame + attractiveness]*Random(0.7, 1.3)
+        IncomeConverted = Income.convertToLocalCurrency(true)
+        "At the current number of subscriptions, I estimate that this month I will earn about <IncomeConverted> from OnlyFans."
+        0:: !isTimingOut(onlyfans):: "Pay out this month's income"
+        1:: "Make new content"
+        2:: "Quit OnlyFans"
+        3:: "Do nothing"
+        
+        If 0
+            "I received a bank transfer of <IncomeConverted> from OnlyFans within a few hours."
+            money => money + Income
+            timeoutPrecise(720, onlyfans)
+        Elseif 1  // MAKE NEW CONTENT
+            "What kind of content should I make and upload to OnlyFans today?"
+            0:: "A nude selfie"
+            1:: "A solo scene"
+            2:: "A sex scene"
+            
+            If 0
+                pornfame += 0.25
+                "A quick erotic selfie should do for now."
+                Player.animate(camera)
+                Player.strip()
+                "I took off my clothes"
+                "And then took a selfie and uploaded it onto OnlyFans"
+                Income += Selfie
+            Elseif 1
+                pornfame += 0.5
+                "A masturbation video is easy to do but still enough to keep my subscribers happy."
+                Filter(Solo)
+                Sex(Player)
+                "Having recorded everything, I uploaded my solo session onto OnlyFans"
+                Income += Selfie*2                
+            Else
+                Normal = true
+                
+                If Random(0, 100) < 20 || Random(0, 100) < pornfame
+                    "Just as I was thinking about who will be my co-star for this scene. I receive a DM from a fan who has tipped very generously in the past."
+                    Actor = generatePersonTemporary()
+                    While !Player.isInterestedIn(Actor)
+                        Actor = generatePersonTemporary()
+                    endWhile
+                    
+                    If Random(0, 100) < 33
+                        Actor:age => Random(18, 40)
+                    Else
+                        Actor:age => Random(40, 65)
+                    Endif
+                    Actor:attractiveness => Random(0, 25)
+                    Actor.randomizeFace()
+                    Actor.randomizeHairs()
+                    
+                    secondScreen(Actor)
+                    
+                    "They offer me a big sum to be my co-star in a scene and doesn't ask for any share in the income for the scene itself. The offer is definitely tempting, but I must consider a few factors."
+                    "The fan isn't very attractive so it may put off my regular audience to watch me fuck <Actor.him_or_her> ... or not, maybe such a 'Fuck-a-Fan' video would make the fantasy more real for them."
+                    "Also, since the fan is not a professional pornstar, their performing skills may be questionable and their STD status is pretty much unknown."
+                    secondScreen()
+                    "With all that in mind, should I take this fan up on <Actor.his_or_her> offer?"
+                    0:: "Yes"
+                    1:: "Stick to more traditional co-stars"
+                    
+                    If 0
+                        Normal = false
+                        money += Selfie*3
+                        "I accepted the fan's offer and took <Actor.his_or_her> money upfront and gave <Actor.him_or_her> some guidelines on how to prepare for our shoot together."
+                    Else
+                        Actor.delete()
+                    Endif
+                Endif
+                
+                If Normal
+                    "A sex scene takes a bit more effort, but it's the most popular thing for subscribers."
+                    "Who should be my co-star though?"
+                    0:: "Pick someone from my personal life"
+                    1:: "Collaborate with another OnlyFans creator"
+                    
+                    If 0
+                        selectNpc()
+                        Actor = getSelectedNpc()
+                        If Actor.isValid() && Actor.hadSex() && Actor.isInterestedIn(Player) && Actor:perversion > 50
+                            "<Actor.name> accepted my offer to co-star in my OnlyFans video."
+                        Else
+                            "<Actor.name> turned down my offer. I should pick someone I've already had sex with and who is also quite open-minded sexually."
+                            Actor.delete()
+                        Endif
+                    Endif
+                    
+                    If !Actor.isValid()
+                        Actor = generatePersonTemporary()
+                        While !Player.isInterestedIn(Actor)
+                            Actor = generatePersonTemporary()
+                        Endwhile
+                        "A fellow creator on OnlyFans, <Actor.name>, offered to be my co-star in this video. Once filming finishes, we each will receive all the footage and each of us will edit and upload our own video to our respective OnlyFans pages."
+                    Endif
+                Endif
+                
+                Actor.dress()
+                Actor.show()
+                "<Actor.name> is here, ready for the shoot. Should I go ahead with it?"
+                0:: "Yes"
+                1:: "No"
+                
+                If 0
+                    pornfame += 1
+                    Sex(Player, Actor)
+                    Income += Selfie*3 
+                Endif
+            Endif
+            Player.setActorVar(OnlyFans, Income)
+        Elseif 2
+            "Am I sure that I want to delete my OnlyFans page? If someday I decide to come back to it, I would have to start from sratch all over again ..."
+            0:: "Quit OnlyFans"
+            1:: "No"
+            
+            If 0
+                Player.setActorVar(OnlyFans, 0)
+            Endif
+        Endif
+    Endif
+    SceneEnd()

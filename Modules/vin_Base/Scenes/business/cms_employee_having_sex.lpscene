@@ -1,0 +1,40 @@
+WHAT: all
+WHERE: alcohol:business, bag:business, bakery:business, bar:business, beauty:business, beverages:business, bicycle:business, biergarten:business, books:business, butcher:business, cafe:business, car:business, chemist:business, cinema:business, clothes:business, coffee:business, computer:business, confectionery:business, convenience:business, copyshop:business, cosmestics:business, deli:business, doityourself:business, electronics:business, fast_food:business, florist:business, furniture:business, gift:business, greengrocer:business, hairdresser:business, hotel:business, ice_cream:business, jewellery:business, laundry:business, mobile_phone:business, motorcycle:business, musical_instrument:business, newsagent:business, nightclub:business, optician:business, outdoor:business, pet:business, pharmacy:business, photo:business, pub:business, restaurant:business, seafood:business, shoes:business, sports:business, sports_centre:business, stationery:business, supermarket:business, tea:business, theatre:business, tobacco:business, toys:business, variety_store:business, travel_agency:business, art:business, brothel:business, stripclub:business
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Employee); If Random(70, 500) < Actor:perversion
+OTHER: none
+
+    SceneStart()
+    "Today I was reviewing the security type for my business when I came across a surprise ..."
+    Actor2 = generatePersonTemporary()
+    Sex(Actor, Actor2)
+    Actor.hide()
+    Actor2.hide()
+    "I caught on tape my employee <Actor.name> having a quickie with a customer in the storage room ..."
+    0:: "Fire <Actor.him_or_her>"
+    1:: "Sell video online"
+    2:: "Blackmail for sex"
+    3:: "Do nothing"
+    
+    If 0
+        Actor.removeEmployee()
+        perversion -= 1
+        Actor:rapportwithplayer -= 100
+    Elseif 1
+        "I imagine these types of videos will be in high demand for a secret cam fetish website."
+        perversion += 1
+        money += 50
+    Elseif 2
+        perversion += 5
+        masochist -=10
+        Actor:masochist += 10
+        Actor:perversion += 5
+        Actor:rapportwithplayer -= 10
+        Actor.dress()
+        Actor.show()
+        Actor(Sad):: "Alright ... I'll do it. I really need to keep this job ..."
+        Sex(Player, Actor)
+    Endif
+    
+    SceneEnd()
+    timeout(500, cms_employee_having_sex)

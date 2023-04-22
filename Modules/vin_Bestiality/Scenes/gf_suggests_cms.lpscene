@@ -1,0 +1,85 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getCreature(); If Actor.isFemale() && Actor:perversion > 50 && Actor2.isCreatureType(Dog)
+OTHER: Player.isFemale()
+
+    SceneStart()
+    Fuck = false
+    
+    Actor.dress()
+    Actor.show()
+    "Your girlfriend approaches you. It seems as though she has got something important on her mind."
+    Actor:: "Babes... we've been together for a while now and I think our relationship is strong enough for me to tell you something. I've always had a 'thing' about dogs. I like them so much that... I want to try and have sex with one!"
+    If Actor2.hadSex()
+        "Little does your girlfriend know that bestiality is nothing new to you"
+    Else
+        "You are shocked, really shocked. But your relationship is so strong that you give it some thought"
+    Endif
+    "Should you ..."
+    0:: "CONVINCE YOUR PARTNER TO FORGET ALL ABOUT IT"
+    1:: "GO ALONG WITH YOUR PARTNER AND TRY TO MAKE HER FANTASY HAPPEN"
+    
+    If 0
+        "You decide to let your girlfriend down easy. You tell her that having sex with a dog is illegal and that while it's fine as a fantasy, it's not ok in real life. She accepts your words of wisdom and no harm is done to your relationship."
+        If Actor2.hadSex()
+            "You find it difficult to be so hypocritical, but deep down you know it's for the best"
+        Endif
+    Else
+        If Actor2.hadSex()
+            "You love your girlfriend so much and you decide it will be good for her to experience dog sex for herself"
+        Else
+            "You love your girlfriend so much and you decide to give it a try."
+        Endif
+        Player:: "Ok, lets see what we can arrange!"
+        If Actor2.isValid()
+            Actor2.show()
+            "<Actor2.name> is the clear choice ..."
+            Fuck = true
+        Else
+            Player:: "The first thing we need to do it get a dog though. I've seen a hungry stray around here. It's a male and I'm sure I've seen it's balls so it's intact. Should we use that dog for your fantasy?"
+            If Random(50, 100) < Actor:perversion
+                Actor:: "What a filthy, disgusting idea... I love it! The fact that it will have germs and diseases will make it even more exciting!" 
+                "You then take a steak from the fridge and coax the stray dog into your house."
+                Actor2 = generateCreatureTemporary(Dog)
+                Actor2.show()
+                Fuck = true
+            Else
+                Actor:: "I'm not having sex with a stray dog! It will be filthy and riddled with germs! Lets adopt one instead."   
+                0:: "YES"
+                1:: "NO"
+                
+                If 0
+                    setBackground(pet)
+                    "Soon, we're at the pet store"
+                    Actor2 = generateCreatureTemporary(Dog)
+                    While Actor2.isTemporary()
+                        Actor2.show()
+                        "Adopt this dog? It's a <Actor2.male_or_female> dog."
+                        0:: "Yes"
+                        1:: "Next one"
+                        
+                        If 0
+                            Actor2.makePermanent()
+                        Else
+                            Actor2.hide()
+                            Actor2 = generateCreatureTemporary(Dog)
+                        Endif
+                    endWhile
+                    "Let's head back"
+                    Setbackground(home)
+                    Fuck = true
+                Else
+                    "You really do want to help your girlfriend, but you can't justify adopting a pet as a sexual plaything. Fortunately your partner understands. She hopes to change your mind in the future though."
+                Endif
+            Endif
+        Endif
+        If Fuck
+            Sex(Actor2, Actor)
+            "Let me join in too ..."
+            Sex(Actor2, Player)
+            Sex(Actor2, Actor, Player)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, gf_suggests_cms)

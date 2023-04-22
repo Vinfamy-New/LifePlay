@@ -1,0 +1,67 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isFemale() && Actor:perversion > 65 && !Actor.isVirgin() && Actor.isInterestedInMen()
+OTHER: TfGame() && Player.isInterestedInMen()
+
+    // When hanging out with a high perversion woman, you may notice how effortlessly she gets men into her bed and ask for her help, which results into either a double date or a threesome.
+    
+    SceneStart()
+    "Not being born a woman, I'm not used to many of the little things involved in living as a woman, which is why hanging out with a woman can be so useful. In particular, I can't help but be in awe of the ease in which free-spirit girls like <Actor.name> get men into her bed."
+    0:: "Simply pay attention to <Actor.name> and learn to be more seductive"
+    1:: "Directly ask <Actor.name> for help with men"
+    2:: "Either could make <Actor.name> suspicious"
+    
+    If 0
+        Sus = Actor.getActorVar(Tf_Sus)
+        Sus += Actor:intelligence*0.1
+        Actor.setActorVar(Tf_Sus, Sus)
+        "<Actor.name> feels a bit weird initially when I was asking so many questions about her success with men nd paying so much attention to her seduction techniques."
+        perversion += 0.5
+        masochist += 0.5
+        "But eventually, I managed to pick up some of her sexy poses and seduction techniques."
+    Elseif 1
+        Sus = Actor.getActorVar(Tf_Sus)
+        Sus += Actor:intelligence*0.2
+        Actor.setActorVar(Tf_Sus, Sus)
+        "<Actor.name> is a bit surprised by my plea for help with men initially but eventually agreed to help."
+        perversion += 2
+        masochist += 2
+        If Random(0, 100) < 50
+            "<Actor.name> is being invited over by a guy <Actor.he_or_she>'s been sleeping with. This guy has a single roommate so she suggests that we make it a double date."
+            setBackground(home)
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            While !Actor2.isValid() || !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.dress()
+            Actor2.show()
+            Actor2.makeInterested(Player)
+            "Eventually the four of us ended up in same bedroom."
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isMale()
+                Actor3 = generatePersonTemporary()
+            endWhile
+            Actor3.dress()
+            Actor3.show()
+            Actor3.makeInterested(Player)
+            "And things started to get heated. It was <Actor.name> and <Actor.his_or_her> boytoy <Actor2.name> first."
+            Sex(Actor, Actor2)
+            "Then it was my turn with <Actor2.name>'s roommate, <Actor3.name>."
+            Sex(Player, Actor3)
+        Else
+            "<Actor.name> is happy to share with me a guy <Actor.he_or_she>'s been sleeping with so that I can gain some experience. How generous!"
+            setBackground(home)
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            While !Actor2.isValid() || !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.dress()
+            Actor2.show()
+            Actor2.makeInterested(Player)
+            "Eventually, the three of us ended up in the same bedroom and the fun started."
+            Sex(Player, Actor, Actor2)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, tf_companionsex)

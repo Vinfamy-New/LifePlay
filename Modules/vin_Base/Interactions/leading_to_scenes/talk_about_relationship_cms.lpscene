@@ -1,0 +1,54 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Use this as a tool to set the relationship type between two NPCs"
+    "Continue?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "Select the other NPC"
+        selectNPC()
+        Actor2 = getSelectedNPC()
+        If !Actor2.isValid()
+            "Not valid"
+        Elseif Actor2.isSameAs(Actor)
+            "That's the same NPC"
+        Else
+            Actor2.dress()
+            Actor2.show()
+            "What relationship should <Actor.name> and <Actor2.name> be set to?"
+            0:: "Dating"
+            1:: "Spouses"
+            2:: "Siblings"
+            3:: "Parent and Child"
+            4:: "Cousins"
+            5:: "Boss and Employee"
+            6:: "Colleagues"
+            7:: "Remove all exisiting relationships between the two"
+            
+            If 0
+                addNpcRelationship(Dating, Actor, Actor2)
+            Elseif 1
+                addNpcRelationship(Spouses, Actor, Actor2)
+            Elseif 2
+                addNpcRelationship(Siblings, Actor, Actor2)
+            Elseif 3
+                addNpcRelationship(ParentChild, Actor, Actor2)
+            Elseif 4
+                addNpcRelationship(Cousins, Actor, Actor2)
+            Elseif 5
+                addNpcRelationship(BossEmployee, Actor, Actor2)
+            Elseif 6
+                addNpcRelationship(Colleagues, Actor, Actor2)
+            Else
+                removeNpcRelationship(Actor, Actor2)
+            Endif
+            "Done"
+        Endif
+    Endif
+    SceneEnd()

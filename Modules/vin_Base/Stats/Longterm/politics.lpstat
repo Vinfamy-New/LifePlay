@@ -1,0 +1,9 @@
+STAT_ID: politics
+STAT_NAME: Political Leaning; Goes from -100 to 100, with -100 being far left and 100 being far right
+PLAYER_ONLY: false
+HIGHER_BETTER: no_difficulty_adjustment
+STAT_MIN: -100
+STAT_MAX: 100
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 0
+NPC_ONLY: false

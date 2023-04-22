@@ -1,0 +1,71 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    If isWithCompanion()
+        endDate()
+    Endif
+    imp_stage.setGlobal(0)
+    SceneStart()
+    Actor = getSpecific(Dating)
+    While Actor.isValid() && !Actor.isMale()
+        Actor = getSpecific(Dating)
+    Endwhile
+    
+    If Actor.isValid()
+        Actor.show()
+        "Is <Actor.name> the cuckold <Actor.boyfriend_or_girlfriend> that's a closet trans?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "My <Actor.boyfriend_or_girlfriend> <Actor.name> has been a cuckold for a while now and has watched me with many men with great pleasure."
+            "Eventually, he confesses that this kink of his and his inability to satisfy a woman himself stems from his long-closeted trans feelings and while watching you with other men, he was actually imagining himself in your place." 
+            "He is considering to undergo a complete gender reassignment surgery."
+            0:: "Discourage him"
+            1:: "Encourage her"
+            
+            If 0
+                QuestEnd()
+            Else
+                Actor.setDatingId()
+                loseDating()
+                "We agreed that we should break up and a MtF transition for <Actor.name> is for the best."
+                "Should I suggest <Actor.name> get a bottom surgery during the transition?"
+                0:: "Yes"
+                1:: "Keep the penis"
+                
+                Actor.hide()
+                "That was the last I heard from <Actor.name> for nearly two years, who went abroad for the procedure and its subsequent recovery."
+                
+                Actor.changeSex()
+                If 0
+                    Actor.blendPreset(blend_vagina)
+                Else
+                    Actor.blendPreset(blend_penis)
+                Endif
+                Actor.randomizeHairs()
+                Actor.show()
+                "<Actor.name> came back to a country as a woman, the surgeons did a wonderful job. Actually, I shouldn't use the name <Actor.name> anymore, since she's now called ..."
+                Actor.enterFirstName()
+                "<Actor.name> is her new name."
+                "With your ex now a woman, you feel it's only right for me to be the one to train her by sharing some of your lovers with her, some of whom she watched you fuck not long ago. That would fantasy comes true for her, especially what started her on this transitional path was her confession that she fantasized to be in my place when watching me with other men."
+                
+                If Actor:perversion > 50
+                    Actor:perversion => 50
+                Endif
+                imp_stage.setGlobal(1)
+                impEx.setActorAlias(Actor)
+                B1.generateBuildingAlias(home)
+                B1.addObjective(imp_obj)
+            Endif
+        Else
+            QuestEnd()
+        Endif
+    Else       
+        "I'm not currently in a relationship with any male NPC."
+        QuestEnd()
+    Endif        
+    SceneEnd()

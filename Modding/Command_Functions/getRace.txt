@@ -1,0 +1,9 @@
+Actor.getRace()
+
+USE:
+Return Human, Elf, Orc or Vampire as a string
+
+TYPE: Command, non-Ref
+RETURNS: String
+THEME: Fantasy
+COMPARE:

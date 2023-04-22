@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: mentor_exchange
+ACTION_NAME: Mentor a foreign exchange student
+WHERE: university:school
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS: companioncount == 0 (STAT_COMPARE)
+MOVE_FIRST: true
+SCENE_ALWAYS: mentor_exchange
+ANIMATION:

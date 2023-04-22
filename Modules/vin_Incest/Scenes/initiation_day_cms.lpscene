@@ -1,0 +1,33 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(Parent, StepParent); Actor2 = getRelative(Parent, StepParent); If Actor.isSameGender(Player) && !Actor2.isSameGender(Player)
+OTHER: Player.isVirgin() && !Player.isGay() && Player:age > 17 && Player:age < 21 
+
+
+    //  for incest: training day or initiation day. For an 18 or 19 year old player who is still a virgin, whether male or female, the parent of the same sex tells the player character that its time to make them a man/woman (as applicable), and then guides them through having sex with the parent of the opposite sex, even if incestuous tension and/or perversion scores are low
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "My <Actor.relationship> and <Actor2.relationship> seemed to want to talk to me about something ..."
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    Actor:: "<Player.Son_or_Daughter>, you're <Player:age> now ... You really shouldn't be so inexperienced with the oppposite sex."
+    Actor2:: "We feel like we failed you as your parents that you have fallen so far behind from your peers in terms of sexual experience despite being such a <Player.handsome_or_beautiful> young <Player.man_or_woman>."
+    Actor:: "But it's not too late ... we could still guide you ... Let your <Actor2.relationship> be the first <Actor2.man_or_woman> you experiment with, and I'll be there to help too."
+    0:: "Lose my virginity to my <Actor2.relationship>, with my <Actor.relationship>'s help"
+    1:: "No, thanks"
+    
+    If 0
+        Sex(Actor2, Player)
+        Sex(Actor2, Player, Actor)
+        Actor2:incest => 70
+        Actor:incest => 70
+    Else
+        Player:: "I appreciate the offer but I think I'm perfectly capable of finding another <Actor2.guy_or_girl> my age to try it with for my first time."
+    Endif
+    
+    SceneEnd()
+    timeout(1000, initiation_day_cms)

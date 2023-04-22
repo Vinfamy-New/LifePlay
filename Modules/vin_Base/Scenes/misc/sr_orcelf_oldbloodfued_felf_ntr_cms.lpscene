@@ -1,0 +1,66 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Actor.isMale() && Actor.isDating() && Actor.isRace(Elf)
+OTHER: PercentageOrcs > 0 && PercentageElves > 0 && Player.isMale() && Random(0, 100) < 50 && isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual) && isModEnabled(vin_Pregnancy) && isModEnabled(vin_NTR)
+
+    SceneStart()
+    "You and your elf companion are stopped by 3 orcs."
+    Actor1 = generatePersonTemporary()
+    While !Actor1.isMale()
+        Actor1 = generatePersonTemporary()
+    Endwhile
+    Actor1.blendPreset(orc)
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.blendPreset(orc)
+    Actor3 = generatePersonTemporary()
+    While !Actor3.isMale()
+        Actor3 = generatePersonTemporary()
+    Endwhile
+    Actor3.blendPreset(orc)
+    Actor1.dress()
+    Actor2.dress()
+    Actor3.dress()
+    Actor1.show()
+    Actor2.show()
+    Actor3.show()
+
+    "They tell you that the elf you are with is from a family that was a sworn enemy to their own and caused terrible tragedies."
+    "They demand that for honor sake you allow them to breed her."
+    0:: "Try to fight them off"
+    1:: "Toss her to them"
+    
+    If 0
+        Player.animate(martialart)
+        Actor1.animate(martialart)
+        Player:: "Not without a fight ..."
+        If Actor1:martial - Actor1:intoxication > martial - intoxication
+            Player.animate(fightlost)
+            "Unfortunately, I wasn't a match for the strength of even one Orc, let alone three."
+        Else
+            "I managed to knock out one Orc, which scared the others into running away."
+        Endif
+    Else
+        Raped = true
+        Actor:attractiontoplayer -= 10
+        karma -= 10
+    Endif
+    
+    "Seeing it as a way to keep the one she loved safe from the orcs, <Actor.name> surrendered to her fate without a fight ..."
+    "They also give her a drug that nullifies birth control before they have sex."
+    Sex(Actor1, Actor)
+    Sex(Actor2, Actor)
+    Sex(Actor3, Actor)
+    
+    Sex(Actor1, Actor2, Actor3, Actor)
+    
+    If Random(0, 100) < 30
+        Actor1.makePermanent()
+        Actor.impregnate(Actor1)
+    Endif
+
+    SceneEnd()
+    timeout(200, sr_orcelf_oldbloodfued_felf_ntr_cms)

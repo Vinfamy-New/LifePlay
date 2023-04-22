@@ -1,0 +1,44 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0 - 24
+WHO: none
+OTHER: PercentageElves > 0 && Player.isRace(Human)
+
+
+    // For some reason you noticed you are being watched, but you ignore it but after a while you feel it again and yell it out. An elf emerges and they say you have higher perception than normal humans and ask for your help increasing the dwindling elven population.
+    
+    SceneStart()
+    setBackground(street)
+    "For some reason, I'm feeling quite an uneasy walking around today."
+    "It's as if I'm being watched."
+    "I've been ignoring it for a while now, but my instinct is telling me that I should do something."
+    Player:: "Hey! Is anyone there?"
+    "Suddenly, someone jumped out from the shadows."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.blendPreset(Elf)
+    Actor.randomizeRace()
+    Actor.dress()
+    Actor.show()
+    "<Actor.He_or_She> is unmistakably an elf!"
+    Actor:: "Sorry to scare you but we have must been scouting you for a while now."
+    Player:: "Scouting me? What do you mean?"
+    Actor:: "We're looking for humans who might have had some elven ancestors without realizing it."
+    Actor:: "You have shown much higher perception than normal humans, being able to feel the presence of an elf sneaking on you is no easy feat. We believe you may be part elven yourself."
+    Player:: "Ah ... thanks, I guess ... Why are you looking for part-elven human anyway?"
+    Actor:: "The elven population is in crisis and dwindling over the last centuries. If it keeps going, we'll go extinct."
+    "I think I know where this is going ..."
+    0:: "Breed with <Actor.name>"
+    1:: "Decline"
+    
+    If 0
+        Player:: "With an elf as cute as you, I'll be glad to help ..."
+        Sex(Player, Actor)
+    Else
+        Player:: "Sorry, not interested ..."
+    Endif
+
+    SceneEnd()
+    timeout(150, elf_perception)

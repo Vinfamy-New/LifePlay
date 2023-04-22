@@ -1,0 +1,13 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Some big and controversial news are being reported on TV today: Congress has passed a new law to make incest relationships and marriages completely legal!"
+    "Their rationale for the decision is these relationships are after all between consenting adults, so it's none of the goverment's business to get involved."
+    "Besides, recent advances in medical technology means that the potential health risks for a child born out of inbreeding are very much minimized now."
+    QuestEnd()
+    SceneEnd()
+    

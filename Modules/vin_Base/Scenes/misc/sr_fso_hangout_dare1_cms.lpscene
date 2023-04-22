@@ -1,0 +1,112 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: Player.isMale() && Random(35, 100) < perversion && isModEnabled(vin_NTR)
+
+    SceneStart()
+    "You were watching TV when a thought occurred to you. What if you had your <Actor.boyfriend_or_girlfriend> put on a slight show while you hangout with friends? Who knows how far you might even be able to take it…"
+    0:: "Heck yeah! I’m certainly going to try to get this done!"
+    1:: "On second thought ... no that could be risky."
+    
+    If 0
+        Actor.dressExcept(Top_Under, Bottom_Under)
+        Actor.show()
+        Player:: "Hey love. If I invited some friends over and asked you to do something somewhat dirty would you do it for me? Please love it’ll be for me and will make me very happy and excited." 
+        Actor:: "I suppose it depends on what you want. I guess from how you are talking, it will be something we don’t usually do?"  
+        Player:: "Correct. But it will be very hot to watch you do." 
+        Actor:: "Alright. What is it?" 
+        Player:: "I want you to put on a long Tshirt that barely covers your butt and vulva and no panties no bra and be like that throughout the entire hangout."
+        Actor:: "Omg babe! That sounds like it could get out of hand so easily…"
+        Player:: "Nothing will happen that I don’t want to happen, I’ll keep you safe. Please do this for me?" 
+        Actor:: "Ok. For you. You can invite them over and I'll go change clothes."
+        setBackgroundCustom(livingroom)
+        
+        "Who should I invite?"
+        selectNpc()
+        Actor1 = getSelectedNpc()
+        
+        Actor1.dress()
+        Actor1.show()
+        
+        "Who else should I invite? Click Close if enough."
+        selectNpc()
+        Actor2 = getSelectedNpc()
+        
+        Actor2.dress()
+        Actor2.show()
+        
+        
+        If Actor2.isValid()
+            "Who else should I invite? Click Close if enough."
+            selectNpc()
+            Actor3 = getSelectedNpc()
+            
+            Actor3.dress()
+            Actor3.show()
+        Endif
+
+        "Once all of my friends came over we immediately went over to the TV and started watching our favorite program. I went to the hallway where <Actor.name> was standing nervously. I asked her to go to the kitchen and grab a few drinks for me and my friends and then to come join me on the couch."
+        Actor.moveToPersonStand(Actor1, 100)
+        "I returned to the couch and then a short time later she arrived, her shirt barely hiding anything, her nipples even poking up under her shirt causing slight visible bumps. All of my friends attempted to not stare at her, but I could see them all keep trying to get a look to see if they could see her panties, some even standing up to get their drinks. The ones who stood up would subtly look down her shirt trying to see down. No doubt someone saw her breasts."
+        0:: "I decided to expose her."
+        1:: "Convince <Actor.name> to drink enough to get her drunk and have some fun."
+        2:: "Spike everyone’s drinks with aphrodisiac"
+        
+        If 0
+            Actor.stripOne()
+            animatePair(Player, Actor, Kissing)
+            "I carefully pulled her shirt up while hugging her showing off her entire bare bottoms to everyone. I then proceeded to kiss 
+            <Actor.name>."
+            If Random(0, 100) < 33 && Actor2.isValid()
+                Actor4 = Actor2
+            Elseif Random(0, 100) < 33 && Actor3.isValid()
+                Actor4 = Actor3
+            Else
+                Actor4 = Actor1
+            Endif
+            
+            Actor4.moveToPersonStand(Actor, 50)
+            "While we did this, <Actor4.name> got close behind her staring directly at her lower regions from behind."
+            Actor4.animate(camera)
+            "He brought his phone up and took a quick picture. He then did the same again after bringing his phone under her between her legs." 
+            "After the kissing I had her lay across my lap and I would feel her legs up and down as she lay across me. Occasionally I would gently nudge her to spread her legs."
+            "At some point they were spread enough <Actor1.name> who was sitting on the couch with me with her feet in his lap could look over and see right up her shirt to what was between her legs." 
+            "I then whispered in her ear" 
+            Player:: "babe can you go put in a movie into the dvd player. Make sure to bend over when you do so instead of crouching please." 
+            "She followed directions perfectly as soon as she leaned over fully her shirt rode up enough to show everything. My friends began taking pictures once more. After the hangout they send me all the pictures taken that day and the group chat said it was one of the best hangouts ever and we should do that again!"
+            
+            Actor1:rapportwithplayer += 5
+            Actor2:rapportwithplayer += 5
+            Actor3:rapportwithplayer += 5
+        Elseif 1
+            "I’m going to convince <Actor.name> to drink enough to get her drunk and have some fun."
+            "The <Actor.boyfriend_or_girlfriend> drank so much she began getting tipsy. I began teasing her till she couldn’t take it anymore and took me to our bedroom."
+            setBackground(home)
+            "Once there she begged me to have sex with her."
+            Sex(Player, Actor)
+            "When finished we head back into the main room and everyone finishes the hangout and goes to their homes."
+            
+            Actor1:rapportwithplayer += 1
+            Actor2:rapportwithplayer += 1
+            Actor3:rapportwithplayer += 1            
+        Elseif 2
+            "Lucky I planned ahead and bought some items. I spiked everyone’s drinks and soon everyone was nude and I could see my <Actor.boyfriend_or_girlfriend> was sweating. Her lower regions dripping wet. I then said"
+            Player:: "Why don’t we make this hangout spiced up some more? I then parted my <Actor.boyfriend_or_girlfriend>'s legs showing her off to everyone and very quickly we all went to town on her."
+            
+            If Actor3.isValid()
+                Sex(Player, Actor1, Actor2, Actor3, Actor)
+            Elseif Actor2.isValid()
+                Sex(Player, Actor1, Actor2, Actor)
+            Else
+                Sex(Player, Actor1, Actor)      
+            Endif
+            "After sex is finished everyone goes home."
+            
+            Actor1:rapportwithplayer += 5
+            Actor2:rapportwithplayer += 5
+            Actor3:rapportwithplayer += 5
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, sr_fso_hangout_dare1_cms)

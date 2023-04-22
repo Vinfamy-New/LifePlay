@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Actor.isRelative() && [Actor:attractiontoplayer > 30 || Actor:incest > 30] && Actor.isInterestedIn(Player) && !Actor.hadSex()
+OTHER: isQuestCompleted(legalized)
+
+    SceneStart()
+    "I was hanging out with my <Actor.relationship> when suddenly ..."
+    AnimatePair(Actor, Player, Kissing)
+    Actor(Kiss):: "..."
+    "My <Actor.relationship> kissed me!"
+    0:: "Respond in kind"
+    1:: "Push <Actor.him_or_her> off me"
+    
+    If 0
+        AnimatePair(Actor, Player, Kissing)
+        Player(Kiss):: "..."
+        Actor:attractiontoplayer += 5
+        Actor:: "You have no idea how long I have been holding back these feelings. I knew you would feel the same way about me."
+        Actor:: "Now that all of this is no longer against the law, we don't have to hide these feelings for each other anymore."
+        "My <Actor.relationship>'s advances become more aggressive. It's clear that <Actor.he_or_she> wants a lot more than a kiss."
+        0:: "Have sex"
+        1:: "This is going too fast."
+        
+        If 0
+            Sex(Actor, Player)
+            Actor:incest => 100
+        Else
+            Player:: "I'm not sure we should go that far. With incest legalized so recently, this is all just too confusing for me ... Give me some time, please don't pressure me into this, okay?"
+            Actor:: "I understand ..."
+        Endif
+    Else
+        Player(Angry):: "<Actor.Relationship>! What are you doing? I'm your <Actor.callplayer>!"
+        Actor:: "I'm sorry, you have no idea how long I have been holding back these feelings. I thought you would feel the same way about me."
+        Actor:: "You know ... since they already legalized this type of relationship."
+        0:: "Forget about it, <Actor.relationship>!"
+        1:: "Give me time"
+        
+        If 0
+            Player:: "<Actor.relationship>, it's best that you get rid of these feelings, because it doesn't matter whether this relationship is allowed or not, it won't happen because I simply don't feel the same way towards you."
+            Player:: "To me, you're just my <Actor.relationship>."
+            Actor:: "I understand ... I guess those were just false hopes I had ..."
+            Actor:attractiontoplayer -= 10
+        Else
+            Player:: "I'm not sure yet how I feel about you. With incest legalized so recently, this is all just too confusing for me ... Give me some time, please don't pressure me into this, okay?"
+            Actor:: "I understand ..."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, legalized_attraction)

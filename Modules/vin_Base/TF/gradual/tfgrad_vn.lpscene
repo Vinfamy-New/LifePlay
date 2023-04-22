@@ -1,0 +1,65 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: TfGame() && Player.isMale()
+
+    // Play an adult visual novel with a female protagonist -> Name the female protagonist after yourself -> Name the male characters after your male friends or past rivals -> go through the art and edit the female protagonist's face to look like yours.
+    
+    SceneStart()
+    dys = Player.getActorVar(tf_dys) 
+    stage = Player.getActorVar(tfgrad_vn)
+    
+    "Ah, this month's release of a popular adult visual novel just comes out on Patreon."
+    0:: "Play the update"
+    1:: "Skip it"
+    
+    If 0
+        If dys > 66 && stage > 2
+            "Having named the female protagonist after myself, I ran into an issue that kills my immersion into the game: the female protagonist's in-game appearance looks nothing like me! Even obvious features like hair color, skin color and eye color don't match ... She might as well be a random stranger who happens to have the same name as mine."
+            "Of course, this is nothing that Photoshop and a ton of patience can't solve ... "
+            0:: "Go through the game art and edit the female protagonist to look like me"
+            1:: "No way. There are thousands of image files in there!"
+            
+            If 0
+                "The amount of hours I put in to edit each and every image featuring the female protagonist was borderline insane, but I finally managed to make it a game about the sex life of a girl named just like me and looking like how I would imagine myself would look as a woman ..."
+                dys += 5
+                stage => 5
+            Endif
+        Elseif dys > 33 && stage > 0
+            "For Renpy games like this, it's pretty easy to replace certain texts for the whole game int something else. Most useful for names."
+            0:: "Name the female protagonist after myself"
+            1:: "Name her male lovers after my male friends and past romantic rivals"
+            2:: "Leave the author's original names alone"
+
+            If 2
+                "As far as I'm concerned, I'm just a third-party observers of some strangers fucking in a game."
+            Else
+                "The h-scenes are just so much hotter this way."
+                dys += 3
+                stage => 3            
+            Endif
+        Else
+            "It's a female protagonist game. The whole interactive story is basically you deciding who she fucks between nice guys, bad boys, sugardaddies and taboo love interests."
+            0:: "Treat the female protagonist as my doll and imagine myself as whichever guy she fucks"
+            1:: "Immerse myself fully and roleplay the female protagonist's story"
+            
+            If 1
+                "It's just a game after all. Isn't that what games are about: escapism. Nothing wrong with roleplaying as a woman."
+                dys += 1
+                stage => 1
+            Endif
+        Endif
+    Endif
+    
+    Player.setActorVar(tfgrad_vn, stage)
+    If dys > 100
+        dys => 100
+    Endif
+    "My gender dysphoria level is now <dys>."
+    Player.setActorVar(tf_dys, dys)
+    If dys > 90
+        followUp(tfgrad_magic)
+    Endif
+    SceneEnd()
+    timeout(100, tfgrad_vn)

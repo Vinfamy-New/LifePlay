@@ -1,0 +1,135 @@
+WHAT: all
+WHERE: bar, nightclub, pub, biergarten, restaurant, cafe
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isDating() && Actor.isMale() && [OpenRelationship() || [Actor:perversion > 80 && Actor:arousal > 80]]
+OTHER: Player.isFemale()
+    
+    SceneStart()
+    "This place is crowded."
+    "My <Actor.boyfriend_or_girlfriend> heads off to get some drinks and soon we lose each other in the crowd."
+    "After searching him for a while, I find him talking to another woman!"
+    
+    Player:: "Hmmm! Who's that with <Actor.name>"
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isFemale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makeInterested(Actor)
+    Actor2.dress()
+    Actor2.show()
+    Player:: "What the fuck? Is he following her in the restroom?"
+    Actor2.hide()
+    Actor.hide()
+    Player:: "He followed her in."
+    0:: "Stay at the bar and wait for them to come out again"
+    1:: "Go and see what they are up to."
+    2:: "Storm out of the bar"
+            
+    If 0
+        "I wait at the bar like a good partner and don't give in to my envious feelings. But I can't help fantasizing about the things my <Actor.boyfriend_or_girlfriend> and the mysterious woman are about to do in the restrooms."
+        Player.hide()
+        setBackground(toilets)
+        Actor.show()
+        Actor2.show()
+        "Meanwhile in the bathroom ..."
+        Sex(Actor, Actor2)
+        
+        setBackground(bar)
+        Player.show()
+        "After a couple of minutes I see them coming out of the restrooms, both with enlightened mood. Shortly after my <Actor.boyfriend_or_girlfriend> spots me at the bar and comes to me."
+        0:: "Ask him if he had a great time at the bathroom"
+        1:: "Ignore the incident and pretend nothing happened"
+        2:: "Confront him with his unfaithfulness"
+        
+        If 0
+            Actor:: "What do you mean?"
+            Player:: "Don't act so ignorant. I just can see it in front of my inner eye, how you fucked that sexy little slut in the bathroom stall. I fantasied about it, waiting here for you and it was sooo hot."
+            Actor:: "Oh you naughty little cuckquean bitch. I just love how kinky you are. Let's get out of here and I tell you every smutty little detail about how I made this woman squeal."
+            
+            moveTo(home)
+            setBackground(home)
+            "We hurry back home and qickly reanact the scene that happened with <Actor.name> and the woman at the bar.
+            Sex(Actor, Player)      
+        Elseif 1
+            "I welcome back my lovely <Actor.boyfriend_or_girlfriend> pretending to be totally unknowing to his little detour through the ladies restroom."
+            "We continue our date and have a great date together, where I can't help but turned on by fantasizing about the mysterious woman at my man's side..."
+        Elseif 2
+            Player:: "Did you have a great time fucking that bitch at the restrooms?"
+            
+            "<Actor.name> and I start a great argument after I've confronted him with his highly suspicious trip to the bathroom."
+            "Of course he disputes all of my so called 'suspicions' and swears nothing naughty has happend with this woman."
+            Actor:attractiontoplayer -= 10
+            "After a while we abandon our fight, but our relationship and my trust in <Actor.name> has noticeably suffered."
+        Endif
+           
+    Elseif 1
+        setBackground(toilets)
+        "I enter the restrooms and directly notice muffled sounds from the first stall."
+        Player:: "I can see their feet!"
+        "How could he cheat on me like this? Maybe he knew I would follow him! He wants me to watch."
+        "I’m so overwhelmed right now with mixed emotions. I need to be quiet!"
+        
+        "Then I notice a hole and drop to my knees to see what they are doing!"
+        
+        "Oh my god, the woman sees me watching her suck my <Actor.boyfriend_or_girlfriend> cock, but she doesn’t know who I am!"
+
+        "Suddenly the mysterious woman stops blowing <Actor.name>"
+        
+        Actor2:: "Put your hard cock in the hole right there! Some slut wants it."
+        
+        Actor:: "What? Really who?"
+        
+        Actor2::"I didn’t ask her name! Just give her your cock already!"
+
+        "<Actor.name> shoves his cock through the hole and I gently start strokes it."
+        
+        "This feels so naughty, but that’s my <Actor.boyfriend_or_girlfriend> cock!"
+        
+        Actor:: "She's stroking my cock!"
+        
+        Actor2:: "Kiss me!"
+
+        Actor:: "Oh shit! She’s…. oh fuck… she’s so good!  She’s sucking my cock!"
+        
+        Sex(Actor, Player, Actor2)
+        
+        Actor2:: "My turn, I want your cock!"
+        
+        "<Actor.he_or_she> is gonna fuck her! Im so fucking wet right now!"
+
+        Sex(Actor2, Actor)
+        
+        "After I watched them both climax through your little peeping hole, the woman suddenly brings her face real close towards it. "
+        Actor2:: "Hope you enjoyed the show. That pretty cock belongs to me bitch! Haha!"
+        
+        "She turns to your <Actor.boyfriend_or_girlfriend>." 
+        Actor2:: "Let's leave this place..."
+        
+        "Your <Actor.boyfriend_or_girlfriend> and the woman leave the place. You follow them short time later and find <Actor.name> alone at the bar again."
+        Actor:: "There you are. Finally I've found you...You look happy?"
+        0:: "Make an excuse for your happy mood."
+        1:: "Tell <Actor.name> that you accompanied him at the bathroom."
+        
+        If 0
+            Player:: "I just had a few drinks, while I waited to find you again. I think they are getting to my head..."
+            Actor::  "My little boozy girl...Seems like I just can't leave you alone for a bit. Let's get you home then"      
+        Else
+            Player:: "Of course I’m happy, I just fulfilled a fantasy of mine."
+            Actor:: "You did? Which fantasy?"
+            Player:: "I just watched you fuck that girl in the restroom."
+            Actor:: "What the fuck? From where?"
+            Player:: "I was the other slut who sucked you"
+            Actor:: "I knew that mouth felt familiar, too good to be anyone else."
+            Player:: "Tonight was fun, we should do this again, but for now let’s head home."
+        Endif   
+    Elseif 2
+        "I storm out of the bar not able to endure anymore of this."
+        moveTo(home)
+        setBackground(home)
+        "Later that day my <Actor.boyfriend_or_girlfriend> and I have a great argument, and I confront him with the events at the bar."
+        "Of course he disputes all of my so called "suspicions" and swears nothing naughty has happend with this woman."
+        Actor:attractiontoplayer -= 10
+        "After a while we abandon our fight, but our relationship and my trust in <Actor.name> has noticeably suffered."    
+    Endif
+    SceneEnd()
+    timeout(100, bar_cuckquean_cms)

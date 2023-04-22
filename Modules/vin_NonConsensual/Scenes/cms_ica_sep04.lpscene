@@ -1,0 +1,51 @@
+WHAT: all
+WHERE: sports_centre
+WHEN: 8 - 20
+WHO: none
+OTHER: Random(0, 100) < 1 && masochist > 50
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    "I was at the gym's locker room alone and this random <Actor.guy_or_girl> comes in having finished a workout, looks at me and declares:"
+    Actor:: "You look nice as a post workout snack!" 
+    Actor:: "I'm going to fuck you!"
+    Actor:: "Your only choices are 'yes' or 'screaming'. I love the screamers!"
+    0:: "Yes"
+    1:: "Scream"
+    2:: "Fight them"
+    
+    If 0
+        Sex(Player, Actor)
+    Elseif 1
+        "I screamed out for help!"
+        If Random(0, 100) < 80
+            "Unfortunately no-one came to help ..."
+            If Actor.isFemale() && Player.isMale()
+                Filter(AggressiveFM)
+            Else
+                Filter(Aggressive)
+            Endif
+            TalkNonConsensual()
+            SexNoAffair(Actor, Player)
+        Else
+            "Thankfully, the gym staff came in and saved the day."
+        Endif
+    Else
+        "I tried to fight my way out!"
+        If Actor:martial - Actor:intoxication > martial - intoxication
+            "Unfortunately <Actor.he_or_she> was too strong for me ..."
+            If Actor.isFemale() && Player.isMale()
+                Filter(AggressiveFM)
+            Else
+                Filter(Aggressive)
+            Endif
+            TalkNonConsensual()
+            SexNoAffair(Actor, Player)
+        Else
+            "Thankfully, I managed to fight <Actor.him_or_her> off."
+        Endif        
+    Endif 
+    SceneEnd()
+    timeout(500, cms_ica_sep04)

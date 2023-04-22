@@ -1,0 +1,45 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); Actor2 = Actor.getRelatedPerson(Spouses, Dating); If Actor.hadSex() && Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor)
+OTHER: none
+
+    // When hanging out with someone you've slept with behind their SO's back, they mention they told another married friend about the affair and the friend wants a piece as well.
+    
+    SceneStart()
+    "I've been sleeping with <Actor.name> while <Actor.he_or_she>'s still with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name>. In fact, we're on another date right now that surely will again have a happy ending."
+    "Of course, that ending is about to get a lot happier when <Actor.name> tells me about a married friend of <Actor.his_or_hers> who knows about our affair and wants a piece of me behind <Actor.his_or_her> <Actor.wife_or_husband>'s back as well."
+    Actor2 = generatePersonTemporary()
+    While !Actor.isSameGender(Actor2)
+        Actor2 = generatePersonTemporary()
+    endWhile
+    Actor2.makeInterested(Player)
+    Actor2.dress()
+    secondScreen(Actor2)
+    Actor2.show()
+    "<Actor.He_or_She> shows me a picture of this friend for my 'evaluation'. <Actor2.His_or_Her> name is <Actor2.name>."
+    0:: "Fuck yet another married <Actor2.man_or_woman>"
+    1:: "Not my type"
+    
+    If 0
+        secondScreen()
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+        
+        While !Player.isSameGender(Actor3)
+            Actor3 = generatePersonTemporary()
+        endWhile
+        Actor3.makeInterested(Actor2)
+        Actor3.makePermanent()
+        addNpcRelationship(Spouses, Actor3, Actor2)
+        
+        setBackground(home)
+        Actor2.show()
+        "Soon, <Actor.name> arranged for me and <Actor2.name> to meet in a hotel so I can have a go at yet another <Actor3.man_or_woman>'s <Actor2.boyfriend_or_girlfriend>."
+        Sex(Player, Actor2)
+        "Of course, <Actor.name> couldn't help but get turned on by the sight of me fucking <Actor.his_or_her> married friend and soon wanted to join the action as well."
+        Sex(Player, Actor, Actor2)
+    Endif
+    
+    SceneEnd()
+    timeout(200, bull_suggested)

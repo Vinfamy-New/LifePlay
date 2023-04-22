@@ -1,0 +1,22 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Curently, <Actor.name> is my <Actor.relationship>. And I'm <Actor.name>'s <Actor.callplayer>."    
+    "Use this as a tool to change the relative type of this family member, or to use nicknames"
+    "Continue?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "What should I call this family member? (for example, <Actor.nephew_or_niece>)"
+        Actor.enterCustom(relationship)
+        "<Actor.name> is my <Actor.relationship>."
+        "What should this family member call me? (for example, <Player.uncle_or_aunt>)"
+        Actor.enterCustom(callplayer)
+        "I'm <Actor.name>'s <Actor.callplayer>."
+    Endif
+    SceneEnd()

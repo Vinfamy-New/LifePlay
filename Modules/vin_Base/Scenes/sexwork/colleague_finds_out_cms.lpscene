@@ -1,0 +1,55 @@
+WHAT: work
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Colleague); If !Actor.isProstitute() && Actor:perversion > 50 && Actor.isInterestedIn(Player)
+OTHER: pornfame > 0
+
+
+    // I would like a scene at work where if you have porn fame, a colleague blackmails you for sex. If you decline, they will tell your boss.  The boss fires you, unless the boss has high perversion... in which case they will demand sex for you to keep your job.
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "Oh no, my colleague <Actor.name> found out about my side hustle as a pornstar and threatened to expose that fact to the boss and have me fired unless I have sex with <Actor.him_or_her>."
+    0:: "I have no choice ..."
+    1:: "Let <Actor.name> tell my boss about it ..."
+    
+    If 0
+        "We went to the office's break room when no-one is around to complete my part of the bargain."
+        Sex(Actor, Player)
+    Else
+        Actor.hide()
+        Actor2 = getSpecific(Boss)
+        Actor2.dress()
+        Actor2.show()
+        If Actor2.isValid()
+            Actor2(Angry):: "<Player.name>, meet me in my office please!"
+            "Oh god, this doesn't sound good. <Actor.name> probably told my boss about my porn career."
+            Actor2(Sarcastic):: "It seems you have a very interesting second job ..."
+            "<Actor2.name> showed me a printout with a screenshot on it ... It's my porn Twitter account that <Actor.name> showed <Actor2.him_or_her> earlier..."
+            If Actor2:perversion > 50 && Actor2.isInterestedIn(Player)
+                Actor2:: "Maybe I can let the issue stay quiet for now if you show me some of those pornstar skills in person."
+                0:: "I have no choice ..."
+                1:: "Get fired ..."
+
+                If 0
+                    Sex(Actor2, Player)
+                Else
+                    Actor(Angry):: "You're fired, then! Frankly, you should have known better than rejecting my offer."
+                    "No point begging for my job now ... it's no use. No companies want to risk their reputation by keeping a porn star employed."
+                    "My chance of getting another job is rather low now. Surely, any HR department could easily find out about my porn career."
+                    loseJob()
+                    jobexperience -= Random(0, 100)
+                    mood -= Random(0, 100)                
+                Endif
+            Else
+                Actor(Angry):: "You're fired! Frankly, you should have known better."
+                "No point begging for my job now ... it's no use. No companies want to risk their reputation by keeping a porn star employed."
+                "My chance of getting another job is rather low now. Surely, any HR department could easily find out about my porn career."
+                loseJob()
+                jobexperience -= Random(0, 100)
+                mood -= Random(0, 100)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, colleague_finds_out_cms)

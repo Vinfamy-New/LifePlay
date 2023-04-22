@@ -1,0 +1,38 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 18 - 4 
+WHO: none
+OTHER: Random(0, 100) < attractiveness && !Player.isProstitute() && !isWithCompanion()
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    Actor.makeInterested(Player)
+    Actor.dress()
+    Actor.show()
+    "I was going about my business when suddenly a <Actor.man_or_woman> approached me ..."
+    Actor:: "How much?"
+    "<Actor.name> must have mistaken me for a prostitute ... or maybe this <Actor.man_or_woman> just goes around offering pretty <Player.guys_or_girls> money to sleep with <Actor.him_or_her>."
+    0:: "Not for sale"
+    1:: "Negotiate a price"
+    2:: "I'll do it for free"
+    
+    If 0
+        Player:: "Sorry, I'm not that type of <Player.guy_or_girl>."
+        perversion -= 1
+    Else
+        If 1
+            "Maybe this could be the start of a new career for me?"
+            money += Random(200, 400)
+            perversion += 1
+        Else
+            perversion += 2
+            "I can't believe I'm doing this ... but the thrill of just randomly having sex with someone I just met was too much for me to refuse ..."
+        Endif
+        Loc = findNearbyBuilding(hotel)
+        moveTo(Loc)
+        setBackground(home)
+        "Soon, we were back in a local hotel to conduct our little 'transaction'."
+        Sex(Actor, Player)
+    Endif
+    SceneEnd()
+    timeout(200, cash_for_ass)

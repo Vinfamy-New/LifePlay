@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: apply_sunscreen
+ACTION_NAME: Apply sunscreen
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 20
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: apply_sunscreen
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && [WHERE == pool || WHERE == beach]

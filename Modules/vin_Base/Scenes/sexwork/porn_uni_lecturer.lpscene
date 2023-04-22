@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: university:school
+WHEN: 0-24
+WHO: Actor = getSpecific(Lecturer); If Actor.isInterestedIn(Player) && !Actor.hadSex()
+OTHER: pornfame > 0
+
+    // If you're a unversity student who's also a por nstan, you go to a lecturer's office for help with an assignment. You notice this lecturer seems strangely nervous around you. It all makes sense when they bring up their web browser to show you something related to the assignment, only for you to notice your Por nhub profile as one of their bookmarks. You can either pretend not to see it, or seduce your secret fan. Once you've slept with them once, they will find regular excuses to be alone with you in their office.
+    
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show(2)
+    
+    Fan = Actor.getActorVar(tag_pornfan)
+    
+    If Fan == 0   
+        "My <Actor.Major> lecturer, Dr <Actor.name_last>, set out an important individual assignment for the whole class at the end of <Actor.his_or_her> last lecture. Unfortunately, running out of time, <Actor.he_or_she> didn't do a great job in explaining it."
+        
+        "Quite a few of my classmates already paid <Actor.him_or_her> a visit to understand the assignment. At this point, it would almost be a disadvantage if I don't go."
+        
+        setBackground(bank)
+        
+        "I decided to pop in to see <Actor.him_or_her> during today's office hours."
+        
+        Actor:: "<Player.Mr_or_Ms> <Player.name_last> ... How can I help?"
+        "Dr <Actor.name_last> explained the assignment to me in better depth. However, I couldn't help but sense certain nervousness and awkwardness in <Actor.his_or_her> voice around me, which is strange because <Actor.he_or_she> is used to speaking publicly to hundreds of students at the same time."
+        
+        Actor:: "Here. If you look on my computer screen, I'll show you ..."
+        
+        "It all makes sense when <Actor.him_or_her> bring up <Actor.his_or_her> web browser to show you something related to the assignment, only for me to notice my Pornhub profile as one of <Actor.his_or_her> bookmarks."
+        0:: "Pretend not to see it"
+        1:: "Seduce my secret fan"
+        
+        If 0
+            "I decided to act normal and pretended not to see the bookmark. University lecturers watch porn too. It's best not to make a bigger deal of this than it is."
+        Else
+            "I decided to have some fun with my lecturer. There's something strangely arousing about knowing that someone who's supposed to be your authority figure actually fantasizing about you ..."
+            Actor.setActorVar(tag_pornfan, 1)
+            Player:: "I see you're quite an admirer of my non-academic work ..."
+            Actor:: "I ... I .... Please don't take this the wrong way ..."
+            "The panic was obvious from the lecturer's voice. Poor <Actor.guy_or_woman> is probably freaking out about potentially being accused for sexually harassing a student."
+            Player:: "It's okay ... it's flattering for me to know that I have a fan who's as mature and intelligent as you ..."
+            Player:: "To be honest, I've had a crush on you from the first day I step into your first lecture."
+            Player:: "Since our attraction is obviously mutual, let us explore it. This will be our naughty secret! Just like how my porn career is supposed to be a secret ..."
+            Actor:: "I don't know ... I could get fired ... you could get expelled."
+            "The lecturer continues to try to regain control of the situation by giving out sensible arguments, I suspect, more to convince <Actor.himself_or_herself> than me."
+            "Still in the end, <Actor.his_or_her> resistance was futile and the well-respected Dr <Actor.name_last> gave in to <Actor.his_or_her> desires for one of <Actor.his_or_her> own student, to whom <Actor.he_or_she> no doubt has gotten off many times before."
+            Sex(Actor, Player)
+        Endif
+    Else
+        "I previously found out that Dr <Actor.name_last> knew about my porn career and became quite a fan of my videos."
+        "I decided to go ahead and seduce <Actor.him_or_her>."
+        "Since we started having sex, the lecturer has no longer held back on <Actor.his_or_her> desires and constantly found excuses to have me in <Actor.his_or_her> office."
+        0:: "Go to Dr <Actor.name_last>'s office"
+        1:: "Not today"
+        
+        If 0
+            setBackground(bank)
+            "Once there, we didn't waste much time and got down to business quickly."
+            Sex(Actor, Player)
+        Else
+            timeout(300, porn_uni_lecturer)
+        Endif
+    Endif
+    
+    SceneEnd()
+    
+    timeout(100, porn_uni_lecturer)

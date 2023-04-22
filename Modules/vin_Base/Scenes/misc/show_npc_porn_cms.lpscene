@@ -1,0 +1,120 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor5 = getCompanion(); Actor6 = getCreature(); If Player.isInterestedIn(Actor5) && Actor5.isFemale() && Actor6.isMale() && Actor6.isCreatureType(Dog)
+OTHER: Player.isFemale()
+
+    SceneStart()
+    "You are feeling horny and you think that <Actor5.name> is too. Do you want to try and take things further and put on a porn movie in that hope that it will spice things up?"
+    0:: "NO"
+    1:: "YES"
+    
+    If 1
+        Best = false
+        Player.hide()
+        Actor5.hide()
+        Actor = generatePersonTemporary()
+        While !Actor.isFemale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        "What type?"
+        0:: "STRAIGHT"
+        1:: "LESBIAN"
+        2:: isModEnabled(vin_Bestiality):: "ANIMAL"
+        3:: isModEnabled(vin_NonConsensual):: "NC"
+        
+        If 0
+            "What exactly?"
+            0:: "Couple"
+            1:: "MMF"
+            2:: "MFF"
+            3:: "Gangbang"
+            4:: "Reverse Gangbang"
+            
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            If 0
+                Sex(Actor2, Actor)
+            Elseif 1 || 3
+                Actor3 = generatePersonTemporary()
+                While !Actor3.isMale()
+                    Actor3 = generatePersonTemporary()
+                Endwhile
+                If 1
+                    Sex(Actor3, Actor2, Actor)
+                Else
+                    Actor4 = generatePersonTemporary()
+                    While !Actor4.isMale()
+                        Actor4 = generatePersonTemporary()
+                    Endwhile
+                    Sex(Actor4, Actor3, Actor2, Actor)
+                Endif
+            Elseif 2 || 4
+                Actor3 = generatePersonTemporary()
+                While !Actor3.isFemale()
+                    Actor3 = generatePersonTemporary()
+                Endwhile
+                If 2
+                    Sex(Actor3, Actor2, Actor)
+                Else
+                    Actor4 = generatePersonTemporary()
+                    While !Actor4.isFemale()
+                        Actor4 = generatePersonTemporary()
+                    Endwhile
+                    Sex(Actor4, Actor3, Actor2, Actor)
+                Endif
+            Endif
+        Elseif 1
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isFemale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Sex(Actor, Actor2)
+        Elseif 2
+            Actor2 = generateCreatureTemporary()
+            Sex(Actor2, Actor)
+            Best = true
+        Elseif 3
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Filter(Aggressive)
+            TalkNonConsensual()
+            Sex(Actor2, Actor)   
+        Endif
+        
+        Actor.hide()
+        Actor2.hide()
+        Actor3.hide()
+        Actor4.hide()
+        
+        Player.show()
+        Actor5.show()
+        "You decide to watch a porn movie with <Actor5.name>. The action on the screen turns you both on."
+        If Random(0, 100) < Actor5:perversion + Actor5:attractiontoplayer
+            "After watching the film you both feel incredibly turned on. You look at <Actor5.name> and she looks at you. You make a move. She reciprocates. Before you know it, you are both overcome with passion."
+            Sex(Player, Actor5)
+            If Best
+                "You begin to think about the movie you just watched. You remember how turned on you were at seeing those dogs fucking those women. You want to try and see it in real life. Do you ..."
+                0:: "DECIDE TO LEAVE IT AS A FANTASY"
+                1:: "SUGGEST GETTING YOUR OWN DOG INVOLVED"
+                
+                If 1
+                    Actor6.show()
+                    "You'll probably say no... but how about I bring <Actor6.name> in and you and me try doing what we just watched in that film?"
+                    Actor5:: "Oh my God... Jesus... I'm so horny... yes! LET'S DO IT!"
+                    Sex(Actor6, Player)
+                    Sex(Actor6, Actor5)
+                    Sex(Actor6, Player, Actor5)
+                Endif
+            Endif
+        Else
+            "You both enjoy the film but not quite enough for it to lead to anything else. You hope to have better luck next time."
+        Endif
+        perversion += 2
+    Endif
+    SceneEnd()
+    timeout(500, show_npc_porn_cms)

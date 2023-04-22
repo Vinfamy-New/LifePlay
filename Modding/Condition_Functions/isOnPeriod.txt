@@ -1,0 +1,15 @@
+Actor.isOnPeriod()
+
+USE:
+Check if today is a 'dangerous day' for the actor.
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Pregnancy
+COMPARE: isPregnant()
+
+EXAMPLE:
+    If Actor.isOnPeriod()
+        "<Actor.name> tells me to put on a condom since it's her fertile day today."
+    Endif 
+

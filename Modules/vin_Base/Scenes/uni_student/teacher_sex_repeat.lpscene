@@ -1,0 +1,203 @@
+WHAT: all
+WHERE: university:school
+WHEN: 0-24
+WHO: Actor = getSpecific(Lecturer); If Actor.hadSex() && Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor:attractiontoplayer > 10
+OTHER: none
+
+    // If you've slept with a lecturer, you may keep the affair going. A classmate may find out and threaten to expose both of you. If you're in a relationship, the lecturer's spouse may take revenge by telling your SO.
+    
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show(2)
+    "I've already slept with my <Actor.major> lecturer, Dr <Actor.name> <Actor.name_last> and I'm sure <Actor.he_or_she> wouldn't be able to resist me if I offer my body again. But do I really want to continue this affair?"
+    0:: "Visit Dr <Actor.name_last> in <Actor.his_or_her> office again"
+    1:: "I had enough fun"
+    
+    If 0
+        Slave = Actor.getActorVar(tag_Slave)
+        Master = Actor.getActorVar(tag_Master)
+        If Slave > 0
+            "These days, Dr <Actor.name_last> is barely my lecturer anymore as <Actor.he_or_she> has obediently submitted to me like a submissive slave and accepted me as <Actor.his_or_her> <Player.Master_or_Mistress>."
+            Actor.strip()
+            If !Actor.isMale()
+                Actor.dressBondage(Collar)
+            Endif
+            "By the time I got to <Actor.his_or_her> office, my slave has already stripped down and is wearing the collar I gave <Actor.him_or_her>."
+            Player:: "I hope you haven't enjoyed play-acting as a university lecturer too much that you've forgotten our real place as nothing more than a worthless <Actor.slave_or_fuckhole> for me."
+            Actor:: "Of course not, <Player.Master_or_Mistress>. My real purpose in life is to be used by you for your own pleasure."
+            Sex(Player, Actor)
+            perversion += 0.25
+            Actor:attractiontoplayer += 5
+            Actor:masochist += 0.25
+            masochist -= 0.25
+        Elseif Master > 0
+            "These days, Dr <Actor.name_last> is not just my lecturer but also my <Actor.Master_or_Mistress>. I've obediently submitted to <Actor.him_or_her> like a submissive slave that I am."
+            "I'd better make sure to strip naked and put on the collar that my <Actor.Master_or_Mistress> gave me before going to see <Actor.him_or_her>. I wouldn't want to risk upsetting my <Actor.Master_or_Mistress>."
+            Player.strip()
+            If !Player.isMale()
+                Player.dressBondage(Collar)
+            Endif
+            Actor:: "I hope you haven't enjoyed play-acting as a university student too much that you've forgotten our real place as nothing more than a worthless <Player.slave_or_fuckhole> for me."
+            Player:: "Of course not, <Actor.Master_or_Mistress>. My real purpose in life is to be used by you for your own pleasure."
+            Sex(Actor, Player)
+            perversion += 0.25
+            Actor:attractiontoplayer += 5
+            Actor:masochist -= 0.25
+            masochist += 0.25
+        Else
+            "I decided to come up to Dr <Actor.name_last> after class once again and as expected, as much as Dr <Actor.name_last> keeps trying tell <Actor.himself_or_herself> how inappropriate our relationship is, in the end, the poor lecturer couldn't resist this hot student of <Actor.his_or_her>."
+            Sex(Player, Actor)
+            
+            perversion += 0.25
+            Actor:attractiontoplayer += 5
+            
+            If Actor:masochist < 0 && masochist > 0
+                "Dr <Actor.name_last> seems to enjoy taking control during sex. Should I indulge <Actor.him_or_her> and act submissive?"
+                0:: "Yes"
+                1:: "No"
+                
+                If 0
+                    Player:: "Please, fuck me rough!"
+                    If !Actor.isMale() && Player.isMale()
+                        Filter(AggressiveFM)
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    Sex(Actor, Player)
+                    Actor:masochist -= 2
+                    masochist += 2
+                    
+                    If masochist - Actor:masochist > 30
+                        "That was one of the best sex of my life, it feels incredible to be submissive. Still, I have not submitted fully to Dr <Actor.name_last> and accepted <Actor.him_or_her> as my rightful <Actor.Master_or_Mistress> yet ..."
+                        "Should I fully submit to <Actor.his_or_her> authority now?"
+                        0:: "Submit to Dr <Actor.name_last> as <Actor.his_or_her> personal slave"
+                        1:: "Not now"
+                        
+                        If 0
+                            "Dr <Actor.name_last> agreed that I was worthless and should rightfully submit to <Actor.him_or_her> as <Actor.his_or_her> slave."
+                            "As a slave, I swore to obey my <Actor.Master_or_Mistress>'s every commands. In fact, satisfying all <Actor.his_or_her> needs is all that I was born for."
+                            Actor.setActorVar(tag_Master, 1)
+                            Player.strip()
+                            If !Player.isMale()
+                                Player.dressBondage(Collar)
+                            Endif
+                            "To show <Actor.his_or_her> newly recognized ownership of me, my <Actor.Master_or_Mistress> put a collar around my neck and demanded that I wear it whenever I go see <Actor.him_or_her> after class."
+                        Endif
+                    Endif
+                Endif
+            Elseif Actor:masochist > 0 && masochist < 0
+                "Despite being my lecturer, Dr <Actor.name_last> seems to enjoy being submissive to me during sex. Should I indulge <Actor.him_or_her> and dominate <Actor.him_or_her>?"
+                0:: "Yes"
+                1:: "No"
+                
+                If 0
+                    Player:: "I'll fuck you rough and put you back in your place, 'professor'. I bet you fantasize about being dominated by your students during your lectures."
+                    If Actor.isMale() && !Player.isMale()
+                        Filter(AggressiveFM)
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    Sex(Player, Actor)
+                    Actor:masochist += 2
+                    masochist -= 2
+                    
+                    If Actor:masochist - masochist > 30
+                        "That was amazing. It's an amazing sensation to dominate in bed someone who's supposed to have authority over you. Still, Dr <Actor.name_last> has not submitted to me and accepted me as <Actor.his_or_her> rightful <Player.master_or_mistress> yet ..."
+                        "Should I assert that authority now?"
+                        0:: "Claim Dr <Actor.name_last> as my personal slave"
+                        1:: "Not now"
+                        
+                        If 0
+                            "Dr <Actor.name_last> agreed that <Actor.he_or_she> was worthless and despite being my lecturer officially, <Actor.he_or_she> should rightfully submit to me as <Actor.his_or_her> <Player.master_or_mistress>."
+                            "As a slave, <Actor.name> swore to obey my every commands. In fact, satisfying all my needs is all that <Actor.he_or_she> was born for."
+                            Actor.setActorVar(tag_Slave, 1)
+                            Actor.setWantsBabies()
+                            Actor.strip()
+                            Actor.dressBondage(Collar)
+                            "To show my newly recognized ownership of my new slave, I put a collar around <Actor.his_or_her> neck and demanded that <Actor.he_or_she> wear it whenever I go see <Actor.him_or_her> after class."
+                            Actor:masochist => 100
+                        Endif
+                    Endif
+                Endif
+            Endif
+            
+            If Random(0, 100) < 10
+                Actor2 = getSpecific(Coursemate)
+                Actor2.dress()
+                Actor2.show()
+                "Just as we were getting redressed, Dr <Actor.name_last> office doors open, to both of our horror ..."
+                "It's one of my classmates <Actor2.name>. I got Dr <Actor.name_last> so horny that the aging leturer completely forgot that <Actor.he_or_she> has an office appointment with another student soon ..."
+                Actor2:: "Oh my God!"
+                If Actor2:perversion > 50 && Actor2:rapportwithplayer < 10
+                    Actor2:: "So this is how you get those high marks, hah? I could expose you both to the principal."
+                    Actor:: "Please, <Actor2.name>, let's negotiate ... that would be the end of my career."
+                    If Actor2.isInterestedIn(Actor)
+                        Actor2:: "It's unfair. I want to fuck the lecturer too. If <Actor.he_or_she> can do it, I can too."
+                        Actor:: "I guess I have no choice but to fulfill that fantasy of yours. Oh God, what rabbit hole has I got myself into?"
+                        Sex(Actor, Actor2)
+                    Elseif Actor2.isInterestedIn(Player) && Actor2:attractiontoplayer > 10
+                        Actor2:: "I always thought you were hot, <Player.name>. I never expected you to turn out to be teacher-fucking <Player.manwhore_or_slut>."
+                        Actor2:: "But if <Actor.he_or_she> can fuck you, I want to fuck you too ..."
+                        Actor:: "Please, <Player.name>, you have to do whatever <Actor2.he_or_she> demands, for the sake of both of us. You would be expelled and I would be fired for sure if this gets out ..."
+                        Sex(Actor2, Player)
+                    Else
+                        Actor2:: "How about some cash now, Dr <Actor.name_last>, a guaranteed good marks for me for all your classes to keep me quiet?"
+                        Actor::: "Okay okay, I don't have any other choice ..."
+                        "Well, at least, the money didn't have to come out of my own pocket ..."
+                    Endif
+                Else
+                    Actor2:: "I saw nothing ... I'll leave you two to it."
+                    "Thankfully, <Actor2.name> was too embarrassed to make a big deal of it and kept what <Actor2.he_or_she> saw a secret."
+                Endif
+            Elseif Random(0, 100) < 12 && Player.isDating()
+                Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+                If !Actor2.isValid()
+                    Actor2 = generatePersonTemporary()
+                    While !Actor.isInterestedIn(Actor2)
+                        Actor2 = generatePersonTemporary()
+                    endWhile
+                    Actor2.makeInterested(Actor)
+                    Actor2:age => Actor:age + Random(-5, 5)
+                    Actor2.randomizeHairs()
+                    Actor2.randomizeFace()
+                    Actor2.makePermanent()
+                    addNpcRelationship(Spouses, Actor, Actor2)
+                Endif
+                Actor2.dress()
+                Actor2.show()
+                "Just as we were getting redressed, Dr <Actor.name_last> office doors open, to both of our horror ..."
+                "The situation couldn't have been possibly any worse - it's Dr <Actor.name_last>'s <Actor2.boyfriend_or_girlfriend>. I got Dr <Actor.name_last> so horny that the aging leturer completely forgot that <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> is picking <Actor.him_or_her> up from work for a dinner date ..."
+                Actor2:: "I knew it. I always suspected you were sleeping with some of your hot young students!"
+                Actor2:: "And you, I hope you're having fun being a home wrecker. Karma is a bitch!"
+                "With that, <Actor2.he_or_she> stormed off ... Well, at least it seems <Actor2.he_or_she> is not going to report this to the university and get <Actor2.his_or_her> own <Actor.boyfriend_or_girlfriend> fired ..."
+                
+                Actor.hide()
+                
+                setBackgroundCustom(livingroom)
+                
+                "Just as I thought the drama was over, I headed home only to be greeted to see my <Actor3.boyfriend_or_girlfriend> in the living room ..."
+                Actor3 = getSpecific(Dating)
+                Actor3.dress()
+                Actor3.show()
+                If OpenRelationship() || !Actor3.isInterestedIn(Actor2) || Actor3:attractiontoplayer > 75
+                    Actor2.hide()
+                    Actor3:: "Baby, there was this crazy <Actor2.man_or_woman> earlier that messages me on Facebook saying something about you sleeping with one of your lecturers."
+                    Actor3:: "Of course, I was having none of it. Must have been some sort of scam."
+                Else
+                    Actor3:attractiontoplayer -= Random(25, 75)
+                    "Not just there, but fucking Dr <Actor.name_last>'s <Actor2.boyfriend_or_girlfriend> from earlier ... <Actor2.He_or_She> must have searched through <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend>'s Facebook friend lists to find me and find out that I'm in a relationship ..."
+                    Sex(Actor3, Actor2)
+                    Actor2:: "You're screwing your lecturer!? Is it for grade as well? How long can you sink?"
+                    Actor3:: "As I said, karma is a bitch!"
+                Endif
+            Else
+                "I was discreet enough not be seen entering and leaving Dr <Actor.name_last>'s office."
+            Endif
+        Endif
+    Else
+        "Ew, I don't fancy <Actor.him_or_her> at all."
+        timeout(200, teacher_sex_repeat)
+    Endif
+    SceneEnd()
+    timeout(24, teacher_sex_repeat)

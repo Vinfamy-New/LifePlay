@@ -1,0 +1,214 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // At any hospital or clinic, you can "Take part in vore experiment" where you're paid to test a drug that would miniaturize a human to enter another human's body via various orifices safely, which would revolutionize medical check-ups and surgeries. You choose whether to enter a random test subject or invite someone you know. You choose which orifice to enter and can insist on having someone also entering with you. While inside, you could end up getting excited and decide to play with yourself (if you're inside an uterus, you could make her pregnant). Of course, if there's someone entering with you, you could hook up instead.
+    
+    SceneStart()
+    setBackground(hospital)
+    "I'm being offered a paid opportunity to test a drug that would miniaturize a human to enter another human's body via various orifices safely, which would revolutionize medical check-ups and surgeries."
+    0:: "Take part in the experiment"
+    1:: "Getting swallowed whole sounds dangerous"
+    
+    If 0
+        money += 300
+        "The doctor in charge of experiment understands test subject may be more at ease entering someone they know and trust rather another random test subject."
+        "Whose body should I enter? Click Close if happy with a random test subject."
+        selectNpc()
+        Actor = getSelectedNpc()
+        
+        If Actor.isValid()
+            "After some convincing and a generous separate offer from the doctor, <Actor.name> agreed to be the one being entered by miniature me."
+        Else
+            Actor = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor)
+                Actor = generatePersonTemporary()
+            Endwhile
+            "I couldn't think of anyone suitable. So the doctor calls up a random test subject, who goes by <Actor.name>. Despite insisting this medical research is strictly professional and non-sexual, the doctor was considerate enough to at least find a candidate according to my sexual orientation."
+        Endif
+        Actor.show()
+        orig = 1*Actor:masochist
+        Actor:masochist => -100
+        "The doctor also allows me to bring along someone I trust to go through the same experience of entering the body with me ... I guess a few hours inside someone's body can get a bit boring, so company isn't so bad."
+        "Who should enter with me? Click Close if happy to enter alone."
+        selectNpc()
+        Actor2 = getSelectedNpc()
+        
+        If Actor2.isValid()
+            "After being offered the same deal as me, <Actor2.name> was tempted and agreed to take the same drug and enter the same body as me to keep me company in there."
+            Actor2.show()
+        Else
+            "I was happy to go in there alone ..."
+        Endif
+        Player.strip()
+        "With everything agreed, the doctor had everyone stripped down ready for the entrance."
+        "As part of their research, they have to extensively test all the orifices on the body where entrance can be made to eventually determine the most optimal for different medical needs. I get a choice here and will be compensated equally. Whatever orifice I choose to enter will be the same from where I'll exit."
+        0:: "Get swallowed whole"
+        1:: "Enter through the anus"
+        2:: !Actor.isMale():: "Enter through the vagina"
+        3:: Actor.isMale():: "Enter through the penis"
+        
+        orifice = 1*choice
+        "The moment of truth is here."
+        "It's my turn to take the drug, shrink in size and enter <Actor.name>'s body."
+        If orifice == 0
+            If Player.isMale() && !Actor.isMale()
+                Filter(VoreOralFM)
+            Else
+                Filter(VoreOral)
+            Endif
+        Elseif orifice == 1
+            If Player.isMale() && !Actor.isMale()
+                Filter(VoreAnalFM)
+            Else
+                Filter(VoreAnal)
+            Endif
+        Elseif orifice == 2
+            Filter(VoreVaginal)
+        Else
+            Filter(VorePenis)      
+        Endif
+        (In the next screen, click anywhere > End sex when you finish watching the animation)
+        TalkNonConsensual()
+        SexNoAffair(Actor, Player)
+        Player.hide()
+        
+        If Actor2.isValid()
+            "It's now my companion <Actor2.name>'s turn to take the drug, shrink in size and enter <Actor.name>'s body."
+            If orifice == 0
+                If Actor2.isMale() && !Actor.isMale()
+                    Filter(VoreOralFM)
+                Else
+                    Filter(VoreOral)
+                Endif
+            Elseif orifice == 1
+                If Actor2.isMale() && !Actor.isMale()
+                    Filter(VoreAnalFM)
+                Else
+                    Filter(VoreAnal)
+                Endif
+            Elseif orifice == 2
+                Filter(VoreVaginal)
+            Else
+                Filter(VorePenis)      
+            Endif
+            
+            TalkNonConsensual()
+            SexNoAffair(Actor, Actor2)
+            Actor2.hide()
+        Endif
+        
+        If orifice == 0
+            setBackground3d(Modules/vin_Vore/world/VStomach.lpworld)
+            "After being swallowed whole, I fall into <Actor.name>'s stomach."
+        Elseif orifice == 1
+            setBackground3d(Modules/vin_Vore/world/VRectum.lpworld)
+            "After entering <Actor.name> anally, I fall into <Actor.his_or_her> rectum."
+        Elseif orifice == 2
+            setBackground3d(Modules/vin_Vore/world/VUterus.lpworld)
+            "After entering <Actor.name> vaginally, I fall into inside <Actor.his_or_her> uterus."
+        Else
+            setBackground3d(Modules/vin_Vore/world/VScrotum.lpworld)
+            "After entering <Actor.name> via <Actor.his_or_her> penis, I fall into inside <Actor.his_or_her> scrotum."
+        Endif
+        Actor.hide()
+        Player.show()
+        If Actor2.isValid()
+            Actor2.show()
+        Endif
+        
+        "The experiment has been a success. I'm not dead yet!"
+        "In fact, it's kinda boring in here. The drug will last for a few hours before I can be discharged and returned to full size."
+        "I must admit ... Being inside someone this way in sort of arousing in a way ... The walls of inner organ flesh reminds me of some of the Japanese hentai I've seen."
+        0:: "Masturbate"
+        1:: If Actor2.isInterestedIn(Player) && Player.isInterestedIn(Actor2):: "Hook up with my companion <Actor2.name>"
+        
+        If 0
+            Filter(Solo)
+            Sex(Player)
+            
+            If orifice == 2 && !Player.isFemale()
+                "As I cum from my solo session, I suddenly remembered I entered <Actor.name> via her vagina earlier and I'm now in her uterus. I just literally came inside her ..."
+                "I'm not sure how fertile my even more tiny sperms would be in this condition ... but could it be possible that I just impregnated my unknowing test host subject."
+                "Have I just caused some poor innocent guy a lifetime of child support? Or if <Actor.name> hasn't even had sex with a guy recently, could I just have created a new religion?"
+                If Random(0, 10) < fertility
+                    Actor.impregnate(Player)
+                Endif
+            Endif
+        Else
+            "Soon, my eye makes contact with <Actor2.name>'s. We're both visibly aroused at the situation we found ourselves in. We'll be here for hours yet ... with no-one around to witness us ..."
+            "There was always going to be one way how this two-person adventure was gonna end."
+            Sex(Player, Actor2)
+        Endif
+        
+        "After a few hours, I could start feeling the drug losing its effect and myself gradually gaining size."
+        "I hope the doctor times it right and is getting <Actor.name> for the discharge. Don't want to tear someone apart from the inside. The doctor did say I'm going to come out the same hole I entered, that means ..."
+        
+        "(Discharge animations to come in the next Vore update. Just skip for now.)"
+        
+        If orifice == 0
+            If Player.isMale() && !Actor.isMale()
+                Filter(VoreoutOralFM)
+            Else
+                Filter(VoreoutOral)
+            Endif
+            "<Actor.name> is going to vomit me out ... ew ..."
+        Elseif orifice == 1
+            If Player.isMale() && !Actor.isMale()
+                Filter(VoreoutAnalFM)
+            Else
+                Filter(VoreoutAnal)
+            Endif
+
+            "<Actor.name> is going to fart me out, or worse ... ew ..."
+        Elseif orifice == 2
+            Filter(VoreoutVaginal)
+            
+            "<Actor.name> is going to piss or squirt me out ..."
+        Else
+            Filter(VoreoutPenis)
+
+            "<Actor.name> is going to jerk off and unleash me with all <Actor.his_or_her> cum ... I hope no-one walks in mid-procedure or they may mistake me for a pornstar being a center of a bukkake scene."      
+        Endif
+        Player.hide()
+        Actor2.hide()
+        
+        setBackground(hospital)
+        Actor:: "I'm ready, doctor. Let's do it!"
+        Player.show()
+        
+        TalkNonConsensual()
+        SexNoAffair(Actor, Player)
+
+
+        If Actor2.isValid()
+            "Next, it's my fellow adventurer <Actor2.name>'s turn to be discharged and returned to full size."
+            Actor2.show()
+            If orifice == 0
+                If Player.isMale() && !Actor.isMale()
+                    Filter(VoreoutOralFM)
+                Else
+                    Filter(VoreoutOral)
+                Endif
+            Elseif orifice == 1
+                If Player.isMale() && !Actor.isMale()
+                    Filter(VoreoutAnalFM)
+                Else
+                    Filter(VoreoutAnal)
+                Endif
+            Elseif orifice == 2
+                Filter(VoreoutVaginal)
+            Else
+                Filter(VoreoutPenis)
+            Endif
+            
+            TalkNonConsensual()
+            SexNoAffair(Actor, Actor2)
+        Endif
+        
+        Actor:masochist => orig
+    Endif
+    SceneEnd()
+    

@@ -1,0 +1,80 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: Actor = getSpecific(Impregnated); Actor2 = Actor.getRelatedPerson(Dating, Spouses)
+OTHER: none
+
+    SceneStart()
+    Cuck = Actor.getActorVar(tag_NTRCuck)
+    If IsModEnabled(vin_Netori) && [Cuck > 0 || Actor:masochist > 25]
+        Actor.setActorVar(tag_NTRCuck, 1)
+        Actor2.show()
+        Actor.dress()
+        Actor.show()
+        "While fucking <Actor2.name>, I caught <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> <Actor.name> watching from the hallway ..."
+        "I decided to keep silent. If someone enjoys watching <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> fucking another <Player.man_or_woman>, that's only good for me."
+        If Actor:masochist > 50 && Actor:masochist < 60
+            "As I was leaving, <Actor.name> finally made <Actor.his_or_her> presence known and approached me, which usually would mean a disastrous situation of me getting caught red-handed."
+            "In this case however, I have a feeling this would lead to a pleasant surprise ..."
+            Actor:: "I must admit I can't help but feel incredibly turned on watching you and my <Actor2.boyfriend_or_girlfriend> go at it ..."
+            Actor:: "Feel free to fuck <Actor2.him_or_her> as much as you want from now on ... You have my blessing ..."
+            Actor:: "I'll just watch and try not to disturb you ..."
+            Player:: "It's good that you've learned your place, cuck! Fine, I'll let you watch whenever I feel like fucking your <Actor2.boyfriend_or_girlfriend> again!"
+        Endif
+        Actor:masochist += 10
+    Else
+        "By sleeping with <Actor2.name>, I have made <Actor2.him_or_her> cheat on <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> <Actor.name>. I don't know if I should feel guilty or victorious."
+        "Let's just hope <Actor.name> will never find out or this could get messy."
+        
+        If Actor.isFemale() && Player.isFemale() && Actor2.isMale() && Actor.isInterestedIn(Player)
+            "A few days later <Actor2.name> invited me over to his place again."
+            setBackgroundCustom(livingroom)
+            Actor.dress()
+            Actor2.dress()
+            Actor.show()
+            Actor2.show()
+            
+            "I thought he wanted me there to continue our affair, only to be shocked when I arrived and found his <Actor.boyfriend_or_girlfriend> there with him."
+            "Oh no, she must have found out, what will she do with me?"
+            Actor:: "Look at you. You look terrified."
+            Actor:: "Afraid of the consequences of sleeping with another woman's <Actor2.boyfriend_or_girlfriend>, aren't you?"
+            Player:: "Please, listen to me, I didn't know he had a ..."
+            Actor:: "Don't worry, I'm not going to pull out a gun and shoot both of you or anything."
+            Actor:: "You see, my <Actor2.boyfriend_or_girlfriend> isn't the only one in our relationship who's into women like you."
+            Actor:: "I have a thing for girls too ..."
+            Actor:: "Which is fortunate for you since all I wanted is to have a taste of what my <Actor2.boyfriend_or_girlfriend> had. Can't just let him have all the fun without me. Sharing is caring, you know."
+            Actor2:: "You're right, honey. I shouldn't have enjoyed her all to myself like that, it was very selfish of me."
+            "Well ... this is certainly a much better outcome than a crazy psycho girlfriend looking for revenge against her love rival ..."
+            Player:: "Well, I guess it's the least I could do ..."
+            "I couldn't really turn her down since I've already slept with her <Actor2.boyfriend_or_girlfriend>."
+            Sex(Actor, Player)
+            
+        Elseif Random(0, 400) < Actor:interpersonal + Actor:intelligence - karma
+            "A few days later ..."
+            removeNpcRelationship(Actor, Actor2)
+            blockContact(Actor)
+            Actor:rapportwithplayer -= 200
+            setBackground(home)
+            Actor.dress()
+            Actor(Angry):: "Open the fucking door!"
+            Actor.show(2)
+            Player(Surprised):: "What's the matter, <Actor.name>? You look angry."
+            If Actor.isRelative()
+                Actor:: "I'm your <Actor.relationship>! How could you betray me like that?"
+                Actor.setLivingWithPlayer(false)
+            Endif
+            If Actor:masochist + karma < -50
+                Actor.animate(gun)
+                Actor.moveToPerson(Player)
+                Actor(Furious):: "You fucked my <Actor2.boyfriend_or_girlfriend>! Now die, <Player.scum_or_bitch>!"
+                "Pow!"
+                followUp(death)
+            Else
+                Actor(Furious):: "You fucked my <Actor2.boyfriend_or_girlfriend>! I should just kill you, <Player.scum_or_bitch>!"
+                Actor(Angry):: "But I won't lower myself to deal with the likes of you. You both adulterers could fuck off from my life!"
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()
+    

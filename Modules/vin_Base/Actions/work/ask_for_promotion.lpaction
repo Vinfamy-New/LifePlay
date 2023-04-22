@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: ask_for_promotion
+ACTION_NAME: Ask for a promotion
+WHERE: work
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS: jobexperience < 100 (STAT_COMPARE)
+MOVE_FIRST: true
+SCENE_ALWAYS: ask_for_promotion
+ANIMATION:

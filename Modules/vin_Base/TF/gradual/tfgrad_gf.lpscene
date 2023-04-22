@@ -1,0 +1,145 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: TfGame() && Player.isMale()
+
+    // Become interested in knowing your girlfriend's male bodycount before you -> Dig out ancient social media posts to track down all her exes -> Dig some more and get aroused by old photos of their PDA together -> Ask your GF what her exes were like in bed -> She'll eventually share some old intimate videos with you -> Become a cuck and give her permission to bang her exes again while you watch -> Find new guys for her to bang -> Admit yours is not a typical cuckold fantasy, you've been imagining yourself in her place while watching -> She encourages you to have a taste while she watches and teaches you
+    
+    SceneStart()
+    dys = Player.getActorVar(tf_dys) 
+    stage = Actor.getActorVar(tfgrad_gf)
+    
+    If dys > 60 && stage > 3
+        setBackgroundCustom(livingroom)
+        Actor.show()
+        "Asking for and then watching an old homemade sex tape involving <Actor.name> and her ex basically confirms my status as a cuckold."
+        "I might as well give her permission to fuck other guys, including her exes or even guys I hand-select for her."
+        0:: "Let her pick one of her past lovers"
+        1:: "Pick a guy I know for her"
+        2:: "Can't think of a suitable candidate"
+        
+        If 0
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            endWhile
+            "She's confessed she's been secretly keeping in touch with an old flame called <Actor2.name> hoping for this day."
+        Elseif 1
+            "Who should I pick?"
+            selectNpc()
+            Actor2 = getSelectedNpc()
+        Endif
+        
+        If Actor2.isValid() && Actor2.isMale()
+            dys += 5
+            stage => 5
+            Actor2.show()
+            "Soon, the bull we picked showed up to fuck my <Actor.boyfriend_or_girlfriend> while I watch."
+            Sex(Actor2, Actor)
+            
+            If dys > 70
+                "Even though both the bull and my <Actor.boyfriend_or_girlfriend> has a clear view of me watching them, I can't help but be drawn to his body, his cock and especially the fantasy of being in her place getting fucked rather than just a passive voyeur."
+                0:: "Try to hide it"
+                1:: "Who cares if they notice ..."
+                
+                If 1
+                    dys += 1
+                    stage => 6
+                    "If either of them catches a glimpse of me watching them amidst their steamy sex, they would have doubt where my eyes are looking at and where my imagination is running."
+                    If dys > 80
+                        "And indeed, my <Actor.boyfriend_or_girlfriend> soon notices and understands right away this is no ordinary cuckold fantasy."
+                        Actor:: "You're not just a cuck. You're a sissy, aren't you?"
+                        Actor:: "Look at you ... You only wish you could have a female body to get fucked like this."
+                        Actor:: "And look at your mouth watering ... You want that cock yourself, don't you?"
+                        Player:: "Baby, it's just so natural to imagine myself in your place. We're soulmates after all. We have a special telepathic bond."
+                        Actor:: "That's adorable. Come then, have some cock. Let me teach you a thing or two."
+                        0:: "Let my <Actor.boyfriend_or_girlfriend> teach me how to pleasure a man"
+                        1:: "Chicken out"
+                        
+                        If 0
+                            dys += 2
+                            stage => 7
+                            Sex(Actor2, Player)
+                        Endif
+                    Endif
+                Endif
+            Endif
+        Else
+            "I can't think of a suitable candidate to fuck her right now."
+        Endif
+        
+    Elseif dys > 40 && stage > 1
+        setBackgroundCustom(livingroom)
+        Actor.show()
+        If Random(0, 100) < 50 && dys > 50 && stage > 2
+            "Now that I've heard some dirty details about my <Actor.relationship>'s past flames, I can't help but wonder if she still has anything intimate saved."
+            0:: "Ask my <Actor.boyfriend_or_girlfriend> for her sex tape with her ex"
+            1:: "She must have deleted them all"
+            
+            If 0
+                "Fortunately for me, <Actor.name> has indeed been sneaky and kept copies of some homemade porn they made just to sometimes remind herself of the great passion they shared."
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                endWhile
+                Actor2.show()
+                "Of course, she was more than happy to watch them again with me."
+                blockPregnancy()
+                Sex(Actor2, Actor)
+                dys += 4
+                stage => 4
+            Endif        
+        Else
+            "I've been stalking one of my <Actor.boyfriend_or_girlfriend>'s exes on social media and I must say I'm not surprised at all she used to let him fuck her on the regular."
+            "It's all a fantasy and I love nothing more than hearing from my <Actor.boyfriend_or_girlfriend> herself how amazing her ex was in bed."
+            0:: "Ask my <Actor.boyfriend_or_girlfriend> about her past flame"
+            1:: "She would freak out!"
+            
+            If 0
+                "Fortunately for me, <Actor.name> was more than happy to describe in vivid details how amazing their passionate sex was back then."
+                "Of course, <Actor.he_or_she> made sure I knew how much bigger and better at sex he was compared to me. That's the answer I've wanted all along of course."
+                "I bet everytime she had mediorce sex with me, she fantasized about her ex instead. Can't blame her at all to be honest. Even I'm fantasizing about being in her place ..."
+                dys += 3
+                stage => 3
+            Endif
+        Endif
+    Else
+        "Am I curious about my <Actor.boyfriend_or_girlfriend>'s male bodycount before me?"
+        0:: "Do some digging online"
+        1:: "It's irrelevant"
+        
+        If 0
+            dys += 1
+            stage => 1
+            "Digging out old photos from her social media and how 'friendly' they look in their photos together, I managed to add another guy to my list of guys she probably fucked in the past."
+            If dys > 20
+                "These photos have been tagged with the other guy's social media profile. Should I check him out?"
+                0:: "Stalk my <Actor.boyfriend_or_girlfriend>'s ex lover on social media"
+                1:: "That's weird"
+                
+                If 0
+                    dys += 1
+                    stage => 2
+                    "He's a good looking guy and they used to look so happy together. I bet he satisfied her better than I do now."
+                    "I can't help but be drawn to their old photos with the most PDAs, just imagine how into him she was at that moment that she probably let him fuck her hard not long after the public photo was taken."
+                    "I can't blame her ... I would have done the same and become an easy girl for such a hot guy ..."
+                    "Suddenly, my imagination goes wild and I suddenly fantasize about time-traveling to take over my <Actor.boyfriend_or_girlfriend>'s body at the time they were the most intimate and getting fucked all the time by such a stud."
+                    Filter(Solo)
+                    Sex(Player)
+                Endif
+            Endif            
+        Endif
+    Endif
+    
+    Actor.setActorVar(tfgrad_gf, stage)
+    If dys > 100
+        dys => 100
+    Endif
+    "My gender dysphoria level is now <dys>."
+    Player.setActorVar(tf_dys, dys)
+    If dys > 90
+        followUp(tfgrad_magic)
+    Endif
+    SceneEnd()
+    timeout(100, tfgrad_gf)

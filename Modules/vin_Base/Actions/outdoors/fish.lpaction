@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: fish
+ACTION_NAME: Fish
+WHERE: river
+WHEN: 0 - 24
+MINUTES: 30 - 60 
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: mood +5 (END), energy +3 (END), cooking +0.1 (END), stock_ingredient +1 (END)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: fish
+ANIMATION:

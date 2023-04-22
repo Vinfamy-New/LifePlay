@@ -1,0 +1,156 @@
+WHAT: all
+WHERE: home
+WHEN: 6 - 22
+WHO: Actor2 = getAnyRelative(Child); If Actor2:age < 14
+OTHER:
+
+    SceneStart()
+    Actor = getPerson(tag_babysitter)
+    If Actor.isValid()
+        setBackgroundCustom(livingroom)
+        money -= 30
+        "I had some business to attend to today so I called the babysitter <Actor.name> over to take care of <Actor2.name>"
+        If Random(0, 100) < 20 && isModEnabled(vin_Bestiality)
+            Actor4 = getCreature()
+            While Actor4.isValid() && [!Actor.isInterestedIn(Actor4) || !Actor4.isCreatureType(Dog)]
+                Actor4 = getCreature()
+            Endwhile    
+        Endif
+        
+        If !Actor4.isValid()
+            Actor4 = getSpecific(Dating)
+        Endif
+        
+        If Actor4.isValid() && Actor4.isCreature()
+            Player:: "What the fuck!"
+            setBackground(home)
+            Actor.show()
+            Actor4.show()
+            Sex(Actor, Actor4)
+            "The babysitter is having bestiality sex with my pet dog <Actor4.name>!"
+            0:: "Get angry and fire the babysitter on the spot"
+            1:: "Join them for some fun"
+            2:: "Keep quiet and ignore"
+            
+            If 0
+                Actor.setActorVar(tag_babysitter, 0)
+                "I promptly fired the misbehaving babysitter. How dares <Actor.he_or_she> abuse my pet?"
+            Elseif 1
+                Player:: "I see you've discovered the pleasure of bestiality as well. I knew there was something special about you. That's why I hired you."
+                Sex(Player, Actor, Actor4)
+            Endif      
+        Elseif Random(0, 100) < 25
+            Player:: "What the fuck!"
+            setBackground(home)
+            Actor.show()
+            Filter(Solo)
+            Sex(Actor)
+            "The babysitter is watching porn and masturbating while my kid is asleep"
+            0:: "Ignore it"
+            1:: "Threaten to fire <Actor.him_or_her>"
+            
+            If 1
+                Actor:: "Please, don't fire me. I need the money for college. I'll do anything!"
+                0:: "Demand sex"
+                1:: "Fire the babysitter"
+                2:: "Forgive"
+                
+                If 0
+                    Actor:: "Okay ... I really need this job so ... Besides, I'm kinda horny ..."
+                    Sex(Player, Actor)
+                Elseif 1
+                    Actor.setActorVar(tag_babysitter, 0)
+                    "I promptly fired the misbehaving babysitter."
+                Endif
+            Endif
+        Elseif Random(0, 100) < 33
+            Actor3 = generatePersonTemporary()
+            While !Actor.isInterestedIn(Actor3)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3.makeInterested(Actor)
+            Actor3:age => Random(18, 23)
+            Actor3.randomizeFace()
+            Actor3.randomizeHairs()
+            Player:: "What the fuck!"
+            setBackground(home)
+            Actor.show()
+            Actor3.show()
+            Sex(Actor3, Actor)
+            "The babysitter has a lover over and bangs <Actor3.him_or_her> while my kid sleeps!"
+            0:: "Ignore it"
+            1:: "Threaten to fire <Actor.him_or_her>"
+            
+            If 1
+                Actor:: "Please, don't fire me. I need the money for college. I'll do anything!"
+                0:: "Demand sex"
+                1:: "Demand sex with <Actor.his_or_her> <Actor3.boyfriend_or_girlfriend>"
+                2:: "Demand a threesome"
+                3:: "Fire the babysitter"
+                4:: "Forgive"
+                
+                If 0
+                    Actor:: "Okay ... I really need this job so ... Besides, I'm kinda horny ..."
+                    Sex(Player, Actor)
+                Elseif 1
+                    Actor:: "Okay ... I really need this job so ... I guess we have no other choice ..."
+                    Sex(Player, Actor3)
+                Elseif 2
+                    Actor:: "Okay ... I really need this job so ... I guess we have no other choice ..."
+                    Sex(Player, Actor3, Actor)
+                Elseif 3
+                    Actor.setActorVar(tag_babysitter, 0)
+                    "I promptly fired the misbehaving babysitter."
+                Endif
+            Endif
+        Elseif Random(0, 100) < 50 && Actor4.isValid() && Actor4.isInterestedIn(Actor) && Actor.isInterestedIn(Actor4) && [OpenRelationship() || Actor4:perversion > 70 || Actor4:attractiontoplayer < 0]
+            Player:: "What the fuck!"
+            setBackground(home)
+            Actor.show()
+            Actor4.show()
+            Sex(Actor, Actor4)
+            "My <Actor4.boyfriend_or_girlfriend> is banging the babysitter!"
+            0:: "Get angry and fire the babysitter on the spot"
+            1:: "Join them for some fun"
+            2:: "Keep quiet and ignore"
+            
+            If 0
+                Actor.setActorVar(tag_babysitter, 0)
+                "I promptly fired the misbehaving babysitter."
+                "I'll deal with my <Actor4.boyfriend_or_girlfriend> later ..."
+            Elseif 1
+                Player:: "Having all the fun with the babysitter without me, are you?"
+                Actor4:: "Why don't you come join us instead of standing there watching and complaining?"
+                Sex(Player, Actor, Actor4)
+            Endif
+        Else
+            "I came back to the babysitter doing <Actor.his_or_her> job properly."
+        Endif
+    Else
+        "My <Actor2.son_or_daughter> is only <Actor2:age> and needs a babysitter. I should hire one."
+        0:: "Look for a babysitter"
+        1:: "Let's put this off for a while"
+        
+        If 0
+            Actor = generatePersonTemporary()
+            Actor:age => Random(18, 23)
+            Actor.randomizeFace()
+            Actor.randomizeHairs()
+            Actor.makeInterested(Player)
+            secondScreen(Actor)
+            Actor.show()
+            "<Actor.name> applied to be the babysitter for <Actor2.name>."
+            0:: "Hire <Actor.him_or_her>"
+            1:: "Try another time for a better candidate"
+            
+            If 0
+                Actor.makePermanent()
+                Actor.setActorVar(tag_babysitter, 1)
+                "<Actor.name> is now <Actor2.name>'s babysitter. <Actor.He_or_She> will be at my home whenever I need."
+            Endif
+        Else
+            timeout(500, babysitter)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, babysitter)

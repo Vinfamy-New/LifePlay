@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(1, 100) < pornfame
+
+    // If you're a por nstar, depending on your fame, you may get recognized in public. The fan will either simply ask for a selfie, or try to proposition you. You can then demand money straight up or demand to film the whole thing and share online as a 'Fuc k a Fan' video, which increases your fame instead.
+    
+    SceneStart()
+    "I was going about my day when I was recognized by a porn fan"
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    Actor:: "I'm a big fan of your videos. Can I please have a selfie?"
+    0:: "Of course"
+    1:: "Fuck off!"
+    
+    If 0
+        "The fan was polite enough so I was happy to take a selfie with <Actor.him_or_her>."
+        Actor.moveToPersonStand(Player, 50)
+        Actor.animate(browse)
+        "The fan snapped a selfie of us together."
+        If Actor.isInterestedIn(Player) && Actor:interpersonal > 50 && Actor:perversion > 50
+            Actor:: "You have no idea how much I fantasize about being able to fuck you whenever I watch one of your videos."
+            Actor:: "Now that you're so close, I couldn't help but ask ..."
+            0:: "I don't escort"
+            1:: "Name my price"
+            2:: "Only if it's filmed"
+            
+            If 0
+                Player:: "Sorry, but unlike some others in the industry, I'm not interested in that kind of extra income."
+            Elseif 1
+                "What's the big deal? A lot of pornstars also work as high-end escorts."
+                Player:: "Fine, but it will cost you to fulfill this fantasy of you."
+                Actor:: "Whatever you want. Just take my money."
+                setBackground(home)
+                money += Random(500, 750)
+                "The horniness certainly outweighted this fan's sense and <Actor.he_or_she> gave me all the cash <Actor.he_or_she> had on <Actor.him_or_her>. Soon enough, we ended up in a hotel room together."
+                Sex(Actor, Player)
+            Else
+                "Although I don't escort, I've seen other pornstars do these 'Fuck a Fan' videos which help them grow their fanbase. I guess such videos probably give so called 'simps' false hope."
+                Player:: "Okay, but only if the whole thing is filmed and posted online ... I've been thinking about a 'Fuck a Fan' video, so I guess it's your lucky day."
+                Actor:: "I'll probably lose my job, my <Player.boyfriend_or_girlfriend> will probably break up with me and my parents will probably disown me when the video is online, but I can't miss out on this once-in-a-lifetime opportunity ... I've been wanting you for so long."
+                setBackground(home)
+                "The horniness certainly outweighted this fan's sense and <Actor.he_or_she> agreed to be my amateur co-star. Soon enough, we ended up in a hotel room together."
+                Sex(Actor, Player)
+                Actor.hide()
+                "I posted the video online and my fame increased as a result, although the number of creepy DMs I receive only increases."
+                pornfame += Random(0, 3)
+                "Of course, the fan got nothing out of it and having a sex tape with a pornstar being watched by thousands can't be too good for <Actor.his_or_her> normal life."
+            Endif
+        Else
+            Actor.hide()
+            "The fan then left me alone and went <Actor.his_or_her> own way. It was just a nice interaction with a fan, no harm done."
+        Endif
+    Else
+        Actor.hide()
+        "I rejected the fan's request for a selfie and told <Actor.him_or_her> leave me alone."
+        If Actor:masochist < 0
+            "Unfortunately for me, the fan decided to snap a pic of me anyway while walking away. <Actor.He_or_She> then posted on Twitter about my rude and arrogant behavior to fans. The tweet got quite a few retweets with some of my rivals in the industry, jealous of me, also pouring oil into the flame by claiming how bitchy I am as a person."
+            "I can't help but feel this incident damaged my reputation in the porn industry a bit."
+            If pornfame > 10
+                pornfame -= Random(0, 5)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(72, fuck_a_fan)

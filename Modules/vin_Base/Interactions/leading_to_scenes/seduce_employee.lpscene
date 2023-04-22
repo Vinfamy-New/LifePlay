@@ -1,0 +1,30 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "The best thing about being a business owner is that I can flirt as much as I want to any employees I find attractive and there's no HR to report to."
+    "One employee in particular, <Actor.name> has caught my eye recently so whenever the opportunity arise, I flirt intensely with <Actor.him_or_her>."
+    Actor:attractiontoplayer += 3
+    If Actor:attractiontoplayer > 30
+        "<Actor.name> seems receptive enough to my advances, although I couldn't tell if <Actor.he_or_she> is just acting that way because <Actor.he_or_she> didn't want to upset me, <Actor.his_or_her> boss, and get fired."
+        0:: "Be bolder and try to take <Actor.him_or_her> to bed"
+        1:: "Let's not rush things"
+        
+        If 0
+            If Actor.hadSex() || Random(30, 100) < Actor:attractiontoplayer
+                "I invited <Actor.name> over to my place after work, not being very subtle at all about what I really want from <Actor.him_or_her>. To my delight, <Actor.he_or_she> accepted my invitation."
+                moveTo(home)
+                setBackground(home)
+                Sex(Player, Actor)
+            Else
+                "I invited <Actor.name> over to my place after work, not being very subtle at all about what I really want from <Actor.him_or_her>. Unfortunately, <Actor.he_or_she> declined my invitation."
+                Actor:attractiontoplayer -= 3
+            Endif
+        Endif
+    Else
+        "<Actor.name> is still rather resistant to my advances, but only time will tell. I'm the one with the power after all."
+    Endif
+    SceneEnd()

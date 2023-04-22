@@ -1,0 +1,124 @@
+WHAT: all
+WHERE: home
+WHEN: 15 - 24
+WHO: Actor = getRelative(Sibling, StepSibling, Cousin, Child, StepChild); If Actor.livesWithPlayer() && !Actor.hasRelationship(Spouses, Dating) && !Actor.isAsexual()
+OTHER:
+
+    // You come home to find a relative living with you having an awkward date with someone clearly not into them (or vice versa). Later on, you hear rap music between the two and you can join or intervene.
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    "I come home to find my <Actor.relationship> in the living room watching Netflix. <Actor.He_or_She> was not alone though."
+    Actor2 = generatePersonTemporary()
+    While !Actor.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makeInterested(Actor)
+    Actor2.dress()
+    Actor2.show()
+    "<Actor.He_or_She> was with a date, who quickly introduced <Actor2.himself_or_herself> as <Actor2.name>."
+    "They're trying to Netflix and chill but just from a few moments of observing them, I couldn't help but notice that there's no chemistry whatsoever."
+    If Actor:masochist < -50 && Actor:perversion > 70
+        Rapist = Actor
+        Raped = Actor2
+        "In fact, my <Actor.relationship> seems infatuated with <Actor2.name>, who didn't seem to be romantically interested in <Actor.him_or_her> at all. Still, my <Actor.relationship> didn't seem to take the message and continued to flirt aggressively which seemed to annoy <Actor.his_or_her> date more than anything."
+        "I could tell <Actor2.name> couldn't wait to get out of here and escape my <Actor.relationship>'s unwelcome advances."
+        "Now that I think of it, I do remember my <Actor.relationship> telling me about this <Actor2.guy_or_girl> <Actor.he_or_she> recently met and became obsessed with. My desperate <Actor.relationship> had been begging <Actor2.name> for a date probably and the poor <Actor2.guy_or_girl> probably gave it a shot only to end up in this awkward situation."
+    Else
+        Rapist = Actor2
+        Raped = Actor
+        "In fact, this <Actor2.name> seems infatuated with my <Actor.relationship>, who didn't seem to be romantically interested in <Actor2.him_or_her> at all. Still, my <Actor.relationship>'s date didn't seem to take the message and continued to flirt aggressively which seemed to annoy <Actor.name> more than anything."
+        "I could tell <Actor.name> was trying to find an excuse to kick <Actor2.name> out and escape <Actor2.his_or_her> unwelcome advances."
+        "Now that I think of it, I do remember my <Actor.relationship> telling me about this <Actor2.guy_or_girl> <Actor.he_or_she> recently met that became obsessed with <Actor.him_or_her>. This desperate suitor had been begging my <Actor.relationship> for a date probably and my kind <Actor.relationship> probably gave <Actor2.him_or_her> a chance only to end up in this awkward situation."
+    Endif
+    "Not wanting to make things even more awkward, I excuse myself and leave them two to it."
+    setBackground(home)
+    Actor.hide()
+    Actor2.hide()
+    "Later that night ..."
+    "What's this confrontation I'm hearing ... it's coming from the living room. Let's check it out."
+    setBackground(livingroom)
+    Actor.show()
+    Actor2.show()
+    Raped:: "Please, stop, what are you doing? You're hurting me. I said No!"
+    Rapist:: "You'll enjoy it. Stop playing hard to get. Why do you go on a date with me if you don't want a piece of me?"
+    Raped:: "You're delusional. I only agreed to watch a movie with you out of pity because you had been so desperate. I've never found you attractive."
+    Rapist:: "Bet I'll change your mind after some a rough fuck."
+    Raped:: "Get your hands off me."
+    "Oh no, <Rapist.name> is trying to rape <Raped.name>. <Rapist.He_or_She>'s not taking no for an answer."
+    0:: "Go back to my room and pretend I saw nothing"
+    1:: "Stop <Rapist.name> and save <Raped.name>"
+    2:: "Help <Rapist.name>"
+    
+    If 0
+        Raped:: "No ... Stop ... Please ...."
+        Rapist:: "Be obedient if you don't want to get hurt."
+        If !Rapist.isMale() && Raped.isMale()
+            Filter(AggressiveFM)
+        Else
+            Filter(Aggressive)
+        Endif
+        TalkNonConsensual()
+        Sex(Rapist, Raped)
+    Elseif 1
+        Player:: "Hey, stop!"
+        "I jumped into action and knocked <Rapist.name> out so that <Raped.name> could get out of <Rapist.his_or_her> grasp."
+        Rapist.animate(fightlost)
+        Raped:: "Thank you so much. You saved me."
+        karma += 20
+        Raped:attractiontoplayer += 20
+        Raped:rapportwithplayer += 30
+        Rapist:rapportwithplayer -= 20
+        
+        If Raped.isTemporary()
+            Raped:: "I can't believe a creepy <Rapist.bastard_or_bitch> like <Rapist.name> would have such a nice <Rapist.callplayer>."
+            Raped:: "Maybe we could exchange numbers and get to know each other better sometime ... without your <Rapist.relationship> around of course."
+            0:: "Exchange numbers"
+            1:: "Decline"
+            
+            If 0
+                Player:: "Of course, I'll be delighted to make up for my <Rapist.relationship>'s unacceptable behavior by treating you to something nice next time."
+                Raped.makePermanent()
+                exchangeContact(Raped)
+            Else
+                Player:: "I'm sorry, but things will be weird enough between me and my <Rapist.relationship> as it is now. Let's not worsen it by me and you keeping in contact."
+            Endif
+        Endif
+    Else
+        Player:: "Hehe, let me help you hold <Raped.him_or_her> down. It's bold of you to take matters in your own hands and not take no for an answer. I like that attitude."
+        If Raped.isRelative()
+            Raped:: "<Raped.callplayer>, how could you?"
+        Else
+            Raped:: "Your whole family is sick! Disgusting. This was a trap all along."
+        Endif
+        "Outnumbered, <Raped.name> never stood a chance of resisting and soon accepted <Raped.his_or_her> fate."
+        Rapist:: "Thanks, I wasn't expecting your help. I'm not sure I could have overcome <Raped.his_or_her> struggles so easily without you. It's only fair the we rape <Raped.him_or_her> together ... What do you say to that?"
+        0:: "Rape <Raped.name> together"
+        1:: "Just watch"
+        
+        If 0
+            Raped:: "No ... Stop ... Please ...."
+            Rapist:: "Be obedient to us if you don't want to get hurt."
+            TalkNonConsensual()
+            Sex(Rapist, Player, Raped)
+            
+            If !Raped.isTemporary()
+                Raped.setActorVar(tag_Raped, 1)
+            Endif
+        Else
+            Raped:: "No ... Stop ... Please ...."
+            Rapist:: "Be obedient if you don't want to get hurt."
+            If !Rapist.isMale() && Raped.isMale()
+                Filter(AggressiveFM)
+            Else
+                Filter(Aggressive)
+            Endif
+            TalkNonConsensual()
+            Sex(Rapist, Raped)            
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(300, wi_relative_daterape)

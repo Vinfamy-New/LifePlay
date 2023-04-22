@@ -1,0 +1,66 @@
+WHAT: all
+WHERE: home
+WHEN: 9 - 22
+WHO: Actor = getPerson(true); Actor2 = getRelative(); If !Actor.isDating() && Actor:rapportwithplayer > 30 && Actor2.hadSex() && Actor2:incest > 80
+OTHER:
+
+    //  A friend is on their way to come hang out but in the meantime, a taboo lover at home wants a quickie. May just get away with it or lead to huge rapport loss or a threesome or voyeur surprise ...
+    SceneStart()
+    "My phone rang ... It's <Actor.name> calling."
+    SecondScreen(Actor)
+    Actor.show(2)
+    Actor:: "Hey <Player.name>, it's <Actor.name>. Listen, do you want to hang out today?"
+    "Hang out with <Actor.name>?"
+    0:: "Yes"
+    1:: "No"
+
+    If 0
+        Player:: "Of course. I'll see you in a bit!"
+        Actor:: "Okay, I'll come over to your place to pick you up from there."
+        SecondScreen()
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "I was thinking we should do something together today ... you know ... family bonding time ..."
+        "My <Actor2.relationship> winked at me, clearly hinting about repeating the forbidden love-making session we had last time ..."
+        Player:: "Sorry, but I already promised <Actor.name> to hang out with <Actor.him_or_her> today."
+        Actor2:: "Damn ... what a shame ..."
+        Actor2:: "But <Actor.name> isn't here yet ... we still have time for a quickie ..."
+        0:: "Have a quickie with <Actor2.name> before <Actor.name> arrives"
+        1:: "Too risky ..."
+        
+        If 0
+            Sex(Player, Actor2)
+            If Random(0, 100) > sneak
+                "With passion flowing, the 'quickie' ended up lasting longer than expected ..."
+                Actor.dress()
+                Actor.show()
+                If Actor:perversion > 65 || Actor.hadSex()
+                    "Out of the corner of my eye, I spotted <Actor.name> having arrived and now touching <Actor.himself_or_herself> while peeping on us"
+                    0:: "Just let the voyeur enjoy the view"
+                    1:: "Invite <Actor.him_or_her> to join us for a threesome"
+                    
+                    If 0
+                        "Having someone else watching us doing something forbidden is strangely exciting."
+                        "It makes me aroused enough for round 2 right away ..."
+                        Sex(Player, Actor2)
+                        Actor.StartDate()
+                    Else
+                        Player:: "Ah, <Actor.name>, I see you've arrived and are being more than understanding about this special relationship I have with my <Actor2.relationship> ..."
+                        Player:: "Why don't you come join us? It would be rude of us to keep the guest waiting."
+                        Sex(Player, Actor, Actor2)
+                    Endif
+                Else
+                    Actor:: "What the fuck! You're fucking your <Actor2.relationship>! This is disgusting!"
+                    "<Actor.name> stormed out, I might have lost a friend here ..."
+                    Actor:rapportwithplayer -= 40
+                Endif
+            Else
+                "After a while, <Actor.name> arrived and we hanged out, <Actor.him_or_her> having no idea I just took had some fun with my <Actor2.relationship> while waiting for <Actor.him_or_her>."
+                Actor.StartDate()
+            Endif
+        Endif
+    Else
+        Player:: "Sorry, I'm busy today. Maybe next time ..."
+    Endif
+    SceneEnd()
+    timeout(300, incest_caught_by_friend)

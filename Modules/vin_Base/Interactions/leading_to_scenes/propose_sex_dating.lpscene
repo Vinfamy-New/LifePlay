@@ -1,0 +1,62 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Actor.isEmployee() || [Actor.isColleague() && jobexperience - Actor:jobexperience > 30]
+        Subor = true
+    Else
+        Subor = false
+    Endif
+    
+    If Actor.isDating()
+        "The best thing about being in a steady relationship is that sex is much easier to come by"
+    Else
+        "I had sex with <Actor.name> before. Maybe it wouldn't take much convincing to get it on again?"
+    Endif
+    "Should I be direct and suggest hooking up with <Actor.name> now?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        If Random(0, 50) < Actor:attractiontoplayer + interpersonal + Actor:perversion + Actor:incest || [Subor && Random(0, 33) < Actor:attractiontoplayer + interpersonal + Actor:perversion + Actor:masochist]
+            If Subor
+                Actor:: "Of course boss ... Anything to relieve you of some stress."
+            Else
+                Actor(Flirty):: "Fine ... I'm quite horny myself actually."
+            Endif
+            Sex(Actor, Player)
+            perversion += Random(0, 0.05)
+            Actor2 = getCreature()
+            If isModEnabled(vin_Bestiality) && Actor2.isValid() && Actor2.isCreatureType(Dog) && isAtHome()      
+                Actor2.show()
+                "Too occupied with fucking <Actor.name>, I didn't notice that our intense love making session has got my pet dog <Actor2.name> all excited."
+                "It's clear that <Actor2.he_or_she> got horny from watching us and wants a piece of the action. Unless satisfied, <Actor2.he_or_she> will spend the night barking and won't let me sleep, I'm sure."
+                0:: "Relieve <Actor2.name> myself"
+                1:: "Convince <Actor.name> to do it"
+                2:: !Actor.isMale() && !Player.isMale():: "Convince <Actor.name> to have a threesome with me and the dog"
+                3:: "Do nothing"
+                
+                If 0
+                    Sex(Actor, Player)
+                Elseif 1
+                    Actor:: "Okay ... but only because you got me so horny from our fucking."
+                    Sex(Actor2, Actor)
+                Elseif 2
+                    Actor:: "Okay ... but only because you got me so horny from our fucking."
+                    Sex(Actor2, Actor, Player)
+                Else
+                    Actor2:rapportwithplayer -= 2
+                Endif
+            Endif
+        Else
+            If Subor
+                Actor(Sad):: "Sorry boss, but I don't think we should be doing it quite so often and publicly ..."            
+            Else
+                Actor(Sad):: "Sorry, but I'm not in the mood right now ..."
+            Endif
+        Endif
+    Endif
+    SceneEnd()

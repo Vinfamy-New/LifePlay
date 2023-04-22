@@ -1,0 +1,65 @@
+WHAT: all
+WHERE: home
+WHEN: 12 - 21
+WHO: Actor = getSpecific(Dating)
+OTHER:
+
+    SceneStart()
+    dressFormal()
+    "The phone is ringing. It's my <Actor.boyfriend_or_girlfriend> <Actor.name>."
+    secondScreen(Actor)
+    Actor.dress()
+    Actor.show()
+    Actor:: "Baby, I'm heading out with my colleagues for a drink after work. Don't wait up on me, okay?"
+    0:: "Invite myself along"
+    1:: "Okay ... have fun"
+    2:: "Have a blast"
+    
+    If 0
+        Actor:: "Okay ... it wasn't what I had in mind but I guess they did say plus-ones are welcome."
+        masochist -= 1
+        Actor:attractiontoplayer -= 0.5
+        secondScreen()
+        setBackground(bar)
+        Actor.show()
+        "I went to the drink and met some of <Actor.his_or_her> colleagues, nothing unusual happened."
+    Else
+        If 1
+            "<Actor.name> seems to pick up on my hesitation."
+            Actor:: "Don't worry. Nothing bad is going to happen."
+            Actor:: "I'll make it up to you later."
+            masochist += 1
+        Else
+            Actor:: "Okay, I'll talk to you later!"
+        Endif
+        Player.hide()
+        secondScreen()
+        setBackground(bar)
+        Actor.show()
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Player) && !Actor2.isTrans() 
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2.dress()
+        Actor2.show()
+        Actor2.moveToPersonStand(Actor, 100)
+        Actor2:: "<Actor.name>! You look amazing! And more importantly, I see you're here alone and didn't bring your <Player.boyfriend_or_girlfriend> along."
+        Actor2:: "Could it be that you might be open to something more and prefer that your <Player.boyfriend_or_girlfriend> is none the wiser?"
+        If Actor:perversion > 65 || Actor:attractiontoplayer < 0 || OpenRelationship()
+            Actor:: "Maybe ..."
+            "And just like that, unbeknowing to me, <Actor.name> spent the whole night flirting with one of <Actor.his_or_her> colleagues."
+            setBackgroundCustom(livingroom)
+            "Eventually, they ended up at the colleague's apartment ..."
+            animatePair(Actor2, Actor, Kissing)
+            "A couple of drinks later and they were all over each other."
+            Sex(Actor2, Actor)
+            If !OpenRelationship()
+                masochist += 2
+            Endif
+        Else
+            Actor:: "You're overthinking it. I just like to keep my professional relationships away from personal ones. I suggest you do the same and not have any wrong thought!"
+        Endif
+        Player.show()
+    Endif
+    SceneEnd()
+    timeout(300, night_with_colleagues_cms)

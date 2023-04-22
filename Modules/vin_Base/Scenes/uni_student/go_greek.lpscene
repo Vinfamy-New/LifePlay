@@ -1,0 +1,135 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Fees = 500*Random(0.5, 1)*CostOfLiving
+    FeesConverted = Fees.convertToLocalCurrency(true)
+    
+    If isStudent()
+        "Should I try to join this <Player.fraternity_or_sorority>? The chapter fees work out at around <FeesConverted> per month."
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "During rush, I had to attend many of the <Player.fraternity_or_sorority>'s social events and a few interviews. Eventually, I received a bid, which I accepted immediately, beginning my pledge period."
+            "The early part of the pledge period was uneventful. I was basically a glorified maid for my <Player.brothers_or_sisters>, cleaning the house, doing their laundry - tiring, yes, but nothing I cannot handle."
+            "It's coming towards the end of my pledge period and I was told to prepare for 'Hell Week'. Honestly, I don't like the way that sounds."
+            0:: "Nothing can stop me!"
+            1:: "Hazing? No way!"
+            
+            If 0
+                "If that's what it takes to be a member of this <Player.fraternity_or_sorority>, I'll handle anything thrown at me."
+                "My last week of pledge ..."
+                "Damn, they weren't kidding about Hell Week. They really put me through all sorts of challenges: sleep deprivation, blindfold, paddling, and of course tons of busy work and forced binge drinking every single day."
+                fitness -= Random(0, 2.5)
+                attractiveness -= Random(0, 1)
+                energy => 0
+                mood => 0
+                Actor = generatePersonTemporary()
+                While !Actor.isSameGender(Player)
+                    Actor = generatePersonTemporary()
+                Endwhile
+                Actor.makePermanent()
+                Actor:age => Random(18, 22)
+                Actor.randomizeHairs()
+                Actor.randomizeFace()
+                Actor.setDifferentMajor()
+                Actor.dress()
+                Actor.show(2)
+                Actor(Evil):: "Well done, you definitely have the potential to become one of ours <Player.brothers_or_sisters>. But are you ready for one final challenge, pledge?" 
+                Player(Surprised):: "I'm ready for anything, <Player.brother_or_sister>."
+                Actor(Happy):: "Good attitude. So here's your challenge: There's an old ugly homeless crackhead who always sleeps at the bench behind our chapter house. Go out there and fuck <Player.her_or_him>!"
+                0:: "Fine ..."
+                1:: "Eww!"
+                
+                If 0
+                    "Well, I've gone this far ... It's just sex, right?"
+                    Actor.hide()
+                    Actor2 = generatePersonTemporary()
+                    While Actor2.isSameGender(Player)
+                        Actor2 = generatePersonTemporary()
+                    Endwhile
+                    Actor2:age => Random(60, 80)
+                    Actor2:fitness => 0
+                    Actor2:muscle => 0
+                    Actor2:attractiveness => 0
+                    Actor2.randomizeHairs()
+                    Actor2.randomizeFace()
+                    setBackground(street)
+                    Actor2.show(2)
+                    "Damn it ... <Actor2.He_or_She> is even more disgusting than I remember. Oh well, let's get this over and done with ..."
+                    Sex(Actor2, Player)
+                    Actor2.delete()
+                    Player.show(0)
+                    
+                    If isModEnabled(vin_Bestiality)
+                        Actor.show()
+                        Actor2 = generateCreatureTemporary(Dog)
+                        While !Player.isInterestedIn(Actor2)
+                            Actor2 = generateCreatureTemporary(Dog)    
+                        Endwhile
+                        Actor2.show()
+                        "Well done, but that's only the first part of the challenge. In order to join our <Actor.fraternity_or_sorority>, you'll have to fuck <Actor2.name>, our dog mascot."
+                        0:: "Fuck the dog"
+                        1:: "No way!"
+                        
+                        If 0
+                            Player:: "Okay ... I'll show how dedicated I can be to this <Actor.fraternity_or_sorority>."
+                            Sex(Actor2, Player)
+                            Actor:: "Holy shit ... I can't believe you actually did it ... It was just a joke ... I didn't expect you to actually fuck the dog."
+                        Else
+                            Actor:: "Haha, I'm just joking. I just wanted to see how far you're willing to go."
+                        Endif
+                    Endif
+                    
+                    setBackground(fraternity)
+                    moveFraternity()
+                    Fees.setFraternityFees()
+                    Actor.show(2)
+                    Actor:rapportwithplayer += Random(50, 100)
+                    Actor.setDifferentMajor()          
+                    Actor(Happy):: "Well done, my new <Player.brother_or_sister>. I knew you could do it! You deserve to be one of us now."
+                    "A massive celebration erupted - I'm now a full member of the <Player.fraternity_or_sorority>. I finally have a chance to be introduced to my <Player.brothers_or_sisters> officially."
+                    exchangeContact(Actor)
+                    Actor.hide()
+                    Actor.saveandDelete()
+                    Total = Random(10, 25)
+                    count = 0
+                    While count < Total
+                        Actor = generatePersonTemporary()
+                        While !Actor.isSameGender(Player)
+                            Actor = generatePersonTemporary()
+                        Endwhile                       
+                        Actor.makePermanent()
+                        Actor:age => Random(18, 22)
+                        Actor.randomizeHairs()
+                        Actor.randomizeFace()
+                        Actor.setDifferentMajor()
+                        Actor:rapportwithplayer => 101
+                        Actor.dress()
+                        Actor.show(2)
+                        "A <Actor.brother_or_sister> approached me."
+                        Actor(Happy):: "Welcome, my new <Actor.brother_or_sister>, I'm <Actor.name>."
+                        Player(Happy):: "Nice to meet you, <Actor.brother_or_sister>."
+                        exchangeContact(Actor)
+                        Actor.hide()
+                        Actor.saveandDelete()
+                        count += 1
+                    Endwhile
+                    interpersonal *= 1.05
+                Else
+                    Player(Angry):: "Eww, I saw that bum. <Player.She_or_He> is disgusting. No way I'm going anywhere close to <Player.her_or_him>, let alone fuck <Player.her_or_him>."
+                    Actor(Angry):: "Oh yeah? Then you're not worthy for our <Player.fraternity_or_sorority>. Get the fuck out of here!"
+                    "That's it. I failed at the last hurdle, but that final dare was just too much ... At least I maintained my integrity."
+                Endif
+            Else
+                "That sounds like hazing, I'm not going to put myself in danger. I'm out!"
+            Endif
+        Endif
+    Else
+        "I'm not enrolled on any degree courses at any university. I cannot join a <Player.fraternity_or_sorority> until I do so."
+    Endif
+    SceneEnd()

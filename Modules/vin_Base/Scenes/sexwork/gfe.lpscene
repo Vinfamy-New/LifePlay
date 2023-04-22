@@ -1,0 +1,65 @@
+WHAT: whore_out, whore_out_brothel, whore_out_online
+WHERE: all
+WHEN: 17 - 21
+WHO: none
+OTHER: Random(0, 150) < pornfame + attractiveness + interpersonal
+
+    // Girlfriend/ boyfriend experience: asked to go on a romantic date with a John before doing the deed, occasionally coming across someone so smitten with you that a genuine relationship is proposed
+    SceneStart()
+    "A pretty common and well-paid gig for sex workers like me is something called '<Player.Boyfriend_or_Girlfriend> Experience'. It's for customers that want more than just sex."
+    "Usually they are people who feel lonely and want to pretend they are actually dating someone for the night. Of course, the date is guaranteed to end in bed, it's the sex industry after all."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    dressFormal()
+    Actor.dress()
+    secondScreen(Actor)
+    Actor.show()
+    "<Actor.name> is one such client, who is requesting my company tonight and is willing to pay generously for it."
+    0:: "Go on a date with <Actor.name>"
+    1:: "Not tonight"
+    
+    If 0
+        secondScreen()
+        setBackground(restaurant)
+        "I was asked to meet <Actor.name> at a fine dining restaurant."
+        Actor.show()
+        Actor.moveToPerson(Player)
+        "<Actor.name> showed up with some gift right away"
+        "It was a lavish and expensive dinner and <Actor.name> spent most of it talking about <Actor.his_or_her> painful breakup and how I looked just like <Actor.his_or_her> ex ..."
+        setBackground(bar)
+        "We then moved on to a fancy bar"
+        Actor.moveToPerson(Player)
+        "<Actor.name> ordered a vintage bottle of wine for both of us."
+        "Thankfully, the conversation got better too and <Actor.he_or_she> focused on more on asking about my life than talking about <Actor.his_or_her> ex."
+        setBackground(home)
+        "Of course, I'm a sex worker after all and as much of a <Actor.gentleman_or_lady> <Actor.name> was during our date, it's been agreed beforehand that we'll end up in a hotel room together."
+        "<Actor.name> wasn't in a rush to get down to business right away though since <Actor.he_or_she> has hired me for the whole night ..."
+        "We talked some more before things got heated."
+        Sex(Actor, Player)
+        money += 500
+        If Actor:attractiontoplayer > 35
+            Actor(Anxious):: "Listen, can we talk for a bit?"
+            Player(Curious):: "Of course, darling. What is it?"
+            Actor(Happy):: "You know, although our intimacy started as an transaction, I have grown emotionally attached to you after tonight and I hope you feel the same ..."
+            Actor(Happy):: "If so, I would love nothing more than to take our relationship to the next level and be able to call you my <Player.boyfriend_or_girlfriend>."
+            0:: "Agree to be <Actor.his_or_her> <Player.boyfriend_or_girlfriend>"
+            1:: "Reject <Actor.him_or_her>"
+            
+            If 0
+                karma += 10
+                Player(Happy):: "I like you a lot too, <Actor.name>. Of course I'll be your <Player.boyfriend_or_girlfriend>!"
+                Actor.makePermanent()
+                exchangeContact(Actor)
+                Actor.setDating()
+                Actor.setActorVar(tag_john, 0)
+            Else
+                "Why would I agree and then have to have sex with <Actor.him_or_her> for free from now on? The money is too good!"
+                Player(Sad):: "Sorry, I'd prefer to keep this relationship strictly ... 'professional'."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, gfe)

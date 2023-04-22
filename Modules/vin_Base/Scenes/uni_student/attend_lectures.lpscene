@@ -1,0 +1,253 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // Each time you attend a lecture, it will mention which subject and who the lecturer is, and your attendance and effort level is noted. You need to spend energy and mood to work hard in any subject, the costs depending on the lecturer's intelligence and dominance and your own intelligence and fitness. A classmate or your SO may sometimes try to convince you to skip a class and hang out instead, declining will cost some rapport/ attraction and a tiny bit of interpersonal. 
+    // When attending lectures, there will be the occasional assignments that significantly increases or decreases your current performance in the subject. Again, you can spend a big amount of energy and mood to work hard. Your intelligence also plays a role, as does your rapport with the lecturer and whether you're sleeping with them.
+
+    SceneStart()
+    Actor = getSpecific(Lecturer)
+    If Actor.isValid()
+        dressFormal()
+        Actor.dress()
+        Actor.show()
+        Actor.addToPeopleHere()
+        Perform = Actor.getActorVar(tag_perform)
+        
+        "The lecture I'm about to attend is for the <Actor.Major> module, taught by Dr. <Actor.name> <Actor.name_last>."
+        If Perform < 10
+            "I currently have absolutely zero understanding about the subject."
+        Elseif Perform < 20
+            "I currently have barely any understanding about the subject."
+        Elseif Perform < 30
+            "I currently have a very basic understanding about the subject."
+        Elseif Perform < 40
+            "I currently have a little understanding about the subject."
+        Elseif Perform < 50
+            "I currently have a mediocre understanding about the subject."
+        Elseif Perform < 60
+            "I currently have an average understanding about the subject."
+        Elseif Perform < 70
+            "I currently have a decent understanding about the subject."
+        Elseif Perform < 80
+            "I currently have a respectable understanding about the subject."
+        Elseif Perform < 90
+            "I currently have a strong understanding about the subject."
+        Else
+            "I currently have an almost perfect understanding about the subject."
+        Endif
+        
+        Ongoing = true
+        
+        If Random(0, 100) < 33 && Random(0, 100) < interpersonal
+            If Random(0, 100) < 33
+                Actor2 = getSpecific(Dating)
+            Endif
+            If !Actor2.isValid()
+                Actor2 = getSpecific(Coursemate)
+            Endif
+            
+            If Actor2.isValid() && Actor2:rapportwithplayer > 0
+                Actor2.dress()
+                secondScreen(Actor2)
+                Actor2.show()
+                "Just as I was getting ready to attend the lecture, I received a text from <Actor2.name> asking to hang out instead. I'd love to, but it would mean I would have to skip the lecture."
+                0:: "Skip the <Actor.Major> lecture and hang out with <Actor2.name>"
+                1:: "Turn <Actor2.name> down"
+                
+                If 0
+                    secondScreen()
+                    Actor2.show()
+                    Actor2.startDate()
+                    "I decided to skip the lecture and hang out with <Actor2.name> instead."
+                    Perform -= 3
+                    Ongoing = false
+                Else
+                    secondScreen()
+                    Actor2.hide()
+                    "I decided to go ahead and attend the lecture. I could always hang out with <Actor2.name> another time."
+                    Actor2:rapportwithplayer -= 2
+                    Actor2:attractiontoplayer -= 2
+                    interpersonal -= 0.2
+                Endif
+            Endif        
+        Endif
+        
+        If Ongoing
+            LectCount = Player.getActorVar(tag_LectCount)
+            LectCount += 1
+            Player.setActorVar(tag_LectCount, LectCount)
+            costMood = Actor:intelligence - intelligence
+            If costMood < 10
+                costMood => 10
+            Endif
+            costEnergy = 0 - Actor:masochist - fitness
+            If costEnergy < 10
+                costEnergy => 10
+            Endif
+            
+            If costMood < 20
+                "I find this <Actor.Major> module fairly easy to understand and Dr. <Actor.name> <Actor.name_last> is a fun lecturer to listen to. It's actually rather interesting to pay attention in class." 
+            Elseif costMood < 50
+                "I find this <Actor.Major> module a bit hard to understand and Dr. <Actor.name> <Actor.name_last> is a bit dry. It's quite boring to pay attention in class."         
+            Else
+                "I find this <Actor.Major> module very advanced and Dr. <Actor.name> <Actor.name_last> could put anyone to sleep with <Actor.his_or_her> voice. It's a torture to stay awake, let alone pay attention in class."          
+            Endif
+            
+            "How much attention should I try to pay to the lecture today?"
+            0:: "Sleep through it"
+            1:: mood > costMood:: "Listen carefully to Dr. <Actor.name> <Actor.name_last>'s every words"
+            2:: mood > costMood/2:: "Pay attention but take the occasional breaks on my phone"
+            3:: mood > costMood/3:: "Try to pick up the key points"
+            4:: mood > costMood/4:: "Take it easy and only listen here and there"
+
+            If 0
+                "Might be a good opportunity to take a nap"
+                Perform -= 2
+            Else
+                "My original mood level was <Player:mood>."
+                mood => mood - costMood/choice
+                "It decreased to <Player:mood> after the amount of attention I paid to the lecture."
+                Perform += 4/choice
+            Endif
+            
+            costMood = Actor:intelligence - intelligence
+            If costMood < 10
+                costMood => 10
+            Endif
+            costEnergy = 0 - Actor:masochist - fitness
+            If costEnergy < 10
+                costEnergy => 10
+            Endif
+            
+            "After the lecture, Dr. <Actor.name_last> gave us some homework, including some reading to prepare for the next class."
+            
+            If costEnergy < 20
+                "I find this <Actor.Major> module's workload quite light and Dr. <Actor.name> <Actor.name_last> is a cool teacher that appreciates that students want to have a life as well. It hardly takes any effort to do all the reading for the next class." 
+            Elseif costEnergy < 50
+                "I find this <Actor.Major> module's workload just about average and Dr. <Actor.name> <Actor.name_last> does give out quite a bit of reading to do at home. You really have to dedicate some time and energy to the reading at home."         
+            Else
+                "I find this <Actor.Major> module's workload extremely heavy and Dr. <Actor.name> <Actor.name_last> is a true sadist for the amount of work <Actor.he_or_she> expects <Actor.his_or_her> students to do outside of class. You really have use your last ounce of energy to do all the work given out after class."          
+            Endif
+            
+            "How much of the homework and reading handed out by Dr <Actor.name_last> should I complete?"
+            0:: "None of it"
+            1:: energy > costEnergy:: "All of it"
+            2:: energy > costEnergy/2:: "About half of it"
+            3:: energy > costEnergy/3:: "Just whatever I think would be important for exams"
+            4:: energy > costEnergy/4:: "Just enough to say I've done some work"
+
+            If 0
+                "This isn't high school anymore. It's not like the lecturer will check each student's homework."
+                Perform -= 2
+            Else
+                "My original energy level was <Player:energy>."
+                energy => energy - costEnergy/choice
+                "It decreased to <Player:energy> after the amount of effort I put into the homework."
+                Perform += 4/choice
+            Endif
+            
+            If Random(0, 99) < 33
+                "Alongside the usual reading, Dr <Actor.name> <Actor.name_last> handed out an important course assignment today that would have a significant impact on my final score for the subject."
+                
+                "How much effort should I put into this assignment? Of course, effort isn't everything and there's so substitute for being smart."
+                0:: "Take it easy completely"
+                1:: mood > costMood && energy > costEnergy:: "Do just enough"
+                2:: mood > costMood*2 && energy > costEnergy*2:: "Put in an average effort"
+                3:: mood > costMood*3 && energy > costEnergy*3:: "Try as hard as I can without overworking"
+                4:: mood > costMood*4 && energy > costEnergy*4:: "Put my heart and soul into it"
+                
+                "My original mood level was <Player:mood> while my original energy level was <Player:energy>."
+                mood => mood - costMood*choice
+                energy => energy - costEnergy*choice
+                "They decreased to <Player:mood> and <Player:energy> respectively after the amount of effort I put into this important course assignment."
+                
+                intelRate = Random(0, 1)*1
+                Score = intelligence*intelRate + choice*25*(1 - intelRate)
+                If Actor.hadSex()
+                    "Hopefully, the fact that I've slept with Dr <Actor.name> <Actor.name_last> means that <Actor.he_or_she> would be much more lenient when marking my assignment. I doubt <Actor.he_or_she> would fail me however bad I did, in fear of me exposing our affair."
+                    Score *= 1.33
+                    If Score > 100
+                        Score => 100
+                    Elseif Score < 50
+                        Score => 50
+                    Endif
+                Elseif Actor:rapportwithplayer > 40
+                    "Hopefully, the fact that I'm on very friendly terms with Dr <Actor.name> <Actor.name_last> means that <Actor.he_or_she> would be a bit more lenient when marking my assignment."
+                    Score *= 1.2
+                    If Score > 100
+                        Score => 100
+                    Endif                
+                Endif
+                
+                "My final score for this particular assignment was <Score>."
+                Perform += 0.5*[Score - 50]
+                
+                // When a suject's lecturer hands out an important course assignment and you have high intelligence or are performing well in the subject, you may get approached by a classmate who's struggling with the subject to cheat and do the assignment for them. You can name your price: money, a date (attraction boost), nothing (rapport boost), sex or sex with their SO. Alternatively, if you're sleeping with the subject's lecturer for your current grades anyway, you could simply share.
+                
+                Actor2 = getSpecific(Coursemate)
+                If Actor2.isValid() && Score > 70
+                    Actor2.dress()
+                    Actor2.show()
+                    Actor3 = Actor2.getRelatedPerson(Spouses, Dating)
+                    "Apart from doing my own assignment, I was approached by a classmate, <Actor.name>, who's struggling with this particular <Actor.Major> class and is sure to get a bad grade for the assignment if <Actor.he_or_she> attempts it <Actor.himself_or_herself>. Impressed by my high grades in the previous assignment for this subject, <Actor.He_or_She> is offering me some cash to do the assignment for <Actor.him_or_her>. Sraight-up cheating to be honest, but we're unlikely to be caught."
+                    0:: "Turn <Actor2.him_or_her> down"
+                    1:: "Accept the cash"
+                    2:: "For a friend, I'll do it for free"
+                    3:: "Just a date with a <Actor2.handsome_or_beautiful> <Actor2.man_or_woman> like you is worth it ..."
+                    4:: "Let me fuck you!"
+                    5:: Actor3.isValid():: "Let me fuck your <Actor3.boyfriend_or_girlfriend> <Actor3.name>!"
+                    6:: Actor.hadSex() && Actor.isInterestedIn(Actor2):: "Let <Actor2.him_or_her> join me and Dr <Actor.name> <Actor.name_last>"
+
+                    If 0
+                        Player:: "Sorry, I don't help others blatantly cheat like that."
+                        "Without my help, as expected, <Actor2.name> got a bad grade for the assignment."
+                    Else
+                        If 1
+                            money += 100
+                            Player:: "Well, that seems to be a fair compensation for my time."
+                        Elseif 2
+                            Actor2:rapportwithplayer += 50
+                            Actor2:: "Wow, thank you so much! You're a great friend."
+                        Elseif 3
+                            Actor2:attractiontoplayer += 25
+                            exchangeContact(Actor2)
+                            Actor2.startDate()
+                            "<Actor2.name> agreed to go on a date with me and seems somewhat smitten by my chivalrous action."
+                        Elseif 4
+                            Actor2:: "Okay ... I really don't want to fail this subject."
+                            setBackground(home)
+                            "I took my prize back home that night ... Not bad compensation for writing up an assignment."
+                            Sex(Player, Actor2)
+                        Elseif 5
+                            Actor2:: "Okay ... I really don't want to fail this subject. Come over to my place tonight and I'll talk <Actor3.him_or_her> into it."
+                            setBackground(home)
+                            Actor3.dress()
+                            Actor3.show()
+                            Actor3:: "Okay, baby, if this assignment is that important to you ..."
+                            Sex(Player, Actor3)
+                        Else
+                            Player:: "To be honest, I'm not that good at this subject either. I'm only getting good grades for it because I've been sleeping with  Dr <Actor.name> <Actor.name_last>."
+                            Player:: "Why don't you join us for a threesome? I'm sure <Actor.he_or_she> would be happy to offer the same deal to you."
+                            Actor2:: "Okay, I'll do it. Thank you for sharing the opportunity with me."
+                            Sex(Actor, Actor2, Player)
+                        Endif
+                    Endif
+                Endif
+            Endif
+        Endif
+                       
+        // END
+        If Perform < 0
+            Perform => 0
+        Elseif Perform > 100
+            Perform => 100
+        Endif
+        Actor.setActorVar(tag_perform, Perform)
+    Else
+        "No more lectures today. I should go home and attend more lectures at the university another day."
+        clearGetList()
+    Endif
+    SceneEnd()

@@ -1,0 +1,9 @@
+clearBackground3d()
+
+USE:
+Return the environment to the default for this location
+
+TYPE: Command, non-Ref
+RETURNS: /
+THEME: Scenes, Location
+COMPARE: setBackground3d

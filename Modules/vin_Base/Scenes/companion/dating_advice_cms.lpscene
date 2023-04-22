@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor:rapportwithplayer > 30 && [!Actor.isDating() || OpenRelationship()]
+OTHER:
+
+    // NPC X asks the player for dating advice and/or if they know someone whos available that might be interested. The player could then select NPC Y from their contacts, we can then see NPC X and Y talk, if X succeeds Y will agree to go out with them, to which the player could choose to follow them, theres a mention of a date, the player ends up following them back to a sex scene.  Afterwords the two NPCs would then be dating.
+    // Thats pretty much it, I had an idea for a second but ended up merging them together. Ideally, there'd be an NTR version of the aforementioned as well, maybe the player's SO and NPC X would be flagged as dating without opening the relationship? I don't know if thats even supported. If anything I suggested isn't viable, or is simply too much for a scene commission I apologize.
+    
+    SceneStart()
+    "While hanging out with <Actor.name>, <Actor.he_or_she> asks me if I know someone hot that <Actor.he_or_she> could hook up with."
+    0:: "Recommend a date"
+    1:: "Decline"
+    
+    If 0
+        "Who should I recommend to <Actor.name>?"
+        selectNpc()
+        Actor2 = getSelectedNpc()
+        
+        If Actor2.isInterestedIn(Actor) && Actor.isInterestedIn(Actor2)
+            "<Actor.name> decided to give it a shot and go on a date with <Actor2.name>"
+            0:: "Follow them"
+            1:: "Leave them be"
+            
+            If 0
+                setBackground(restaurant)
+                Actor2.dress()
+                Actor2.show()
+                "<Actor.name> and <Actor2.name> went on a nice date with each other. They semed to get along well."
+                setBackground(hotel)
+                "So well that they ended up in a hotel room together."
+                setBackground(home)
+                Sex(Actor, Actor2)
+                If Actor.isDating()
+                    "<Actor.name> just fucked another <Actor2.guy_or_girl> right in front of me, but that's okay because we're in an open relationship."
+                Endif
+                If !Actor.hasRelationship(Spouses, Dating) && !Actor2.hasRelationship(Spouses, Dating) && !Actor.isDating() && !Actor2.isDating()
+                    "The chemistry they had together was instant that they ended up in a relationship together."
+                    "They both had me to thank for match-making them so effectively."
+                    Actor:rapportwithplayer += 25
+                    Actor2:rapportwithplayer += 25
+                    addNpcRelationship(Dating, Actor, Actor2)
+                Endif
+            Endif
+        Else
+            "Despite my recommendation, <Actor.name> wasn't interested in <Actor2.name> after checking out <Actor2.his_or_her> photos."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, dating_advice_cms)

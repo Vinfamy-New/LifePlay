@@ -1,0 +1,65 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // New "Use an age-gap dating app" that will introduce you to people that fit in with your age gap preference. This also provides an immersive way to set your own "likes_older" stat without directly editing stats or trying to figure out the math.
+    
+    SceneStart()
+    "Using a dating app is a good way to meet new potential lovers, friends with benefits and one-night stands"
+    "There's this one specific dating app that is aimed at potential couples with significant age gaps"
+    "How old should my ideal date be?"
+    0:: "About 50 years younger than me"
+    1:: "About 40 years younger than me"
+    2:: "About 30 years younger than me"    
+    3:: "About 20 years younger than me"    
+    4:: "About 10 years younger than me"
+    5:: "Around the same age as me"      
+    6:: "About 10 years older than me"
+    7:: "About 20 years older than me"
+    8:: "About 30 years older than me"
+    9:: "About 40 years older than me"
+    10:: "About 50 years older than me"
+
+    likes_older => choice*20 - 100
+    
+    If isModEnabled(vin_Incest) && Random(0, 100) < 33
+        followUp(incest_dating_app)
+    Else
+        "After some time swiping right on those I like, I finally got a match."
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.makeInterested(Player)
+        
+        Actor:age => age + likes_older*0.5
+        Actor:age += Random(-5, 5)
+        Actor.randomizeFace()
+        Actor.randomizeHairs()
+        Actor:likes_older => 2*[age - Actor:age]
+        Actor:attractiontoplayer += Random(25, 50)
+        
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+        "I was matched with <Actor.name>, who is <Actor:age>."
+        0:: "Arrange a date with <Actor.name>"
+        1:: "Turn <Actor.him_or_her> down"
+        
+        If 0
+            Actor.makePermanent()
+            secondScreen()
+            "Soon enough, we meet up for our first date."
+            exchangeContact(Actor)
+            Actor.startDate()
+            Actor.show()
+            "Hopefully it will be a good experience"
+            
+            If Actor:masochist < -66 && isModEnabled(vin_NonConsensual)
+                followUp(vi_wanted)
+            Endif
+        Endif
+    Endif
+    SceneEnd()

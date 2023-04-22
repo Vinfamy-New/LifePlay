@@ -1,0 +1,36 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "My <Actor.relationship> has been single for a while and doesn't go out much. I reckon <Actor.his_or_her> best chance of intimacy at this point is probably trying some incestual fun with another family member. Easy access and all that."
+    "Which other relative of mine do I think my <Actor.relationship> should try to hook up with?"
+    selectNpc()
+    Actor2 = getSelectedNpc()
+    If Actor2.isSameAs(Actor) || !Actor2.isValid() || !Actor2.isRelative()
+        "Not a valid person"
+    Else
+        "I suggest that my <Actor.relationship> should start sleeping with my <Actor2.relationship> ..."
+        Actor:perversion += 3
+        If Random(30, 100) < Actor:perversion
+            Actor:: "Alright, you got me ... Incest is probably my best hope!"
+            addNpcRelationship(Dating, Actor, Actor2)
+            "Later on, I caught my <Actor.relationship> and my <Actor2.relationship> in bed with each other."
+            setBackground(home)
+            Sex(Actor, Actor2)
+            "My match-making effort worked. Since I'm responsible for their blossoming relationship and we're all family after all, I'm sure they wouldn't mind if I join"
+            0:: "Join them for a incest threesome"
+            1:: "Just leave them be"
+            
+            If 0
+                Sex(Player, Actor, Actor2)
+            Endif
+        Else
+            Actor:: "What? No way, we're family after all ..."
+            "Despite <Actor.his_or_her> objection, the reaction wasn't immediate which meant that I actually got my <Actor.relationship> thinking about the possibility of incest with my <Actor2.relationship> for a moment there."
+            "I may have better luck trying again later."
+        Endif
+    Endif
+    SceneEnd()

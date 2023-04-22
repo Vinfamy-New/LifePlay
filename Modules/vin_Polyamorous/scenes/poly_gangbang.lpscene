@@ -1,0 +1,90 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If Actor.isMale() && Actor2.isMale()
+OTHER: !Player.isMale()
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.show()
+    "I arrive home only to be greeted by the sight of my naked <Actor.boyfriend_or_girlfriend> <Actor.name> welcoming me at the door ..."
+    Actor:: "Honey ... follow me to the bedroom, I have a surprise for you ..."
+    setBackground(home)
+    Actor2.show()
+    "As soon as I entered the bedroom, I found my other lover <Actor2.name> also naked and waiting for me ..."
+    end = false
+    While !end
+        Actor3 = getSpecific(Dating)
+        If Actor3.isValid()
+            If Actor3.isMale()
+                end = true
+            Endif            
+        Else
+            end = true
+        Endif
+    Endwhile
+    If Actor3.isValid()
+        Actor3.show()
+        "Another of my lovers <Actor3.name> was there too ..."
+        end = false
+        While !end
+            Actor4 = getSpecific(Dating)
+            If Actor4.isValid()
+                If Actor4.isMale()
+                    end = true
+                Endif            
+            Else
+                end = true
+            Endif
+        Endwhile
+        If Actor4.isValid()
+            Actor4.show()
+            "As if three wasn't enough of a crowd, a fourth <Actor4.boyfriend_or_girlfriend> <Actor.name> was there too ..."        
+        Endif
+    Endif
+    "I like where this is going ..."
+    0:: "Have a gangbang with my lovers"
+    1:: "Let someone I know enjoy the gangbang instead"
+    2:: "Not today"
+    
+    If 0
+        If Actor4.isValid()
+            Sex(Actor, Actor2, Actor3, Actor4, Player)
+        Elseif Actor3.isValid()
+            Sex(Actor, Actor2, Actor3, Player)
+        Else
+            Sex(Actor, Actor2, Player)
+        Endif
+    Elseif 1
+        "These are all my lovers. I can enjoy this anytime, but I think I know someone who would really appreciate this right now."
+        "No doubt she would be forever thankful to me for such a unique opportunity and seek to repay the debt in the future."
+        "Who do I have in mind?"
+        selectNpc()
+        Lucky = getSelectedNpc()
+        
+        If Lucky.isValid()        
+            Lucky.dress()
+            Lucky.show()
+            Lucky:rapportwithplayer += 50
+            "<Lucky.name> couldn't believe <Lucky.his_or_her> luck when receiving such a special invitation."
+            "<Lucky.He_or_She> rushed to be at my place in no time and couldn't stop thanking me for such a special gift."
+            If Actor4.isValid()
+                Sex(Actor, Actor2, Actor3, Actor4, Lucky)
+            Elseif Actor3.isValid()
+                Sex(Actor, Actor2, Actor3, Lucky)
+            Else
+                Sex(Actor, Actor2, Lucky)
+            Endif
+        Else
+            "I couldn't think of anyone so it's just me and my lovers then."
+            If Actor4.isValid()
+                Sex(Actor, Actor2, Actor3, Actor4, Player)
+            Elseif Actor3.isValid()
+                Sex(Actor, Actor2, Actor3, Player)
+            Else
+                Sex(Actor, Actor2, Player)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(400, poly_gangbang)

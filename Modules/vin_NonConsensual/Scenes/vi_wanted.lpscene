@@ -1,0 +1,101 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // Just before going on a first date with someone you've just met via a dating app (whether the normal one, the interracial one or the age gap one), you accidentally discover that your date is currently wanted by another country's police for serial rap music. You can cancel the date, try to act vulnerable or try to serve justice yourself.
+
+    SceneStart()
+    Actor = getCompanion()
+    "There's an air of mystery around my date <Actor.name> that I couldn't quite put my finger on."
+    Actor.hide()
+    "Curious, while waiting for <Actor.name> to return from the bathroom, I decided to do a reverse Google Images search of <Actor.his_or_her> profile photo on the dating app."
+    "To my shock, not only did a completely different name show up, my date is also currently wanted in a foreign country for multiple sexual assault charges!"
+    "Oh no, what should I do now? Is <Actor.he_or_she> trying to make me <Actor.his_or_her> next victim?"
+    0:: "Run away and cancel the date"
+    1:: "Act vulnerable and embolden <Actor.him_or_her> even more"
+    2:: "Lure <Actor.him_or_her> somewhere quiet and serve justice myself"
+    
+    If 0
+        "I decided to do what most sensible people would do in my situation: Sneak away while my rapist date is still in the bathroom and block <Actor.him_or_her> on my phone forever."
+        "Hopefully, <Actor.he_or_she> will get caught and deported back to the coutry where <Actor.he_or_she> committed the crimes soon."
+        blockContact(Actor)
+        endDate()
+        Raped = false
+    Elseif 1
+        Actor.show()
+        "I don't know what got into me but the thought of becoming the next victim of a serial international rapist turns me on ..."
+        "I imagine raping <Player.men_or_women> is in <Actor.his_or_her> instinct by now, but just to be sure, I act as vulnerable and naive as possible, presenting myself to the predator in front of me as the perfect prey."
+        setBackground(street)
+        "Of course, in no time, I find myself lured to a dark alley alone with this master rapist ... even if I have a change of heart or a moment of clarity now, it's far too late ... I wouldn't stand a chance against someone who has successfully raped so many <Player.men_or_women> and got away with it."
+        Actor:: "You stupid <Player.bastard_or_bitch>, you should have done your research before you go on a date with someone. I've raped tons of <Player.men_or_women> but you take the cake for the easiest target ever ..."
+        "I didn't have it in myself to admit to <Actor.him_or_her> that I knew all along and just wanted to play along ... That would hurt <Actor.his_or_her> ego ... I wanted to let <Actor.him_or_her> enjoy <Actor.his_or_her> conquest and savage <Actor.his_or_her> prey."
+        Raped = true
+    Else
+        Actor.show()
+        "Maybe it was overconfidence, maybe it was an over-inflated sense of justice ... but after discovering the truth about <Actor.name>, I felt the obligation to make sure that justice was served and <Actor.his_or_her> numerous victims were avenged."
+        setBackground(street)
+        "Soon enough, I lured the predator to a dark alley, alone just me and <Actor.him_or_her> ... It's all or nothing now, I'm in the perfect place to dish out whatever justice I see fit, but also guaranteed the exact same fate as <Actor.his_or_her> previous victims if I don't win this fight"
+        Player.moveToPersonStand(Actor, 50)
+        Player:: "I know who you are? This is for all the poor <Player.men_or_girls> you raped!"
+        Player.animate(martialart)
+        Actor.animate(martialart)
+        "A fight ensued ..."
+        If Actor:martial - Actor:intoxication > martial - intoxication
+            Player.animate(fightlost)
+            "Unfortunately for me, I overestimated my fighting ability and was soon knocked out by the serial rapist."
+            Actor:: "You stupid <Player.bastard_or_bitch>, you found out and could have ran away or called the cops immediately but you decided to take me on yourself. I've raped tons of <Player.men_or_women>. Why do you think I have been so successful? You really think you could match me in a fight?"
+            Actor:: "I like your courage though ... it's so boring when the prey is so easy ... You at least put up a challenge, I'll thoroughly enjoy raping you now ..."
+            Raped = true
+        Else
+            Actor.animate(fightlost)
+            "My confidence that I could take on this predator on my own wasn't unfounded after all and I managed to knock <Actor.him_or_her> down to the ground."
+            Actor:: "Please ... stop hitting me ... I was wrongly accused of rape in that country and had to run away from the corrupt cops. I'm innocent ..."
+            Player:: "You really expect to believe your bullshit?"
+            Actor:: "Please, show mercy ..."
+            0:: "Keep an eye on <Actor.him_or_her> until the cops arrive"
+            1:: "Rape <Actor.him_or_her>"
+            2:: "Just beat <Actor.him_or_her> up some more"
+            
+            If 0
+                Player:: "Don't you dare move one inch. I've just called the cops. They'll be here soon. Even if they don't sentence you in this country, you'll surely be deported back to where you'll face justice."
+                "Soon, the cops arrive and take this internationally wanted predator into their custody."
+                Actor.deletePerson()
+                "A few months later, I come across that an international news item where the rapist got sentenced to decades in prison for serial rape."
+                "Justice has been served and I'm happy to have played my part."
+            Elseif 1
+                Player:: "You know what? I think you should get a taste of your medicine."
+                Player:: "I'll rape you, just like you've raped so many victims of yours."
+                If Actor.isMale() && !Player.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                TalkNonConsensual()
+                SexNoAffair(Player, Actor)
+                Actor.setActorVar(tag_Raped, 1)
+                Player:: "Now you know exactly how horrible your victims felt ... I really hope the trauma stays with you forever ..."
+            Else
+                "Now that <Actor.name> is down on the ground helpless, I decide that such a serial rapist doesn't deserve any mercy and continue to beat the shit out of <Actor.him_or_her>."
+                "I only stopped when a passerby comes across us ... by that time, <Actor.he_or_she> was a bloody mess."
+            Endif
+            Raped = false
+            endDate()
+        Endif
+    Endif
+    
+    If Raped
+        If !Actor.isMale() && Player.isMale()
+            Filter(AggressiveFM)
+        Else
+            Filter(Aggressive)
+        Endif
+        TalkNonConsensual()
+        SexNoAffair(Actor, Player)
+        Actor.setActorVar(tag_Rapist, 1)
+        "How did I get myself into a situation where I got brutally raped by an internationally wanted predator in a dark alley? I already found out who <Actor.he_or_she> was, yet it happened anyways."
+        endDate()
+    Endif
+    SceneEnd()
+    

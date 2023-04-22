@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: recommend_work
+ACTION_NAME: Recommend someone to a position
+WHERE: work
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT:
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: recommend_work
+ANIMATION: call

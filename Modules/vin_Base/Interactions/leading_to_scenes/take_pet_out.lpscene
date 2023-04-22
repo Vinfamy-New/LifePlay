@@ -1,0 +1,10 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Let's take <Actor.name> out for a walk ...."
+    Actor.startDate()
+    SceneEnd()

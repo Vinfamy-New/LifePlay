@@ -1,0 +1,27 @@
+WHAT: all
+WHERE: all, -work
+WHEN: 8 - 20
+WHO: Actor = getCompanion(); If !Actor.isRelative() && !Actor.isAsexual() && !Actor.isDating() && !Actor.hasRelationship(Spouses, Dating) && !Actor.isExRelative() && Random(20, 100) < Actor:rapportwithplayer && Random(0, 1000) < Actor:perversion
+OTHER: none
+
+    SceneStart()
+    Actor2 = Actor.generatePersonMatchRace()
+    Actor2.matchLastName(Actor)
+    Actor2.dress()
+    addNpcRelationship(Cousins, Actor, Actor2)
+
+    Actor.makeInterested(Actor2)
+    Actor2.makeInterested(Actor)
+    addNpcRelationship(Dating, Actor, Actor2)
+
+    Actor(Happy):: "<Player.name>, let me introduce you to my <Actor2.boyfriend_or_girlfriend>, <Actor2.name>. <Actor2.name>, this is my friend <Player.name>."
+    Actor2.show(3)
+    Actor2(Happy):: "Nice to meet you, <Player.name>."
+    Player(Happy):: "Nice to meet you too."
+    "So this is the <Actor2.name> that I keep hearing rumours about from our mutual friends. Apparently they're cousins!"
+    "Now that I've met the <Actor2.guy_or_girl>, I must admit <Actor2.he_or_she> certainly does look blood-related to <Actor.name>."
+    If isQuestCompleted(legalized)
+        "I suppose incest is legal now so nothing wrong with this."
+    Endif
+    SceneEnd()
+    timeout(2000, friend_dating_incest)

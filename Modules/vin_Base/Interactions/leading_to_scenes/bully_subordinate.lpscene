@@ -1,0 +1,85 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // Bully (their submissiveness up, your submissiveness down)
+    
+    SceneStart()
+    "I go out of my way to bully <Actor.name> at work, which makes me feel rather powerful in my position and makes <Actor.name> less confident and easier to control in the future."
+    Actor:masochist += 2
+    masochist -= 2
+    
+    // When you bully a subordinate (by clicking on them and selecting that option), there's a chance that their significant other sees you outside of the office one day and decides to confront you. You can then seduce this SO of theirs instead.
+    
+    If Actor:masochist > 0 && Random(0, 100) < 30 && !Actor.isAsexual()
+        setBackground(street)
+        Actor.show()
+        Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+        If !Actor2.isValid()
+            Actor2 = generatePersonTemporary()
+            While !Actor.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+        Endif
+        Actor2.dress()
+        Actor2.show()
+        
+        "I was walking out of the office that evening. <Actor.name>, who I just bullied earlier, was heading out at the same time, being picked up by <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend>."
+        Actor2:: "Is that that <Player.asshole_or_bitch> of a boss that always bullies you? You know, you tell me about <Player.him_or_her> all the time ..."
+        Actor:: "Yeah ... keep your voice down though ..."
+        Actor2:: "You wait here, I'll talk to <Player.him_or_her> to leave you alone."
+        Actor:: "<Actor2.name> ... no! Don't cause a scene please! I could lose my job"
+        Actor2:: "Just wait in the car, please."
+        Actor.hide()
+        
+        Actor2.moveToPersonStand(Player, 100)
+        
+        If Actor2.hadSex()
+            Actor2:: "Let's cut the crap and get to the point ... If I fuck you again, would you stop bullying my <Actor.boyfriend_or_girlfriend>?"
+            0:: "Sure"
+            1:: "Nope"
+            
+            If 0
+                "Later on, we meet in a nearby hotel so that we can fulfill our arrangement."
+                If Actor2.isTemporary()
+                    Actor2.makePermanent()
+                    addNpcRelationship(Dating, Actor, Actor2)
+                Endif
+                setBackground(home)
+                Sex(Player, Actor2)            
+            Else
+                Player:: "Sorry, but I'm <Actor.his_or_her> boss and it's none of my employee's significant other's business how <Actor.he_or_she> is treated at work, whether I used to fuck that significant other or not."
+                Actor2:: "You're a real <Player.asshole_or_bitch>, you know that!"
+                masochist -= 2            
+            Endif
+        Else       
+            Actor2:: "You must be my <Actor.boyfriend_or_girlfriend>'s boss <Player.name>? I think we need to talk!"
+            Player:: "Aggressive I see ... I'm all ears!"
+            Actor2:: "You need to stop bullying <Actor.name> at work. I know <Actor.he_or_she> is a good <Actor.man_or_woman> and a hard worker who has done nothing wrong. You're just being an <Player.asshole_or_bitch>."
+            0:: "Okay, I'll go easy on <Actor.him_or_her>"
+            1:: "Not your place to intervene in this company"
+            2:: "Only if you let me fuck you!"
+            
+            If 0
+                Player:: "Fine, maybe I've been too harsh on your <Actor.boyfriend_or_girlfriend>."
+                masochist += 2
+            Elseif 1
+                Player:: "Sorry, but I'm <Actor.his_or_her> boss and it's none of my employee's significant other's business how <Actor.he_or_she> is treated at work."
+                Actor2:: "You're a real <Player.asshole_or_bitch>, you know that!"
+                masochist -= 2
+            Else
+                Actor2:: "Okay ... fine ... But not here, not now. Let's meet in a hotel later."
+                "Later on, we meet in a nearby hotel so that we can fulfill our arrangement."
+                If Actor2.isTemporary()
+                    Actor2.makePermanent()
+                    addNpcRelationship(Dating, Actor, Actor2)
+                Endif
+                setBackground(home)
+                Sex(Player, Actor2)
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()

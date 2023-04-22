@@ -1,0 +1,57 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Dating = getSpecific(Dating)
+    Dating.dress()
+    Dating.show()
+    "I must admit: the thought of watching <Dating.name> have sex with an animal in front of me really turns me on."
+    masochist += Random(0, 1)
+    perversion += Random(0, 0.5)    
+    If Dating:perversion > 80 || Dating:attractiontoplayer > 80 || OpenRelationship()
+        Dating(Flirty):: "You naughty <Player.boy_or_girl>! Fancy yourself as more of a voyeur, don't you? Fine then, if that's what turns you on, I can give it a try ...."
+        "The all important day is here ..."
+        moveTo(home)
+        setBackground(home)
+        Sex(Bull, Dating)
+        masochist += Random(0, 2)
+        perversion += Random(0, 1)
+        If !Dating.isMale()
+            If Bull.isCreatureType(Dog)
+                Actor2 = getCreature()
+                While Actor2.isValid() && [!Actor2.isCreatureType(Dog) || Actor2.isSameAs(Bull)]
+                    Actor2 = getCreature()
+                Endwhile
+            Elseif Bull.isCreatureType(Horse)
+                Actor2 = getCreature()
+                While Actor2.isValid() && [!Actor2.isCreatureType(Horse) || Actor2.isSameAs(Bull)]
+                    Actor2 = getCreature()
+                Endwhile        
+            Endif
+        Endif
+        "That was hot. But it looks like both <Bull.name> and <Dating.name> could go for another round ... and I'm becoming quite aroused."
+        0:: Bull.isCreatureType(Dog) && !Dating.isMale() && !Player.isMale():: "Have a threesome"
+        1:: "Continue watching"
+        2:: Actor2.isValid():: "Let <Dating.name> have a threesome with <Bull.name> and <Actor2.name>"
+        
+        If 0
+            Sex(Bull, Dating, Player)
+            perversion += Random(0, 1)
+        Elseif 1
+            Sex(Bull, Dating)
+            masochist += Random(0, 2)
+        Else
+            "Wait a minute, <Bull.name> isn't the only animal around. Let's have <Actor2.name> joining in too."
+            Sex(Actor2, Bull, Dating)
+        Endif
+        "That was a sensual experience like no other to watch my <Dating.boyfriend_or_girlfriend> being <Dating.pleasured_or_defiled> by an animal."
+        Dating:attractiontoplayer += Random(0, 2)
+    Else
+        Dating(Angry):: "What? You want me to sleep with an animal? That's disgusting. How could you even consider it? Do you not love me anymore?"
+        Dating:attractiontoplayer -= Random(0, 2)
+        "There's no point pursuing this anymore. There's no way I can get <Dating.name> to agree to this."
+    Endif
+    SceneEnd()

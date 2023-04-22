@@ -1,0 +1,28 @@
+WHAT: watch_a_movie_in, watch_sport_in, watch_tv
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If Actor.livesWithPlayer() && Actor2.livesWithPlayer()
+OTHER: OpenRelationship()
+
+    // Watching adult movies with poly partners can lead to some fun group activities
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor2.dress()
+    Actor.show()
+    Actor2.show()
+    "I was watching TV with two of my live-in lovers <Actor.name> and <Actor2.name> in the living room when an idea popped up in my head."
+    "Maybe I should switch to watching porn and get them horny."
+    0:: "Switch to porn"
+    1:: "Keep watching TV"
+    
+    If 0
+        "As expected, the porn got both of them all hot and bothered."
+        Actor:: "I can't take it anymore. It's so frustrating to watch porn and not get any relief ..."
+        Actor2:: "<Actor.name> is right ... Let's have some fun, baby!"
+        Sex(Player, Actor, Actor2)
+    Endif
+    SceneEnd()
+    timeout(300, polies_watch)
+    

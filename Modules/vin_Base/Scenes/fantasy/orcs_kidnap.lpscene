@@ -1,0 +1,109 @@
+WHAT: sleep
+WHERE: home
+WHEN: 0 - 24
+WHO: none
+OTHER: PercentageOrcs > 0 && isModEnabled(vin_NonConsensual) && Random(0, 100) < 5
+
+
+    SceneStart()
+    setBackground(street)
+    Actor = getSpecific(Dating)
+    If Actor.isValid()
+        Actor.show()
+    Endif
+    "What the hell?"
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.blendPreset(orc)
+    "Where am I?"
+    Actor3 = generatePersonTemporary()
+    While !Actor3.isMale()
+        Actor3 = generatePersonTemporary()
+    Endwhile
+    Actor3.blendPreset(orc)
+    Actor2.dress()
+    Actor3.dress()
+    Actor2.show()
+    Actor3.show()
+    Actor2:: "Sleep well?"
+    "Oh no, I was kidnapped by a gang of orcs to an empty shack somewhere ... They also got my wallet with all my bank cards."
+    If Actor.isValid()
+        "My <Actor.boyfriend_or_girlfriend> <Actor.name> has been kidnapped here too ..."
+    Endif    
+    Actor2:: "I'll make this quick: give us your PIN to withdraw cash from your card, or get raped!"
+    0:: "Let them have the money"
+    1:: "Try to bluff them into letting you go"
+    2:: "Fight back"
+    
+    If 0
+        Rape = false
+        Player:: "Fine, I'll tell you my PIN if you let me go safely."
+        "One of the orcs went away for a few minutes, withdrawing cash from the nearest ATM machine with the PIN I provided."
+        money -= 1000
+        Actor2:: "Pleasure doing business with you. Us orcs may be savages but we're not without honour. Go now, since you've fulfilled your end of the bargain."
+    Elseif 1
+        "Orcs are known to be stupid, I might be able to talk my way out of this."
+        Player:: "Don't you dare lay a finger on me! My brother is the police chief of this district. You hurt me and he'll hunt you and your orc brothers down."
+        If Random(0, 100) < interpersonal
+            Actor2:: "Calm down now ... no need to involve the cops into this. Fine, just go. This was just a misunderstanding, okay?"
+            Rape = false
+        Else
+            Actor2:: "You dare threaten us? Then don't blame me for being rough!"
+            Rape = true
+        Endif
+    Else
+        Player:: "You orc savages! You think your dumb muscles would scare me? Take this!"
+        Player.animate(martialart) 
+        faceEachOther(Actor2, Player)
+        Actor2.animate(martialart)        
+        Actor2(Furious):: "You dare sucker-punch me? I'll teach you a lesson. The martial prowess of the orc tribes cannot be matched!"
+        "A fierce fight ensued ..."
+        Player.animate()
+        Actor2.animate()
+        If martial > Actor2:martial
+            Rape = false
+            Actor2.animate(fightlost)
+            Actor2(Pain):: "Ah!"
+            Player(Angry):: "That should teach dumb orcs to never kidnap innocent people anymore."
+        Else
+            money -= Random(30, 300)
+            Rape = true
+            Player.animate(fightlost)
+            Player(Pain):: "Ah!"
+            Actor2(Evil):: "Ha! You really thought you could match an orc in a fight? I have to say - this just makes me want to fuck you even rougher!"            
+        Endif
+    Endif
+    
+    If Rape
+        Player.animate(fightlost)
+        If Actor.isValid()
+            "I was tied up in the corner, forced to watch."
+            "Soon, the orc was ripping <Actor.name>'s clothes off and proceeded to force <Actor2.himself_or_herself> upon <Actor.him_or_her>."
+            Actor.animate(fightlost)
+            Actor(Crying):: "No! Please stop ... I beg you ... Somebody help ..."
+            "<Actor.His_or_Her> cries for help went unheard in the empty shack and <Actor.he_or_she> had no choice but endure it all at the hand of this vile orc."
+            Filter(Aggressive)
+            TalkNonConsensual()
+            SexNoAffair(Actor2, Actor)
+            Actor.hide()
+        Else
+            "Soon, the orc was ripping my clothes off and proceeded to force <Actor2.himself_or_herself> upon me."
+            Player.animate(fightlost)
+            Player(Crying):: "No! Please stop ... I beg you ... Somebody help ..."
+            "My cries for help went unheard in the empty shack and I had no choice but endure it all at the hand of this vile orc."
+            Filter(Aggressive)
+            TalkNonConsensual()
+            SexNoAffair(Actor2, Player)
+            Actor.hide()
+        Endif
+        Actor3(Evil):: "Now it's my turn! Let's see if this <Player.boy_or_bitch> makes for a good orc slave."
+        Filter(Aggressive)
+        TalkNonConsensual()
+        SexNoAffair(Actor3, Player)
+        mood => 0
+    Endif
+    
+    SceneEnd()
+    timeout(2000, orcs_kidnap)

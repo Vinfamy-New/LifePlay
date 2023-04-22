@@ -1,0 +1,46 @@
+WHAT: all, -work
+WHERE: all
+WHEN: 19-24
+WHO: Actor = getPerson(tag_Master)
+OTHER: isModEnabled(vin_NonConsensual)
+
+    // Can be triggered from 19-24 pm while not working/in party, the master will call upon slave, give the slave a collar(since it always disappear) and take the slave out for a walk(outside/street background?). Which will trigger a sneaking game, failed in sneak will trigger some (possibly) Nonconsen events
+
+    SceneStart()
+    "I was going about my day when my <Actor.master_or_mistress> called me."
+    secondScreen(Actor)
+    Actor:: "Slave, come over at once!"
+    Player:: "Of course, <Actor.master_or_mistress>."
+    
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    Player.strip()
+    Player.dressBondage(Collar)
+    "I have already accepted my place as <Actor.name>'s personal slave. As my rightful <Actor.master_or_mistress>, <Actor.he_or_she> can do whatever <Actor.he_or_she> wants with me!"
+    setBackground(street)
+    "My <Actor.Master_or_Mistress> made me walk in nothing but <Actor.his_or_her> collar in the streets at night ..."
+    "I must be careful to not attract the attention of others ... this could turn out to be dangerous ..."
+    SneakGame()
+    
+    If Random(0, 100) < sneak
+        "Thankfully, I was sneaky enough that no-one saw me walking around naked."
+    Else
+        count = 0
+        While count < 3
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isInterestedIn(Player)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+            "A stranger passed by, saw my naked self being so vulnerable and proceeded to take advantage and rape me."
+            Filter(Aggressive)
+            TalkNonConsensual()
+            SexNoAffair(Actor2, Player)
+            count += 1
+        Endwhile
+    Endif
+    Actor:: "Well done, slave, you've worked hard for your <Actor.Master_or_Mistress> today ..."
+    SceneEnd()
+    timeout(200, slave_walk_public_cms)

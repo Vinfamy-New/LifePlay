@@ -1,0 +1,34 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && !Actor.isVirgin()
+OTHER: Player.isVirgin()
+
+    SceneStart()
+    "I'm still a virgin and it's affecting my confidence."
+    "I don't want to give up my virginity to just some random person though."
+    "And I also don't want whoever ending up taking my virginity to run their mouth to everyone about it."
+    "I just want to get that first time out of the way, discreetly without any headache so that I can start freely exploring more about sex."
+    "One day, I ended up in the weird corner of the internet and came across a blog post about letting a family member take your virginity."
+    "It sounds crazy ... and highly illegal at first but the blog post does make some very good points."
+    "First of all, this would be someone you've known all your life and you can trust. It's not just some random hookup you'll never see again or some hopeless romantic with attachment issues."
+    "Secondly, your deflowerer won't go around boasting to everyone about it since it's incest and must be kept seret."
+    "It will be the least drama possible."
+    Actor.dress()
+    Actor.show()
+    "Now that I think about it, maybe my <Actor.relationship> <Actor.name> would be a good candidate ... I think <Actor.he_or_she> is pretty experienced ..."
+    0:: "Offer my virginity to my <Actor.relationship>"
+    1:: "No way!"
+    
+    If 0
+        If Actor:incest + Actor:perversion > 55
+            Actor:: "Well, I make some good points. I don't want my precious <Actor.callplayer> to go out and fuck some random <Actor.guy_or_girl> for <Player.his_or_her> first time either ..."
+            Actor:: "And family is supposed to pass on 'life experience' to each other ..."
+            Sex(Actor, Player)
+        Else
+            Actor:: "You know full well we can't do that! I'm your <Actor.relationship>!"
+            Actor:: "You're just confused ... You'll find someone special soon, I'm sure."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, incest_virgin_offer)

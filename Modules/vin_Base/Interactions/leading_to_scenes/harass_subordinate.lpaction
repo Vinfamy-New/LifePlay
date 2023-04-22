@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: harass_subordinate
+ACTION_NAME: Molest subordinate
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 60 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: harass_subordinate
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isEmployee() || [Actor.isColleague() && jobexperience - Actor:jobexperience > 30]

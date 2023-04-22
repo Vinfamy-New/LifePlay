@@ -1,0 +1,10 @@
+Actor.animateFnt(x, y, z, Filter)
+
+USE:
+Make the actor use a furniture animation / pose with a specific object. Use the room editor to get x y z of the furniture. Filter is usually sit, use, lie or work
+
+TYPE: Command
+RETURNS: /
+THEME: Animations
+COMPARE: 
+

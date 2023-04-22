@@ -1,0 +1,76 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); Actor3 = getRelative(Parent, Sibling); If !Actor.isRelative() && !Actor.isCreature() && Player.isInterestedIn(Actor3) && Actor3.isInterestedIn(Player) && Actor3.isInterestedIn(Actor) && Actor.isInterestedIn(Actor3) && !Actor.isExRelative()
+OTHER: 
+
+    // When hanging out with a friend, they complain about sexual tension (still under control) between them and a rela and ask if you ever have the same problem with yours. You can suggest a legal solution: a foursome swap, which may end up crossing certain boundaries in the heat of the moment.
+    
+    SceneStart()
+    "I was hanging out with <Actor.name> when I received a call from my <Actor3.relationship> <Actor3.name>. It was just a quick call but seemed to trigger something in <Actor.name>."
+    Actor:: "Do you ever feel something ... inappropriate with your <Actor3.relationship>?"
+    Player:: "What? What do you mean?"
+    Actor:: "I'm sorry for the question but I can't help but feel some sexual tension between me and my <Actor3.relationship> recently ... I haven't done anything with my <Actor3.relationship> I swear, but ..."
+    Actor:: "I was wondering if you ever had the same problem with yours, with you two being seemingly quite close."
+    0:: "Actually, there's sexual tension sometimes"
+    1:: "No at all"
+    
+    If 0
+        "I admit to <Actor.name> that there have been awkward situations with my <Actor3.relationship> in the past that could only described as sexual tension."
+        Actor:: "I guess it's only normal then ... so it's best to just ignore these feelings and move on."
+        0:: "Yeah, of course"
+        1:: "Actually, we could swap <Actor3.relationship>s to relieve this tension."
+        
+        If 0
+            "With that weird conversation out of the way, we continue hanging out"
+        Else
+            If Actor3:age - age > 18
+                Actor2 = Actor.getRelatedPerson(ParentChild)
+            Else
+                Actor2 = Actor.getRelatedPerson(Siblings)
+            Endif
+            
+            If !Actor2.isValid()
+                Actor2 = Actor.generatePersonTemporaryMatchRace()
+                While !Actor3.isSameGender(Actor2)
+                    Actor2 = Actor.generatePersonTemporaryMatchRace()
+                endWhile
+                Actor2.makeInterested(Actor)
+                
+                Actor2.makePermanent()
+                
+                If Actor3:age - age > 18
+                    Actor2:age => Actor:age + Random(18, 30)
+                    Actor2.randomizeFace()
+                    Actor2.randomizeHairs()
+                    addNpcRelationship(ParentChild, Actor2, Actor)
+                Else
+                    Actor2:age => Actor:age + Random(-5, 5)
+                    If Actor2:age < 18
+                        Actor2:age => 18
+                    Endif
+                    Actor2.randomizeFace()
+                    Actor2.randomizeHairs()
+                    addNpcRelationship(Siblings, Actor2, Actor)
+                Endif
+            Endif
+            Actor:: "That's actually a good idea."
+            setBackgroundCustom(livingroom)
+            Actor2.dress()
+            Actor2.show()
+            Actor3.dress()
+            Actor3.show()
+            "We managed to talk our <Actor3.relationship>s into it, who decided to go along with our idea after accepting that something needed to be done about this sexual tension before things escalated into illegal territory."
+            "First, I fucked <Actor.name>'s <Actor3.relationship> while <Actor.he_or_she> watched."
+            Sex(Player, Actor2)
+            "Then, <Actor.name> fucked my <Actor3.relationship> while I watched."
+            Sex(Actor, Actor3)
+            "Our plan to relieve our sexual tension this way ended up backfiring though because in the heat of the moment, I ended up having some seriously inappropriate touches with my <Actor3.relationship> and <Actor.name> with <Actor.his_or_hers>."
+            "Soon enough, we all told ourselves 'Fuck it' and indulge in the passion of incest."
+            Sex(Player, Actor3)
+            Sex(Actor, Actor2)
+            Actor3:incest += 50
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, family_swap)

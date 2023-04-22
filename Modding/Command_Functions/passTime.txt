@@ -1,0 +1,16 @@
+passTime(hours_min, hours_max)
+
+USE:
+Use to pass time during a scene.
+
+TYPE: Command, Non-Ref
+RETURNS: /
+THEME: Time
+COMPARE:
+
+EXAMPLE:
+    While TimePassed < 3
+        "The party continues ..."
+        passTime(0.25, 1)
+    Endwhile
+    "The party ends."

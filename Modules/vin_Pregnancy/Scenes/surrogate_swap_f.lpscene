@@ -1,0 +1,90 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); Actor2 = getSpecific(Dating); If Actor.isFemale() && Actor2.isMale() && !Actor.isPregnant() && Actor.isInterestedInMen()
+OTHER: Player.isFemale() && !Player.isPregnant()
+
+    // When hanging out with a female friend, she may ask you to be the surrogate mother and get impregnated by her SO instead. Your own SO can demand a wife swap to be 'fair', and it may turn out that it's your friend's SO who's infertile, not herself.
+    
+    SceneStart()
+    "I was hanging out with my friend <Actor.name> when <Actor.he_or_she> had something important to talk to me about."
+    Actor.setWantsBabies()
+    Actor3 = Actor.getRelatedPerson(Dating, Spouses)
+    If !Actor3.isValid()
+        Actor3 = generatePersonTemporary()
+        While !Actor3.isMale()
+            Actor3 = generatePersonTemporary()
+        endWhile
+        Actor3:age => Random(18, 40)
+        Actor3.randomizeFace()
+        Actor3.randomizeHairs()
+        Actor3.makePermanent()
+        addNpcRelationship(Dating, Actor, Actor3)
+    Endif
+    Actor3.setWantsBabies()
+    secondScreen(Actor3)
+    Actor3.show()
+    
+    "She told me that her <Actor3.boyfriend_or_girlfriend> <Actor3.name> and her has been trying in vain for a child and they have become certain that <Actor.name> is infertile."
+    secondScreen()
+    Actor3.dress()
+    "She makes a proposal to me to be the surrogate mother for them as she doesn't trust those 'professional surrogate mothers' that make themselves available on the market. <Actor.name> asks me to name my price."
+    0:: "Not in a million years!"
+    1:: "I'll help for free!"
+    2:: "Well, everybody has a price ..."
+    3:: "Only if <Actor2.name> can have some fun with <Actor3.name> to make it fair"
+
+    If 0
+        "What a ridiculous idea. I'm not letting a random man impregnate me."
+        Actor:rapportwithplayer -= 5
+    Elseif 1
+        "<Actor.name> was touched by my generosity."
+        Actor:rapportwithplayer += 20
+        karma += 20
+    Elseif 2
+        "<Actor.name> agreed to pay me a huge sum for my troubles."
+        Price = 10*[Actor:intelligence*intelligence + Actor:interpersonal*interpersonal + Actor:attractiveness*attractiveness]*CostOfLiving
+        money += Price
+    Else
+        "<Actor.name> agreed to the arrangement. After all, it's me about to get pregnant with her <Actor3.boyfriend_or_girlfriend>'s child, it could cause huge relationship troubles with my own <Actor2.boyfriend_or_girlfriend> <Actor2.name> if we don't first to make it even."
+        setBackground(home)
+        Actor2.dress()
+        Actor2.show()
+        "Soon, I brought <Actor2.name> to her to fulfill our arrangement."
+        Sex(Actor2, Actor)
+        
+        If Random(0, 100) < 50
+            Actor.impregnate(Actor2)
+            "Of course, <Actor2.name> finished inside <Actor3.name> thinking it was safe and because it was only fair since his own <Player.boyfriend_or_girlfriend> is about to get pregnant with another man's child soon. Only later did I realize he did a risky thing since her infertility had only been assumed by the couple not confirmed by any doctor."
+        Endif
+        Actor2.hide()
+    Endif
+    
+    If choice > 0
+        setBackgroundCustom(livingroom)
+        Actor3.show()
+        
+        "We soon met up with her <Actor3.boyfriend_or_girlfriend> <Actor3.name> and convinced <Actor3.him_or_her> to be a part of the arrangement."
+        "He was hesistant at first, but eventually agreed."
+        "So <Actor.name> went ahead and book an appointment with an artificial insemination clinic."
+        0:: "Do it the professional way"
+        1:: "Why not just do it the traditional way?"
+        
+        If 0
+            setBackground(hospital)
+            "A few weeks later, <Actor3.name> and I underwent an artificial insemination procedure at a top clinic."
+        Else
+            "I suggested that they got down right here and now and saved the unnecessary costs of going to a clinic."
+            SexNoAffair(Actor3, Player)
+        Endif
+        
+        If Player.isPregnant() || [!Actor.isPregnant() && Random(0, 100) < 50]
+            Player.impregnate(Actor3)
+            "I have a feeling that the plan worked and I should be discovering the pregnancy soon."
+        Else
+            "Despite our best efforts, I didn't get pregnant either and there could only be one explanation: It's <Actor3.name> himself who's infertile not his <Actor.boyfriend_or_girlfriend> <Actor.name>."
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(500, surrogate_swap_f)

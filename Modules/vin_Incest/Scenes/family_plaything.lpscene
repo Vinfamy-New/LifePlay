@@ -1,0 +1,81 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); Actor3 = getRelative(); If Actor.hadSex() && Actor2.hadSex()
+OTHER: none
+
+    // If you've done the forbidden with at least two relas, they eventually find out among themselves and suggest you accept your role as a freeuse plaything for them and the rest of the relas interested in your gender.
+    
+    SceneStart()
+    Famthing = Famthing.getGlobal()
+    If Famthing == 1
+        "I'm currently the family plaything. Everyone in the family knows it and those interested can use me whenever they want."
+        0:: "Continue being the family plaything"
+        1:: "Quit being the family plaything"
+        
+        If 0
+            If isModEnabled(vin_BDSM) && !Player.isMale()
+                "My <Actor.relationship> asked me to put on some bondage gear as special uniform appropriate for an office plaything like myself."
+                Player.dressBondage()
+            Endif
+            
+            Actor2 = getSpecific(Colleague)
+            While Actor2.isValid() && !Actor3.isInterestedIn(Player) && [Actor2:perversion > 50 || Actor2.hadSex()]
+                Actor2 = getSpecific(Colleague)
+            Endwhile
+            If !Actor2.isValid() || Random(0, 100) < 30
+                Random
+                    Actor2 = Actor
+                    Actor2 = Actor3
+                endRandom
+            Endif
+            Actor2.dress()
+            Actor2.show()
+            "It's my <Actor2.relationship> <Actor2.name> that requires the family plaything's incestuous touch today."
+            0:: "Fuck my <Actor2.relationship> <Actor2.name>"
+            1:: "I'm not in the mood today"
+            
+            If 0
+                Sex(Actor2, Player)
+                perversion += 0.5
+                If jobperformance < 50
+                    jobperformance => 50
+                Endif
+                jobperformance += 5
+
+                If Random(0, 100) < 33 && !Actor2.isSameAs(Actor)
+                    Actor.dress()
+                    Actor.show()
+                    Actor:: "<Actor2.name>, I see you're taking full advantage of our family plaything."
+                    Actor:: "And my dear <Actor.callplayer> <Player.name>, I see you're becoming the <Player.King_or_Queen> of incest ..."
+                    Actor:: "I hope you won't mind me joining me, would you?"
+                    Actor2:: "Of course not ..."
+                    Sex(Actor, Actor2, Player)
+                Endif
+            Endif            
+        Else
+            "I told my family that I'd rather move on from this incestuous phase of my life and just be a normal family member from now on."
+            perversion -= 3
+            Famthing.setGlobal(0)
+        Endif
+    Else
+        Actor.dress()
+        Actor.show()
+        "I've slept with both my <Actor.relationship> <Actor.name> and my <Actor3.relationship> <Actor3.name>. They eventually talked and found out that they were both having forbidden relationships with me. Realizing how keen I've been for incest, they suggest we declare myself as the family plaything and let the rest of my relatives have their incestuous ways with me whenever they want."
+        "This could be a good way to satisfy my ever-escalating needs for incest as well as building a stronger bond among my family members."
+        0:: "Become the family plaything"
+        1:: "Let's think about this some more"
+        2:: "Never!"
+        
+        If 0
+            perversion += 3
+            Actor:: "Haha, my dear <Actor.callplayer>, it's good that you know your place and understand how best you can serve your family!"
+            Actor:: "Fine, let's organize a family gathering soon where we will make an announcement about your new role."
+            "My <Actor.relationship> stuck to <Actor.his_or_her> words, at the next family gathering, I was declared as the family plaything, always ready to be used by any of the other family members. While this announcement shocked some of my more conservative relatives, it's clear that others immediately became very interested in the prospect of taking advantage of this new and more sensual method for family bonding."
+            Famthing.setGlobal(1)
+        Elseif 2
+            timeout(2000, family_plaything)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(50, family_plaything)

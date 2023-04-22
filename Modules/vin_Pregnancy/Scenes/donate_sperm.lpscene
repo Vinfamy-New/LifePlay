@@ -1,0 +1,326 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Player.isFemale()
+        "I don't have the tools to produce sperm ..."
+    Elseif fertility == 0
+        "I'm not fertile at all so my sperm is useless ..."
+    Elseif isTimingOut(donate_sperm)
+        "It's too soon since the last time I donated sperm. It takes at least 24 hours for the sperm count to reach the required level."
+    Else
+        Price = 0.2*[fitness + attractiveness + intelligence]*CostOfLiving
+        PriceC = Price.convertToLocalCurrency(false)
+        "Based on my level of fitness, attractiveness and intelligence, the current rate I would be paid for each sperm donation is <PriceC>."
+        0:: "Donate sperm"
+        1:: "Not today"
+        
+        If 0
+            timeoutPrecise(24, donate_sperm)
+            Actor = generatePersonTemporary()
+            If Random(30, 100) < Actor:perversion && Actor.isInterestedIn(Player)
+                Actor.dressUniform(Nurse)
+                Actor.show()
+                "The nurse in charge of collecting my sperm today is <Actor.name> ... who is offering to literally give me a hand so that the samples can be collected quicker."
+                0:: "Receive a handjob"
+                1:: "I'll do it myself"
+                
+                If 0
+                    Masturbate = false
+                    Filter(Handjob)
+                    Sex(Player, Actor)
+                    perversion += 0.5
+                Else
+                    Masturbate = true
+                Endif
+            Else
+                Masturbate = true
+            Endif
+            If Masturbate
+                "Okay, let's get on with it. Jerking off to cum into a vial while a nurse watches is harder than you think ..."
+                Filter(Solo)
+                Sex(Player)
+            Endif
+            money => money + Price
+            
+            If Random(0, 100) < 33                
+                Actor2 = generatePersonTemporary()
+                While Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.setMorphValue(Genesis8Female__PBMPregnant, 0.2)
+                Actor2.makeInterested(Player)
+                Actor2.dress()
+                Actor2.show()
+                
+                "As soon as I left the sperm bank clinic, I was approached by a strange woman. She claimed she recently got pregnant from my sperm from a previous donation and managed to convince a sperm bank employee to help her try to meet me whenever I was booked in for another sperm donation at the clinic."
+                "She realized it was an invasive thing to do but she couldn't help but feel curious about the man who contributed half of the genes for her future child."
+                0:: "This must be a case of mistaken identity!"
+                1:: "Well ... nice to meet you, I guess"
+                
+                If 0
+                    Player:: "Sorry, but I think the employee must have mixed up the sperm donor list. The timeline for your pregnancy doesn't really match with my previous donations. I'm not the guy you're looking for."
+                    Actor2:: "Oh okay ... sorry to bother you."
+                Else
+                    "It's certainly unusual, I'm not sure how I feel about this. I'd rather not meet every woman who used the sperm I donated. Sperm donation is supposed to anonymous."
+                    If Random(0, 100) < 50
+                        Actor3 = generatePersonTemporary()
+                        While !Actor3.isMale()
+                            Actor3 = generatePersonTemporary()
+                        Endwhile
+                        Actor3.dress()
+                        Actor3.show()
+                        "Also there with her was her husband, who was infertile hence the need to use my sperm in the first place."
+                        "I thought him being there would make for a really awkward situation, but to my surprise, he seemed really cool about the whole thing and even thanked me for that."
+                        If isModEnabled(vin_Netori) && Actor3:masochist > 0
+                            "Not only that, the husband proceeded to tell me that going through the procedure has actually spiced up their sex life recently."
+                            "He realized that he was a cuck who was turned on by the thought of his wife being impregnated by another man."
+                            "As a weak infertile man incapable of fulfilling his role as husband and father, he deserved to be taught a lesson by a real fertile man like myself."
+                            "Although he admitted that it was a shame that the whole thing was done via a clinical procedure, he would have preferred to watch his wife get bred personally. It would have been his ultimate fantasy"
+                            0:: "It's not too late ..."
+                            1:: "You should find someone else for your fantasy"
+                            
+                            If 0
+                                Player:: "Well, it's not too late. I mean your wife is already pregnant with my biological child, but does it really matter to you whether the breeding comes before or after the impregnation?"
+                                Actor3:: "You're right. It doesn't really matter ..."
+                                setBackground(home)
+                                "Soon enough, the couple invited me back to their place."
+                                "It's not often that you impregnate someone's wife, artificial insemination or otherwise, and he invites you back to fuck her ..."
+                                blockPregnancy()
+                                Sex(Player, Actor2)
+                            Else
+                                Player:: "Yeah, good for you to have such a fantasy. I'm sure you'll be able to find some other guy to bang your wife though. Maybe try Craigslist or something."
+                            Endif
+                        Endif
+                    Else
+                        "The woman explained her reasons for making use of donated sperm in the first place."
+                        "Apparently, she's had some bad luck with relationships with other men in the past and didn't feel any of her abusive exes would make a good husband let alone a good father."
+                        "She was therefore relieved to finally meet her sperm donor and found me both gentle and attractive. She hoped her child would grow up to be the same."
+                        "I was flattered by the compliments and actually was under the impression that she was now flirting with me. Maybe she was having second thoughts about becoming a single mother having no contact with the biological father. Maybe that was the real reason she went through the effort to meet me."
+                        "I'm not sure getting too involved with her would be a good idea unless I actually want to become the responsible father for the child. On the other hand, I imagine I could easily give her some false hopes of a potential relationship just to get some easy sex." 
+                        0:: "Seduce her"
+                        1:: "Say goodbye"
+                        
+                        If 0
+                            setBackground(restaurant)
+                            "I asked her out on a dinner date and acted like a gentleman throughout. She easily became smitten with me, no doubt the fantasy of a happy family unit ever-present in back of her mind."
+                            "Afterwards, I chivalrously walked her back to her place, only for her to invite me in."
+                            setBackground(home)
+                            "Of course, once in there, one thing led to another and we ended up making love."
+                            blockPregnancy()
+                            Sex(Player, Actor2)
+                            Actor2:: "<Player.name> ... I think we would make for a good couple, don't you think? I'm already carrying your child after all. Why don't we give this a try? I'm not sure I could handle being a single mother now that I've met you."
+                            "And there it was ... my suspicions were confirmed. <Actor2.name> was seeking me out to get me involved with her and the child after all."
+                            0:: "Become <Actor2.name>'s boyfriend and recognize the child as mine"
+                            1:: "Walk away from her and the baby"
+                            
+                            If 0
+                                Actor2.makePermanent()
+                                Actor2:attractiontoplayer += 50
+                                
+                                Actor2.setDating()
+                                Actor2.impregnate(Player)
+                                
+                                "I kissed <Actor2.name>, accepting her as my girlfriend and the child growing inside her belly as mine."
+                            Else
+                                Player:: "Sorry, but I'm not interested in getting involved. I'm just the sperm donor."
+                                Player:: "Good luck with the kid though!"
+                                "I walked away from a crying <Actor2.name> who now has no choice but follow through with her ill-considered initial plans of becoming a single mom."
+                                karma -= 5
+                                "At least I got a good fuck out of that drama and managed to walk away without any responsibility after all."
+                            Endif
+                        Else
+                            Player:: "To be honest, I'm not sure I want to get even a little bit emotionally invested in this child. I'm just the sperm donor."
+                            Player:: "Good luck with the kid though!"
+                            "We parted ways before I got too involved."
+                        Endif
+                    Endif
+                Endif
+            Elseif Random(0, 100) < 50 && age > 40                
+                Actor4 = Player.generatePersonTemporaryMatchRace()
+                Actor4:age => age - Random(18, 22)
+                Actor4.randomizeFace()
+                Actor4.randomizeHairs()
+                Actor4.dress()
+                Actor4.show()
+                
+                "As soon as I left the sperm bank clinic, I was approached by a strange young <Actor4.man_or_woman>. <Actor4.He_or_She> claimed to be my biological <Actor4.son_or_daughter> from my donated sperm from two decades ago. <Actor4.He_or_She> managed to convince a sperm bank employee to help <Actor4.him_or_her> find out my identity and was delighted to find out I was booked in for another sperm donation at the clinic today."
+                "<Actor4.He_or_She> realized it was an invasive thing to do but <Actor4.he_or_she> couldn't help but feel curious about the man who contributed half of <Actor4.his_or_her> genes. Ideally, <Actor4.he_or_she> hoped to have me in <Actor4.his_or_her> life in some way but understood that I might not want to."
+                0:: "This must be a case of mistaken identity!"
+                1:: "Exchange numbers"
+
+                If 0
+                    Player:: "Sorry, but I think the employee must have mixed up the sperm donor list. I didn't donate sperm that long in the past. I'm not the guy you're looking for."
+                    Actor4:: "Oh okay ... sorry to bother you."
+                Else
+                    "It's certainly unusual, I'm not sure how I feel about this. It makes me think about all the children my sperm was used to create over the years. Sperm donation is supposed to anonymous but this meeting makes it so personal all of a sudden."
+                    "Still, I agreed to stay in touch with <Actor4.name> as a friend and exchanged numbers with <Actor4.him_or_her>."
+                    Actor4.makePermanent()
+                    exchangeContact(Actor4)
+                    
+                    If isModEnabled(vin_Incest) && Actor4:attractiontoplayer > 20
+                        "I couldn't help but notice something else about <Actor4.name> though ..."
+                        "<Actor4.He_or_She> seems to be checking me out more than simply the way you would examine a long-lost biological father to find similarities with you and such."
+                        "I can't help but feel <Actor4.he_or_she> was sexually attracted to me ..."
+                        "I remember reading something on the internet about genetic sexual attraction, where a strong sexual attraction may develop between close blood relatives who first meet as adults."
+                        0:: "Flirt with my '<Actor4.son_or_daughter>'"
+                        1:: "No way"
+                        
+                        If 0
+                            "I decided to go ahead and flirt with <Actor4.name> to test the waters and it was increasingly clear that <Actor4.he_or_she> was finding me attractive and feeling conflicted since it was technically incest."
+                            "I became more bold and told <Actor4.him_or_her> about what I read on the internet."
+                            Actor4:: "So it's normal then that I'm feeling attracted to you."
+                            "I finally got <Actor4.him_or_her> to admit it."
+                            Player:: "You know, technically you aren't supposed to even find out I'm related to you ..."
+                            Actor4:: "You're right ... so we might as well have been strangers who came across each other in the streets."
+                            Player:: "Strangers who instantly became attracted to each other ..."
+                            "We spent the next few hours hanging out with some pretty intense flirting."
+                            moveTo(home)
+                            setBackground(home)
+                            "To cut a long story short, we ended up in my place that night ..."
+                            Sex(Player, Actor4)
+                            "Did <Actor4.name> and I just commit incest? Probably. But how would the cops or anyone else even know we were related? 'Accidental' incest isn't a crime, it's just an occupational hazard for a sperm donor!"
+                        Endif
+                    Else
+                        "<Actor4.name> insisted that I meet with <Actor4.his_or_her> mother, who desperately wanted to meet me to thank me for giving her the child she had always wanted."
+                        0:: "Okay ..."
+                        1:: "That would just be too weird"
+                        
+                        If 0
+                            setBackgroundCustom(livingroom)
+                            Actor4.hide()
+
+                            Actor2 = generatePersonTemporary()
+                            While Actor2.isMale()
+                                Actor2 = generatePersonTemporary()
+                            Endwhile
+                            Actor2:age => Actor4:age + Random(18, 22)
+                            Actor2.randomizeFace()
+                            Actor2.randomizeHairs()
+                            Actor2.makePermanent()
+                            exchangeContact(Actor2)
+                            addNpcRelationship(ParentChild, Actor2, Actor4)
+                            Actor2.makeInterested(Player)
+                            Actor2.dress()
+                            Actor2.show()
+                            
+                            "<Actor4.name> arranged for me and <Actor4.his_or_her> mom to meet at <Actor4.his_or_her> mom's place."
+                            If Random(0, 100) < 50
+                                Actor3 = generatePersonTemporary()
+                                While !Actor3.isMale()
+                                    Actor3 = generatePersonTemporary()
+                                Endwhile
+                                Actor3:age => Actor2:age + Random(0, 10)
+                                Actor3.makePermanent()
+                                exchangeContact(Actor3)
+                                addNpcRelationship(ParentChild, Actor3, Actor4)
+                                addNpcRelationship(Spouses, Actor3, Actor2)
+                                Actor3.dress()
+                                Actor3.show()
+                                "Also there with her was her husband, or <Actor4.name>'s 'father', who was infertile hence the need to use my sperm in the first place."
+                                "I thought him being there would make for a really awkward situation, but to my surprise, he seemed really cool about the whole thing and even thanked me for that."
+                                If isModEnabled(vin_Netori) && Actor3:masochist > 0
+                                    "Not only that, the husband proceeded to tell me that going through the procedure actually spiced up their sex life recently."
+                                    "I managed him realize that he was a cuck who was turned on by the thought of his wife being impregnated by another man."
+                                    "After <Actor4.name> was born, they decided to try the swingers' lifestyle and thoroughly enjoyed it for the last two decades and they had me to thank for starting it all. Without that fateful decision to get his wife impregnated by my sperm, their marriage wouldn't have been so fulfilling and going strong even now."
+                                    "In fact, they wanted to meet me and thank me 'personally'."
+                                    0:: "Have fun with the swingers' couple"
+                                    1:: "No need for 'thanks'"
+                                    
+                                    If 0
+                                        "Knowing exactly what they meant, I agreed to have some fun with the swingers' couple. After all, if I really helped start their lifestyle, I should have a piece of the action too."
+                                        Sex(Player, Actor2)
+                                        "Having watched his wife finally get fucked by the biological father of his child, <Actor3.name> decided to join in for a threesome."
+                                        Sex(Actor3, Actor2, Player)
+                                    Else
+                                        Player:: "Glad to hear I inspired your lifestyle and helped with your marriage, but personally I'm not into that sort of things."
+                                    Endif
+                                Endif
+                            Else
+                                "Having lived her life as a free-spirited woman, <Actor4.name>'s mom was never married and didn't think marriage was for her."
+                                "Still, she wanted a child and was delighted to finally meet the man who made her wish come true two decades ago."
+                                "In fact, she wanted to thank me 'personally'."
+                                0:: "Fuck my 'baby mama'"
+                                1:: "No, thanks"
+                                
+                                If 0
+                                    "It's not often that the sex comes two decades after the impregnation!"
+                                    Sex(Player, Actor2)
+                                Else
+                                    "I turned her down and simply said I was glad to able to help."
+                                Endif
+                            Endif
+                        Endif
+                    Endif
+                Endif
+            Elseif Random(100, 600) < fitness + attractiveness + intelligence && !isTimingOut(invited_impreg_party)
+                followUp(invited_impreg_party)
+            Else
+                Actor2 = getPerson(tag_BabyCrazy)
+                
+                If Actor2.isPregnant() || !Actor2.isValid()
+                    Actor2 = generatePersonTemporary()
+                    While Actor2.isMale()
+                        Actor2 = generatePersonTemporary()
+                    Endwhile
+                    Actor2.dress()
+                    Actor2.show()
+                    "As soon as I left the sperm bank clinic, I was approached by a strange woman who also just left the clinic. She said the artificial insemination procedure scares her and would prefer to get pregnant the traditional way."
+                    "And since I already donated my sperm to the sperm bank, it was possible that my sperm would be used to impregnate her anyway ... so why not follow her to a hotel now and do a much simpler procedure there for five times the money I've just received from the clinic?"
+                    0:: "Okay"
+                    1:: "No"
+                    
+                    If 0
+                        Actor2.makePermanent()
+                        Actor2.setWantsBabies()
+                        setBackground(home)
+                        "Soon enough I was back in a hotel with her ..."
+                        Sex(Player, Actor2)
+                        Actor2.impregnate(Player)
+                        Actor2.setActorVar(tag_BabyCrazy, 1)
+                        money => money + Price*5
+                    Endif
+                Else
+                    // - When donating sperm having successfully impregnated a 'strange woman' who preferred the traditional method in the past, she may approach you again and tell you about a secret group of baby-crazy women just like her having a party tonight. They all heard about how 'effective' you were and invite you to the party where you can impregnate them all.
+                    Actor2.dress()
+                    Actor2.show()
+                    "As soon as I left the sperm bank clinic, I was approached by a familiar face who was waiting for me there. She was the woman who asked me to impregnate her the traditional way in the past."
+                    "She now told me about a secret group of baby-crazy women just like her having a party tonight. She had boasted to them about how 'effective' I was as a stud and wanted to invite me to the party to impregnate her again, along with all her friends."
+                    0:: "Okay"
+                    1:: "No"
+                    
+                    If 0
+                        Actor2.setWantsBabies()
+                        setBackground(fraternity)
+                        "Soon enough I found myself at a party full of women desperate for every last drop of my seed ... I was a creampie making machine that night."
+                        Sex(Player, Actor2)
+                        Actor2.impregnate(Player)
+                        Actor2.setActorVar(tag_BabyCrazy, 1)
+                        count = 0
+                        
+                        While count < 3
+                            Actor3 = generatePersonTemporary()
+                            While Actor3.isMale()
+                                Actor3 = generatePersonTemporary()
+                            Endwhile
+                            Actor3.dress()
+                            Actor3.show()
+                            
+                            Actor3.makePermanent()
+                            Actor3.setWantsBabies()
+                            
+                            "Another woman at this breeding party was <Actor3.name> ..."
+                            Sex(Player, Actor3)
+                            Actor2.setActorVar(tag_BabyCrazy, 1)
+                            Actor3.impregnate(Player)
+                            count += 1
+                        endWhile
+                    Endif                    
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

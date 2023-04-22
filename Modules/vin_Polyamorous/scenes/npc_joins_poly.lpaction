@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: npc_joins_poly
+ACTION_NAME: Hint about my polyamory
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 5 - 10
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: npc_joins_poly
+ANIMATION:
+WHO: Companion = getTarget(); If Companion.isSameAs(CurrentCompanion) && !CurrentCompanion.isDating() && OpenRelationship() && CurrentCompanion.hadSex() && CurrentCompanion:attractiontoplayer > 30

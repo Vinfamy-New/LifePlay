@@ -1,0 +1,40 @@
+WHAT: all
+WHERE: all
+WHEN: 8-18
+WHO: none
+OTHER: Player.wantsBabies() && !Player.isMale() && !Player.isPregnant() && !Player.isVirgin()
+
+    // You go to check for pregnancy in the hospital where the doctor says that you aren’t pregnant, but since you want so bad to have a baby, you can seduce the doctor
+    SceneStart()
+    "I'm so eager to have a baby ... I have been trying hard to get pregnant. Maybe I should go to the hospital for a pregnancy check?"
+    0:: "Sure"
+    1:: "No"
+    
+    If 0
+        setBackground(hospital)
+        Actor = generatePersonTemporary()
+        While !Actor.isMale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.dressUniform(Doctor)
+        Actor.show()
+        Actor:fertility_npc => 50
+        Actor:likes_vaginal => 100
+        Actor.makeInterested(Player)
+        Actor:: "I'm afraid the pregnancy check doesn't show any signs that you're pregnant at all."
+        Actor:: "On a brighter note, your fertility level seems completely normal. You definitely can get pregnant, just unlucky so far."
+        Player:: "But I've been trying for a long time ..."
+        Actor:: "Then may I suggest that there's something wrong with your partner's fertility level ..."
+        Player:: "Well .. now that you mention it, it makes sense ..."
+        Actor:: "You know, it breaks my heart to see a patient so desperate to have a child and failing to do so ..."
+        Actor:: "Since your partner is likely to be infertile, maybe I can help? It will be our patient-doctor secret."
+        "His suggestion shocked me at first but thinking about it, it isn't such a bad idea. After all, he's a doctor so I wouldn't mind my child sharing some of his smart genes."
+        0:: "Let the doctor try to impregnate me himself"
+        1:: "Stay faithful to my partner"
+        
+        If 0
+            Sex(Actor, Player)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, pregnancy_doctor)

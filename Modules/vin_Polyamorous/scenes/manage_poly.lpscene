@@ -1,0 +1,138 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "This action allows to easily and proactively organize your poly relationships, instead of having to rely on randomly triggered scenes."
+    "Also useful because v3.21 expanded the relationship system for more flexible poly stuffs, so if your poly relationships were started in a save before this, everything might not sync perfectly and may require some manual adjustment here."
+    clearGetList()
+    Actor = getSpecific(Dating)
+    If Actor.isValid() && !OpenRelationship()
+        "You haven't asked your current significant other for an open relationship yet, which is a prerequisite for introducing more polyamorous lovers into the relationship."
+        "Set your current relationship to open to unlock polyamorous content?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            startOpenRelationship()
+        Endif
+    Endif
+    While Actor.isValid()
+        Actor.show()
+        Actor:: "Baby, what do you need?"
+        If Actor.livesWithPlayer()
+            "<Actor.name> currently lives together with me."
+        Else
+            "<Actor.name> currently doesn't live together with me."
+        Endif
+        If Actor.isMarried()
+            "I consider myself married to <Actor.name>."
+        Else
+            "I consider myself only in a relationship with <Actor.name>."
+        Endif
+        If Actor.WantsBabies()
+            "<Actor.name> and I currently are wanting a child together."
+        Else
+            "<Actor.name> and I are not currrently wanting a child together."
+        Endif
+        "Our relationship strength is <Actor:attractiontoplayer>."
+        
+        choice = 9
+        While choice > 0
+            Actor3 = Actor.getRelatedPerson(Dating)
+            "What action should I take with <Actor.name>?"
+            0:: "Nothing"
+            1:: Actor.livesWithPlayer():: "Ask <Actor.name> to move out and find <Actor.his_or_her> place"
+            2:: !Actor.livesWithPlayer():: "Ask <Actor.name> to move in with me"
+            3:: !Actor.livesWithPlayer():: "Move in with <Actor.name>"
+            4:: Actor.isMarried():: "Divorce <Actor.name>, but keep dating <Actor.him_or_her>"
+            5:: !Actor.isMarried():: "Marry <Actor.name>"
+            6:: Actor.WantsBabies():: "Stop trying for a baby with <Actor.name>"
+            7:: !Actor.WantsBabies():: "Start trying for a baby with <Actor.name>"
+            8:: "Break up with <Actor.name>"
+            9:: "Find <Actor.him_or_her> a lover on the side"
+            10:: Actor3.isValid() && !Actor3.isPregnant() && !Actor.isPregnant() && [!Actor.isMale() || !Actor3.isMale()] && [!Actor.isFemale() || !Actor3.isFemale()]:: "Urge <Actor.him_or_her> and <Actor.his_or_her> other lover <Actor3.name> to try for a baby"
+            11:: "Select <Actor.name> to matchmake with another of my poly lovers"
+            12:: Actor2.isValid() && Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor):: "Matchmake <Actor.name> with my other poly lover <Actor2.name>"
+            
+            If 1
+                "<Actor.name> no longer lives with me and has found another place to live."
+                Actor.setLivingWithPlayer(false)
+                Actor.favoriteHome()
+            Elseif 2
+                "<Actor.name> moved out of <Actor.his_or_her> current place and moved in with me."
+                Actor.favoriteHome(false)
+                Actor.setLivingWithPlayer(true)
+            Elseif 3
+                loseHome()
+                Loc = Actor.getBuilding(home)
+                Loc.setHomeDating()
+                "I decided to move out of my current place and moved in to <Actor.name>'s place."
+                "Note that if you just moved in to someone's place who hasn't been living with you until now, the ones currently living with you don't move with you automatically to this person's home. Use the 'Manage polyamorous relationships' action again to ask them all to move to your new home." 
+            Elseif 4
+                Actor.setActorVar(tag_Married, 0)
+                "<Actor.name> is no longer married to me but we're still dating. A more than amicable divorce!"
+                If Actor.isMarried()
+                    "Hello"
+                Endif
+                "<Actor.name> is now just my <Actor.boyfriend_or_girlfriend>."
+            Elseif 5
+                Actor.setActorVar(tag_Married, 1)
+                "<Actor.name> and I put together a small private wedding ceremony, nothing that would attract too much attention since polygamy is illegal after all. We are now married."
+                If !IsPlayerMarried()
+                    getMarried()
+                Endif
+                "<Actor.name> is now my <Actor.boyfriend_or_girlfriend>."
+            Elseif 6
+                Actor.setWantsBabies(false)
+                "<Actor.name> agreed that we shoud stop trying for a baby together."
+            Elseif 7
+                Actor.setWantsBabies(true)
+                Player.setWantsBabies(true)
+                "<Actor.name> agreed that we shoud start trying for a baby together."            
+            Elseif 8
+                Actor.setDatingId()
+                loseDating()
+                choice = 0
+            Elseif 9
+                "Who should I pick to start dating <Actor.name> on the side?"
+                selectNpc()
+                Actor3 = getSelectedNpc()
+                
+                If Actor3.isValid() && Actor.isInterestedIn(Actor3) && Actor3.isInterestedIn(Actor)
+                    "<Actor.name> was thrilled with my suggestion. As things turned out, <Actor.name> has already had <Actor.his_or_her> eyes on my friend <Actor3.name> for a while now but didn't think I would be cool with it."
+                    Actor3.dress()
+                    Actor3.show()
+                    "One day, I invited <Actor3.name> over ... to fuck my <Actor.boyfriend_or_girlfriend> of course."
+                    Sex(Actor, Actor3)
+                    "Afterwards, we discussed the arrangement. <Actor3.name> was hesitating at first, thinking it must be some kind of trap, but eventually when <Actor3.he_or_she> realized we were serious, <Actor3.he_or_she> couldn't believe <Actor3.his_or_her> luck."
+                    addNpcRelationship(Dating, Actor, Actor3)
+                    addNpcRelationship(Poly, Actor, Actor3)
+                Else
+                    Actor3.delete()
+                    "Unfortunately, <Actor3.name> isn't <Actor.name>'s type. Let's think about this some more some other time."
+                Endif
+            Elseif 10
+                "<Actor.name> agrees that <Actor.he_or_she> should start trying for a baby with <Actor.his_or_her> other partner <Actor3.name>." 
+                Sex(Actor, Actor3)
+                If Actor.isFemale()
+                    Actor.impregnate(Actor3)
+                Else
+                    Actor3.impregnate(Actor)        
+                Endif
+            Elseif 11
+                Actor2 = Actor
+                "<Actor.name> is now selected. When it shuffles to the other poly partner you want, you'll be able to match-make them."
+            Elseif 12
+                addNpcRelationship(Dating, Actor, Actor2)
+                addNpcRelationship(Poly, Actor, Actor2)
+                "<Actor.name> and <Actor2.name> both agreed that they should start sleeping with each other with or without me being around." 
+            Endif            
+        Endwhile
+        Actor = getSpecific(Dating)
+    Endwhile
+    "That's all the polyamorous lovers I currently have."
+    "Note that if you just moved in to someone's place who hasn't been living with you until now, the ones currently living with you don't move with you automatically to this person's home. Use the 'Manage polyamorous relationships' action again to ask them all to move to your new home." 
+    SceneEnd()

@@ -1,0 +1,99 @@
+WHAT: all
+WHERE: home
+WHEN: 8-22
+WHO: Actor = getSpecific(Dating); If Actor.isFemale() && Random(50, 100) < Actor:attractiveness
+OTHER: money < 2000 && Player.isMale()
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Actor2 = getPerson(tag_datingsugarmama)
+    If Actor2.isValid()
+        secondScreen(Actor2)
+        Actor2.show()
+        "Ms <Actor2.name> <Actor2.name_last>, a successful lesbian businesswoman, is currently my <Actor.boyfriend_or_girlfriend>'s sugarmama."
+        "She's asking <Actor.name> to go on a paid date this evening. No doubt they'll end up in her expensive penthouse for the night."
+        0:: "Let my <Actor.boyfriend_or_girlfriend> go on a date with her sugarmama"
+        1:: "Put an end to this arrangement"
+        
+        If 0
+            Player.hide()
+            secondScreen()
+            Actor2.dress()
+            Random
+                setBackground(restaurant)
+                setBackground(hotel)
+                setBackground(nightclub)
+                setBackground(bar)
+                setBackground(cafe)
+                setBackground(beauty)
+            endRandom
+            Actor2.show()
+            "The lesbian sugarmama treated <Actor.name> to an expensive date before they were driven back to the businesswoman's top floor penthouse in her luxury executive car."
+            setBackground(home)
+            If Random(0, 100) < 50
+                Actor3 = generatePersonTemporary()
+                While !Actor3.isFemale()
+                    Actor3 = generatePersonTemporary()
+                Endwhile
+                Actor3:age => Random(30, 60)
+                If Actor3:age < Actor:age
+                    Actor3:age => Actor:age + Random(5, 20)
+                Endif
+                Actor3.makeInterested(Actor)
+                Actor3.randomizeFace()
+                Actor3.randomizeHairs()
+
+                "There, they were joined by a female investor in the sugarmama's business. Looks like <Actor.name> tonight will serve as a celebratory gift for an important business deal."
+                Sex(Actor2, Actor, Actor3)
+            Else
+                "Soon, the rich woman got to enjoy the prize that she has paid a lot of money for tonight."
+                Sex(Actor2, Actor)
+            Endif
+            money += 100
+            "The sugarmama gave <Actor.name> a generous allowance, enough that she even shared some with me."
+        Else
+            "Our financial situation has improved enough that there's no need for <Actor.name> to continue doing this."
+            Actor2.setActorVar(tag_datingsugarmama, 0)
+        Endif
+    Else
+        "My <Actor.boyfriend_or_girlfriend> <Actor.name> is wanting to talk to you about something. It seems very serious."
+        Actor:: "Baby, our financial situation has been getting worse and worse recently. At this rate, we'll run of money for food and rent soon."
+        Player:: "I know honey, but I'm doing my best ..."
+        Actor:: "I know you are, baby. But what I'm trying to say is maybe I can help out too."
+        Actor:: "One of my friends is married to a guy but she's also seeing a lesbian sugarmama and earning good money out of it."
+        Actor:: "And her husband is fine with it. After all, it's all just 'gay for pay' with no feelings involved - he knows it's him she actually loves."
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isFemale()
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2:age => Random(30, 60)
+        If Actor2:age < Actor:age
+            Actor2:age => Actor:age + Random(5, 20)
+        Endif
+        Actor2.makeInterested(Actor)
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        secondScreen(Actor2)
+        Actor2.show()
+        Actor:: "She's trying to introduce me to this older lady called Ms <Actor2.name> <Actor2.name_last>, who is a successful businesswoman well known in the LGBT circles."
+        "I think I know where this conversation is leading ..."
+        0:: "Let <Actor.name> get a lesbian sugarmama"
+        1:: "No way!"
+        
+        If 0
+            secondScreen()
+            Player:: "I guess it's something I could endure to get us out of this financial situation. It's not like another guy gets to lay a finger on you. It's not really sex if you're not into it at all. And if it's not sex, it's not cheating."
+            "I almost had to rationalize this whole idea in my head and eventually convinced myself that letting my <Actor.boyfriend_or_girlfriend> get a sugarmama was a good idea."
+            Actor:: "Okay, I'll let my friend know I'm interested. She'll put me in touch with <Actor2.name>."
+            Actor2.makePermanent()
+            Actor2.setActorVar(tag_datingsugarmama, 1)
+            "Soon, my <Actor.boyfriend_or_girlfriend> will be going on hot dates with her new sugarmama. Part of me suspected agreeing to this wasn't the best idea."
+        Else
+            secondScreen()
+            Player:: "We'll manage, one way or another, honey. I will not let things get so bad that my <Actor.boyfriend_or_girlfriend> has to sell herself."
+            timeout(500, dating_sugarmama)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, dating_sugarmama)

@@ -1,0 +1,75 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    LastReview = Actor.getActorVar(LastReview)
+    If HoursElapsed - LastReview > 730
+        Actor.setActorVar(LastReview, HoursElapsed)
+        Raise = false
+        Player:: "<Actor.name>, I think it's time for your performance appraisal."
+        Actor:: "Yes, of course."
+        0:: "Give a raise"
+        1:: "Ask for sex in exchange for a raise"
+        2:: "Do nothing"
+        3:: "Fire"
+        
+        If 0
+            Raise = true
+        Elseif 1
+            If Actor.hadSex() || Random(40, 70) < Actor:perversion
+                Raise = true
+                Actor:: "Okay ... I could really do with the extra cash."
+                Sex(Player, Actor)
+            Else
+                Raise = false
+                Actor:: "Sorry, but I can't do that ..."
+            Endif
+        Elseif 2
+            Player:: "Your performance has been okay, but it doesn't warrant a raise though. Just return to work."
+            If Actor.hadSex() || Random(50, 80) < Actor:perversion
+                Actor:: "Please, I'll do anything for that raise ..."
+                "I think I know what <Actor.name> is suggesting ..."
+                0:: "Fuck <Actor.him_or_her>"
+                1:: "No"
+                
+                If 0
+                    Raise = true
+                    Player:: "Fine, since you're so desperate."
+                    Sex(Player, Actor)                
+                Endif
+            Else
+                Actor:: "Okay ... I'll try harder."
+            Endif
+        Else
+            Fire = true
+            If Actor.hadSex() || Random(50, 80) < Actor:perversion
+                Actor:: "Please, I'll do anything to not get fired ..."
+                "I think I know what <Actor.name> is suggesting ..."
+                0:: "Fuck <Actor.him_or_her>"
+                1:: "No"
+                
+                If 0
+                    Fire = false
+                    Player:: "Fine, since you're so desperate."
+                    Sex(Player, Actor)                
+                Endif
+            Endif
+            If Fire
+                "I decided to fire <Actor.name>."
+                Actor.removeEmployee()
+            Endif
+        Endif
+        
+        If Raise
+            "As promised, I gave <Actor.name> a 10% raise."
+            Actor.modifySalary(1.1)
+            Actor:rapportwithplayer += 5
+            Actor:attractiontoplayer += 5
+        Endif
+    Else
+        "It doesn't make sense to give another performance review to this employee less than one month since the last."
+    Endif
+    SceneEnd()

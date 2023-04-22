@@ -1,0 +1,957 @@
+Wisteria-Dress_1_F: false: Top, Bottom: ParUn
+Show-Your-Bra-High-Heels_1_F: false: Foot: Heels, 0.6
+London-Look-Vest_1_F: false: Top
+Summer-Frills-Bikini-Top_1_F: false: Top, Top_Under: Sports
+Summer-Frills-Bikini-Bottom_1_F: false: Bottom, Bottom_Under: Sports
+Summer-Frills-Bikini-Heels-Sandals_1_F: false: Foot: Heels, 0.8
+1920s-Boudoir-Heels_1_F: false: Foot: Heels, 0.8
+Cutout-Shoulder-Shirt_1_F: false: Top
+Ruffle-Skirt_1_F: false: Bottom
+Short-Pants_1_F: false: Bottom: Sports
+Strappy-Top_1_F: false: Top: Sports
+Summer-Dress_1_F: false: Top, Bottom
+Brynn-Slipons_1_F: false: Foot: Sports
+Brynn-Strappy-Top_1_F: false: Top: Sports
+Brynn-Pants_1_F: false: Bottom
+Floral-Fiesta-Panty_1_F: false: Bottom_Under
+Babydoll_1_F: false: Top, Bottom: ParUn
+80s-Valley-Girl-Leggings_F: false: Foot_Under
+80s-Valley-Girl-Skirt_F: false: Bottom
+80s-Valley-Girl-Shirt_F: false: Top
+80s-Valley-Girl-Shoes_F: false: Foot
+Accents-Fall-Top_1_F: false: Top: Formal
+Accents-Fall-Pants_1_F: false: Bottom: Formal
+Accents-Fall-Coat_1_F: false: Outerwear: Formal
+Active-Wear-Gym-Pants_1_F: false: Bottom: Sports
+Active-Wear-Sports-Bras_1_F: false: Top, Top_Under: Sports
+Jennifer-Style-Jeans-Skirt_1_F: false: Bottom
+Sexy-Uniform-Shirt_1_F: false: Top, Top_Under: Sports
+Une-Petit-Fleur-Robe_1_F: false: Top: ParUn
+You-Wanna-Play-Shirt_1_F: false: Top
+You-Wanna-Play-Panty_1_F: false: Bottom_Under
+Agathe-Top_1_F: false: Top
+Agathe-Shorts_1_F: false: Bottom
+Angel-Secrets-Brassiere_1_F: false: Top_Under
+Angel-Secrets-Heels_1_F: false: Foot: Heels, 0.8
+Angel-Secrets-2-Babydoll_1_F: false: Top, Bottom
+Angel-Secrets-2-Body_1_F: false: Top, Bottom
+Angel-Secrets-Wool-Body_1_F: false: Top, Bottom
+Angel-Secrets-Wool-Panties_1_F: false: Bottom_Under
+Angel-Secrets-Wool-Socks_1_F: false: Foot_Under
+Angel-Secrets-Wool-Sweater_1_F: false: Top
+Beachflower-Summer-Dress_1_F: false: Top, Bottom
+Summertime-Pants_1_F: false: Bottom
+Summertime-Shirt_1_F: false: Top
+Alina-Dress_1_F: false: Top, Bottom: ParUn
+Jane-Dress_1_F: false: Top, Bottom: ParUn
+Jasmine-Dress_1_F: false: Top, Bottom: ParUn
+Lorena-Dress_1_F: false: Top, Bottom: ParUn
+Aimee-Dress_1_F: false: Top, Bottom: ParUn
+Alika-Dress_1_F: false: Top, Bottom: ParUn
+Anne-Dress_1_F: false: Top, Bottom: ParUn
+Alivia-Dress_1_F: false: Top, Bottom: ParUn
+Beth-Dress_1_F: false: Top, Bottom: ParUn
+Claudy-Dress_1_F: false: Top, Bottom: ParUn
+Hailee-Dress_1_F: false: Top, Bottom: ParUn
+Jaila-Dress_1_F: false: Top, Bottom: ParUn
+Angela-Heels_1_F: false: Foot: Heels, 0.6
+Autumnal-Leggings_1_F: false: Bottom
+Ballet-Practice-Warmers_1_F: false: Foot_Under: Sports
+Bambino-Jeans_1_F: false: Bottom
+Bandeau-Bikini-Bottom_1_F: false: Bottom_Under: Sports
+Bandeau-Bikini-Top_1_F: false: Top_Under: Sports 
+Before-Midnight-Heels_1_F: false: Foot: Heels, 0.8
+Bella-Chic-Bra_1_F: false: Top_Under
+Bella-Chic-Jacket_1_F: false: Bottom_Under
+Bellarose-Overshirt_1_F: false: Outerwear
+Betty-Lou-Boots_1_F: false: Foot
+Betty-Lou-Shirt_1_F: false: Top
+Betty-Lou-Shorts_1_F: false: Bottom: ParUn
+Boho-Ruffle-Sandals_1_F: false: Foot
+Burlesque-Bra_1_F: false: Top_Under
+Burlesque-Bustier_1_F: false: Bottom_Under
+Burlesque-Heels_1_F: false: Foot: Heels, 0.8
+Burlesque-Stockings_1_F: false: Foot_Under
+Camo-Chic-Heels-Boots_1_F: false: Foot: Heels, 0.8
+Camo-Chic-Pants_1_F: false: Bottom: ParUn
+Camo-Chic-Tank_1_F: false: Top
+Cardigan-Dress-Outfit-Cardigan_1_F: false: Outerwear
+Cardigan-Dress-Outfit-Dress_1_F: false: Top, Bottom: ParUn
+Cardigan-Dress-Outfit-Heels-Boots_1_F: false: Foot: Heels, 0.8
+Casual-Autumn-Coat_1_F: false: Outerwear
+Casual-Autumn-Pants_1_F: false: Bottom: ParUn
+Casual-Autumn-Sweater_1_F: false: Top
+Casual-Crop-Skirt_1_F: false: Bottom
+Casual-Crop-Top_1_F: false: Top
+Casual-Jacket_1_F: false: Outerwear
+Casual-Spring-Capris_1_F: false: Bottom
+Casual-Spring-Heels_1_F: false: Foot: Heels, 0.8
+Casual-Spring-Peplum-Top_1_F: false: Top
+Casual-Springtime-Shorts_1_F: false: Bottom
+Casual-Springtime-Top_1_F: false: Top
+Casual-Tank-Top_1_F: false: Top
+Cathy-Jo-Fashion-Bra_1_F: false: Top_Under
+Cathy-Jo-Fashion-Croptop_1_F: false: Top
+Chantilly-Chic-Jumpsuit_1_F: false: Top_Under, Bottom_Under
+Chiffon-Crop-Heels_1_F: false: Foot: Heels, 0.8
+Chiffon-Crop-Top_1_F: false: Top
+Chill-Sweater_1_F: false: Top
+City-Limits-Jeans_1_F: false: Bottom
+City-Limits-Top_1_F: false: Top
+Classic-Office-Heels_1_F: false: Foot: Formal, Heels, 0.8
+Classic-Office-Suit_1_F: false: Top, Bottom: Formal
+Cold-Weather-Jeans_1_F: false: Bottom
+French-Maid-Skirt_1_F: false: Top, Bottom: Uniform
+French-Maid-Stockings_1_F: false: Foot_Under: Uniform
+Halter-Mini-Dress_1_F: false: Top, Bottom
+Hot-Couture_1_F: false: Top_Under, Bottom_Under
+Hot-Stappy-Shorts_1_F: false: Bottom
+Hot-Stappy-Strappy_1_F: false: Top: ParUn
+Hot-Sweater-Skirt_1_F: false: Bottom
+Hot-Sweater-Sweater_1_F: false: Top
+Jiwoo-Leather-Sandals_1_F: false: Foot
+Lyrical-Leotard_1_F: false: Top
+Morphing-Pantyhose_1_F: false: Foot_Under
+Off-Road-Socks_1_F: false: Foot_Under: Sports
+Racing-Pants_1_F: false: Bottom: Sports
+Racing-Pants_2_F: false: Bottom: Sports
+Racing-Shirt_1_F: false: Top: Sports
+Racing-Suit_1_F: false: Top, Bottom: Sports
+School-Shoes_1_F: false: Foot: Uniform, Formal
+School-Socks_1_F: false: Foot_Under: Uniform, Formal
+Sexy-Leather-Bodysuit_1_F: false: Top_Under, Bottom_Under
+Sexy-Leather-Stockings_1_F: false: Foot_Under
+Shift-Heels_1_F: false: Foot: Heels, 0.8
+Vip-Lace-Dress_1_F: false: Top, Bottom: ParUn
+Basketball-Dress_1_F: false: Top, Bottom: Sports
+Beach-Resort-Dress_1_F: false: Top, Bottom
+Bikinis-Bottom_1_F: false: Bottom_Under
+Bikinis-Top_1_F: false: Top_Under
+Bustier-Dress_1_F: false: Top, Bottom
+Bustier-Dress-Belt_1_F: false: Waist
+Capri-Leggings_1_F: false: Bottom
+Capri-Shirt_1_F: false: Top
+Casual-Country-Girl-Heels-Boots_1_F: false: Foot: Heels, 0.6
+Chic-Beach-Bikini_1_F: false: Top_Under, Bottom_Under
+Cool-Kitty-Sumi-Shoes_1_F: false: Foot
+Cool-Kitty-Sumi-Shorts_1_F: false: Bottom
+Cool-Kitty-Sumi-Socks_1_F: false: Foot_Under
+Cool-Kitty-Sumi-Tank_1_F: false: Top
+Cutie-Shoes_1_F: false: Foot, Foot_Under
+Daydream-Long-Sleeve_1_F: false: Top
+Daydream-Skirt_1_F: false: Bottom
+Day-Out-Heels-Boots_1_F: false: Foot: Heels, 0.8
+Day-Out-Pants_1_F: false: Bottom
+Day-Out-Tube-Top_1_F: false: Top
+Daytime-Noir-Heels_1_F: false: Foot: Heels, 0.8
+Despair-Shirt_1_F: false: Top
+Despair-Shorts_1_F: false: Bottom
+Divalisious-Bottom_1_F: false: Bottom
+Divalisious-Top_1_F: false: Top
+Divalisious-Wrap_1_F: false: Outerwear
+Dolly-Heels_1_F: false: Foot: Heels, 0.8
+Elegant-Prestige-Sandals_1_F: false: Foot
+Elegant-Prestige-Tank-Top_1_F: false: Top
+Elegant-Skinny-Jumpsuit_1_F: false: Outerwear
+Elegant-Skinny-Top_1_F: false: Top
+Fashion-Office-Dress_1_F: false: Top, Bottom: Formal
+Fashion-Office-Jacket_1_F: false: Outerwear: Formal
+Fashion-Office-Heels_1_F: false: Foot: Formal, Heels, 0.8
+Figure-Skater-Boots_1_F: false: Foot: Sports
+Figure-Skater-Dress_1_F: false: Top, Bottom: Sports
+Flounce-Bikini-Bottom_1_F: false: Bottom_Under
+Flounce-Bikini-Top_1_F: false: Top_Under
+Gamer-Girl-Bottom_1_F: false: Bottom
+Gamer-Girl-Top_1_F: false: Top
+Geta-Sandals_1_F: false: Foot
+Japanese-School-Uniform-Blouse_1_F: false: Top
+Japanese-School-Uniform-Heels-Pumps_1_F: false: Foot: Heel, 0.8
+Japanese-School-Uniform-Skirt_1_F: false: Bottom
+Japanese-School-Uniform-Socks_1_F: false: Foot_Under
+Jumpsuit-Halter-Bra_1_F: false: Top_Under
+Jumpsuit-Heels_1_F: false: Foot: Heels, 0.8
+Jumpsuit-Jumper_1_F: false: Top, Bottom
+JW-Skirt_1_F: false: Bottom
+JW-Skirt_2_F: false: Bottom
+JW-Top_2_F: false: Top
+JW-Top_3_F: false: Top
+Karate-Gi-Pants_1_F: false: Bottom: Sports
+Karate-Gi-Top_1_F: false: Top: Sports
+Muay-Thai-Ankle-Wraps_1_F: false: Foot_Under: Sports
+Muay-Thai-Shorts_1_F: false: Bottom: Sports
+Muay-Thai-Top_1_F: false: Top: Sports
+Multi-Bodysuit_1_F: false: Top, Bottom
+Office-Attire-Camisole_1_F: false: Top: Formal
+Office-Attire-Skirt_1_F: false: Bottom: Formal
+Office-Chic-Pants_1_F: false: Bottom: Formal
+Office-Chic-Heels_1_F: false: Foot: Formal, Heels, 0.8
+Office-Chic-Top_1_F: false: Top: Formal
+Pajama-Pants_1_F: false: Bottom: Home
+Pajama-Shirt_1_F: false: Top: Home
+PSO-Heels-Boots_1_F: false: Foot: Heels, 0.8
+PSO-Top_1_F: false: Top
+Qipao-Dress_1_F: false: Top, Bottom: Ethnic, Asian 
+Rock-On-Pants_1_F: false: Bottom
+Rock-On-Top_1_F: false: Top
+Savannah-Bodysuit_1_F: false: Top, Bottom
+Short-Qipao-Dress_1_F: false: Top, Bottom: Ethnic, Asian
+Silky-Nights-Shorts_1_F: false: Bottom: Home
+Silky-Nights-Top_1_F: false: Top: Home
+Sportswear-Pants_1_F: false: Bottom: Sports
+Sportswear-Top_1_F: false: Top: Sports
+Sportswear-TShirt_1_F: false: Outerwear: Sports
+Street-Croptop_1_F: false: Top
+Street-Overall_1_F: false: Outerwear, Bottom
+Street-Shoes_1_F: false: Foot
+Traditional-Pants_1_F: false: Bottom: Ethnic, Asian
+Traditional-Shoes_1_F: false: Foot: Ethnic, Asian
+Traditional-Top_1_F: false: Top: Ethnic, Asian
+Wardrobe-Denim-Skirt_1_F: false: Bottom
+Wardrobe-Halter-Top_1_F: false: Top
+Wardrobe-Leggings_1_F: false: Bottom
+Wardrobe-Strap-Vest_1_F: false: Top
+Wardrobe-Sweater_1_F: false: Top
+Wardrobe-TShirt_1_F: false: Top
+Wardrobe-Tunic-Top_1_F: false: Top
+Wedge-Sandals-Heels_1_F: false: Foot: Heels, 0.7
+70s-Dress_1_F: false: Top, Bottom
+Alluring-Skirt_1_F: false: Bottom
+Ao-Dai-Heels_1_F: false: Foot: Ethnic, Asian, Heels, 0.8
+Ao-Dai-Pants_1_F: false: Bottom: Ethnic, Asian
+Ao-Dai-Top_1_F: false: Top: Ethnic, Asian
+Basic-Bra_1_F: false: Top_Under
+Basic-Panty_1_F: false: Bottom_Under
+Beefy-Tee_1_F: false: Top: ParUn
+Blooming-Belt_1_F: false: Waist 
+Blooming-Pants_1_F: false: Bottom
+Blooming-Sandals_1_F: false: Foot
+Blooming-Shirt_1_F: false: Top
+BMS-Office-Bra_1_F: false: Top_Under: Formal
+BMS-Office-Heels_1_F: false: Foot: Formal, Heels, 0.8
+BMS-Office-Skirt_1_F: false: Bottom: Formal
+BMS-Office-Top_1_F: false: Top: Formal
+Business-Overcoat-Coat_1_F: false: Outerwear: Formal
+Business-Overcoat-Skirt_1_F: false: Bottom: Formal
+Business-Overcoat-Tights_1_F: false: Foot_Under: Formal
+Business-Overcoat-Top_1_F: false: Top: Formal
+Casual-Smmer-Culottes_1_F: false: Bottom
+Cheerleader-Uniform_1_F: false: Top, Bottom: ParUn, Sports
+Cowgirl-Shorts_1_F: false: Bottom
+Cowgirl-Top_1_F: false: Top
+Dapper-Fluid-Jacket_1_F: false: Outerwear
+Dapper-Fluid-Pants_1_F: false: Bottom
+Dapper-Fluid-Shirt_1_F: false: Top
+Dapper-Fluid-Shoes_1_F: false: Foot
+Dapper-Fluid-Vest_1_F: false: Outerwear
+FG-Flannel_1_F: false: Top
+FGHM-Nighty_1_F: false: Top: ParUn
+FGHM-Panty_1_F: false: Bottom_Under
+FG-Jeans_1_F: false: Bottom
+FG-Nighty_1_F: false: Top
+FG-Panty_1_F: false: Bottom_Under
+FG-TShirt_1_F: false: Top
+Flirty-Bow-Dress_1_F: false: Top, Bottom
+Flirty-School-Heels_1_F: false: Foot: Uniform, Heels, 0.8
+Flirty-School-Shirt_1_F: false: Top: Uniform, ParUn
+Flirty-School-Skirt_1_F: false: Bottom: Uniform, ParUn
+Flirty-School-Socks_1_F: false: Foot_Under: Uniform
+Flutter-Sandals_1_F: false: Foot
+Flutter-Shirt_1_F: false: Top
+Flutter-Shorts_1_F: false: Bottom
+Free-Spirit-Dress_1_F: false: Top, Bottom
+Frill-Heels_1_F: false: Foot: Heels, 0.8
+Frill-Mini-Dress_1_F: false: Top, Bottom
+Gamer-Top_1_F: false: Top: ParUn
+Greybro-Jeans_1_F: false: Bottom: ParUn
+Gym-Brat-Bra_1_F: false: Top_Under: Sports
+Gym-Brat-Pants_1_F: false: Bottom: Sports
+Gym-Brat-Shoes_1_F: false: Foot: Sports
+Gym-Brat-Top_1_F: false: Top: Sports
+Gymwear-Pants_1_F: false: Bottom: Sports
+Gymwear-Shirt_1_F: false: Top: Sports
+Gymwear-Shorts_1_F: false: Bottom: Sports
+Gymwear-Sneakers_1_F: false: Foot: Sports
+Gymwear-Socks_1_F: false: Foot_Under: Sports
+HC-Business-Jacket_1_F: false: Outerwear: Formal
+HC-Business-Pants_1_F: false: Bottom: Formal
+HC-Business-Top_1_F: false: Top: Formal
+Jill-Valentine-Boots_1_F: false: Foot: Uniform
+Jill-Valentine-Harness_1_F: false: Outerwear: Uniform
+Jill-Valentine-Pants_1_F: false: Bottom: Uniform
+Jill-Valentine-Top_1_F: false: Top: Uniform
+Mega-Hoodie_1_F: false: Top, Head: ParUn
+Oktoberfest-Dress_1_F: false: Top, Bottom: ParUn
+Oktoberfest-Stockings_1_F: false: Foot_Under
+Professional-Suit-Skirt_1_F: false: Bottom: Formal
+Professional-Suit-Top_1_F: false: Top: Formal
+Sexy-Little-Dress_1_F: false: Top, Bottom
+Sexy-Little-Heels_1_F: false: Foot: Heels, 0.8
+Silk-PJ-Bottom_1_F: false: Bottom: Home
+Silk-PJ-Top_1_F: false: Top: ParUn, Home
+Silk-Robe_1_F: false: Top, Bottom: ParUn
+Style-Goals-Pants_1_F: false: Bottom
+Style-Goals-Shirt_1_F: false: Top
+Style-Goals-Shoes_1_F: false: Foot
+Style-Goals-Suspenders_1_F: false: Outerwear 
+Summer-Style-Sandals_1_F: false: Foot
+Towel_1_F: false: Top, Bottom: ParUn, Home
+Training-Wear-Hoodie_1_F: false: Outerwear: Sports
+Training-Wear-Pants_1_F: false: Bottom: Sports
+Training-Wear-Top_1_F: false: Top: Sports
+Trench-Coat-Outfit-Coat_1_F: false: Outerwear: Formal
+Trench-Coat-Outfit-Skirt_1_F: false: Bottom: Formal
+Trench-Coat-Outfit-Top_1_F: false: Top: Formal
+Trident-Bikini-Bottom_1_F: false: Bottom_Under
+Trident-Bikini-Top_1_F: false: Top_Under: ParUn
+Voguish-Dress_1_F: false: Top, Bottom
+Bliss-Dress_1_F: false: Top, Bottom
+Blossom-Mini-Dress_1_F: false: Top, Bottom
+Crop-Fishnet-T-Shirt_1_F: false: Top
+Cutie-Long-PJ-Bottom_1_F: false: Bottom
+Cutie-Short-PJ-Bottom_1_F: false: Bottom
+Emotions-Corset_1_F: false: Outerwear
+Emotions-Skirt_1_F: false: Bottom
+Freestyle-Jeans_1_F: false: Bottom
+Hi-Low-Dress_1_F: false: Top, Bottom
+Honeydrew-Jeans_1_F: false: Bottom
+Honeydrew-Top_1_F: false: Top
+Hongyu-Bikini-Bottom_1_F: false: Bottom_Under: ParUn, Sports
+Hongyu-Bikini-Bottom_2_F: false: Bottom_Under: Sports
+Hongyu-Bikini-Top_1_F: false: Top_Under: Sports
+Hongyu-Bikini-Top_2_F: false: Top_Under: ParUn, Sports
+Hongyu-Minidress_1_F: false: Top, Bottom: ParUn
+Hongyu-Pantie_1_F: false: Bottom_Under
+I3d-Low-Cut-Dress_1_F: false: Top, Bottom
+I3d-Low-Cut-Top_1_F: false: Top
+I3d-Sexy-Tank-Top_1_F: false: Top
+I3d-Shirt_1_F: false: Top
+I3d-Tank-Top_1_F: false: Top
+Imka-Dress_1_F: false: Top, Bottom
+Infusion-Suit_1_F: false: Top, Bottom
+Jenna-Skirt_1_F: false: Bottom
+Jenna-Top_1_F: false: Top
+Jmr-Arlete-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-Babydoll_1_F: false: Top, Bottom: ParUn
+Jmr-Bodysuit_1_F: false: Top, Bottom: ParUn
+Jmr-Dds-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-Dress_2_F: false: Top, Bottom: ParUn
+Jmr-Es-Bodysuit_1_F: false: Top, Bottom: ParUn
+Jmr-Hb-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-Hl-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-Night-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-Overall_1_F: false: Top, Bottom: ParUn
+Jmr-Panties_1_F: false: Bottom_Under: ParUn
+Jmr-Panties_2_F: false: Bottom_Under: ParUn
+Jmr-Panties_3_F: false: Bottom_Under: ParUn
+Jmr-Panties_4_F: false: Bottom_Under: ParUn
+Jmr-Rl-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-So-Top_1_F: false: Top: ParUn
+Jmr-Sports-Bra_1_F: false: Top, Top_Under: ParUn, Sports
+Jmr-Sports-Panties_1_F: false: Bottom_Under: ParUn, Sports
+Jmr-Tartan-Short-Dress_1_F: false: Top, Bottom: ParUn
+Jmr-Top_1_F: false: Top: ParUn
+Jmr-Top_2_F: false: Top: ParUn
+Jmr-Tpo-Top_1_F: false: Top: ParUn
+Kaleya-Babydoll-Dress_1_F: false: Top, Bottom: ParUn
+Kaleya-Croptop_1_F: false: Top: ParUn
+Kaleya-Daydream-Dress_1_F: false: Top, Bottom: ParUn
+Kaleya-Fever-Dress_1_F: false: Top, Bottom: ParUn
+Kaleya-Flirty-Tee_1_F: false: Top: ParUn
+Kaleya-Forget-Me-Not-Dress_1_F: false: Top, Bottom: ParUn
+Kaleya-Fringe-Dress_1_F: false: Top, Bottom: ParUn
+Kaleya-Summer-Flirt-Dress_1_F: false: Top, Bottom: ParUn
+Kaleya-Sunny-Dress_1_F: false: Top, Bottom: ParUn
+LilFlame-Candid-Suit_1_F: false: Top, Bottom: ParUn
+LilFlame-Casual-Beachwear_1_F: false: Top, Bottom: ParUn
+LilFlame-Confident-Shirt_1_F: false: Top: ParUn
+LilFlame-Cosmo-Romper_1_F: false: Top, Bottom: ParUn
+LilFlame-Cruise-Bikini-Bottom_1_F: false: Bottom_Under: ParUn, Sports 
+LilFlame-Cruise-Bikini-Bra_1_F: false: Top_Under: ParUn, Sports
+LilFlame-Cutie-Long-PJ-Bra_1_F: false: Top_Under: ParUn, Home
+LilFlame-Cutie-Short-PJ-Top_1_F: false: Top: ParUn, Home
+LilFlame-Deep-V-Cut-Dress_1_F: false: Top, Bottom: ParUn
+LilFlame-Delicate-Nightie_1_F: false: Top, Bottom: ParUn, Home
+LilFlame-Double-Crossed-Bodysuit_1_F: false: Top_Under, Bottom_Under: ParUn
+LilFlame-Flex-Shirt_1_F: false: Top: ParUn, Sports
+LilFlame-Flex-Undies_1_F: false: Bottom_Under: ParUn, Sports
+LilFlame-Freestyle-Bra_1_F: false: Top_Under: ParUn
+LilFlame-Freestyle-Jacket_1_F: false: Outerwear: ParUn
+LilFlame-Freestyle-Shirt_1_F: false: Top: ParUn
+LilFlame-Freestyle-Undies_1_F: false: Bottom_Under: ParUn
+LilFlame-Fused-Cover_1_F: false: Outerwear: ParUn
+LilFlame-Fused-Suit_1_F: false: Top, Bottom: ParUn
+LilFlame-Glitz-Dress_1_F: false: Top, Bottom: ParUn
+LilFlame-Gypsy-Boho-Dress_1_F: false: Top, Bottom: ParUn
+LilFlame-Jogging-Bodysuit_1_F: false: Top, Bottom: ParUn, Sports
+LilFlame-Joy-Undershirt_1_F: false: Top: ParUn
+LilFlame-Joy-Undies_1_F: false: Bottom_Under: ParUn
+LilFlame-Mini-Beach-Dress_1_F: false: Top, Bottom: ParUn
+LilFlame-Mini-PJ-Cami_1_F: false: Top: ParUn, Home
+LilFlame-Mischievious-Shirt_1_F: false: Top: ParUn
+LilFlame-Moodl-Shirt_1_F: false: Top: ParUn
+LilFlame-Oversized-Shirt_1_F: false: Top: ParUn
+LilFlame-Pure-Chance-Bra_1_F: false: Top_Under: ParUn
+LilFlame-Pure-Chance-Shirt_1_F: false: Top: ParUn
+LilFlame-Recreation-Hoodie_1_F: false: Outerwear: ParUn
+LilFlame-Salty-Swimsuit_1_F: false: Top, Bottom: ParUn, Sports
+LilFlame-See-Me-Suit_1_F: false: Top_Under, Bottom_Under: ParUn
+LilFlame-Small-Distraction-Panty_1_F: false: Bottom_Under: ParUn
+LilFlame-Small-Distraction-Shirt_1_F: false: Top: ParUn
+LilFlame-Sunrise-Dress_1_F: false: Top, Bottom: ParUn
+LilFlame-Tempting-Jumpsuit_1_F: false: Top, Bottom: ParUn
+LilFlame-Untamed-Dress_1_F: false: Top, Bottom: ParUn
+LilFlame-Untamed-Shirt_1_F: false: Top: ParUn
+LilFlame-Untamed-Shorts_1_F: false: Bottom: ParUn
+LilFlame-Venus-Blouse_1_F: false: Top: ParUn
+LilFlame-Vision-Bikini-Bra_1_F: false: Top_Under: ParUn, Sports
+LilFlame-Vision-Bikini-Panty_1_F: false: Bottom_Under: ParUn
+LilFlame-Wild-Romper_1_F: false: Top, Bottom: ParUn
+LilFlame-Xl-Tanktop_1_F: false: Top: ParUn
+LilFlame-Xxl-Shirt_1_F: false: Top: ParUn
+Lily-Pajama-Shorts_1_F: false: Bottom: Home
+Lily-Pajama-Top_1_F: false: Top: Home
+Mini-PJ-Bottom_1_F: false: Bottom: Home
+Mischievous-Corset_1_F: false: Top: Fantasy, Vampire
+Mischievous-Pants_1_F: false: Bottom: Fantasy, Vampire
+Moodl-Jacket_1_F: false: Outerwear
+Mtt-Clubwear-Clubwear-Dress_1_F: false: Top, Bottom: ParUn
+Mtt-College-Gal-Skirt_1_F: false: Bottom: ParUn
+Mtt-College-Gal-Top_1_F: false: Top: ParUn
+Mtt-Frill-Top_1_F: false: Top: ParUn
+Mtt-Gymwear-Pantie_1_F: false: Bottom_Under: ParUn, Sports
+Mtt-Gymwear-Top_1_F: false: Top: ParUn, Sports
+Mtt-Minidress_1_F: false: Top, Bottom: ParUn
+Mtt-Night-Gown_1_F: false: Top, Bottom: ParUn, Home
+Mtt-Party-Dress_1_F: false: Top, Bottom: ParUn
+Mtt-Peek-Bodysuit_1_F: false: Top_Under, Bottom_Under: ParUn
+Mtt-Print-Shorts_1_F: false: Bottom: ParUn
+Mtt-Print-Top_1_F: false: Top: ParUn
+Mtt-See-Thru-Swimsuit_1_F: false: Top, Bottom: ParUn, Sports
+Mtt-Sports-Gear-Bottom_1_F: false: Bottom: ParUn, Sports
+Mtt-Sports-Gear-Top_1_F: false: Top: ParUn, Sports
+Mtt-Spring-Mini-Dress_1_F: false: Top, Bottom: ParUn
+Mtt-X-Jumpsuit_1_F: false: Top, Bottom: ParUn
+Mytilus-Get-Fit-Panty_1_F: false: Bottom_Under: ParUn, Sports
+Mytilus-Get-Fit-Top_1_F: false: Top: ParUn, Sports
+Mytilus-Le-Magnifique-Dress_1_F: false: Top, Bottom: ParUn 
+Mytilus-Naughty-Sailor-Dress_1_F: false: Top, Bottom: ParUn
+Mytilus-Naughty-Sailor-Panty_1_F: false: Bottom_Under: ParUn
+Night-Shirt_1_F: false: Top: Home
+Night-Slippers_1_F: false: Foot: Home
+Passion-Touch-Lingerie-Shorts_1_F: false: Bottom_Under
+Passion-Touch-Lingerie-Top_1_F: false: Top_Under
+Pure-Chance-Panties_1_F: false: Bottom_Under
+Real-Tee_1_F: false: Top
+Recreation-Shorts_1_F: false: Bottom: Sports
+Recreation-Top_1_F: false: Top: Sports
+Ruffled-Mini-Skirt_1_F: false: Bottom
+See-Me-Suit_1_F: false: Top_Under, Bottom_Under
+Sports-Swimwear_1_F: false: Top, Bottom: Sports
+Sports-Vixen-Leggings_1_F: false: Bottom: ParUn, Sports
+Sports-Vixen-Top_1_F: false: Top: ParUn, Sports
+Steampunk-Playsuit_1_F: false: Top, Bottom
+Winter-Tunic_1_F: false: Top
+After-Midnight-Inner-Top_1_F: false: Top
+After-Midnight-Skirt_1_F: false: Bottom
+After-Midnight-Stockings_1_F: false: Foot_Under
+After-Midnight-Top_1_F: false: Outerwear
+Attractive-Corset_1_F: false: Outerwear
+Attractive-Top_1_F: false: Top
+Basic-Lingerie-Bra_1_F: false: Top_Under
+Bcls-Stockings_1_F: false: Foot_Under
+Boho-Chic-Bottom_1_F: false: Bottom
+Boho-Chic-Bottom_2_F: false: Bottom
+Boho-Chic-Sandals_1_F: false: Foot
+Boho-Chic-Top_1_F: false: Top
+Boho-Chic-Top_2_F: false: Top
+Boho-Chic-Top_3_F: false: Top
+Boho-Chic-Top_4_F: false: Top
+Bomber-Jacket_1_F: false: Top
+Cardigan-Top_1_F: false: Top
+Casual-Denim-Shoes_1_F: false: Foot
+Casual-Denim-Skirt_1_F: false: Bottom
+Casual-Denim-Top_1_F: false: Top: ParUn
+Casual-Sweater_1_F: false: Top
+Casual-Sweater-Heels-Boots_1_F: false: Foot: Heels, 0.8
+Casual-Sweater-Skirt_1_F: false: Bottom
+Cute-Casual-Heels_1_F: false: Foot: Heels, 0.8
+Cute-Casual-Jeans_1_F: false: Bottom
+Cute-Casual-Top_1_F: false: Top
+Delicate-Touch-Skirt_1_F: false: Bottom
+Delicate-Touch-Top_1_F: false: Top
+Denim-Skirt-Outfit_1_F: false: Top, Bottom
+Dreamer-Bodysuit_1_F: false: Top, Bottom: ParUn
+Fall-Casual-Cardigan_1_F: false: Outerwear
+Fall-Casual-Shirt_1_F: false: Top
+Fall-Casual-Short-Heels-Boots_1_F: false: Foot: Heels, 0.4
+Fall-Casual-Skirt_1_F: false: Bottom
+Fa-Pants_1_F: false: Bottom: Sports
+Fashion-Boho-Jumpsuit_1_F: false: Top, Bottom: ParUn
+Fashion-Justice-Boots_1_F: false: Foot
+Fashion-Justice-Jacket_1_F: false: Top
+Fashion-Justice-Pants_1_F: false: Bottom
+Fa-Shoes_1_F: false: Foot: Sports
+Fa-Top_1_F: false: Top: ParUn, Sports
+Girl-Autumn-Shoes_1_F: false: Foot
+Girl-Autumn-Skirt_1_F: false: Bottom
+Girl-Autumn-Sweater_1_F: false: Top
+Girl-Collection-Boots_1_F: false: Foot
+Girl-Collection-Skirt_1_F: false: Bottom
+Girl-Collection-Top_1_F: false: Top
+Girl-Spring-Casual-Shirt_1_F: false: Outerwear
+Girl-Spring-Casual-Skirt_1_F: false: Bottom
+Girl-Spring-Casual-Tanktop_1_F: false: Top
+Happy-Girls-Jacket_1_F: false: Outerwear
+Happy-Girls-Pants_1_F: false: Bottom
+Happy-Girls-Top_1_F: false: Top: ParUn
+High-Thighs_1_F: false: Foot_Under
+Hot-And-Cold-Heels-Boots_1_F: false: Foot: Heels, 0.8
+Hot-And-Cold-Top_1_F: false: Top
+Hot-Work-Bra_1_F: false: Top_Under
+Intrigue-Boots_1_F: false: Foot
+Intrigue-Jacket_1_F: false: Outerwear
+Intrigue-Pants_1_F: false: Bottom
+Intrigue-Top_1_F: false: Top
+Kimono-Lingerie_1_F: false: Top, Bottom: Home
+Knit-Onepiece-Dress_1_F: false: Top, Bottom
+Knit-Onepiece-Short-Heels-Boots_1_F: false: Foot: Heels, 0.4
+Lightweight-Jacket_1_F: false: Top: ParUn
+Loose-Silhouette-Dress_1_F: false: Top, Bottom
+Loose-Silhouette-Shirt_1_F: false: Top
+Loose-Silhouette-Short-Heels-Pumps_1_F: false: Foot: Heels, 0.4
+Loose-Silhouette-Socks_1_F: false: Foot_Under
+Mandala-Swimsuit_1_F: false: Top, Bottom: Sports
+Midnight-Girl-Dress_1_F: false: Top, Bottom
+Midnight-Girl-Heels-Boots_1_F: false: Foot: Heels, 0.8
+Nana-Style-Shoes_1_F: false: Foot
+Nf-Panty_1_F: false: Bottom_Under
+Office-Outfit-Shirt_1_F: false: Top
+Office-Outfit-Short-Heels-Pumps_1_F: false: Foot: Heels, 0.4
+Office-Outfit-Skirt_1_F: false: Bottom
+Office-Outfit-Vest_1_F: false: Outerwear
+Office-Uniform-Skirt_1_F: false: Bottom
+Office-Uniform-Top_1_F: false: Top
+Oot-Active-Lingerie-Bra_1_F: false: Top: ParUn, Sports
+Oot-Behave-Outfit-Top_1_F: false: Top: ParUn
+Oot-Bib-Body_1_F: false: Top, Bottom: ParUn
+Oot-Casual-Office-Blouse_1_F: false: Top: ParUn, Formal
+Oot-Dainty-Dress_1_F: false: Top, Bottom: ParUn
+Oot-Drop-Dress_1_F: false: Top, Bottom: ParUn
+Oot-Glitz-Dress_1_F: false: Top, Bottom: ParUn
+Oot-Helene-Top_1_F: false: Top: ParUn
+Oot-Ruffle-Top_1_F: false: Top: ParUn
+Oot-Satin-PJ-Shirt_1_F: false: Top: ParUn, Home
+Oot-Shade-Lingerie-Bra_1_F: false: Top_Under: ParUn
+Oot-Shoulder-Free-Dress_1_F: false: Top, Bottom: ParUn
+Oot-Spotlight-Dress_1_F: false: Top, Bottom: ParUn
+Oot-V-Duo-Top_1_F: false: Top: ParUn
+Open-Shoulder-Dress_1_F: false: Top, Bottom
+Police-Shirt_1_F: false: Top: Uniform
+Police-Skirt_1_F: false: Bottom: Uniform
+Powerage-Bra_1_F: false: Top_Under
+Powerage-Ma-Petite-Robe-Noire_1_F: false: Top, Bottom
+Print-Leg-Warmers_1_F: false: Foot_Under
+Print-Sweater_1_F: false: Outerwear
+Punk-Boots_1_F: false: Foot
+Punk-Corset_1_F: false: Top
+Punk-Jacket_1_F: false: Outerwear
+Punk-Pants_1_F: false: Bottom
+School-Girl-Heels_1_F: false: Foot: Uniform, Heels, 0.8
+School-Girl-Shirt_1_F: false: Top
+School-Girl-Skirt_1_F: false: Bottom
+School-Girl-Stockings_1_F: false: Foot_Under
+Sexy-Kimono_1_F: false: Top, Bottom: ParUn, Ethnic, Asian
+Slim-Fit-Jacket_1_F: false: Top
+Sport-Pants_1_F: false: Bottom
+Sport-Pants_2_F: false: Bottom
+Sports-Bra-Top_1_F: false: Top: ParUn, Sports
+Sport-Shoes_1_F: false: Foot: Sports
+Sports-Uniform-Shoes_1_F: false: Foot: Sports
+Sports-Uniform-Shoes_2_F: false: Foot: Sports
+Sports-Uniform-Socks_1_F: false: Foot_Under: Sports
+Sports-Uniform-Top_1_F: false: Top: Sports
+Sports-Uniform-Top_2_F: false: Top: Sports
+Sport-Top_1_F: false: Top: ParUn, Sports
+Spring-Style-Jacket_1_F: false: Outerwear
+Spring-Style-Shirt_1_F: false: Top
+Spring-Style-Short-Heels-Boots_1_F: false: Foot: Heels, 0.4
+Spring-Style-Skirt_1_F: false: Bottom
+Stylish-Workout-Bottom_1_F: false: Bottom: Sports
+Stylish-Workout-Jacket_1_F: false: Outerwear: Sports
+Stylish-Workout-Socks_1_F: false: Foot_Under: Sports
+Stylish-Workout-Top_1_F: false: Top: Sports
+Sweatshirt-Hoodie_1_F: false: Top: ParUn
+Warm-Winter-Jacket_1_F: false: Top
+Wiesnlook-Skirt_1_F: false: Bottom: Ethnic, White
+Wiesnlook-Top_1_F: false: Outerwear: Ethnic, White
+Wiesnlook-Undershirt_1_F: false: Top: Ethnic, White
+Young-Casual-Style-Sandals_1_F: false: Foot
+Young-Casual-Style-Shirt_1_F: false: Top
+Young-Casual-Style-Skirt_1_F: false: Bottom
+27-Hours-Shoes_1: true: Foot
+27-Hours-Shorts_1: true: Bottom
+27-Hours-Socks_1: true: Foot_Under
+27-Hours-Top_1: true: Top
+Ankle-Socks_1: true: Foot_Under
+Argyle-Top_1: true: Top
+Basketball-Shirt_1: true: Top: Sports
+Bbj-Bomber-Jacket_1: true: Outerwear
+Bbj-Bomber-Jacket_2: true: Outerwear
+Bbj-Pants_1: true: Bottom
+Bbj-Sneakers_1: true: Foot
+Bbj-T-Shirt_1: true: Top
+Bluegrass-Boots_1: true: Foot
+Bluegrass-Clothes_1: true: Top, Bottom
+Bolero-Style-Jacket_1: true: Outerwear
+Bolero-Style-Pants_1: true: Bottom
+Bolero-Style-Shirt_1: true: Top
+Boys-In-The-Sun-Shirt_1: true: Top
+Boys-In-The-Sun-Shoes_1: true: Foot
+Boys-In-The-Sun-Shorts_1: true: Bottom
+Casual-Sport-Suit_1: true: Top, Bottom: Sports
+Cyber-Decker-Jacket_1: true: Outerwear
+Cyber-Decker-Pants_1: true: Bottom
+Cyber-Decker-T-Shirt_1: true: Top
+Dapper-Fluid-Jacket_1: true: Outerwear
+Dapper-Fluid-Pants_1: true: Bottom
+Dapper-Fluid-Shirt_1: true: Top
+Dapper-Fluid-Shoes_1: true: Foot
+Dapper-Fluid-Vest_1: true: Outerwear
+Dress-Pants_1: true: Bottom: Formal
+Fall-Vibes-Hoodie_1: true: Top, Head, Outerwear
+Family-Day-Care-Crocs_1: true: Foot 
+Family-Day-Care-Shorts_1: true: Bottom
+Family-Day-Care-Socks_1: true: Foot_Under
+Family-Day-Care-Top_1: true: Top
+French-Painter-Loafers_1: true: Foot
+French-Painter-Pants_1: true: Bottom
+French-Painter-Shirt_1: true: Top
+French-Painter-Smock_1: true: Outerwear
+Geta-Sandals_1: true: Foot: Home, Ethnic, Asian
+Greybro-Jeans_1: true: Bottom
+Groom-Jacket_1: true: Outerwear
+Groom-Shirt_1: true: Top
+Groom-Shoes_1: true: Foot
+Groom-Slacks_1: true: Bottom
+Gruesome-Goth-Hoodie_1: true: Outerwear
+Gruesome-Goth-Shirt_1: true: Top
+Grumpy-Bow-Tie_1: true: Accessory
+Grumpy-Pants_1: true: Bottom
+Grumpy-Shirt_1: true: Top
+Grumpy-Shoes_1: true: Foot
+Grumpy-Socks_1: true: Foot_Under
+Grumpy-Vest_1: true: Outerwear
+HC-Business-Jacket_1: true: Outerwear: Formal
+HC-Business-Pants_1: true: Bottom: Formal
+HC-Business-Tie_1: true: Accessory: Formal
+HC-Business-Vest_1: true: Outerwear: Formal
+HC-Business-Top_1: true: Top: Formal
+HC-Casual-Jeans_1: true: Bottom
+HC-Casual-T-Shirt_1: true: Top
+HC-Checkered-Shirt_1: true: Top
+HC-Cso-Jeans_1: true: Bottom
+HC-Hawaiian-Pants_1: true: Bottom
+HC-Hawaiian-Sandals_1: true: Foot
+HC-Hawaiian-Shirt_1: true: Top
+HC-Pajama-Bottom_1: true: Bottom: Home
+HC-Pajama-Top_1: true: Top: Home
+HC-Spring-Casual-Pants_1: true: Bottom
+HC-Spring-Casual-Top_1: true: Top
+HC-Summer-Casual-Shorts_1: true: Bottom
+Hippusuta-Jeans_1: true: Bottom
+Hippusuta-Shirt_1: true: Top
+Hippusuta-Shoes_1: true: Foot
+Hippusuta-Vest_1: true: Outerwear
+Intimate-Boxers_1: true: Bottom_Under
+Intimate-Boxershorts_1: true: Bottom_Under
+Intimate-Briefs_1: true: Bottom_Under
+Intimate-Slip_1: true: Bottom_Under
+Intimate-Square-Chest-Tanktop_1: true: Top
+Intimate-Swimpants_1: true: Bottom: Sports
+Intimate-Tanktop_1: true: Top
+Intimate-V-Neck-Shirt_1: true: Top
+Knit-Sweater_1: true: Top
+Knit-Top_1: true: Top
+Kso-Jeans_1: true: Bottom
+Lco-Pants_1: true: Bottom
+Lj-Jeans_1: true: Bottom
+Lj-Shirt_1: true: Top
+Long-Coat_1: true: Outerwear
+Long-Nose-Shoes_1: true: Foot
+Long-Nose-Socks_1: true: Foot_Under
+Manly-Leggings_1: true: Bottom
+On-The-Beach-Pants_1: true: Bottom
+On-Vacation-Shirt_1: true: Top
+On-Vacation-Shorts_1: true: Bottom
+Pack-Leader-Jacket_1: true: Outerwear
+Pack-Leader-Pants_1: true: Bottom
+Pack-Leader-Shirt_1: true: Top
+Pack-Leader-Shoes_1: true: Foot
+Party-Oahu-Pants_1: true: Bottom
+Party-Oahu-Shirt_1: true: Top
+Party-Oahu-Shoes_1: true: Foot
+Polka-Dot-T-Shirt_1: true: Top
+Poolside-Oahu-Flip-Flops_1: true: Foot
+Poolside-Oahu-Shirt_1: true: Top
+Poolside-Oahu-Shorts_1: true: Bottom
+Priest-Robe_1: true: Top, Bottom: Uniform
+Showdown-Jacket_1: true: Outerwear: Sports
+Showdown-Pants_1: true: Bottom: Sports
+Showdown-Shirt_1: true: Top: Sports
+Siesta-Robe_1: true: Top, Bottom: Home
+Smart-and-Suave-Pants_1: true: Bottom
+Smart-and-Suave-Shirt_1: true: Top
+Smart-and-Suave-Shoes_1: true: Foot
+Streetscape-Boots_1: true: Foot
+Streetscape-Sweater_1: true: Top
+Style-Goals-Pants_1: true: Bottom
+Style-Goals-Shirt_1: true: Top
+Style-Goals-Shoes_1: true: Foot
+Style-Goals-Suspenders_1: true: Accessory 
+Summer-Essentials-Shirt_1: true: Top
+Summer-Essentials-Shorts_1: true: Bottom
+Summer-Time-Shirt_1: true: Top
+Summer-Time-Shoes_1: true: Foot
+Summer-Time-Shorts_1: true: Bottom
+Summer-Time-Tank-Shirt_1: true: Top
+Summer-Vacation-Sandals_1: true: Foot
+Summer-Vacation-Shirt_1: true: Outerwear
+Summer-Vacation-Shorts_1: true: Bottom
+Summer-Vacation-Tank_1: true: Top
+Sweater-Vest-Outfit-Pants_1: true: Bottom
+Sweater-Vest-Outfit-Shirt_1: true: Top
+Sweater-Vest-Outfit-Shoes_1: true: Foot
+Sweater-Vest-Outfit-Socks_1: true: Foot_Under
+Sweater-Vest-Outfit-Vest_1: true: Outerwear
+Swim-Shorts_1: true: Bottom: Sports
+Trench-Coat_1: true: Outerwear: Formal
+Trench-Coat-Suit_1: true: Top, Bottom: Formal
+Ugly-Sweater_1: true: Top
+Urban-Streetwear-Jacket_1: true: Outerwear 
+Urban-Streetwear-Jeans_1: true: Bottom
+Urban-Streetwear-Shirt_1: true: Top
+Vicar-Pants_1: true: Bottom: Uniform
+Vicar-Top_1: true: Top: Uniform
+Wardrobe-Super-Jeans_1: true: Bottom
+Weekend-Casual-Pants_1: true: Bottom
+Weekend-Casual-T-Shirt_1: true: Top
+Winter-Dweller-Coat_1: true: Outerwear
+Winter-Dweller-Pants_1: true: Bottom
+Winter-Dweller-Sweater_1: true: Top
+Yukata_1: true: Top, Bottom: Home, Ethnic, Asian
+Alt-Style-Jeans_1: true: Bottom
+Alt-Style-Shoes_1: true: Foot
+Alt-Style-Tank_1: true: Top
+Backyard-Bbq-Apron_1: true: Outerwear 
+Backyard-Bbq-Pants_1: true: Bottom
+Backyard-Bbq-Shoes_1: true: Foot
+Backyard-Bbq-T-Shirt_1: true: Top
+Biker-Boots_1: true: Foot
+Biker-Pants_1: true: Bottom
+Biker-Shirt_1: true: Top
+Biker-Vest_1: true: Outerwear
+Billy-Bob-Boots_1: true: Foot
+Billy-Bob-Jeans_1: true: Bottom
+Billy-Bob-Tank_1: true: Top
+Billy-Bob-Vest_1: true: Outerwear
+Charming-Rogue-Boots_1: true: Foot
+Charming-Rogue-Pants_1: true: Bottom
+Charming-Rogue-Shirt_1: true: Top
+Dz-Pants_1: true: Bottom
+Dz-Shorts_1: true: Bottom
+Dz-Top_1: true: Top
+Hot-Shot-Boots_1: true: Foot
+Hot-Shot-Jacket_1: true: Outerwear
+Hot-Shot-Pants_1: true: Bottom
+Hot-Shot-Tank_1: true: Top
+Kaftan_1: true: Top, Bottom: Ethnic, Arab
+Karate-Gi-Pants_1: true: Bottom: Sports
+Karate-Gi-Top_1: true: Top: Sports
+Nappy_1: true: Bottom_Under
+Outsider-Boots_1: true: Foot
+Outsider-Jacket_1: true: Outerwear
+Outsider-Pants_1: true: Bottom
+Outsider-Tank_1: true: Top
+PJ-Bottom_1: true: Bottom: Home
+PJ-Top_1: true: Top: Home
+Prison-Inmate-Boots_1: true: Foot: Uniform
+Prison-Inmate-Coverall_1: true: Top, Bottom: Uniform
+Sd-Sweat-Hoodie_1: true: Top, Head
+Sd-Sweat-Pants_1: true: Bottom
+Sleepsuit_1: true: Top, Bottom: Home
+Traditional-Pants_1: true: Bottom: Ethnic, Asian
+Traditional-Shoes_1: true: Foot: Ethnic, Asian
+Traditional-Top_1: true: Top: Ethnic, Asian
+Urban-Ace-Pants_1: true: Bottom
+Urban-Ace-Shoes_1: true: Foot
+Urban-Ace-Tank_1: true: Top
+Workout-Shorts_1: true: Bottom: Sports
+Workout-Sneakers_1: true: Foot: Sports
+Workout-Tank_1: true: Top: Sports
+Alexa-Choker_1_F: false: Neck
+Alt-Style-Bracelet_1: true: Wrist
+Alt-Style-Bracelet_2: true: Wrist
+Alt-Style-Necklace_1: true: Neck
+Angel-Secrets-Earrings_1_F: false: Ear
+Blitz-Cap_1_F: false: Head
+Brynn-Hat_1: true: Head
+Camo-Chic-Necklace_1: true: Neck
+Camo-Chic-Necklace_1_F: false: Neck
+Claire-Earrings_1_F: false: Ear
+Classic-Hat_1_F: false: Head
+Country-Fresh-Hat_1_F: false: Head
+Cross-Necklace_1: true: Neck
+Cross-Necklace_1_F: false: Neck
+Cutie-Bracelet_1_F: false: Wrist
+Dangling-Earrings_1_F: false: Ear
+Dianne-Bracelet_1_F: false: Wrist
+Dorothy-Choker_1_F: false: Neck
+Drop-Earrings_1_F: false: Ear
+Du-Earrings_1_F: false: Ear
+Flamenco-Earrings_1_F: false: Ear
+Flower-Earrings_1_F: false: Ear
+Gem-Necklace_1_F: false: Neck
+Generic-Bracelet_1: true: Wrist
+Generic-Bracelet_1_F: false: Wrist
+Generic-Bracelet_2: true: Wrist
+Generic-Bracelet_2_F: false: Wrist
+Generic-Bracelet_3_F: false: Wrist
+Generic-Bracelet_4_F: false: Wrist
+Generic-Bracelet_5_F: false: Wrist
+Generic-Bracelet_6_F: false: Wrist
+Generic-Choker_1_F: false: Neck
+Generic-Choker_2_F: false: Neck
+Generic-Choker_3_F: false: Neck
+Generic-Choker_4_F: false: Neck
+Generic-Choker_5_F: false: Neck
+Generic-Earrings_1_F: false: Ear
+Generic-Earrings_2_F: false: Ear
+Generic-Earrings_3_F: false: Eer
+Generic-Earrings_4_F: false: Ear
+Generic-Earrings_5_F: false: Ear
+Generic-Earrings_6_F: false: Ear
+Generic-Hat_1_F: false: Head
+Generic-Necklace_1_F: false: Neck 
+Generic-Necklace_2_F: false: Neck
+Generic-Necklace_3_F: false: Neck
+Generic-Necklace_4_F: false: Neck
+Hailee-Bracelet_1_F: false: Wrist
+Hd-Bracelet_1_F: false: Wrist
+Hot-Dress-Necklace_1_F: false: Neck
+Hot-Stappy-Necklace_1_F: false: Neck
+Hour-Glass-Necklace_1_F: false: Neck
+Infinity-Bracelet_1_F: false: Wrist
+Jane-Bracelet_1_F: false: Wrist
+Jane-Necklace_1_F: false: Neck
+Jt-Choker_1_F: false: Neck
+Jumpsuit-Bracelet_1_F: false: Wrist
+Keira-Choker_1_F: false: Neck
+Kg-Necklace_1_F: false: Neck
+Leather-Cap_1: true: Head
+Leather-Cap_1_F: false: Head
+Leather-Hat_1: true: Head
+Leather-Hat_1_F: false: Head
+Lil-Black-Choker_1_F: false: Neck 
+Lily-Bracelet_1_F: false: Wrist
+Lily-Necklace_1_F: false: Neck
+Long-Earrings_1_F: false: Ear
+Lorena-Choker_1_F: false: Neck
+Newsboy-Cap_1: true: Head
+Newsboy-Hat_1_F: false: Head
+Padded-Leather-Cap_1: true: Head
+Padded-Leather-Cap_1_F: false: Head
+Pljs-Necklace_1_F: false: Neck
+Pocket-Watch-Necklace_1_F: false: Neck
+Premier-Necklace_1_F: false: Neck
+Regal-Bracelet_1_F: false: Wrist
+Ring_1: true: Finger
+Ring_1_F: false: Finger
+Ring_2: true: Finger
+Ring_2_F: false: Finger
+Ring_3: true: Finger
+Ring_3_F: false: Finger
+Ring_4_F: false: Finger
+Ring_5_F: false: Finger
+Sailor-Cap_1_F: false: Head
+Sexy-Leather-Choker_1_F: false: Neck
+Sexy-Maid-Choker_F: false: Neck
+Sh-Earrings_1_F: false: Ear
+Sh-Earrings_2_F: false: Ear
+Shl-Earrings_1_F: false: Ear
+Shl-Necklace_1_F: false: Neck
+Short-Necklace_1: true: Neck
+Short-Necklace_1_F: false: Neck
+Silas-Bracelet_1: true: Wrist
+Simple-Knit-Cap_1: true: Head
+Simple-Knit-Cap_1_F: false: Head
+Single-Strand-Pearl-Necklace_1_F: false: Neck
+Sj-Earrings_1_F: false: Ear
+Sj-Hat_1_F: false: Head
+Special-Criminal-Mask_1: true: Head: Uniform
+Special-Criminal-Mask_1_F: false: Head: Uniform
+Special-Hijab_1_F: false: Head: Ethnic, Arab
+Special-Hijab_2_F: false: Head: Ethnic, Arab
+Special-Turban_1: true: Head: Ethnic, Arab
+Special-Wedding-Dress_1_F: false: Top, Bottom: Uniform
+Stewardess-Hat_1_F: false: Head
+Streetscape-Beanie_1: true: Head
+Summer-Frills-Hat_1_F: false: Head
+Traci-Necklace_1_F: false: Neck
+Uniform-Chef_1_F: false: Top, Bottom: Uniform
+Uniform-Doctor-Coat_1_F: false: Outerwear: Uniform
+Uniform-Doctor-Coat_1: true: Outerwear: Uniform
+Uniform-Hotel-Cap_1_F: false: Head: Uniform
+Uniform-Hotel-Jacket_1_F: false: Top: Uniform
+Uniform-Hotel-Skirt_1_F: false: Bottom: Uniform
+Uniform-Mechanic-Coverall_1: true: Top, Bottom: Uniform
+Uniform-Mechanic-Coverall_1_F: false: Bottom: Uniform
+Uniform-Mechanic-Top_1_F: false: Top: Uniform
+Uniform-Nun-Dress_1_F: false: Top, Bottom, Head: Uniform
+Uniform-Nun-Veil_1_F: false: Outerwear: Uniform
+Uniform-Nurse_1_F: false: Top, Bottom: Uniform
+Uniform-Nurse-Cap_1_F: false: Head: Uniform
+Uniform-Police_1_F: false: Top, Bottom: Uniform
+Uniform-Police-Cap_1: true: Head: Uniform
+Uniform-Police-Cap_1_F: false: Head: Uniform
+Uniform-Police-Pants_1: true: Bottom: Uniform
+Uniform-Police-Top_1: true: Top: Uniform
+Uniform-Prison-Bottom_1_F: false: Bottom: Uniform
+Uniform-Prison-Suit_1: true: Bottom, Outerwear: Uniform
+Uniform-Prison-Top_1: true: Top: Uniform
+Uniform-Prison-Top_1_F: false: Top: Uniform
+Uniform-Waiting-Casual_1_F: false: Top, Bottom: Uniform
+Uniform-Waiting-Formal_1_F: false: Top, Bottom: Uniform
+Uniform-Waiting-Formal-Belt_1_F: false: Waist: Uniform
+Unisex-Bracelet_1: true: Wrist
+Unisex-Bracelet_1_F: false: Wrist
+Unisex-Bracelet_2: true: Wrist
+Unisex-Bracelet_2_F: false: Wrist
+Valley-Girl-Bracelet_1_F: false: Wrist
+Valley-Girl-Necklace_1_F: false: Neck
+Vip-Lace-Bracelet_1_F: false: Wrist
+Vip-Lace-Choker_1_F: false: Neck
+Watch_1: true: Wrist
+Watch_1_F: false: Wrist
+Watch_2: true: Wrist
+Watch_2_F: false: Wrist
+Watch_3: true: Wrist
+Watch_3_F: false: Wrist
+Wedding-Earrings_1_F: false: Ear
+/Game/Heavy/New3/Clothes/Glasses_1.Glasses_1: true: Eyewear
+/Game/Heavy/New3/Clothes/Glasses_2.Glasses_2: true: Eyewear
+/Game/Heavy/New3/Clothes/Glasses_3.Glasses_3: true: Eyewear
+/Game/Heavy/New3/Clothes/Glasses_1_F.Glasses_1_F: false: Eyewear
+/Game/Heavy/New3/Clothes/Glasses_2_F.Glasses_2_F: false: Eyewear
+/Game/Heavy/New3/Clothes/Glasses_3_F.Glasses_3_F: false: Eyewear
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Ball-Gag.Bdg_Ball-Gag: false: Gag, GagOpen
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Tape.Bdg_Tape: false: Gag
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Foulard.Bdg_Foulard: false: Gag
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Blindfold.Bdg_Blindfold: false: Blindfold
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Mask.Bdg_Mask: false: Mask, Hood
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Collar.Bdg_Collar: false: Collar
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Handcuffs.Bdg_Handcuffs: false: Handcuffs
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Shin-Cuffs.Bdg_Shin-Cuffs: false: Shincuffs
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Thigh-Cuffs.Bdg_Thigh-Cuffs: false: Thighcuffs
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Torso-Rope.Bdg_Torso-Rope: false: Torso
+/Game/Heavy/New2/BDSM/Clothes/Bdg_Torso-Strap.Bdg_Torso-Strap: false: Torso, Chastity, Top

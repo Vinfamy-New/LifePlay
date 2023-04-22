@@ -1,0 +1,97 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // At university, you can now "Hunt for Scholarships", where you get money deducted from your tuition using your academic, community or sports achievements .... or by sleeping with the interviewer. Scholarships vary by value but you can stack them to eventually pay nothing for school or even get paid to study.
+    
+    SceneStart()
+    Scholarship = Player.getActorVar(scholarship)
+    Tuition = 500*CostOfLiving
+    TuitionConverted = Tuition.convertToLocalCurrency(true)
+    "My full tuition is currently <TuitionConverted> a month. Currently, the scholarships I've secured cover <Scholarship>% of the tuition."
+    If Scholarship > 100
+        "Not only do I not have to pay a penny for tuition, my current scholarships even give me some to spare for living costs too!" 
+    Endif
+    "Should I try to find more scholarships? They can all stack after all, giving me the most financial benefit"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "What kind of scholarships should I target?"
+        0:: "For academic achievements"
+        1:: "For community and charitable work"
+        2:: "For athletic achievements"
+        3:: "A dodgy one previously exposed for sexual harassment of candidates"
+        
+        NewScholarship = 1*Random(1, 50)
+        Success = false
+        "I managed to find one that covers <NewScholarship>% of the tuition" 
+        If 0
+            "The application process involves sending in my grade transcripts and writing an academic essay."
+            If NewScholarship*2 < intelligence
+                Success = true
+            Endif
+        Elseif 1
+            "The application process involves sending in a CV full of work with NGOs and charitable causes and writing an essay about what kind of positive impact I want to make to the community."
+            If NewScholarship*2 < interpersonal
+                Success = true
+            Endif            
+        Elseif 2
+            "The application process involves sending in my track record with college sports and videos of my best performances."
+            If NewScholarship*2 < fitness
+                Success = true
+            Endif        
+        Else
+            "This scholarship isn't from a reputable organisation at all. In fact, it's just a high-net-worth individual who's had sexual harassment scandals in the past. No doubt they get a kick out of enjoying some fresh college meat in exchange for essentially pocket change for them."
+            "The application process simply involves sending a link to my Instagram full of photos of me."
+            If NewScholarship*2 < attractiveness
+                "The sponsor of the scholarship responded, asking me to attend an interview ... in a personal home no less. My suspicion seems to be correct here and there's only one way this is going."
+                0:: "Fuck the scholarship sponsor"
+                1:: "On second thought, I'm not whoring myself for some scholarship money"
+                
+                If 0
+                    setBackground(livingroom)
+                    Actor = generatePersonTemporary()
+                    While !Player.isInterestedIn(Actor)
+                        Actor = generatePersonTemporary()
+                    endWhile
+                    Actor:age => age + Random(15, 35)
+                    Actor.randomizeFace()
+                    Actor.randomizeHairs()
+                    dressFormal()
+                    Actor.dress()
+                    Actor.show()
+                    "I come to the specified address for the 'interview' and was introduced to the millionaire behind the scholarship, <Actor.Mr_or_Mrs> <Actor.name> <Actor.name_last>."
+                    "As expected, <Actor.He_or_She> didn't bother asking me about any academic or extra-curricular achievements, just went straight to personal questions and flirting."
+                    "Getting them message, I gave <Actor.him_or_her> what <Actor.he_or_she> wanted. I must wonder what this millionaire's sex life was like in <Actor.his_or_her> college days ... Did this whole perverted scholarship thing come out of bitterness that <Actor.he_or_she> wasn't popular and didn't get laid a lot back then? Now, <Actor.he_or_she>'s fucking young college <Player.guys_or_girls> with the help of the wealth <Actor.he_or_she>'s made. Maybe this was <Actor.his_or_her> motivation to get rich in the first place."
+                    Sex(Player, Actor)
+                Endif
+            Else
+                "But nothing happened. Maybe the scholarship was so dodgy it was shut down by authorities ... Maybe I just wasn't hot enough to be worth the money."
+            Endif            
+        Endif
+        
+        If Success
+            "My scholarship application was successful."
+            Scholarship += NewScholarship
+            Player.setActorVar(scholarship, Scholarship)
+            "With the addition of this latest scholarship, the scholarships I've secured together cover <Scholarship>% of the tuition."
+            Mult = 0.01*[100 - Scholarship]
+            Tuition = 500*CostOfLiving*Mult
+
+            Tuition.setTuition()
+            If Tuition > 0
+                TuitionConverted = Tuition.convertToLocalCurrency(true)
+                "So I'm now only paying <TuitionConverted> a month for tuition."
+            Else
+                Tuition *= -1
+                TuitionConverted = Tuition.convertToLocalCurrency(true)
+                "Not only do I no longer have to pay tuition as scholarships cover it fully already, I actually receive an extra <TuitionConverted> a month to help cover my other costs as well."
+            Endif
+        Else
+            "My application was ultimately unsuccessful."
+        Endif
+    Endif
+    SceneEnd()

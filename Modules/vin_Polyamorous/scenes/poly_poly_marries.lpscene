@@ -1,0 +1,59 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = Actor.getRelatedPerson(Poly); If !Actor.isMarried() && !Actor2.isMarried() && !Actor2.isDating()
+OTHER:
+
+    // Your poly partner may want to marry their other partner if you're not married to them. You can discourage this or be supportive by attending their wedding along the rest of your poly partners, which will then lead to a very fun wedding night.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "Looks like my polyamrous lover <Actor.name> has something important to discuss with me."
+    Actor:: "<Player.name>, <Actor2.name> proposed to me ... I didn't want to say yes without talking it through with you first."
+    0:: "Congratulations babe!"
+    1:: "I'm not cool with that"
+    
+    If 0
+        removeNpcRelationship(Actor, Actor2)
+        removeNpcRelationship(Actor, Actor2)
+        addNpcRelationship(Spouses, Actor, Actor2)
+        addNpcRelationship(Poly, Actor, Actor2)
+        Actor.setActorVar(tag_Married, 1)
+        Actor2.setActorVar(tag_Married, 1)
+        "Even marriage to another person doesn't break our polyamorous arrangement, as long as I remains in a sexual relationship with <Actor2.name>, I couldn't care less if <Actor2.he_or_she> is legally married to someone else. If anything, it adds a little spice to our whole dynamic."
+        "In fact, to reassure <Actor.name> and <Actor.his_or_her> fiance <Actor2.name> of my support, I decide to attend their wedding alongside my other polyamorous lovers."
+        setBackground(biergarten)
+        Actor.dressUniform(Wedding)
+        Actor2.dressUniform(Wedding)
+        Actor2.show()
+        Actor3 = getSpecific(Dating)
+        Actor4 = getSpecific(Dating)
+        If Actor3.isValid()
+            Actor3.dress()
+            Actor3.show()
+        Endif
+        If Actor4.isValid()
+            Actor4.dress()
+            Actor4.show()
+        Endif
+        "We were all there to witness <Actor.name> and <Actor2.name> be pronounced <Actor.boyfriend_or_girlfriend> and <Actor2.boyfriend_or_girlfriend>."
+        setBackground(home)
+        "Of course, this was an unconventional marriage with equally uncoventional wedding guests and that night, the newly wed couple invites me and the rest of my other polyamorous lovers to their wedding night hotel suite."
+        "Of course, as per tradition, we let the newly-weds go first."
+        Sex(Actor, Actor2)
+        "Once the traditional consummation of the marriage has finished, that's where the real fun begins."
+        Sex(Actor, Actor2, Player)
+        If Actor3.isValid()
+            Sex(Actor, Actor2, Actor3)
+        Endif
+        If Actor4.isValid()
+            Sex(Actor, Player, Actor4)
+        Endif
+    Else
+        "I did whatever I could to discourage <Actor.name> from getting married and suceeded in the end."
+        "Of course, it didn't take much for <Actor2.name> to realize why <Actor2.he_or_she> got turned down and <Actor2.he_or_she> probably started to bear a grudge against me for this."
+        Actor2:rapportwithplayer -= 30
+    Endif
+    SceneEnd()
+    timeout(1000, poly_poly_marries)

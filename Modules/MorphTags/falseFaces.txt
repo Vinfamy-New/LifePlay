@@ -1,0 +1,264 @@
+!Aging Head Controller: old
+Ailene: white, square
+Aine: white, oval
+Aisling: white, oval
+Alana: white, oval
+Anya Head: white, square
+Aoife: white, oval
+Bannon: white, oval
+Bevan: white, oval
+Branda: white, oval
+Bronagh: white, oval
+Cahira: white, oval
+Caitlin: white, oval
+Cara: white, oval
+Cassidy: white, oval
+Catriona: white, oval
+Cliona: white, square
+Clodagh: white, square
+Colleen: white, oval
+CTRLSYFAAoiFace: asian, oval
+CTRLSYFAAusanatFace: asian, round
+CTRLSYFAChiyoFace: asian, oval
+CTRLSYFADuanFace: asian, round
+CTRLSYFAEunJeongFace: asian, round
+CTRLSYFAGuiyingFace: asian, oval
+CTRLSYFAHarshitaFace: indian, oval
+CTRLSYFAHarunaFace: asian, round
+CTRLSYFAItsumiFace: asian, oval
+CTRLSYFAJingFace: asian, round
+CTRLSYFAJiYeongFace: asian, round
+CTRLSYFAJuanFace: asian, oval
+CTRLSYFAKanyaFace: asian, round
+CTRLSYFAKazueFace: asian, square
+CTRLSYFALamaiFace: asian, oval
+CTRLSYFALiFace: asian, round
+CTRLSYFAMaeKhaoFace: asian, oval
+CTRLSYFANehaFace: indian, square
+CTRLSYFASaloniFace: indian, oval
+CTRLSYFASatyanaFace: indian, square
+CTRLSYFASeoYeonFace: asian, oval
+CTRLSYFASuJinFace: asian, square
+CTRLSYFATejalFace: indian, oval
+CTRLSYFAXiulanFace: asian, square
+CTRLSYFAYeunSeoFace: asian, oval
+CTRLSYFEAlbinaFace: white, oval
+CTRLSYFECarinaFace: white, square
+CTRLSYFECarysFace: white, square
+CTRLSYFECharlotteFace: white, square
+CTRLSYFEGiuliaFace: white, square
+CTRLSYFEIreneFace: white, oblong
+CTRLSYFEJaneFace: white, square
+CTRLSYFEJetteFace: white, square
+CTRLSYFEKyriakiFace: white, square
+CTRLSYFELucianaFace: white, square
+CTRLSYFELudovicaFace: white, square
+CTRLSYFEManonFace: white, square
+CTRLSYFEMargitFace: white, square
+CTRLSYFEMaryFace: white, oblong
+CTRLSYFEMiaFace: white, square
+CTRLSYFEMiraFace: white, oblong
+CTRLSYFENadezhdaFace: white, oblong
+CTRLSYFENastjaFace: white, square
+CTRLSYFENiamhFace: white, round
+CTRLSYFEOddveigFace: white, square
+CTRLSYFEOliviaFace: white, oblong
+CTRLSYFERanveigFace: white, round
+CTRLSYFESofyaFace: white, round
+CTRLSYFEVigdisFace: white, square
+CTRLSYFEYanaFace: white, oval
+Cynthia Head: white, square
+Dania G8: white, oblong
+Delaney: white, oblong
+Diane Head: white, square
+Edana: white, oval
+Eimear: white, oval
+EJEthnicComancheHead: latin, square
+EJEthnicsAsianHead: asian, oval
+EJEthnicsBlackHead: black, square
+EJEthnicsIndianHead: indian, oval
+EJEthnicsLatinaHead: latin, oval
+EJEthnicsPolinesiaHead: asian, oval
+EJEthnicsWhiteHead: white, oval
+Elisha: white, oval
+Erin: white, round
+Estell Head: white, oval
+Faiza Head: indian, square
+FHMSYOrcHead: fantasy, square
+FHMSYVampire: fantasy, oblong
+Fianna: white, oblong
+Fionula: white, oblong
+Freya: white, oval
+Gael: white, oval
+Hibernia: white, square
+Hui ying G8: asian, oblong
+Imogen: white, oval
+Inis: white, oval
+Isolda: white, oval
+Jennifer Head: white, square
+Julia Head: white, oval
+Kaitleen: white, oval
+Kareena Head: indian, round
+Kennedy: white, oval
+Kennya G8: black, square
+Kerry: white, oblong
+Kumiko Head: asian, oval
+Leanna: white, oblong
+Leezah G8: black, oblong
+Maia G8: latin, oblong
+Maranda: white, oval
+Myrna: white, oval
+Natalie Head: white, oval
+Nessa: white, round
+Nhung Head: asian, oval
+Norah: white, oval
+Nuria Head: latin, oblong
+Olga Head: white, square
+OOF Alexis: white, square
+OOF Anetha: black, square
+OOF Ava: white, oblong
+OOF Baylee: white, oblong
+OOF Brianna: white, square
+OOF Camille: white, square
+OOF Chloe: white, oval
+OOF Claire: latin, square
+OOF Daphne: white, oblong
+OOF Desiree: black, square
+OOF Destiny: white, oblong
+OOF Elyse: white, oval
+OOF Emma: white, oval
+OOF Erin: white, square
+OOF Felyn: white, oblong
+OOF Fiona: white, oblong
+OOF Freida: white, square
+OOF Georgia: white, oblong
+OOF Grace: white, square
+OOF Haley: white, square
+OOF Hazel: white, square
+OOF Inita: white, oblong
+OOF Ivy: white, oblong
+OOF Joy: white, square
+OOF Judy: white, oblong
+OOF Katy: white, oblong
+OOF Kendra: white, oblong
+OOF Leah: white, oblong
+OOF Lilith: white, square
+OOF Madison: white, square
+OOF Melody: white, oblong
+OOF Nadia: white, oblong
+OOF Neve: white, oblong
+OOF Olivia: black, square
+OOF Orlena: white, oblong
+OOF Pearle: white, oblong
+OOF Peony: white, oblong
+OOF Regine: white, oval
+OOF Rona: white, square
+OOF Shelby: white, oval
+OOF Sylvia: white, square
+OOF Tessa: white, oblong
+OOF Thalia: white, oblong
+OOF Udele: white, square
+OOF Vera: asian, oblong
+OOF Vilma: white, oval
+OOF Wendy: white, square
+OOF Yolanda: white, oval
+OOF Zora: white, oval
+Orlagh: white, round
+Philomena: white, oval
+PHMSYEarDarkElf: fantasy
+PHMSYEarDroopyElf: fantasy
+PHMSYEarElfLong: fantasy
+PHMSYEarElfMedium: fantasy
+PHMSYEarElfSimple: fantasy
+PHMSYEarElfSpace02: fantasy
+PHMSYEarElfXLong: fantasy
+Preset 001: white, round
+Preset 002: white, oblong
+Preset 003: white, oblong
+Preset 004: white, oblong
+Preset 005: white, oval
+Preset 006: white, oval
+Preset 007: white, round
+Preset 008: white, oval
+Preset 009: white, square
+Preset 010: white, oblong
+Preset 011: white, square
+Preset 012: white, oval
+Preset 013: white, oval
+Preset 014: arab, oval
+Preset 015: white, square
+Preset 016: white, oval
+Preset 017: white, oval
+Preset 018: white, square
+Preset 019: white, round
+Preset 020: white, oval
+Preset 021: white, square
+Preset 022: white, round
+Preset 023: white, oblong
+Preset 024: white, square
+Preset 025: white, square
+Raegan: white, oval
+Rameesha Head: indian, square
+Reena G8: latin, oblong
+Rossa: white, square
+Sabina Head: black, round
+Saoirse: white, oval
+Sarah: white, square
+sfd_tg_face01: teen, oval
+sfd_tg_face02: teen, oval
+sfd_tg_face03: teen, oval
+sfd_tg_face04: teen, asian, oval
+sfd_tg_face05: teen, oblong
+Shannon: white, square
+Shauna: white, oval
+Shea: white, oval
+Sheelagh: white, square
+Sheenagh: white, square
+Shona: white, oval
+Shu Head: asian, round
+Sorcha: white, oval
+Summer G8: white, oval
+SYFAFAthiamboEastAfricanFace: black, round
+SYFAFFarahNorthAfricanFace: arab, oval
+SYFAFFatimataWestAfricanFace: black, round
+SYFAFHabibahNorthAfricanFace: arab, oval
+SYFAFJetaCentralAfricanFace: black, oval
+SYFAFKadiWestAfricanFace: black, oblong
+SYFAFKanoniEastAfricanFace: black, oval
+SYFAFKhalidaNorthAfricanFace: arab, square
+SYFAFMadinaWestAfricanFace: black, round
+SYFAFMaryCentralAfricanFace: black, round
+SYFAFMaximeCentralAfricanFace: black, round
+SYFAFNasicheCentralAfricanFace: black, oval
+SYFAFOuedraogoWestAfricanFace: black, round
+SYFAFPatriciaEastAfricanFace: black, oval
+SYFAFSaalingeSouthernAfricanFace: black, round
+SYFAFSadioWestAfricanFace: black, round
+SYFAFSamanyaSouthernAfricanFace: black, oblong
+SYFAFSebleEastAfricanFace: black, round
+SYFAFSihamNorthAfricanFace: arab, oval
+SYFAFSoumayaNorthAfricanFace: arab, oval
+SYFAFTendaiSouthernAfricanFace: black, oval
+SYFAFTulinagweEastAfricanFace: black, round
+SYFAFVandeCentralAfricanFace: black, oval
+SYFAFXiluvaSouthernAfricanFace: black, oval
+SYFAFZolaSouthernAfricanFace: black, round
+Unforgettable Face 01: white, square
+Unforgettable Face 02: white, oblong
+Unforgettable Face 03: white, square
+Unforgettable Face 04: white, square
+Unforgettable Face 05: white, oblong
+Unforgettable Face 06: white, oblong
+Unforgettable Face 07: white, square
+Unforgettable Face 08: white, oblong
+Unforgettable Face 09: white, oblong
+Unforgettable Face 10: white, square
+Unsun G8: asian, oval
+YGG_Head01: teen, square
+YGG_Head02: teen, square
+YGG_Head03: teen, black, round
+YGG_Head04: teen, round
+YGG_Head05: teen, asian, oval
+YGG_Head06: teen, latin, round
+YGG_Head07: teen, latin, oval
+Zanna G8: latin, oval

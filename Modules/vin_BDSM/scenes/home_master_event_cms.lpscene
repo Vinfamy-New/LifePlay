@@ -1,0 +1,19 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getPerson(tag_Master); If Actor.isRelative() || Actor.isExRelative()
+OTHER: isModEnabled(vin_NonConsensual)
+
+    // if player’s master is a family member that lives with player. As long as player’s at home, their master will repeatedly harass the player and (force?) player to do things.
+
+    SceneStart()
+    "My master is also my <Actor.relationship> who lives with me. By right, <Actor.he_or_she> can harass me and make me do whatever <Actor.he_or_she> wants"    
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    Player.strip()
+    Player.dressBondage(Collar)
+    "My <Actor.relationship>-turns-master is asking me to attend to <Actor.his_or_her> needs ..."
+    Sex(Actor, Player)
+    SceneEnd()
+    timeout(150, home_master_event_cms)

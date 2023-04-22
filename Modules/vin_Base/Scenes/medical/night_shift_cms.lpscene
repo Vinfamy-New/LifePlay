@@ -1,0 +1,22 @@
+WHAT: all
+WHERE: hospital:work
+WHEN: 18 - 4
+WHO: Actor = getSpecific(Doctor, Nurse); If Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor:perversion > 70 && Actor:attractiontoplayer > 20
+OTHER:
+
+    SceneStart()
+    Actor.dressUniform()
+    Actor.show()
+    "I'm on the night shift today, which has been very uneventful and boring. At least <Actor.name> is there to keep my company."
+    Actor:: "This is too boring! You know what, since only us two are here ... let's sneak away and have some fun to pass the time ..."
+    "Wow, that's a direct proposal ..."
+    0:: "Fuck <Actor.name>"
+    1:: "No"
+    
+    If 0
+        "Sounds like a fun way to kill some time till the shift finishes ..."
+        Sex(Player, Actor)
+        passTime(1, 3)
+    Endif
+    SceneEnd()
+    timeout(200, night_shift_cms)

@@ -1,0 +1,10 @@
+Actor.addToPeopleHere()
+
+USE:
+Used for allowing an actor called in during a scene to stay around your current location even after the scene finishes
+
+TYPE: Command
+RETURNS: /
+THEME: Scenes, Location
+COMPARE:
+

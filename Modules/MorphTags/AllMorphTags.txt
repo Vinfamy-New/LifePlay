@@ -1,0 +1,16 @@
+white
+asian
+latin
+arab
+indian
+black
+feminine
+teen
+old
+fantasy
+
+
+round
+oval
+square
+oblong

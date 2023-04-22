@@ -1,0 +1,99 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // New 'Pregnancy Pact' interaction: a female PC can make a pact with another female friend / relative to become pregnant together, with new scenes then becoming available: double breeding party, paying male prostitutes, going clubbing together to try your luck.
+    SceneStart()
+    If Actor:rapportwithplayer > 40
+        "<Actor.name> and I made a pact to become pregnant together."
+        Player.setWantsBabies(true)
+        Actor.setWantsBabies(true)
+        If Random(0, 100) < 33 // double breeding party
+            Actor.startDate()
+            followUp(double_breeding)
+            
+        Elseif Random(0, 100) < 50 // paying male prostitutes
+            "<Actor.name> suggests we should just get a male prostitute together to try and impregnate us?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                setBackground(home)
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.dress()
+                Actor2.show()
+                Actor2:fertility_npc => 50
+                Actor2:likes_vaginal => 100
+                
+                "I let <Actor.him_or_her> choose, so <Actor.he_or_she> eventually chose a male hooker called <Actor2.name>."
+                Actor:: "I hope you don't mind if I go first?"
+                Player:: "Of course not, you're the one that picked <Actor2.him_or_her>."
+                Sex(Actor2, Actor)
+                
+                "<Actor.name> had her <Actor.his_or_her> turn. Should I try to get impregnated by <Actor2.name> also?"
+                0:: "Yes"
+                1:: "<Actor2.He_or_She> isn't my type"
+                
+                If 0
+                    Sex(Actor2, Player)
+                Endif
+            Endif
+            
+        Else // going clubbing together to try your luck
+            "<Actor.name> suggests we should just go clubbing together to find two guys to try our luck?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                setBackground(nightclub)
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.dress()
+                Actor2.show()
+                Actor2:fertility_npc => 50
+                Actor2:likes_vaginal => 100
+                Actor2.makeInterested(Player)
+                
+                Actor3 = generatePersonTemporary()
+                While !Actor3.isMale()
+                    Actor3 = generatePersonTemporary()
+                Endwhile
+                Actor3.dress()
+                Actor3.show()
+                Actor3:fertility_npc => 50
+                Actor3:likes_vaginal => 100
+                Actor3.makeInterested(Player)                
+                
+                "After flirting with many guys at the club, <Actor.name> seems to settle on a guy called <Actor2.name>. <Actor2.He_or_She> was with <Actor2.his_or_her> friend <Actor3.name>, who seems rather interested in me also."
+                setBackgroundCustom(livingroom)
+                "<Actor.name> didn't give me much of a choice. Eventually, the four of us ended up at <Actor2.name>'s apartment and <Actor2.name> and <Actor.name> wasted no time in getting to know each other more personally ..."
+                Actor2.strip()
+                Actor.strip()
+                Sex(Actor2, Actor)
+                "They keep going ..."   
+                animatePair(Actor2, Actor, Vaginal)
+                
+                "While <Actor.name> is trying to make <Actor2.name> <Actor.his_or_her> baby daddy, should I try to get impregnated by <Actor2.name>'s friend <Actor3.name>?"
+                0:: "Yes"
+                1:: "<Actor3.He_or_She> isn't my type"
+                
+                If 0
+                    animatePair(Actor2, Actor, Vaginal)
+                    "I'm more than aroused enough from watching <Actor2.name> and <Actor.name> ..."
+                    Sex(Actor3, Player)
+                Endif
+            Endif    
+        Endif
+    Else
+        "I'm not close enough to <Actor.name> to suggest this kind of things."
+        "(Rapport must be more than 40)"
+    Endif
+    
+    SceneEnd()

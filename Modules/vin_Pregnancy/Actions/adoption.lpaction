@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: adoption
+ACTION_NAME: Adopt a baby
+WHERE: hospital, doctor, community_centre
+WHEN: 0 - 24
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: adoption
+ANIMATION:   

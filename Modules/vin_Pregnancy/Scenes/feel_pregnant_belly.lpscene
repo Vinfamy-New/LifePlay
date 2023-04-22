@@ -1,0 +1,81 @@
+WHAT: all
+WHERE: all, -home, -prison
+WHEN: 0-24
+WHO: none
+OTHER: Player.isPregnant()
+
+    // When pregnant, sometimes people at random come up to you and ask to feel your belly and ask a lot of detailed questions about the pregnancy. This person could turn out to just be curious or a baby-crazy woman who asks to be impregnated by your husband / boyfriend, or someone whose gender you're interested in who has a fetish for pregnant women and you can can hook up with.
+    
+    SceneStart()
+    "I was going about my day when a stranger approaches me out of nowhere."
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    Actor:: "Oh my god! Are you pregnant? How many months? Can I feel your belly?"
+    0:: "Okay ..."
+    1:: "What a weirdo"
+    
+    If 0
+        "It's a bit weird, but no harm I suppose."
+        "The stranger touches my belly a bit and starts asking a lot of detailed questions about the pregnancy"
+        If Player.isInterestedIn(Actor) && Random(0, 100) < 33
+            "It's quite clear that my pregnant state is of a very particular interest to <Actor.name>."
+            "And my instinct told me that such interest was at least partially sexual ..."
+            "<Actor.name> seemed to be one of those with a fetish for pregnant women. I remembered reading about this fetish on the internet in the past."
+            0:: "Seduce <Actor.him_or_her>"
+            1:: "Put an end to all this"
+            
+            If 0
+                "I must admit I'm a bit flattered by someone who is more into me because I'm pregnant."
+                "I guess I've been feeling a bit insecure about my body during this pregnancy ... and horny."
+                "I made it clear to the stranger with my body language that I was down for some fun."
+                "After some more flirting, the stranger accepted my invitation to go back to my place to 'discuss more about my pregnancy'."
+                moveTo(home)
+                setBackground(home)
+                "Of course, the only 'discussion' we had was in the bedroom. About to have sex with a pregnant woman, <Actor.name> was like a kid in a candy shop."
+                Sex(Actor, Player)
+            Else
+                "Feeling uneasy, I interrupted our conversation and went my way. Thankfully, the pervert didn't cause me any trouble."
+            Endif
+        Elseif Actor.isFemale() && Random(0, 100) < 50
+            "It's quite clear that my pregnant state is of a very particular interest to <Actor.name>."
+            "And my instinct told me that such interest was at least partially personal ..."
+            "<Actor.name> seemed to be one of those baby-crazy women who has dreamed for years to have a child but strugged to find a willing man."
+            0:: "Suggest a man to impregnate her"
+            1:: "None of my business"
+            
+            If 0
+                Player:: "You know, I think I know a guy that will be happy to help you get pregnant."
+                Actor:: "Really? That's all I've ever wanted honestly. Please introduce me to him."
+                "Who do I have in mind? It must be someone with a dick who I've had sex with."
+                selectNpc()
+                Actor2 = getSelectedNpc()
+                
+                If Actor2.isValid() && Actor2.hadSex() && !Actor2.isFemale()
+                    setBackground(home)
+                    Actor2.dress()
+                    Actor2.show()
+                    If Actor2.isDating()
+                        "I decide that there's no-one more dependable than my own <Actor2.boyfriend_or_girlfriend> to impregnate our new baby-crazy friend here."
+                    Endif
+                    "I arranged for <Actor2.name> and <Actor.name> to meet so that she can fulfill her life-long dream of becoming a mother."
+                    Actor.makePermanent()
+                    Sex(Actor2, Actor)
+                    Actor.impregnate(Actor2)
+                Else
+                    "This isn't an suitable person"
+                    Player:: "Sorry, but I can't think of anyone right now actually."
+                    Actor:: "Alright, thank you anyway."
+                Endif
+            Else
+                "Maybe she should try a sperm donor or something."
+            Endif
+        Else
+            "After a while, we parted ways. Just a curious and slightly invasive stranger. No harm done!"
+        Endif
+    Else
+        "I promptly told the weird stranger with no concept of personal space to fuck right off."
+    Endif
+    
+    SceneEnd()
+    timeout(100, feel_pregnant_belly)

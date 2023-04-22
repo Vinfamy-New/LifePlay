@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isDating() && Actor:perversion > 50 && Actor.isFemale()
+OTHER: Player.isMale() && isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual)
+
+    SceneStart()
+    setBackground(street)
+    "While walking down a dark alley with my <Actor.boyfriend_or_girlfriend> <Actor.name> when a hobo suddenly jumped on us!"
+    Hobo = generatePersonTemporary()
+    While !Hobo.isMale()
+        Hobo = generatePersonTemporary()
+    Endwhile
+    Hobo.dressExcept(Outerwear, Top, Foot, Headwear, Eyewear, Top_Under)
+    Hobo.show()
+
+    Hobo:: "Give me what I want and no one gets hurt!"
+    0:: "Give him some cash"
+    1:: "Give him my <Actor.boyfriend_or_girlfriend instead"
+    
+    If 0
+        money -= 20
+        "I'm not being robbed. Just doing some charity."
+    Else
+        Player:: "Oh so you wanna hold my wife down and force your dick up her ass while I watch helpless from across the street huh?!"
+        Hobo:: "wait...what?"
+        Actor.stripOne()
+        Actor.stripOne()
+        Player.animate(camera)
+        "I suddenly strip's the bottoms off of <Actor.name> and runs across the street with my phone out to film it. She bites her lip and looks at the hobo."
+        Hobo:: "I...I just wanted some cash..."
+        Actor:: "too late!"
+        "<Actor.name> then proceeds to forcefully have sex with the Hobo."
+        Filter(AggressiveFM)
+        Sex(Hobo, Actor)
+        Hobo.animate(fightlost)
+        "After the two have sex, <Actor.name> proceeds to knockout the hobo and steal a small amount of money from him leaving him totally broke."
+    Endif
+
+    SceneEnd()
+    timeout(400, sr_fso_darkalley_comedy_cms)

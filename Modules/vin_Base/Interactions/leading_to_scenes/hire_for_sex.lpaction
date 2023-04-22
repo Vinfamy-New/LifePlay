@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: hire_for_sex
+ACTION_NAME: Hire for sex
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: hire_for_sex
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && WHERE == brothel && Actor.isAt(work)

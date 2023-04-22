@@ -1,0 +1,237 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    Dice = Player.getActorVar(rng_dice)
+    Dice += 1
+    If Dice > 5 // CHANGE HERE
+        Dice = 1
+    Endif
+    Player.setActorVar(rng_dice, Dice)
+    Nothing = false
+    
+    If Dice == 1
+        // You (and your target) may get lost and come across a wooden shack. The owner may be helpful or try to seduce either or both of you.
+        
+        "Oh no, I lost my sense of direction during the hike and got lost."
+        "In my panic to find a way out, I found an isolated wooden shack. The owner must be quite familiar with the area. Let's go in." 
+        setBackground3d(Modules/vin_Base/Bedrooms/9.lpworld)
+        Actor2 = generatePersonTemporary()
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "Hello there, you must be lost. Not many folks pass through here normally."
+        Player:: "You're right. I have no idea where I am. Could you show me the way back to town?"
+        If Actor2:perversion < 50 || [!Actor2.isInterestedIn(Player) && !Actor2.isInterestedIn(Actor)] || !isModEnabled(vin_NTR)
+            Actor2:: "Of course, I even have a map I drew myself. Let me show you."
+            "What a nice <Actor2.name>, with <Actor2.his_or_her> explanation, I now know exactly how to get out of this maze I got myself into."
+            "Maybe I should exchange numbers with <Actor2.name>? A chance encounter could easily turn out to be something more, after all."
+            0:: "Exchange numbers before I leave"
+            1:: "Maybe not"
+            
+            If 0
+                Actor2.makePermanent()
+                exchangeContact(Actor2)
+            Endif
+        Else
+            Actor2:: "Well, I definitely could. But since you're already inside my shack, I was thinking maybe there's a prize you can pay for my help ..."
+            If Actor2.isInterestedIn(Player)
+                Actor2:: "You know ... I'm all alone here ... I miss a <Player.man_or_woman>'s touch, especially one as hot as you."
+                0:: "Deal"
+                1:: "No deal"
+                
+                If 0
+                    Sex(Player, Actor2)
+                Endif
+            Elseif Actor.isValid() && Actor2.isInterestedIn(Actor)
+                Actor2:: "You know ... I'm all alone here ... I miss a <Actor.man_or_woman>'s touch, especially one as hot as your friend here."
+                0:: "Deal"
+                1:: "No deal"
+                
+                If 0
+                    Sex(Actor2, Actor)
+                Endif            
+            Elseif CurrentCompanion.isValid() && Actor2.isInterestedIn(CurrentCompanion)
+                Actor2:: "You know ... I'm all alone here ... I miss a <CurrentCompanion.man_or_woman>'s touch, especially one as hot as your friend here."
+                0:: "Deal"
+                1:: "No deal"
+                
+                If 0
+                    Sex(Actor2, CurrentCompanion)
+                Endif            
+            Else
+                Actor2:: "How about some cash?"
+                0:: "Deal"
+                1:: "No deal"
+                
+                If 0
+                    Player:: "Fine, this is all I have on me right now."
+                    money -= 50
+                Endif
+            Endif
+        Endif
+        "Eventually, with some luck, I found my way back to town."
+    Elseif Dice == 2
+        // You injure your leg and the target / companion / a stranger has to carry you and maybe deserve a reward.
+        If !Actor.isValid()
+            Actor = getCompanion()
+            If !Actor.isValid()
+                Actor = generatePersonTemporary()
+                Actor.dress()
+                Actor.show()
+            Endif
+        Endif
+        
+        If Actor:fitness - fitness > 30
+            "Oh no, I hurt my leg and can't move any further!"
+            Player:: "Help!"
+            "Thankfully, <Actor.name> was near me and came to my rescue."
+            "Being so fit, <Actor.he_or_she> managed to carry me back to town."
+            Player:: "Thank you so much. I couldn't imagine what would happen to me if you weren't there."
+            Actor:: "It's no problem. I couldn't just leave you behind."
+            "Maybe <Actor.he_or_she> deserves a reward?"
+            0:: "Money"
+            1:: !Actor.isContactExchanged():: "My number"
+            2:: "Sex"
+            
+            If 0
+                Actor:: "Well, if you insist."
+                money -= 50
+            Elseif 1
+                Actor:: "Sure, I'll be happy to get to know you more."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+            Else
+                If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer || Actor.hadSex()
+                    Actor:: "Well, I wouldn't say no to such a happy ending ..."
+                    Sex(Actor, Player)
+                Else
+                    Actor:: "You're joking, right? I didn't help you for that."
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 3
+        // The target injures their leg and you have to carry them.
+        If Actor.isValid() && fitness - Actor:fitness > 30
+            Actor:: "Help!"
+            "Oh no, <Actor.name> hurt <Actor.his_or_her> leg and can't move any further!"
+            "Thankfully, I was nearby and came to <Actor.his_or_her> rescue."
+            "My dedication to fitness paid off, as I managed to carry <Actor.him_or_her> back to town."
+            Actor:: "Thank you so much. I couldn't imagine what would happen to me if you weren't there."
+            Player:: "It's no problem. I couldn't just leave you behind."
+            "On second thought, maybe I deserve a reward?"
+            0:: "Money"
+            1:: !Actor.isContactExchanged():: "Your number"
+            2:: "Sex"
+            3:: "It was only the right thing to do"
+            
+            If 0
+                Actor:: "Sure. Here's all I have on me right now."
+                money += 50
+            Elseif 1
+                Actor:: "Sure, I'll be happy to get to know you more."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+            Elseif 2
+                If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer || Actor.hadSex()
+                    Actor:: "Well, I guess my hero deserves a happy ending ..."
+                    Sex(Actor, Player)
+                Else
+                    Actor:: "You're joking, right? Thank you for your help but that's too big a request."
+                Endif
+            Else
+                Player:: "It was only the right thing to do"
+                karma += 5
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 4
+        // If Netorare is enabled and lower fitness, your companion and a stranger may leave you far behind ...
+        If !Actor.isValid()
+            Actor = getCompanion()
+        Endif
+        
+        If isModEnabled(vin_NTR) && Actor.isValid() && Actor:perversion > 50
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show()
+            If Actor2:perversion > 50 && Actor2.isInterestedIn(Actor) && Actor.isInterestedIn(Actor2) && Actor2:fitness + Actor:fitness - fitness*2 > 50
+                "As I was hiking with <Actor.name>, we came across an experienced hiker called <Actor2.name>. <Actor2.He_or_She> was so much fitter and faster than me that there was no way I could keep up."
+                Actor.moveToPersonStand(Actor2, 50)
+                "To make matters worse, <Actor.name> fared much better and tried to catch up with <Actor2.name> rather than staying behind with me. And soon, both of them were far ahead and nowhere to be seen."
+                "After quite some time, I finally caught up with them, only to witness a shocking sight ..."
+                masochist += 0.5
+                Sex(Actor, Actor2)
+            Else
+                Nothing = true
+            Endif
+        Else
+            Nothing = true
+        endif
+    Elseif Dice == 5
+        // If Netori is enabled and higher fitness, the target brings their SO along on the hike, only to be left behind with you and their SO far ahead ...
+        
+        If Actor.isValid() && isModEnabled(vin_Netori) && Actor.isTemporary() && Actor:fitness < 50
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            If !Actor2.isValid()
+                Actor2:fitness += 30
+                Actor2 = generatePersonTemporary()
+                Actor2.dress()
+                Actor2.show()
+                Actor.makeInterested(Actor2)
+                Actor2.makeInterested(Actor)
+            Endif
+            "I asked <Actor.name> to join me on the hike, only for <Actor.him_or_her> to introduce me to <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name>, who was a keen hiker and the one who convinced <Actor.name> to be here in the first place."
+            Player:: "Let's all hike together then ..."
+            "<Actor2.name> was very good at this and was always ahead, while <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> <Actor.name> was pretty unfit and slow and started to fall behind both me and <Actor2.name>."
+            0:: "Let's stick together"
+            1:: "I'll catch up with <Actor2.name>. See you later!"
+            
+            If 0
+                Player:: "<Actor2.name>, don't go too far ahead, your <Actor.boyfriend_or_girlfriend> is a bit behind us. Let's stick together."
+                Actor:rapportwithplayer += 5
+                karma += 2
+            Else
+                Actor.hide()
+                "Also being frustrated by <Actor.name>'s slow speed, I decided to go ahead and catch up with <Actor2.name>."
+                "Soon, we arrived at the originally agreed upon resting point, with <Actor2.name> nowhere to be seen."
+                Actor2:: "<Actor.He_or_She> probably won't be here for a long while yet ..."
+                0:: "Just chat with <Actor2.name>"
+                1:: !Actor.isContactExchanged():: "Ask for <Actor2.his_or_her> number"
+                2:: Player.isInterestedIn(Actor2):: "Try to seduce <Actor2.him_or_her>"
+                
+                If 0
+                    "To kill the time, we chat for a long time while we wait for <Actor.name> to catch up."
+                    Actor2:rapportwithplayer += 5
+                Elseif 1
+                    "After some nice conversations, I decided to ask for <Actor2.name>'s number so that we could arrange another hiking trip in the future."
+                    Actor2.makePermanent()
+                    exchangeContact(Actor2)
+                Else
+                    Player:: "Since it will be a while, why don't we have some fun in the meantime?"
+                    If Random(50, 100) < Actor2:perversion + Actor2:attractiontoplayer
+                        Actor2:: "Okay, this will hopefully teach my useless <Actor.boyfriend_or_girlfriend> a lesson and not neglect <Actor.his_or_her> fitness anymore."
+                        Sex(Player, Actor2)
+                    Else
+                        Actor2:: "I don't know what you're talking about ..."
+                    Endif
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Else
+        Nothing = true
+    Endif
+    
+    If Nothing
+        "Nothing unusual happened."
+    Endif
+    
+    SceneEnd()

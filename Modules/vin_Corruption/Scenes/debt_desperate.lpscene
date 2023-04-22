@@ -1,0 +1,42 @@
+WHAT: all
+WHERE: all
+WHEN: 9 - 17 
+WHO: none
+OTHER: money < 0
+
+
+    SceneStart()
+    "I have been living above my means recently and, as a result, ended up with quite a bit of debt."
+    "The bank manager just called, trying to arrange a meeting at the bank to come up with a solution for settling my debt."
+    0:: "Ignore"
+    1:: "Come and meet with the bank manager"
+    
+    If 1
+        setBackground(bank)
+        Actor = generatePersonTemporary()
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer => Random(30, 50)
+        Actor:perversion => Random(80, 100)
+        dressFormal()
+        Actor.dress()
+        Actor.show()
+        Player:: "So, based on my current financial situation, what do you think would be my best option?"
+        Actor:: "I'll be completely frank to you. I have seen this thousands of times before. It never gets better and people would simply get deeper and deeper into debt ..."
+        Actor:: "What you need is a fresh start, a clean slate, financially ..."
+        Player:: "What do you mean? You just said most of your past clients ended up further and further into debt, how can I just clear this debt and restart my life?"
+        Actor:: "You cannot clear the debt yourself ... but for me, it's just a matter of a mouse click ..."
+        Actor:: "You see ... these past clients, their financial situations were similar to you, but they don't have the same ... assets as you. If you let me use those assets for yours for my own pleasure, I would be quite tempted to clear your debt off the record."
+        0:: "Have sex with the bank manager"
+        1:: "Refuse"
+        
+        If 0
+            Player:: "I guess it's not everyday that people as broke as me are given another chance like this ..."
+            Sex(Actor, Player)
+            "As promised, the bank manager cleared all the debt from my record. It's a new start for me ..."
+            money => 0
+        Else
+            Player(Angry):: "What? No way! I'm not that desperate ..."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, debt_desperate)

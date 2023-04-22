@@ -1,0 +1,31 @@
+WHAT: all
+WHERE: hospital:work
+WHEN: 18 - 4
+WHO: none
+OTHER:
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    "A patient is brought in from a night out on the town having drunk too much." 
+    Actor.animate(health)
+    Actor.closeEyes(true)
+    "<Actor.His_or_Her> condition is rapidly deteriorating."
+    "After a while, I managed to stabilize the patient but <Actor.he_or_she> is in a deep sleep."
+    0:: "Leave <Actor.him_or_her> to recover"
+    1:: "Rape <Actor.him_or_her>"
+    
+    If 1
+        "Working in a hospital has its perks."
+        If Actor.isMale() && !Player.isMale()
+            Filter(Sleeping)
+        Else
+            Filter(Aggressive)
+        Endif
+        TalkNonConsensual()
+        Sex(Player, Actor)
+        Actor.setActorVar(tag_Raped, 1)
+    Endif
+    SceneEnd()
+    timeout(200, cms_ag_hospital_sleep)

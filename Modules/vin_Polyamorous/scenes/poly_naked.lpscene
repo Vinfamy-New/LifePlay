@@ -1,0 +1,42 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating)
+OTHER:
+
+    // 'Free Use' scene where a polyamorous partner walks around the house naked and you can just bang them. Another poly partner then may join you.
+    
+    SceneStart()
+
+    If Random(0, 100) < 50
+        setBackgroundCustom(livingroom)
+        "I was just chilling on the sofa watching TV, when <Actor.name> came out of <Actor.his_or_her> room completely naked and joined me."
+    Else
+        setBackgroundCustom(kitchen)
+        "I was just having a quick snack in the kitchen, when <Actor.name> came out of <Actor.his_or_her> room completely naked and went to make a coffee."   
+    Endif
+    
+    Actor.show()
+    "I guess <Actor.name> has nothing to worry about since we are all in a polyamorous relationship. After all fun we've had together as a group, it's hardly unusual for the others to see <Actor.him_or_her> naked. We've become completely comfortable with each other's bodies."
+    "So comfortable in fact that I can simply just grab <Actor.his_or_her> <Actor.dick_or_boobs> right now and start fucking <Actor.him_or_her> without bothering to ask first."
+    0:: "Use my polyamorous lover <Actor.name> to satisfy my needs"
+    1:: "I'm not in the mood"
+    
+    If 0
+        "That's the whole point of having so many lovers, I can have them whenever I want, especially if they present themselves in the nude so eagerly to me like this."
+        Sex(Player, Actor)
+        Actor2.show()
+        "As I was fucking <Actor.name>, <Actor2.name> also came out of <Actor2.his_or_her> room, again, not bothering to put on any clothes ..."
+        "The timing couldn't be any more perfect!"
+        0:: "Demand that <Actor2.name> join us as well"
+        1:: "I've had enough fun today"
+        
+        If 0
+            Sex(Player, Actor2, Actor)
+        Endif       
+    Else
+        "I enjoyed the sight of <Actor.name>'s nakedness, but that's all I need for now."
+    Endif
+
+    SceneEnd()
+    timeout(75, poly_naked)

@@ -1,0 +1,84 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Boss); If Actor.isColleague() && Actor2.hadSex() && jobexperience - Actor:jobexperience > 10
+OTHER:
+
+    // If you've slept with your boss and your SO's working with you and has lower jobexperience than you, they eventually confront you on how you keep getting these promotions. You can lie or encourage your SO to do the same if your boss is also interested in your SO - or depending on the boss's submissiveness stat, the boss may want to watch your SO bone their SO, or want to make your SO watch them bone you in exchange for a promotion for them as well.
+    
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.boyfriend_or_girlfriend> and I ended up working on a project together at work with me being the project leader due to my higher position. <Actor.name> was shocked to find out how lazy and painfully mediorce I was at work." 
+    Actor:: "Baby, I love you, but I'm surprised how bad you are at this now that I actually work with you. Honestly, how could you have been promoted to your current position in the first place being so bad at your job?"
+    0:: "Lie"
+    1:: "Admit I've slept with the boss"
+    
+    If 0
+        Player:: "It's not what you know ... it's who you know sometimes ..."
+        Actor:: "I guess ... was your dad friends with the CEO or something?"
+        Player:: "Something like that ..."
+    Else
+        Player:: "Well, I guess it has something to do with the fact I've satisfied the boss's needs from time to time."
+        If OpenRelationship() || Actor:perversion > 50
+            Actor:: "I knew it ... I always sensed something more between you and the boss ..."
+            Actor:: "Oh well, good for you that <Actor2.name> fancies you enough to give you such a big promotion in exchange for sex."
+            Player:: "Actually, you know what, in one of our secret 'meetings', the boss mentioned that ..."
+            0:: Actor2.isInterestedIn(Actor):: "<Actor2.He_or_She> wanted to fuck you too"
+            1:: Actor2:masochist > 0:: "<Actor2.He_or_She> wanted to watch you fuck <Actor2.his_or_her> <Player.husband_or_wife>"
+            2:: Actor2:masochist < 0:: "<Actor2.He_or_She> wanted to you to watch fuck <Actor2.him_or_her> fuck me"
+            3:: "Nevermind"
+            
+            If 3
+                Player:: "Forget I said anything ..."
+            Else
+                Actor:jobexperience += 10
+                Actor2.dress()
+                Actor2.show()
+                Player.moveToPersonStand(Actor2, 50)
+                Actor.moveToPersonStand(Actor2, 50)
+                If 0
+                    Actor:: "Did <Actor2.he_or_she> now? I'm flattered."
+                    Actor2:: "So ... you want the same deal as your <Player.boyfriend_or_girlfriend> ... Great! I've been waiting for this opportunity."
+                    Actor2:: "I took your <Player.boyfriend_or_girlfriend> long enough to talk you into it. Were you afraid of losing my favor to your own <Actor.boyfriend_or_girlfriend>, <Player.name>?"
+                    Sex(Actor2, Actor)
+                    Actor2:: "Don't just stand there ... Come join us ... It's good to have a couple serving me together ..."
+                    Sex(Actor2, Player, Actor)
+                Elseif 1
+                    Actor2:: "You're right ... it's been one of my fantasies ... Why don't you two come home with me this evening and meet my <Player.husband_or_wife> there?"
+                    setBackgroundCustom(livingroom)
+                    Actor3 = Actor2.getRelatedPerson(Spouses, Dating)
+                    
+                    If !Actor3.isValid()
+                        Actor3 = generatePersonTemporary()
+                        While !Actor3.isSameGender(Player)
+                            Actor3 = generatePersonTemporary()
+                        endWhile
+                        Actor3.makeInterested(Actor2)
+                        Actor3.makePermanent()
+                        addNpcRelationship(Spouses, Actor2, Actor3)
+                    Endif
+                    Actor3.dress()
+                    "The boss is an efficient <Actor2.man_or_woman>, <Actor2.He_or_She> already phoned <Actor2.his_or_her> <Actor3.husband_or_wife> in advance to wait for us naked."
+                    Sex(Actor, Actor3)
+                    Actor2:: "Damn, that was hot watching your <Actor.boyfriend_or_girlfriend> fuck my <Actor3.husband_or_wife>. I'm so horny now. <Player.name>, why don't you make yourself useful just like your <Actor.boyfriend_or_girlfriend> did and attend to my needs right away."
+                    Sex(Actor2, Player)
+                Else
+                    Actor2:: "You're right ... it's been one of my fantasies ... Having a cuckold <Actor.boyfriend_or_girlfriend> watching me just gives that extra motivation."
+                    Sex(Actor2, Player)
+                    Actor2:: "Are you enjoying watching your <Player.boyfriend_or_girlfriend> with your own boss? If so, feel free to relieve yourself while you watch!"
+                    Filter(Solo)
+                    Sex(Actor)
+                Endif
+            Endif
+        Else
+            Actor:: "Wait, what? Did you just openly admit you cheated on me ..."
+            Actor:: "How could you!"
+            "<Actor.name> got really upset with me. Thankfully, I calmed <Actor.him_or_her> down by convincing <Actor.him_or_her> that my 'exchange' with the boss took place before we even met."
+            "Still, <Actor.name> was digusted about the idea and didn't believe me 100% anyway. Our relationship suffered as a result."
+            Actor:attractiontoplayer -= 20
+        Endif
+    Endif
+    SceneEnd()
+    timeout(1000, dating_boss_tip)

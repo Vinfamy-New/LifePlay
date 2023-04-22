@@ -1,0 +1,112 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "Should I throw a swingers party with some of my poly partners, with another poly group joining us?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        setBackgroundCustom(livingroom)
+        Actor = getSpecific(Dating)
+        Actor1 = getSpecific(Dating)
+        Actor2 = getSpecific(Dating)
+        Actor3 = getSpecific(Dating)
+        Actor4 = getSpecific(Dating)
+        
+        Actor.dress()
+        Actor.show()
+        FuckActor = generatePersonTemporary()
+        While !Actor.isInterestedIn(FuckActor)
+            FuckActor = generatePersonTemporary()
+        Endwhile
+        FuckActor.dress()
+        FuckActor.show()
+        
+        Actor1.dress()
+        Actor1.show()
+        FuckActor1 = generatePersonTemporary()
+        While !Actor1.isInterestedIn(FuckActor1)
+            FuckActor1 = generatePersonTemporary()
+        Endwhile
+        FuckActor1.dress()
+        FuckActor1.show()
+        
+        If Actor2.isValid()
+            Actor2.dress()
+            Actor2.show()
+            FuckActor2 = generatePersonTemporary()
+            While !Actor2.isInterestedIn(FuckActor2)
+                FuckActor2 = generatePersonTemporary()
+            Endwhile
+            FuckActor2.dress()
+            FuckActor2.show()
+            If Actor3.isValid()
+                Actor3.dress()
+                Actor3.show()
+                FuckActor3 = generatePersonTemporary()
+                While !Actor3.isInterestedIn(FuckActor3)
+                    FuckActor3 = generatePersonTemporary()
+                Endwhile
+                FuckActor2.dress()
+                FuckActor2.show()
+                If Actor4.isValid()
+                    Actor4.dress()
+                    Actor4.show()
+                    FuckActor4 = generatePersonTemporary()
+                    While !Actor4.isInterestedIn(FuckActor4)
+                        FuckActor4 = generatePersonTemporary()
+                    Endwhile
+                    FuckActor4.dress()
+                    FuckActor4.show()
+                Endif
+            Endif
+        Endif
+        "Everyone is here. Let me the party begin!"
+        "First, my <Actor.boyfriend_or_girlfriend> <Actor.name> seems to have taken a liking to <FuckActor.name> from the other 'family' we invited."
+        Sex(Actor, FuckActor)
+        "My <Actor1.boyfriend_or_girlfriend> <Actor1.name> then joins in the fun in the company of <FuckActor.name>'s <FuckActor1.boyfriend_or_girlfriend> <FuckActor1.name>."
+        Sex(Actor1, FuckActor1)
+        If Actor2.isValid()
+            "My <Actor2.boyfriend_or_girlfriend> <Actor2.name> then seduces the third member of <FuckActor.name> and <FuckActor1.name>'s group, called <FuckActor2.name>."
+            Sex(Actor2, FuckActor2)
+            If Actor3.isValid()
+                "The fourth member of the other 'family', <FuckActor3.name> steps up to the challenge and my <Actor3.boyfriend_or_girlfriend> <Actor3.name> is happy to meet <FuckActor3.him_or_her> in battle."
+                Sex(Actor3, FuckActor3)
+                If Actor4.isValid()
+                    "The final member of our guests' poly group, <FuckActor4.name>, have focused <FuckActor4.his_or_her> attention to <Actor4.name> all night."
+                    Sex(Actor4, FuckActor4)            
+                Endif                
+            Endif            
+        Endif
+        
+        "Everyone else has had their fun. It's my turn."
+        0:: Actor.isValid():: "Fuck <FuckActor.name>"
+        1:: Actor1.isValid():: "Fuck <FuckActor1.name>"
+        2:: Actor2.isValid():: "Fuck <FuckActor2.name>"
+        3:: Actor3.isValid():: "Fuck <FuckActor3.name>"
+        4:: Actor4.isValid():: "Fuck <FuckActor4.name>"
+        5:: "Chicken out at the last minute"
+        
+        If 0
+            Sex(Player, FuckActor)
+        Elseif 1
+            Sex(Player, FuckActor1)
+        Elseif 2
+            Sex(Player, FuckActor2)
+        Elseif 3
+            Sex(Player, FuckActor3)
+        Elseif 4
+            Sex(Player, FuckActor4)
+        Else
+            "None of the options seem that desirable actually ..."
+        Endif
+    Else
+        "Maybe not"
+    Endif
+    
+    SceneEnd()
+    

@@ -1,0 +1,67 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Landlord)
+OTHER:
+
+    SceneStart()
+    Pinhole = Actor.getActorVar(Pinhole)
+    
+    If Pinhole == 0
+        "While cleaning up my own place, to my horror, I found a hidden pinhole camera."
+        0:: "Ignore it"
+        1:: "Ask the landlord about it"
+        2:: "Call the police"
+        
+        If 0
+            "Thankfully, nothing seems to happen. I'm not even sure if the camera is even functional. Maybe something weird with the previous tenant that no longer affects me in any way."
+            Actor.setActorVar(Pinhole, 1)
+        Elseif 1
+            Actor.dress()
+            Actor.show()
+            Actor:: "I have no clue honestly. Must have been installed by the previous tenant. Probably not functional at all anymore. Don't worry."
+            Actor.setActorVar(Pinhole, 1)
+        Else
+            "The police came to investigate. Scared of legal consequences, the landlord removed it."
+            timeout(3000, pinhole_camera_cms)
+        Endif
+    Elseif Pinhole == 1     
+        "While browsing the web, I stumble onto some homemade voyeur porn that turns out to be of myself masturbating in my own apartment!"
+        0:: "Watch yourself and get turned on"
+        1:: "Keep it a secret"
+        2:: "Contact the police"
+        3:: intelligence > 50:: "Hack the web host to find out who the uploader is"
+        
+        If 0
+            "I can't believe how turned on am I watching myself ..."
+            "This may just provide more content for my voyeur ... but fuck it ..."
+            Filter(Solo)
+            Sex(Player)
+            perversion += 0.5
+        Elseif 1
+            "I don't want to risk this being known by my family or colleagues."
+        Elseif 2
+            "I decided to contact the police who eventually arrested the criminal behind the camera."
+            timeout(3000, pinhole_camera_cms)
+        Else
+            "I think I've managed to track down the uploader. What should I do?"
+            0:: "Report to the cops"
+            1:: "Blackmail for a 50% share of the profit"
+            
+            If 0
+                "I decided to contact the police who eventually arrested the criminal behind the camera."
+                timeout(3000, pinhole_camera_cms)            
+            Else
+                "I went to see the criminal myself and demanded my share of the profit while threatening to report him to the police."
+                "He had no choice but accept."
+                Actor.setActorVar(Pinhole, 2)
+            Endif
+        Endif
+    Else
+        "The man behind the pinhole camera in my apartment just uploaded a porn video of me with a lover. As per our agreement, I received a share of the profits as well."
+        "This really put a new meaning into the word 'passive income'."
+        money += 200 
+    Endif
+
+    SceneEnd()
+    timeout(300, pinhole_camera_cms)

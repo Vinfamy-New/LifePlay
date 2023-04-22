@@ -1,0 +1,14 @@
+Power(N1, N2)
+
+USE:
+Calculate N1 to the power of N2
+
+TYPE: Command, Reference
+RETURNS: Float
+THEME: Math
+COMPARE:
+
+Example:
+    N1 = 1
+    N3 = Power(N1*2, 2)
+    "The result should be 4"

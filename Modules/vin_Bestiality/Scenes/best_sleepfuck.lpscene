@@ -1,0 +1,43 @@
+WHAT: sleep
+WHERE: home
+WHEN: 0 - 24 
+WHO: Actor = getCreature(); If Player.isInterestedIn(Actor) && Actor.isCreatureType(Dog)
+OTHER: arousal > 50
+
+    // When sleeping with high arousal, you suddenly wake up with a wet bed and a relieved sensation. You assume you've been masturbating in your sleep until one night you're awaken in the middle of your pet dog's act.
+    
+    SceneStart()
+    Player.animate(na_sleep)
+    Actor.show()
+    stage = Player.getActorVar(best_sleepfuck)
+    If stage < 5
+        "I was awaken in the middle of the night and found my bed sheets soaked with my love juice ... It's also undeniable the feeling of relief and euphoria."
+        arousal -= 20
+        "I went to bed quite horny so I must have masturbated in my sleep ..."
+        "I look at my pet dog <Actor.name> lying on the floor also awake looking at me a bit strange. <Actor.He_or_She> must have been awaken by <Actor.his_or_her> owner's loud 'dream-masturbating'"
+        Player:: "Sorry, <Actor.boy_or_girl>. I must have been loud ... Now go back to sleep and forget what just happened, okay?"
+        stage += Random(0, 3)
+        Player.setActorVar(best_sleepfuck, stage)
+    Else
+        "I was awaken in the middle of the night and found my bed sheets soaked with my love juice ... I must be masturbating in my sleep again ..."
+        animatePair(Actor, Player, Oral)
+        "Oh wait, this time, I caught my pet dog <Actor.name> on my bed <Player.sucking_or_licking> my <Player.cock_or_pussy> ..."
+        "So I wasn't masturbating after all ... it was my dog making me cum all those nights."
+        0:: "Tell <Actor.name> off"
+        1:: "Let things escalate"
+        
+        If 0
+            Player:: "Bad doggy! Don't even think about doing that again or you'll be sleeping elsewhere."
+            Player:: "You're lucky you're not human or I would have reported you to the cops for rape!"
+            "<Actor.name> was saddened and walked away. <Actor.He_or_She> must have been thinking <Actor.he_or_she> was doing <Actor.his_or_her> owner a service with <Actor.his_or_her> nightly effort ..."
+            timeout(1000, best_sleepfuck)
+        Else
+            "I must say: even though <Actor.he_or_she> is a dog, he has been doing a bloody good job at satisfying my needs at night and I didn't even need to be awake."
+            "Which makes me curious about what sort of amazing orgasm my dog could give me if I'm an active participant in the act this time ..."
+            "Well, only one way to find out ..."
+            Player:: "You didn't need to be so sneaky, but I appreciated your discreet 'service' all those nights. Now, let do it properly!"
+            Sex(Actor, Player)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, best_sleepfuck)

@@ -1,0 +1,59 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = Actor.getRelatedPerson(Poly); Actor3 = getSpecific(Dating); If Actor2.isInterestedIn(Actor3) && Actor3.isInterestedIn(Actor2) && !Actor2.isDating()
+OTHER:
+
+    // If one of your poly partner is also dating someone else, that person can try to seduce another poly partner of yours which you can put an end to or encourage
+    
+    SceneStart()
+    setBackground(livingroom)
+    "I came home to a living room more crowded than usual."
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    Actor3.dress()
+    Actor3.show() 
+    "Two of my polyamorous lovers, <Actor.name> & <Actor3.name>, were there, alongside <Actor.name>'s other <Actor2.boyfriend_or_girlfriend> <Actor2.name>."
+    "Of course, I've already given my consent for <Actor.name> to also be intimate with someone else while being with me, but I had no idea that <Actor2.name> also knew <Actor3.name>. Maybe <Actor.name> has just introduced them."
+    "I decided to join them on the sofa, and it only took me a few minutes to sense the sexual tension between my <Actor3.name> and <Actor.name>'s other <Actor2.boyfriend_or_girlfriend>."
+    "In fact, despite me being right there, <Actor2.name> isn't afraid to flirt with <Actor3.name>. Perhaps, my lack of reaction so far emboldens <Actor2.him_or_her>."
+    "Or maybe, <Actor2.name> assumes that since I'm sleeping with <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> in a polyamorous arrangement, it's only fair that the polyamory applies to <Actor2.name> as well and <Actor2.he_or_she> gets to sleep with one of my other polyamorous lovers, in this case, <Actor3.name>."
+    0:: "Give <Actor3.name> the go-ahead to sleep with <Actor.name>'s other <Actor2.boyfriend_or_girlfriend>"
+    1:: "Put an end to the flirting"
+    
+    If 0
+        "I guess it's only fair. If I'm going to be open-minded when it comes to relationships, I must be open-minded in all aspects, not just those that benefit me."
+        "So I whisper into <Actor3.name>'s ear and encourage <Actor3.him_or_her> to fuck <Actor2.name>."
+        "With that encouragement, soon, a sort of swinging situation starts to emerge."
+        Sex(Actor2, Actor3)
+        "Of course, I don't just watch, I have <Actor.name> there to keep my company. We're both pretty turned on at the sight of our respective partners having sex."
+        Sex(Player, Actor)
+        Actor2:rapportwithplayer += 5
+        Actor:attractiontoplayer += 5
+        Actor3:attractiontoplayer += 5
+
+        If Random(100, 200) < Actor2:perversion + Actor3:perversion
+            "After that experience, <Actor3.name> then approaches me and admits how sexually compatible <Actor3.he_or_she> and <Actor2.name> turned out to be."
+            "<Actor3.He_or_She> asks me if I'll be cool if <Actor3.he_or_she> starts dating <Actor2.name> as well, just like <Actor.name> has been."
+            0:: "Let <Actor2.name> date both <Actor.name> and <Actor3.name>"
+            1:: "No way"
+            
+            If 0
+                "I wouldn't be in a polyamorous relationship if I was possessive. Whatever <Actor.name> can do, of course <Actor3.name> can too."
+                addNpcRelationship(Dating, Actor3, Actor2)
+                addNpcRelationship(Poly, Actor3, Actor2)
+            Else
+                "I've already been quite generous, but there should be a limit."
+                Actor3:attractiontoplayer -= 5
+            Endif
+        Endif
+    Else
+        "I take <Actor2.name> to one side and make it clear that <Actor2.his_or_her> advances towards <Actor3.name> isn't welcomed."
+        Actor2:rapportwithplayer -= 5
+        Actor:attractiontoplayer -= 5
+        "<Actor.name> didn't like how unfairly I treated them though."
+    Endif
+    SceneEnd()
+    timeout(500, poly_poly_greedy)

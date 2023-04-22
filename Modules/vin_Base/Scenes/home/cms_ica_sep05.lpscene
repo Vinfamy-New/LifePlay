@@ -1,0 +1,27 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 20
+WHO: Actor = getSpecific(Landlord); If Actor:perversion > 80 && Actor.isInterestedIn(Player)
+OTHER: isAtHome()
+
+    SceneStart()
+    Actor2 = getSpecific(Dating)
+    Actor.dress()
+    Actor.show()
+    "When the landlord comes in to collect the rent today, the pervert offers a big discount if I sleep with <Actor2.him_or_her> ..."
+    0:: "Okay ..."
+    1:: Actor2.isValid() && Actor.isInterestedIn(Actor2):: "Offer <Actor2.name> instead"
+    2:: "No way"
+    
+    If 2
+        "What kind of offer is that?"
+    Else
+        If 0
+            Sex(Player, Actor)
+        Else
+            Sex(Actor, Actor2)
+        Endif
+        money += 500
+    Endif
+    SceneEnd()
+    timeout(1000, cms_ica_sep05)

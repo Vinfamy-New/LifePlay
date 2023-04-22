@@ -1,0 +1,51 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 18 
+WHO: Actor = getCreature(); If Actor.isCreatureType(Dog) && Actor.isMale() && Player.isInterestedIn(Actor)
+OTHER: !Player.isMale()
+
+    SceneStart()
+    Actor.show()
+    "Maybe I should take my pet <Actor.name> to a vet today for a general health check."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        setBackground(veterinary)
+        Actor:rapportwithplayer += 1
+        Actor2 = generatePersonTemporary()
+        Actor2.dress()
+        Actor2.show()
+        If Actor2.isMale()
+            "The checkup went well. No problems were found ..."
+        Else
+            If Actor.hadSex()
+                "Oh no, this is awkward, as soon as the vet, who happened to be a pretty lady touched <Actor.name>, my dog reacted with a huge boner ..."
+                "I guess our bestial secret has had a long-term effect on <Actor.name>, who now sees other human females as potential mates."
+                Actor2:: "What? That can't be ... Your dog ..."
+                Actor2:: "This isn't a normal reaction at all ... He's reacting to me the same way he would to get ready for breeding ..."
+                Player:: "It certainly looks that way, sorry ..."
+                Actor2:: "Miss, is there anything you wish to tell me about your dog's ... past experience?"
+                0:: "Show her"
+                1:: "Play dumb"
+                
+                If 0
+                    Player:: "Well, you see, <Actor.name> and I ... we have become a lot more than just a pet and his owner ..."
+                    Player:: "Maybe I can show you what I usually do when he gets excited like this ..."
+                    Sex(Actor, Player)
+                    Actor2:: "Oh my god ... I can't believe this is happening right here ... You do know bestiality is illegal, right? I can report you right now."
+                    Player:: "And judging by the fact that you haven't called the cops and instead opted to watch us the whole time, maybe you enjoyed what you saw?"
+                    Player:: "Come on ... you've spent so much time studying and caring for animals, have you never been curious about what it feels like to mate with one?"
+                    Actor2:: "Maybe ..."
+                    Player:: "Then come here, unlike your regular human lover, <Actor.name> has plenty of stamina to keep going ..."
+                    Sex(Actor, Actor2, Player)
+                Else
+                    Player:: "I don't know what you're talking about ..."
+                Endif
+            Else
+                "The checkup went well. No problems were found ..."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, threesome_with_vet_cms)

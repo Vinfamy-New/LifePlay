@@ -1,0 +1,59 @@
+WHAT: all 
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanionCreature(); If Actor.isCreatureType(Dog) && Actor.hadSex()
+OTHER:
+
+    // While walking your dog (you do this in the Contacts menu), your dog smells something and asks you to follow them to a pack of stray dogs who seem a bit restless. You could choose to help relieve them all, and if you walk away and the unofficial NC module is enabed, they'll turn aggressive and attack you instead. There's a chance a police gender same gender as you come across this attack and tries to help you, possibly only to get themselves the same fate.
+    
+    SceneStart()
+    "I was walking my dog <Actor.name>, when <Actor.he_or_she> smelt something, barked and tried to get me to follow <Actor.him_or_her> ..."
+    setBackground(street)
+    Actor2 = generateCreatureTemporary(Dog)
+    Actor3 = generateCreatureTemporary(Dog)
+    Actor4 = generateCreatureTemporary(Dog)
+    
+    Actor2.show()
+    Actor3.show()
+    Actor4.show()
+    "I followed my dog and ended up coming across a pack of stray dogs ... They all seemed particularly restless ..."
+    "And from my own sexual experience with <Actor.name>, deep inside I knew what needs to be done to relieve the needs of these dogs ..."
+    0:: "Fuck them all"
+    1:: "Walk away"
+    
+    If 0
+        "It's almost as if I'm in an open relationship with my pet dog, who is kind enough to bring me more dogs to fuck ..."
+        Sex(Actor2, Player)
+        Sex(Actor3, Actor4, Player)
+    Elseif 1
+        "I decided to leave the stray dogs be. Having sex with my pet dog is one thing, having sex with a random pack of stray dogs is an entirely different thing. Who knows what kind of diseases I could catch?"
+        If isModEnabled(vin_NonConsensual)
+            "Unfortunately, their animalistic instincts took over and soon the dogs attacked me and pushed me down."
+            "One of them started to mount me immediately ..."
+            If Random(0, 100) < 50
+                "I have no choice but to endure ..."
+                Sex(Actor2, Player)
+                Sex(Actor3, Actor4, Player)                
+            Else
+                Player:: "Help! Somebody, help me!"
+                Actor5 = generatePersonTemporary()
+                While !Player.isSameGender(Actor5)
+                    Actor5 = generatePersonTemporary()
+                Endwhile
+                Actor5.dressUniform(police)
+                Actor5.show()
+                Actor5:: "Oh my god, <Player.Mister_or_Miss>, are you okay?"
+                "A police officer came across the scene and tried to hit the dogs with <Actor5.his_or_her> baton."
+                "Unfortunately, <Actor5.he_or_she> was outnumbered and ended up dropping <Actor5.his_or_her> weapon once a dog got a bite of <Actor5.his_or_her> arm ..."
+                "And just like that, the cop suffered the same fate as the civilian <Actor5.he_or_she> was trying to save ..."
+                Sex(Actor2, Player)
+                Sex(Actor3, Actor5)
+                Sex(Actor4, Player, Actor5)
+            Endif
+        Else
+            "Thankfully, the stray dogs let me leave."
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, bestiality_stray)

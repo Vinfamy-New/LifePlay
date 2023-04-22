@@ -1,0 +1,59 @@
+WHAT: all
+WHERE: home
+WHEN: 8-22
+WHO: Actor = getSpecific(Dating); If Actor:perversion > 50 && Actor:attractiontoplayer > 50
+OTHER: OpenRelationship()
+
+    // Poly partner pushing for more partners in the relationship and actively introduce you to someone they think you might like and could make a good addition to the 'family'
+    
+    SceneStart()
+    "<Actor.name> is a very open-minded <Actor.boyfriend_or_girlfriend>. Not only does <Actor.he_or_she> agree to a polyamorous relationship, <Actor.he_or_she> keeps telling me to find more lovers."
+    "Better still, <Actor.name> has been actively looking for potential 'new recruits' that <Actor.he_or_she> thinks I might like."
+    Actor2 = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makeInterested(Player)
+    Actor2:attractiontoplayer => Random(30, 70)
+    Actor2:age => Random(0.85, 1.15)*Actor:age
+    If Actor2:age < 18
+        Actor2:age => Random(18, 24)
+    Endif
+    Actor2.randomizeFace()
+    Actor2.randomizeHairs()
+    Actor2.dress()
+    Actor2.show()
+    "Today <Actor.name> introduces me to one of <Actor.his_or_her> friends <Actor2.name>, who know about our arrangement and is very interested in becoming part of it."
+    0:: "Fuck <Actor2.name> to test our sexual compatibility"
+    1:: "Have a threesome with <Actor.name> and <Actor2.name>"
+    2:: "Not interested"
+    
+    If 0
+        Fucked = true
+        Sex(Player, Actor2)
+    Elseif 1
+        Fucked = true
+        Sex(Player, Actor2, Actor)
+    Else
+        Fucked = false
+        "<Actor2.name> isn't my type at all. I'd have thought <Actor.name> knew me better!"
+    Endif
+    
+    If Fucked
+        "Having 'tested out' this potential 'new recruit' to our 'family', what do I think?"
+        0:: "Take <Actor2.name> on as my latest polyamorous lover"
+        1:: "Not suitable"
+        
+        If 0
+            "<Actor2.name> would make an excellent addition to our polyamorous family, especially since <Actor2.he_or_she> already gets along so well with <Actor.name>."
+            Actor2.makePermanent()
+            exchangeContact(Actor2)
+            Actor2.setDating()
+            "<Actor2.name> is now my latest <Actor2.boyfriend_or_girlfriend>."
+        Else
+            "Unfortunately, I don't think <Actor2.name> would be a good fit."
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(300, poly_introduces)

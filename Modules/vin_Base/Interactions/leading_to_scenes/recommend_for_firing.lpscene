@@ -1,0 +1,49 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // You can also recommend any office subordinates for firing now, success chance based on how big the gap between your jobexperience stats are + your jobperformance and rapport with your own boss, which can be substituted for se x if perverted boss. 
+    
+    SceneStart()
+    "I don't like <Actor.name> that much and want <Actor.him_or_her> fired. Sadly, even though <Actor.he_or_she> is my subordinate, the final decision lies with the boss."
+    0:: "Convince my boss to fire <Actor.name>"
+    1:: "Don't"
+    
+    If 0
+        Success = false
+        dressFormal()
+        Actor2 = getSpecific(Boss)
+        Actor2.dress()
+        Actor2.show()
+        
+        If Random(50, 200) < Actor2:rapportwithplayer + jobperformance + jobexperience - Actor:jobexperience
+            Success = true
+        Else
+            "The discussion did not go well at all ... Not only did my boss reject my request outright, he was visibly upset that I seemed to have a personal vendetta against a good hard-working employee like <Actor.name>."
+            0:: "Convince <Actor2.him_or_her> with sex"
+            1:: "Give up"
+            
+            If 0
+                If Actor2.hadSex() || Actor2:attractiontoplayer > 40 || [Actor2:perversion > 70 && Actor2.isInterestedIn(Player)]
+                    Actor2:: "Fine ... since you're so persistent ..."
+                    Sex(Actor2, Player)
+                    Success = true                    
+                Else
+                    Actor2:: "How dare you suggest something like this? Get out of my office!"
+                    jobperformance -= Random(0, 10)
+                Endif
+            Else
+                jobperformance -= Random(0, 5)            
+            Endif        
+        Endif
+        
+        If Success
+            "I managed to convince my boss to fire <Actor.name>."
+            Actor.removeColleague()
+        Else
+            "In the end, I failed to convince my boss to fire <Actor.name>."
+        Endif
+    Endif
+    SceneEnd()

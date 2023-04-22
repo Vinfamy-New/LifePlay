@@ -1,0 +1,28 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Actor.isPregnant() && !Actor.isMale() && !Actor.isDating() && Random(40, 100) < Actor:rapportwithplayer && Actor:fertility > 0 && !Actor.hasRelationship(Spouses, Dating, ParentChild) && Actor:likes_vaginal < 100
+OTHER: !Player.isFemale() && Player:fertility > 0
+
+    SceneStart()
+    Actor.setWantsBabies()
+    Actor:: "<Player.name>, can we talk?"
+    "Must be important ..."
+    Player:: "Yes, what is it?"
+    Actor:: "You know I've always wanted to become a mother ..."
+    Actor:: "But I've found stable relationships so hard to come by and I'd rather not go to a sperm bank and just get pregnant with a complete stranger who neither I nor my baby will ever meet ..."
+    Actor:: "On the other hand, you're a dear friend who I trust deeply ... would you like the honour of being my child's father?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Player:: "Of course, I'd love to help."
+        Actor:likes_vaginal => 100
+        setBackground(home)
+        "Soon enough, we were back in a hotel for our first 'natural insemination' session ..."
+        Sex(Player, Actor)
+    Else
+        Player:: "Sorry, but it would make our friendships too weird ..."
+    Endif
+    SceneEnd()
+    timeout(500, friend_proposes_baby)

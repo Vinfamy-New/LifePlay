@@ -1,0 +1,70 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(Sibling, StepSibling); Actor2 = getRelative(Parent, StepParent); If Actor.livesWithPlayer() && Actor2:perversion < 25 && Actor:perversion > 50 && !Actor.hasRelationship(Spouses, Dating) && !Actor.isVirgin()
+OTHER:
+
+    // If you have a low perversion parent and a moderate to high perversion sibling, the latter might bring someone home for a one-night stand. Knowing how much this would disappoint your conservative parent, your sibling will do anything to keep you quiet
+    
+    SceneStart()
+    "My <Actor2.relationship> is quite a conservative and traditional <Actor2.man_or_woman>. When my <Actor.relationship> <Actor.name> and I were younger, the house rules were extremely strict and we were forbidden from dating at all."
+    "Now that we're all grown up though, <Actor.name> has now found the freedom to make up for those sexually supressed years by bringing a new lover home each night."
+    "Still, <Actor.he_or_she> loves our <Actor2.relationship>, knowing full well how much this would disappoint <Actor2.him_or_her>, <Actor.he_or_she> still acts like a good <Actor.boy_or_girl> whenever our <Actor2.relationship> is around."
+    "So far, <Actor.name> has managed to keep <Actor.his_or_her> sexual exploits a secret from our <Actor2.relationship>."
+    "Of course, trusting me to be more open-minded, <Actor.he_or_she> never bothered to hide any of <Actor.his_or_her> one-night lovers from me."
+    0:: "Casually warn <Actor.him_or_her> that I might snitch"
+    1:: "Let's be a good <Actor.callplayer> ..."
+    
+    If 0
+        setBackgroundCustom(kitchen)
+        Actor.dress()
+        Actor.show()
+        "We were just having some snacks in the kitchen one day when I joked that I might mention <Actor.his_or_her> sexual escapades these days to our <Actor2.relationship> whenever I see <Actor2.him_or_her> next."
+        "My poor <Actor.relationship> immediately panicked."
+        Actor:: "What? No, why would you do that?"
+        Actor:rapportwithplayer -= 3
+        "Sensing that this was a blackmail, <Actor.name> got annoyed and asked."
+        Actor:: "What do you want?"
+        0:: "Fuck me"
+        1:: "Share the next lover you bring home with me"
+        2:: "Bribe me with cash"
+        3:: "Relax, it's just a joke!"
+        
+        If 0
+            Actor:: "What, but you're my <Actor.callplayer>! How could we do that?"
+            Player:: "Why not? I already have to listen to you bang every other <Player.guy_or_girl> each night. It's only fair that I get a taste myself too."
+            Actor:: "I guess you deserve something for putting up with my lifestyle ... And there's no way our <Actor.relationship> can find out about who I've become. It would kill <Actor.him_or_her> for sure."
+            Sex(Player, Actor)
+            Actor:incest += 50
+        Elseif 1
+            Actor:: "What, why would you want someone I bring home?"
+            Player:: "Why not? I already have to listen to you bang so many each night. It's only fair that I get some action myself too."
+            Actor:: "I guess you deserve something for putting up with my lifestyle ... And there's no way our <Actor.relationship> can find out about who I've become. It would kill <Actor.him_or_her> for sure."
+            
+            setBackground(home)
+            Actor3 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor3)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3:attractiveness => Random(75, 100)
+            Actor3:age => age + Random(-5, 5)
+            
+            Actor3.randomizeFace()
+            Actor3.randomizeHairs()
+            Actor3.dress()
+            Actor3.show()
+                    
+            "True to <Actor.his_or_her> promise, the next night that <Actor.he_or_she> went out, <Actor.he_or_she> brought home someone who <Actor.he_or_she> knew I would fancy and invited me over to have a threesome."
+            
+            Sex(Player, Actor3, Actor)
+            Actor:incest += 25
+        Elseif 2
+            Actor:: "Fine, can't believe you would extort me like that. I never imagine you to be so greedy and opportunistic."
+            money += 50
+        Else
+            Actor:: "Come on, <Actor.callplayer>, it's not funny. You almost scared me to death!"
+            Actor:rapportwithplayer += 3
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, sibling_disappoints_parent)

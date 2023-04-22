@@ -1,0 +1,15 @@
+Actor.wantsBabies()
+
+USE:
+Check if the actor has agreed to try for a baby, i.e. would fuck without protection.
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Pregnancy
+COMPARE: isPregnant
+
+EXAMPLE:
+    If Dating.wantsBabies()
+        "My GF and I are trying for a child."
+    Endif 
+

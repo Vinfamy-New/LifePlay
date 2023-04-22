@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: have_blindfold_sex
+ACTION_NAME: Suggest blindfold sex
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: have_blindfold_sex
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && [Actor.hadSex() || Actor.isDating()] && !Actor.isMale()

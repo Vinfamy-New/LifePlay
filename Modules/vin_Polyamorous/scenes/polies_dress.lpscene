@@ -1,0 +1,55 @@
+WHAT: all
+WHERE: home
+WHEN: 8-19
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && Actor.isSameGender(Actor2)
+OTHER: OpenRelationship()
+
+    // Poly partners having a clothes try out and you can spy or offer to join them.
+    
+    SceneStart()
+    "I'm taking both <Actor.name> and <Actor2.name> to a fancy place this evening, so they're helping each other choose clothes."
+    0:: "Peep on them"
+    1:: "Leave them to it"
+    
+    If 0
+        Player.hide()
+        Actor.strip()
+        Actor2.strip()
+        Actor.show()
+        Actor2.show()
+        "Looks like they haven't got far at all and are still choosing lingerie ..."
+        Actor.dressExcept(Outerwear, Top, Bottom, Foot, Headwear, Eyewear)
+        Actor2:: "How about this?"
+        Actor.strip()
+        Actor.dressExcept(Outerwear, Top, Bottom, Foot, Headwear, Eyewear)
+        Actor2:: "How about this then?"
+        Actor:: "I think this looks great!"
+        Actor:: "Now, let me help you choose."
+        Actor2.dressExcept(Outerwear, Top, Bottom, Foot, Headwear, Eyewear)
+        Actor:: "How about this?"
+        Actor2.strip()
+        Actor2.dressExcept(Outerwear, Top, Bottom, Foot, Headwear, Eyewear)
+        Actor:: "How about this then?"
+        Actor2:: "I think this looks great!"
+        Actor:: "Your body is so sexy. I wish I'm as lucky."
+        Actor2:: "Don't say that ... I think you're super hot too!"
+        Actor:: "Really?"
+        Actor2:: "Of course, let me show you ..."
+        animatePair(Actor2, Actor, Kissing)
+        "Things are getting steamy ... It's not like I've been neglecting their needs or anything. Couldn't they go through a clothes try on without fucking each other?"
+        Sex(Actor2, Actor)
+        "What do I do now?"
+        0:: "Join them for a threesome"
+        1:: "Don't make my presence known"
+        
+        If 0
+            Player.show()
+            Player:: "I asked you two to try on some clothes and this is what you're up to?"
+            Player:: "Why didn't you invite me then?"
+            Sex(Player, Actor, Actor2)
+        Endif
+        Player.show()
+    Endif
+    SceneEnd()
+    timeout(300, polies_dress)
+    

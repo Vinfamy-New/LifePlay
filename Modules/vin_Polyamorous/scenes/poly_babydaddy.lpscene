@@ -1,0 +1,26 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If !Actor.isMale() && !Actor.isPregnant()
+OTHER: Player.isPregnant() && OpenRelationship()
+
+    // If you're pregnant and one of your poly partner is female, she may insist she gets impregnated by the same baby daddy so that the kids will be blood related.
+    
+    SceneStart()
+    Actor2 = Player.getBabyDaddy()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> came up with an idea: now that I'm pregnant, maybe <Actor.he_or_she> should get <Actor.himself_or_herself> impregnated by the same baby daddy so that our children will come out close in age and actual blood-related siblings."
+    0:: Actor2.isValid():: "Invite <Actor2.name> to come impregnate <Actor.name> as well"
+    1:: "Not a good idea"
+    
+    If 0
+        Actor2.dress()
+        Actor2.show()
+        "What a lucky guy <Actor2.name> is. <Actor2.He_or_She> already impregnated me and now <Actor2.he_or_she>'s gonna try to knock my <Actor.boyfriend_or_girlfriend> up as well."
+        Sex(Actor2, Actor)
+        Actor.impregnate(Actor2)
+    Endif
+
+    SceneEnd()
+    timeout(500, poly_babydaddy)

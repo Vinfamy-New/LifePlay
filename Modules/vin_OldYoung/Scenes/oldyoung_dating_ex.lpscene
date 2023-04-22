@@ -1,0 +1,78 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 21
+WHO: Actor = getSpecific(Dating); If Actor:age > age - 10 + likes_older*0.5 && Actor:age < age + 10 + likes_older*0.5
+OTHER: isModEnabled(vin_NTR)
+
+
+    // If the Netorare module is enabled and you're already in an age-gap relationship, you may find yourself feeling insecure that you don't quite have the vigor (if you're older) or the experience (if you're younger) to fully satisfy your SO. You can then offer to let them have some fun with someone their age while you watch (and maybe join for a threesome). You can pick from your contacts or let them call an ex. 
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I'm currently in a relationship with <Actor.name> ..."
+    If Actor:age > age
+        "<Actor.name> is an older <Actor.man_or_woman> and honestly, that is part of the attraction for me. While our sex life is great, sometimes I can't help but feel I couldn't quite match up with my mature lover in bed in terms of experience ..."
+        "Deep inside, I know it's just my insecurity and <Actor.name> never said a word of complaint about my lack of experience in bed. Still, it's bothered me lately ..."
+    Else
+        "<Actor.name> is a younger <Actor.man_or_woman> and honestly, that is part of the attraction for me. While our sex life is great, sometimes I can't help but feel I couldn't quite match up with my youthful lover in bed in terms of energy and vigor ..."
+        "Deep inside, I know it's just my insecurity and <Actor.name> never said a word of complaint about lack of stamina. Still, it's bothered me lately ..."        
+    Endif
+    "Another crazy idea that came into my head recently was that maybe I should be generous and allow <Actor.name> to spend a night with someone <Actor.his_or_her> own age for a change ... It would add some spice to our relationship and I don't think I would be too worried about losing <Actor.him_or_her>: me and a <Player.man_or_woman> <Actor.his_or_her> age wouldn't really be competing anyway ..."
+    0:: "Find someone <Actor.name>'s own age for <Actor.him_or_her> to fuck"
+    1:: "Bad idea this!"
+    
+    If 0
+        "I discussed the idea with <Actor.name>, whose first reaction was thinking that it was a trap I set up to test <Actor.his_or_her> faithfulness."
+        "After I convinced <Actor.him_or_her> that I actually wanted this, <Actor.he_or_she> was delighted ..."
+        "Of course, the perfect candidate for <Actor.him_or_her> would be <Actor.his_or_her> ex since their sexual chemistry is proven ... Still, that would be a rather risky strategy ... who knows what kind of old flame this could ignite?"
+        0:: "Let <Actor.name> fuck <Actor.his_or_her> ex again"
+        1:: "Pick someone I know instead"
+        
+        If 0
+            Actor2 = generatePersonTemporary()
+            While !Player.isSameGender(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.makeInterested(Actor)
+            
+            Actor2:age => Actor:age + Random(-3, 3)
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            
+            Actor2.dress()
+            Actor2.show()
+            
+            "A few days later, we invited <Actor.his_or_her> ex <Actor2.name> over for some fun. They definitely are still very compatible sexually. In fact, I definitely could learn a thing or two from <Actor2.him_or_her> ..."
+            Sex(Actor, Actor2)
+            
+            "Of course, <Actor2.name> decided to be generous back and invited me in for a threesome for the second round..."
+            Sex(Actor, Player, Actor2)
+        Else
+            "Who should I ask?"
+            selectNpc()
+            Actor2 = getSelectedNpc()
+            
+            If Actor2:age > Actor:age - 10 && Actor2:age < Actor:age + 10
+                "<Actor2.name> is around <Actor.name>'s age and would be a good candidate ..."
+                If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && [Actor2:perversion > 50 || Actor2.hadSex() || Actor2:rapportwithplayer > 50]
+                    "<Actor2.name> was happy to go along with our plan ..."
+                    
+                    Actor2.dress()
+                    Actor2.show()
+                    
+                    "A few days later, we invited <Actor2.him_or_her> over for some fun with my <Actor.boyfriend_or_girlfriend>. Being closer in age, they turn out to be very compatible sexually. In fact, I definitely could learn a thing or two from <Actor2.him_or_her> ..."
+                    Sex(Actor, Actor2)
+                    
+                    "Of course, <Actor2.name> decided to be generous back and invited me in for a threesome for the second round..."
+                    Sex(Actor, Player, Actor2)
+                Else
+                    "Unfortunately, <Actor2.name> turned down our offer. Let's think about another candidate another time."
+                Endif
+            Else
+                "<Actor2.name> isn't really <Actor.name>'s age ..."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, oldyoung_dating_ex)

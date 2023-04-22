@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: feed_pet
+ACTION_NAME: Feed
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 30
+TIMEOUT_MINUTES:
+ALSO_TIMEOUT: 
+EFFECTS: karma +0.1 (END), stock_petfood -1 (END), Interacting:rapportwithplayer +2 (END)
+CONDITIONS: stock_petfood > 0.9 (STAT_COMPARE)
+MOVE_FIRST: true
+SCENE_ALWAYS:
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isCreature()    

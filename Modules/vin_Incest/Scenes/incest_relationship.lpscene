@@ -1,0 +1,75 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Actor.isRelative() && Actor:incest > 85 && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player) && !Actor.hasRelationship(Spouses, Dating)
+OTHER: !Player.isDating() || [isModEnabled(vin_Polyamorous) && OpenRelationship()]
+
+    SceneStart()
+    Actor.show(2)
+
+    passTime(0.2, 0.5)
+
+    "I know <Actor.name> is my <Actor.relationship> but we already crossed all sort of boundaries and tasted all the forbidden fruit. I think I've fallen in love with my own <Actor.relationship>. However, have I ever imagined <Actor.him_or_her> as my <Actor.boyfriend_or_girlfriend>?"
+    "(Note that once an actual relationship has been started, you will still occasionally acknowledge your <Actor.name> as your <Actor.relationship>, but will largely treat <Actor.him_or_her> as your <Actor.boyfriend_or_girlfriend> - no more subtle 'incestual tension' scenes since you two are obviously way past that point. Starting a relationship is required to eventually marrying your <Actor.relationship> though)"   
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "I have fallen in love with <Actor.him_or_her> and I don't care that <Actor.he_or_she> is my <Actor.relationship> and I don't care what others think - they can call it incest if they want. But is this the right time when I should have the courage to ask <Actor.him_or_her> to be my <Actor.boyfriend_or_girlfriend>?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Player(Anxious):: "Listen, can we talk privately for a bit?"
+            Actor(Curious):: "Of course, <Player.name>. What is it?"
+            
+            If interpersonal < 50
+                "Alright, this is the moment. <Player.name>, you can do this! Be brave. Keep calm ... Keep calm ... Don't screw this up!"
+            Endif
+            
+            Player(Happy):: "You know, although you're my <Actor.relationship>, my passion for you has crossed all forbidden boundaries and I hope you feel the same ..."
+            Player(Happy):: "If so, I would love nothing more than to take our relationship to the next level and be able to call you my <Actor.boyfriend_or_girlfriend>."
+            Actor(Surprised):: "<Player.name>! I ..."                
+            Actor(Happy):: "You're my <Actor.callplayer> but I think I've fallen in love with you, <Player.name>. Of course I'll be your <Actor.boyfriend_or_girlfriend>!"
+            mood += 100
+            
+            "So we embraced and kissed, treasuring our first moment as a couple."
+            0:: "Celebrate with sex, right here"
+            1:: "Not right now"
+            
+            If 0
+                Player(Wink):: "Baby, I just thought of the perfect way to celebrate the start of our romance!"
+                Actor(Flirty):: "I think I know exactly what you mean!"
+                Sex(Player, Actor)
+                perversion += Random(0, 0.5)
+                Actor.show(2)
+            Endif
+            Actor2 = generatePerson()
+            Actor2.setExRelative(Actor)
+            Actor2.cloneFrom(Actor)
+            Actor2:attractiontoplayer => Random(40, 100)
+            Actor2:incest => 0
+            Actor.deletePerson()
+            exchangeContact(Actor2)
+            Actor2.setDating()
+            loseHomeDating()
+            Actor2.setLivingWithPlayer(true)
+            Actor2.blockNpcRelationships()
+            endDate()
+        Else
+            If isQuestCompleted(legalized)
+                "Nope, we might have had sex, but a relationship is too far. Even though incest is now legal in this country, it's still very much a social taboo."
+            Else
+                "Nope, we might have had sex, but a relationship is too far. That's just asking for jail time."
+            Endif
+        Endif
+    Else
+        If isQuestCompleted(legalized)
+            "Nope, we might have had sex, but a relationship is too far. Even though incest is now legal in this country, it's still very much a social taboo."
+        Else
+            "Nope, we might have had sex, but a relationship is too far. That's just asking for jail time."
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(300, incest_relationship)

@@ -1,0 +1,63 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Player.isInterestedIn(Actor) && !Player.isDating()
+OTHER:  
+
+    // this one is a bit more complicated (i updated my pledge to $25). ability to set up a blind date (meaning you don’t see the npc), and there’s a chance this person can be either really fat, a different race than you’re interested, completely amazing looking, or just a normal. on the date if she’s not attractive you can either insult her based off of what’s wrong with her and leave, or wait it out to sleep with her. if you insult her and leave she may stalk you or try and seduce you if your looks/attractiveness are really high.
+    
+    SceneStart()
+    "While hanging out with <Actor.name>, knowing that I'm single, <Actor.he_or_she> suggests that I go on a blind date with one of <Actor.his_or_her> single friends."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Actor.hide()
+        setBackground(restaurant)
+        
+        Actor2 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.makeInterested(Player)
+        
+        Actor2.dress()
+        Actor2.show()
+        "My date turned out to be called <Actor2.name> ..."
+        0:: "Be rude"
+        1:: "Be nice and flirt"
+        
+        If 0
+            "Ew, this is why blind dates are such a bad idea. <Actor2.name> is absolutely terrible-looking and not my type at all."
+            "And I have no troubles telling <Actor2.him_or_her> that ..."
+            "I even decided to end the date early and go home ..."
+            Actor2.hide()
+            
+            If Random(20, 50) < Actor2:attractiontoplayer
+                setBackground(livingroom)
+                "When I arrived home though, I noticed that the front door lock has been picked open ... Oh god, as if that blind date wasn't bad enough, did I get burgled as well?"
+                Actor2.strip()
+                Actor2.show()
+                "As I carefully open the door, my blind date, now completely naked, was waiting for me there."
+                Actor2:: "I'm sorry I stalked you home and broke into your apartment ..."
+                Actor2:: "I just can't help myself ... I think I've fallen in love with you at first sight ..."
+                0:: "Kick this crazy <Actor2.man_or_woman> out"
+                1:: "Might as well fuck <Actor2.him_or_her>"
+                
+                If 0
+                    Player:: "Leave here right now or I'll call the cops!"
+                Else
+                    "As much as I don't find <Actor2.name> even a tiny bit attractive ... I can't turn down such easy sex."
+                    Sex(Player, Actor2)
+                Endif
+            Endif
+        Else
+            "<Actor2.name> is quite hot actually and I tried my best to woo <Actor2.him_or_her>. We got on very well and things started to get flirtatous."
+            setBackground(home)
+            "Our blind date went so well that we eventually ended up in <Actor2.his_or_her> bedroom."
+            Sex(Player, Actor2)
+        Endif
+        Actor.show()
+    Endif
+    SceneEnd()
+    timeout(100, blind_date_cms)

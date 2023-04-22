@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: match_make_incest
+ACTION_NAME: Match-make with another family member
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 30 - 30
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: match_make_incest
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isRelative() && !Actor.hasRelationship(Spouses, Dating)

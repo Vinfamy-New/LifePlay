@@ -1,0 +1,96 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor2 = getPerson(tag_Raped); If !Actor2.isDating() && !Actor2.isRelative() && !Actor2.hasRelationship(Spouses, Dating, Siblings)
+OTHER:
+
+    // If you previously sang rap music to someone before, their SO or sibling may confront you and suffer the same fate. 
+
+    SceneStart()
+    "I hear a knock on the door ..."
+    setBackgroundCustom(livingroom)
+    "It's someone I've never met before."
+    Player:: "Sorry, who are you?"
+    
+    Actor = Actor2.generatePersonTemporaryMatchRace()
+    While !Player.isInterestedIn(Actor)
+        Actor = Actor2.generatePersonTemporaryMatchRace()
+    Endwhile
+    
+    Actor:age => Actor2:age
+    Actor:age += Random(-5, 5)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    
+    Actor.makePermanent()
+    
+    Actor.makeInterested(Player)
+    Actor:rapportwithplayer -= 50
+
+    Actor.dress()
+    Actor.show()
+    Actor:: "You may not know who I am, but I know very well who you are, you <Player.scumbag_or_bitch>! Maybe you would recognize this photo ..."
+    secondScreen(Actor2)
+    Actor2.show()
+    Actor:: "You raped my precious <Actor2.name>, didn't you?"
+    If Actor2.isInterestedIn(Actor) && Random(0, 100) < 66
+        addNpcRelationship(Dating, Actor, Actor2)
+        Sibling = false
+        Actor:: "I'm <Actor.name>, <Actor2.name>'s <Actor.boyfriend_or_girlfriend>. I won't let you get away with it."
+    Else
+        addNpcRelationship(Siblings, Actor, Actor2)
+        Sibling = true
+        Actor:: "I'm <Actor.name>, <Actor2.name>'s <Actor.brother_or_sister>. I won't let you get away with it."
+    Endif
+    secondScreen()
+    If Actor:attractiontoplayer + Actor:masochist < 0
+        "<Actor.name> angrily confronted me and accused me of rape. <Actor.He_or_She> threatened to report the sexual assault to the police."
+    Elseif Actor:attractiontoplayer + Actor:masochist < 25
+        "<Actor.name> calmly accused me of rape. <Actor.He_or_She> mentioned <Actor.he_or_she> was considering legal action."    
+    Elseif Actor:attractiontoplayer + Actor:masochist < 75
+        "<Actor.name> started by accusing me of rape but couldn't bring <Actor.himself_or_herself> to threaten me with anything. <Actor.He_or_She> seemed weak and very intimidated by me."        
+    Elseif Actor:attractiontoplayer + Actor:masochist < 125
+        "<Actor.name> seemed to lose <Actor.his_or_her> nerves and ended up staying completely silent, trying to avoid eye contact with me."        
+    Else
+        "<Actor.name> broke down in front of me and seemed resorted to what would surely happen to <Actor.him_or_her> as well."           
+    Endif
+    "How should I react?"
+    0:: "Be apologetic and bribe <Actor.him_or_her>"
+    1:: "Double down and rape <Actor.name> as well!"
+    
+    If 0
+        Player:: "I'm sorry, I don't know what got into me that night. I wasn't myself."
+        Player:: "Please, there's no need to make this a bigger deal than it is. Let's keep this between us. No-one else needs to know. Here's something for you to look the other way."
+        money -= 200
+        Actor:rapportwithplayer += 10
+        "<Actor.name> sighed but eventually accepted my apology and my bribe. We agreed to put this incident behind us and move on with our lives."
+    Else
+        Actor:masochist += Random(0, 10)
+        Player:: "Your mouth may say something completely different but I know the real reason you're here, looking for me all alone."
+        Player:: "You're simply jealous that <Actor2.name> was the one that got a rough fuck, aren't you? You wish you're the one being dominated and raped by me. Despite not being consensual, the sex we had was the best of <Actor2.his_or_her> life, wasn't it? Did <Actor2.he_or_she> tell you how amazing it was and you wanted a try yourself."
+        Actor:: "..."
+        Player::: "You came here all alone. You could have just called the cops yet you came alone to the <Player.man_or_woman> who raped your precious <Actor2.name>. Deep inside, you craved the same thing, didn't you?"
+        Actor:: "..."
+        "<Actor.name> couldn't utter a single word ..."
+        Player:: "Fine. I'll give you what you want. I'll fuck your brains out just like I did with <Actor2.name> ..."
+        "I grabbed my latest rape victim."
+        Actor:: "No ... not like <Actor2.name> ..."
+        If Actor:martial - Actor:intoxication - Actor:masochist - Actor:attractiontoplayer > martial - intoxication
+            "<Actor.name> managed to break free of me. Despite <Actor.his_or_her> panic, <Actor.he_or_she> managed to get away from my place."
+        Else
+            Actor:attractiontoplayer += Random(0, 20)
+            Actor:masochist += Random(0, 10)
+            "<Actor.name> tried to struggle against my assault but <Actor.his_or_her> resistance was frankly pathetic ..."
+            "Maybe I was right: <Actor.he_or_she> wanted this all along! <Actor.He_or_She> wanted the same experience that <Actor2.name> received."
+            TalkNonConsensual()
+            If Actor.isMale() && !Player.isMale()
+                Filter(AggressiveFM)
+            Else
+                Filter(Aggressive)
+            Endif
+            SexNoAffair(Player, Actor)
+            Actor.setActorVar(tag_Raped, 1)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(750, ag_confronted_family)

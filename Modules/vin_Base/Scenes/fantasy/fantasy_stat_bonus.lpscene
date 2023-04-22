@@ -1,0 +1,55 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: none
+OTHER: Player.isRace(Orc) || Player.isRace(Elf)
+
+    // Fitness+muscle and intelligence increases are tracked for orc and elf player characters respectively and each week, you receive an extra 50% boost of how ever much you gained in the last week.
+    
+    SceneStart()
+    If Player.isRace(Orc)
+        "As an Orc, I have increased fitness and muscle mass compared to humans. Exercising and weightlifting yields much faster gains for me than the average human."
+        fitnessL = Player.getActorVar(fitnessL)
+        muscleL = Player.getActorVar(muscleL)
+        
+        If fitnessL == 0 || muscleL == 0
+            "I should remember this and spend more time working out. It's totally worth it."
+        Elseif fitness - fitnessL < 0.02 && muscle - muscleL < 0.02
+            "Unfortunately, I've neither worked on improving my fitness or muscle mass significantly in the last week." 
+        Else
+            If fitness - fitnessL > 0.01 && fitness - fitnessL < 10
+                fitness += 0.5*[fitness - fitnessL]
+                "I've worked on my fitness in the last week and become much fitter than a human would be able to gain from the same cardio regime."
+            Endif
+            
+            If muscle - muscleL > 0.01 && muscle - muscleL < 10
+                muscle += 0.5*[muscle - muscleL]
+                "I've worked on my muscle mass in the last week and gained more muscle than a human would be able to gain from the same weightlifting regime."
+            Endif            
+        Endif
+        
+        fitnessL => fitness*1
+        muscleL => muscle*1
+        Player.setActorVar(fitnessL, fitnessL)
+        Player.setActorVar(muscleL, muscleL)
+    Else
+        "As an Elf, I have higher intelligence compared to humans. I can obtain knowledge much faster than the average human."
+        intelligenceL = Player.getActorVar(intelligenceL)
+        
+        If intelligenceL == 0
+            "I should remember this and spend more time reading and researching. It's totally worth it."
+        Elseif intelligence - intelligenceL < 0.02
+            "Unfortunately, I've not worked on improving my knowledge significantly in the last week." 
+        Else
+            If intelligence - intelligenceL > 0.01 && intelligence - intelligenceL < 10
+                intelligence += 0.5*[intelligence - intelligenceL]
+                "I've worked on my intelligence in the last week and become much more knowledgeable than a human would be able to gain from the same amount of reading and research."
+            Endif         
+        Endif
+        
+        intelligenceL => intelligence*1
+        muscleL => muscle*1
+        Player.setActorVar(intelligenceL, intelligenceL)
+    Endif
+    SceneEnd()
+    timeoutPrecise(168, fantasy_stat_bonus)

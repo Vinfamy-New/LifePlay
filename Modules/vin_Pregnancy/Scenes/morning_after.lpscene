@@ -1,0 +1,21 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "I have had some unprotected sex recently, which was quite risky. Maybe I should take a morning after pill to help prevent an unwanted pregnancy?"
+    0:: "Take a morning after / Plan B pill"
+    1:: "Do nothing"
+    
+    If 0
+        "Hopefully I took it in time and won't get pregnant."
+        If Player.isPregnant()
+            Days = countPregnancyDays()
+            If Days < 10
+                Player.endPregnancy()
+            Endif
+        Endif
+    Endif
+    SceneEnd()

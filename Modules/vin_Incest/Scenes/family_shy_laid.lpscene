@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: nightclub, bar
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If !Actor.hasRelationship(Spouses, Dating) && [Actor.isVirgin() || Actor:interpersonal < 50 || Actor:attractiveness < 50] && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+OTHER:
+
+    // While in a nightclub or bar, you may find a relative (either a virgin or low interpersonal) being mocked by their mates for being awkward and not being able to get any action. You can silence the mates and help your relative's confidence by 'prentending' to make out and bring the latter home.
+    
+    SceneStart()
+    "I was hanging out by the bar when I notice someone very familiar."
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isSameGender(Actor)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    Actor2.dress()
+    Actor.show()
+    Actor2.show()
+    "It's my <Actor.relationship> hanging out with a friend, who I've never met before."
+    "However, it only took a quick glance to figure out their friendship dynamic, the friend is clearly the popular one while my poor <Actor.relationship> is just here as a sidekick. No surprise really, my <Actor.relationship> has always been a bit shy and awkward around <Player.guys_or_girls>."
+    "I walked towards them to say hi but before I got there, I couldn't help but overhear their conversation."
+    Actor2:: "Can I ask you a personal question? Are you a virgin?"
+    Actor:: "What? No, I'm not ..."
+    Actor2:: "I don't believe you. Like ... how do you even get laid? In all the times we go out together, I've never seen you muster enough courage to approach anyone or seen any <Player.guys_or_girls> half attractive even slightly checking you out. You're just invisible."
+    "What a condescending <Actor2.dick_or_bitch>? Who do you think <Actor2.he_or_she> is to talk down to my <Actor.relationship> like that ..."
+    "Suddenly, an idea on how to teach this <Actor2.asshole_or_bitch> a lesson while improving my <Actor.relationship>'s confidence came to my head. The idea involves some minor incest though ..."
+    0:: "Make out with my <Actor.relationship> in front of <Actor.his_or_her> popular friend"
+    1:: "Leave them be"
+    
+    If 0
+        Player.moveToPersonStand(Actor, 50)
+        Player:: "Hey <Actor.guys_or_girls>!"
+        "My <Actor.relationship> was surprised to see <Actor.his_or_her> <Actor.callplayer> there and would have jeopardize my plan if <Actor.his_or_her> friend didn't interrupt <Actor.him_or_her> mid-sentence to try and seduce me."
+        Actor2:: "What's up, hottie? Aren't you an eye candy? Why don't we skip the pleasantries and go to the part where I take you home right away."
+        Player:: "Sorry but actually, it's not you I'm interested in ..."
+        animatePair(Player, Actor, Kissing)
+        "I then grabbed my <Actor.relationship> and made out with <Actor.him_or_her>, to the shock of both <Actor.him_or_her> and <Actor.his_or_her> 'popular' friend."
+        Player:: "Follow me ..."
+        Actor2:: "I can't believe it ... This is my worst nightmare ... I'm invisible ..."
+        Actor2.hide()
+        "I then led <Actor.name> out of the club and back home, leaving the 'friend' behind very much embarrassed and doubting <Actor.himself_or_herself>."
+        setBackgroundCustom(livingroom)
+        Actor:: "<Actor.callplayer>, thank you, I guess ... My friend was putting me in a very uncomfortable situation ..."
+        Player:: "<Actor2.He_or_She> is not your real friend ... If you have more self-belief, you wouldn't hang out with someone who talks down to you like that."
+        Actor:: "Thank you ... I'm not sure you should have kissed me like that though ... It was kinda weird, I'm your <Actor.relationship> after all"
+        0:: "Needed to make the act convincing"
+        1:: "I enjoyed it!"
+        
+        If 0
+            Player:: "Well, how else would I able to make it believable?"
+            Player:: "Don't worry about it. Have some rest."
+            Actor:rapportwithplayer += 5
+        Else
+            Player:: "Actually, making out with you was great. I'll even do it again. Here ..."
+            animatePair(Player, Actor, Kissing)
+            
+            setBackground(home)
+            "Soon, we ended up in the bedroom together. I'm about to give my <Actor.relationship> a confidence boost of <Actor.his_or_her> life."
+            Sex(Player, Actor)
+            Actor:incest += 50
+            Actor:interpersonal += 10
+            Actor:rapportwithplayer += 20
+        Endif
+    Else
+        "I don't have to get involved. Sooner or later, my <Actor.relationship> will find a lover who likes <Actor.him_or_her> for who <Actor.he_or_she> is and learn to dump <Actor2.asshole_or_bitchy> patronising friends like that one." 
+    Endif
+    SceneEnd()
+    timeout(300, family_shy_laid)

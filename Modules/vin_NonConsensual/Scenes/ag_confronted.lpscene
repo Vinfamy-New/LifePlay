@@ -1,0 +1,99 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_Raped); If !Actor.isDating()
+OTHER:
+
+    // Your victim may confront you giving you another chance to assault and repeat until Stockholm Syndrome develops and the victim either falls in love with you or surrenders as your slave and accept you as their master.
+
+    SceneStart()
+    "I hear a knock on the door ..."
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    "It's <Actor.name>, who I previously raped."
+    If Actor:attractiontoplayer + Actor:masochist < 0
+        "<Actor.name> angrily confronted me and accused me of rape. <Actor.He_or_She> threatened to report the sexual assault to the police."
+    Elseif Actor:attractiontoplayer + Actor:masochist < 25
+        "<Actor.name> calmly accused me of rape. <Actor.He_or_She> mentioned <Actor.he_or_she> was considering legal action."    
+    Elseif Actor:attractiontoplayer + Actor:masochist < 75
+        "<Actor.name> started by accusing me of rape but couldn't bring <Actor.himself_or_herself> to threaten me with anything. <Actor.He_or_She> seemed weak and very intimidated by me."        
+    Elseif Actor:attractiontoplayer + Actor:masochist < 125
+        "<Actor.name> seemed to lose <Actor.his_or_her> nerves and ended up staying completely silent, trying to avoid eye contact with me."        
+    Else
+        "<Actor.name> broke down in front of me and seemed resorted to what would surely happen again."           
+    Endif
+    "How should I react?"
+    0:: "Be apologetic"
+    1:: "Double down and rape <Actor.name> again!"
+    
+    If 0
+        Player:: "I'm sorry, I don't know what got into me that night. I wasn't myself."
+        Player:: "Please, there's no need to make this a bigger deal than it is. Let's keep this between us. No-one else needs to know."
+        Actor:rapportwithplayer += 10
+        If Actor:rapportwithplayer > 0
+            Actor.setActorVar(tag_Raped, 0)
+            "<Actor.name> sighed but eventually accepted my apology. We agreed to put this incident behind us and move on with our lives."
+        Endif
+    Else
+        Actor:masochist += Random(0, 10)
+        Player:: "Your mouth may say something completely different but I know the real reason you're here, looking for me all alone."
+        Player:: "You liked it, didn't you? I loved being dominated and raped by me. Despite not being consensual, the sex we had was the best of your life, wasn't it?"
+        Actor:: "..."
+        Player::: "You came here all alone. You could have just called the cops yet you came back to the <Player.man_or_woman> who raped you. Deep inside, you craved more, didn't you?"
+        Actor:: "..."
+        "<Actor.name> couldn't utter a single word ..."
+        Player:: "Fine. I'll give you what you want. I'll fuck your brains out once again ..."
+        "I grabbed my rape victim again, just like last time."
+        Actor:: "Please ... no ... not again ..."
+        If Actor:martial - Actor:intoxication - Actor:masochist - Actor:attractiontoplayer > martial - intoxication
+            "<Actor.name> managed to break free of me this time. Despite <Actor.his_or_her> panic, <Actor.he_or_she> managed to get away from my place."
+        Else
+            Actor:attractiontoplayer += Random(0, 20)
+            Actor:masochist += Random(0, 10)
+            "<Actor.name> tried to struggle against my assault but <Actor.his_or_her> resistance was frankly pathetic ..."
+            "Maybe I was right: <Actor.he_or_she> wanted this all along!"
+            TalkNonConsensual()
+            If Actor.isMale() && !Player.isMale()
+                Filter(AggressiveFM)
+            Else
+                Filter(Aggressive)
+            Endif
+            SexNoAffair(Player, Actor)
+            
+            If Random(75, 100) < Actor:masochist && Random(0, 100) < 75
+                Actor.setActorVar(tag_Raped, 0)
+                "After I was done with <Actor.him_or_her>, <Actor.name> started weeping and admitted that <Actor.he_or_she> was worthless and should rightfully submit to me as <Actor.his_or_her> <Player.master_or_mistress>."
+                "As a slave, <Actor.name> swore to obey my every commands. In fact, satisfying all my needs is all that <Actor.he_or_she> was born for."
+                Actor.setActorVar(tag_Slave, 1)
+                Actor.setWantsBabies()
+                exchangeContact(Actor)
+                If isModEnabled(vin_BDSM)
+                    Actor.strip()
+                    Actor.dressBondage(Collar)
+                    "To show my newly recognized ownership of my new slave, I put a collar around <Actor.his_or_her> neck and forbid <Actor.him_or_her> from ever removing it."
+                Endif
+                Actor:masochist => 100
+            Elseif Random(50, 100) < Actor:attractiontoplayer
+                Actor.setActorVar(tag_Raped, 0)
+                exchangeContact(Actor)
+                "After I was done with <Actor.him_or_her>, <Actor.name> started weeping and admitted that despite me repeatedly fucking <Actor.him_or_her> against <Actor.his_or_her> will, <Actor.he_or_she> had fallen in love with me. <Actor.He_or_She> begged me to accept <Actor.him_or_her> as my <Actor.boyfriend_or_girlfriend>."
+                Actor:attractiontoplayer => 100
+                "A classic case of Stockholm Syndrome I see."
+                0:: "Become <Actor.name>'s <Player.boyfriend_or_girlfriend>"
+                1:: "Just keep <Actor.him_or_her> around as a fuckbuddy"
+                2:: "Reject <Actor.him_or_her>"
+                
+                If 0
+                    Actor.setDating()
+                    "Who knows you can conquer a <Actor.guy_or_girl>'s heart simply by repeatedly raping <Actor.him_or_her>!"
+                Elseif 1
+                    Actor.setActorVar(tag_fwb, 1)
+                    "I led the poor <Actor.guy_or_girl> on to believe that I was genuinely interested in <Actor.him_or_her> romantically, just so that I can keep taking advantage of <Actor.him_or_her> sexually." 
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, ag_confronted)
+    

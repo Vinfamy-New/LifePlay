@@ -1,0 +1,29 @@
+WHAT: all
+WHERE: home
+WHEN: 8-24
+WHO: Actor = getSpecific(ExDating); If Actor:attractiontoplayer > 40 && !Actor.isPregnant() && !Player.isPregnant() && [Actor.isFemale() || Player.isFemale()] && [Actor.isMale() || Player.isMale()]
+OTHER:
+
+    // An ex who can't get over you suggests one last night together for old time's sake, secretly with the sole intention of starting a pregnancy.
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I've broken up with <Actor.name> but <Actor.he_or_she> can't seem to get over me. <Actor.He_or_She> even showed up at my place today asking for one last intimate time together for old time's sake."
+    0:: "Grant <Actor.his_or_her> wish"
+    1:: "Kick <Actor.him_or_her> out"
+    
+    If 0
+        "<Actor.name> wanted this last time to be special so insisted on no protection ..."
+        0:: "Okay ..."
+        1:: "No way"
+        
+        If 0
+            Actor.setWantsBabies(true)
+            Player.setWantsBabies(true)
+        Endif
+        Actor:fertility => 50
+        Actor:likes_vaginal => 100
+        Sex(Actor, Player)
+    Endif
+    SceneEnd()
+    timeout(500, ex_pregnancy_plot)

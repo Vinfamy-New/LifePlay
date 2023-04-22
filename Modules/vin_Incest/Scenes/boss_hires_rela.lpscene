@@ -1,0 +1,239 @@
+WHAT: all
+WHERE: work
+WHEN: 15-4
+WHO: Actor = getSpecific(Boss); If Actor:perversion > 50 && !Actor.isAsexual()
+OTHER:
+
+    // Your offfice boss hires a rela of theirs as an assistant. You thought it was just nepotism at first until you found out what they're up to. Once caught, your boss offers to hire one of your relas as well and allow their office to be used as paul Ince's foursome playground.
+    
+    SceneStart()
+    dressFormal()
+    Actor2 = Actor.getRelatedPerson(Incest)
+    If Actor2.isValid()    
+        If Actor2.hasRelationship(ParentChild)
+            If Actor2:age > Actor:age
+                If Actor2.isMale()
+                    rela = "dad"
+                Else
+                    rela = "mom"
+                Endif
+            Else
+                If Actor2.isMale()
+                    rela = "son"
+                Else
+                    rela = "daughter"
+                Endif            
+            Endif
+        Elseif Actor2.hasRelationship(ParentSiblingSiblingChild)
+            If Actor2:age > Actor:age
+                If Actor2.isMale()
+                    rela = "uncle"
+                Else
+                    rela = "aunt"
+                Endif
+            Else
+                If Actor2.isMale()
+                    rela = "nephew"
+                Else
+                    rela = "niece"
+                Endif            
+            Endif        
+        Elseif Actor2.hasRelationship(Siblings)
+            If Actor2.isMale()
+                rela = "brother"
+            Else
+                rela = "sister"
+            Endif           
+        Endif
+        
+        "I'm working late again today, and the boss was once again still in <Actor.his_or_her> office suspiciously late, no doubt having some forbidden sex with <Actor.his_or_her> own <rela>, who <Actor.he_or_she> hired <Actor.himself_or_herself>."
+        0:: "Peep on them"
+        1:: "Leave them be"
+        
+        If 0
+            Actor.dress()
+            Actor.show()
+            Actor2.dress()
+            Actor2.show()
+            "I wouldn't mind watching the show again."
+            animatePair(Actor, Actor2, Kissing)
+            "As expected, I found my boss making out with <Actor.his_or_her> <rela> inside <Actor.his_or_her> office. Things soon got even more steamy."
+            Sex(Actor, Actor2)
+            
+            Actor3 = getRelative()
+            RelWorksHere = Actor3.getActorVar(tag_Colleague)
+            While RelWorksHere < 1 && Actor3.isValid()
+                Actor3 = getRelative()
+                RelWorksHere = Actor3.getActorVar(tag_Colleague)                
+            Endwhile
+            
+            If Actor3.isValid()
+                Actor3.dress()
+                Actor3.show()
+                "I wasn't the only one catching the boss and <Actor.his_or_her> <rela> in the act. My own <Actor3.relationship> who works with me was there too and saw the whole thing."
+                If Actor3:incest > 75 && Actor3.isInterestedIn(Player)
+                    If Actor3.hadSex()
+                        "Of course, we're no stranger to incest ourselves ..."
+                    Else
+                        "There has been sexual tension between me and my <Actor3.relationship> for a while and watching the boss and <Actor.his_or_her> <rela> going at it seemed to finally push my <Actor3.relationship> to go for it." 
+                    Endif
+                    Actor3:: "That's so hot watching another incest couple going at it. Do you think the boss and <Actor.his_or_her> <rela> would be open to us joining them for some fun?"
+                    Player:: "I think <Actor.he_or_she> would. After all, <Actor.he_or_she> was the one who offered to let you join me working in the same office, hoping our family relationship would blossom."
+                    "We let our presence known and the boss and <Actor.his_or_her> <rela> smiled at us. We just watched a great incestuous performance by them so it was only fair that they got to watch us now."
+                    Sex(Player, Actor3)
+                    "Now it's time for some family swapping!"
+                    If Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+                        Sex(Player, Actor)
+                    Endif
+                    If Player.isInterestedIn(Actor2) && Actor2.isInterestedIn(Player)
+                        Sex(Player, Actor2)
+                    Endif                    
+                    If Actor3.isInterestedIn(Actor) && Actor.isInterestedIn(Actor3)
+                        Sex(Actor3, Actor)
+                    Endif
+                    If Actor3.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor3)
+                        Sex(Actor3, Actor2)
+                    Endif                  
+                Else
+                    Actor3:incest += 10
+                    "My <Actor3.relationship> seemed embarrassed by what <Actor3.he_or_she> just saw and didn't say a word."
+                    "Perhaps <Actor3.he_or_she> was disgusted by the incest, or maybe seeing it has subconsciously made <Actor3.him_or_her> more open to it."
+                Endif
+            Else
+                "I tried to sneak away but unfortunately the boss caught me peeping ..."
+                Actor:: "<Player.name>, what are you doing? Damn it, you saw everything, didn't you?"
+                Actor:: "My <rela> and I love each other. It's none of your or anyone's business, so you'd better keep quiet."
+                Actor:: "How about this? I'll make you an offer for your silence. I'll hire one of your relatives for the company as well if you keep quiet about me and my <rela>."
+                Actor:: "Who knows? Maybe working together, your family relations may blossom like ours did."
+                0:: "Suggest one of my relatives for job"
+                1:: "No need"
+                
+                If 0
+                    Actor:: "Alright, who will it be?"
+                    "Let's think about it"
+                    clearGetList()
+                    Actor3 = getRelative()
+                    Ongoing = true
+                    While Actor3.isValid() && Ongoing
+                        secondScreen(Actor3)
+                        Actor3.show()
+                        "Do I want to suggest my <Actor3.relationship> <Actor3.name>?"
+                        0:: "Yes"
+                        1:: "No"
+                        
+                        If 1
+                            Actor3 = getRelative()
+                        Else
+                            Ongoing = false
+                        Endif
+                    Endwhile
+                    
+                    If Actor3.isValid()
+                        Actor3.setActorVar(tag_Colleague, 1)
+                        Actor3.addColleague()
+                        "The boss kept <Actor.his_or_her> promise and hired my <Actor3.relationship> without question."
+                        "Maybe I just want the comfort of having a family member working with me in the office ... or maybe witnessing the boss's incestuous affair with <Actor.his_or_her> <rela> inspired something in me ..."
+                    Else
+                        Actor:: "Can't think of anyone? Come back to me when you've made up your mind."
+                    Endif
+                Else
+                    Player:: "No need, boss, your secret is safe with me. Who am I to judge?"
+                    Actor:: "Good ... I knew you were a good employee."
+                Endif
+            Endif
+        Endif
+    Else
+        Actor.dress()
+        Actor.show()
+        "There was a vacancy in the office, a position working closely with the boss but <Actor.he_or_she> didn't bother to interview any candidates this time."
+        
+        Actor2 = Actor.generatePersonTemporaryMatchRace()
+        While !Actor.isInterestedIn(Actor2)
+            Actor2 = Actor.generatePersonTemporaryMatchRace()
+        endWhile
+        Actor2.makeInterested(Actor)
+        Actor2.makePermanent()
+        
+        If Actor2:age > Actor:age + 20
+            addNpcRelationship(ParentChild, Actor2, Actor)
+        Elseif Actor2:age > Actor:age + 10
+            addNpcRelationship(ParentSiblingSiblingChild, Actor2, Actor)
+        Elseif Actor2:age < Actor:age - 10
+            addNpcRelationship(ParentSiblingSiblingChild, Actor, Actor2)
+        Elseif Actor2:age < Actor:age - 20
+            addNpcRelationship(ParentChild, Actor, Actor2)
+        Else
+            addNpcRelationship(Siblings, Actor, Actor2)
+        Endif
+
+        rela = "relative"
+        
+        If Actor2.hasRelationship(ParentChild)
+            If Actor2:age > Actor:age
+                If Actor2.isMale()
+                    rela = "dad"
+                Else
+                    rela = "mom"
+                Endif
+            Else
+                If Actor2.isMale()
+                    rela = "son"
+                Else
+                    rela = "daughter"
+                Endif            
+            Endif
+        Elseif Actor2.hasRelationship(ParentSiblingSiblingChild)
+            If Actor2:age > Actor:age
+                If Actor2.isMale()
+                    rela = "uncle"
+                Else
+                    rela = "aunt"
+                Endif
+            Else
+                If Actor2.isMale()
+                    rela = "nephew"
+                Else
+                    rela = "niece"
+                Endif            
+            Endif        
+        Elseif Actor2.hasRelationship(Siblings)
+            If Actor2.isMale()
+                rela = "brother"
+            Else
+                rela = "sister"
+            Endif           
+        Endif        
+        
+        addNpcRelationship(Incest, Actor, Actor2)
+        
+        Actor2.addColleague()
+        
+        Actor2.dress()
+        Actor2.show()
+        
+        Actor2.moveToPersonStand(Actor, 50)
+        
+        "Instead, <Actor.he_or_she> simply hired <Actor.his_or_her> own <rela> for the job. Nepotism at its best."
+        
+        "The boss seems delighted to have <Actor.his_or_her> <rela> working here and proudly showed <Actor2.him_or_her> around the office as if <Actor2.he_or_she> was a trophy."
+        
+        "Initially, I thought it was just the 'Look at me, I'm rich, I'm powerful. I can hire a family member for an important position if I want to' thing."
+        
+        "However, I couldn't help but sense some sort of sexual chemistry going on between the boss and <Actor.his_or_her> <rela> ..."
+
+        "As it happened, a few days later, I stayed late in the evening finishing some work. I was intrigued at how the lights in the boss's office were still on at this time. The boss usually got off work the earliest."
+
+        "My curiousity got the better of me and I just had to check what was going on."
+        
+        Player.moveToPersonStand(Actor, 100)
+        
+        Player:: "What the fuck!"
+        
+        Sex(Actor, Actor2)
+        
+        "The boss is fucking <Actor.his_or_her> own <rela>! It wasn't just nepotism after all, the boss brought <Actor2.him_or_her> into the company so they could use the boss's office as a place to conduct their incestuous affairs with the rest of their family none the wiser."
+        
+        "I didn't want to cause a scene, knowing that the boss wouldn't hesitate to fire me to protect this huge secret, so I managed to sneak away before they could see me."
+    Endif
+    SceneEnd()
+    timeout(300, boss_hires_rela)

@@ -1,0 +1,87 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player) && !Player.isInterestedInRace(Actor) && !Actor.isSameEthnic(Player)
+OTHER:  
+
+    // Scenes where you can insult a npc’s race for varied results.  they’ll either fight you, get offended or try and prove you wrong by seducing you. 
+    
+    SceneStart()
+    "I'm hanging out with <Actor.name> and that's a rarity since I've never been that fond of <Actor.race> people like <Actor.him_or_her> in this country ..."
+    0:: "Stay respectful"
+    1:: "Insult <Actor.his_or_her> 'people'"
+    
+    If 0
+        "I kept my mouth shut about my true prejudice towards people like <Actor.him_or_her>."
+    Else
+        Player:: "You know what ... you surprise me ... for a <Actor.race> <Actor.guy_or_girl>, you're not too bad ..."
+        Actor:: "What do you mean by that?"
+        Player:: "Oh, come on, you know what most of you people are like ... You're just an exception."
+        
+        If Actor.isEthnic(black) && Actor.isMale()
+            Actor:: "Most negros like you are the plight of this country, always bitching about being the victims, yet they commit all the crimes and violence."
+            
+        Elseif Actor.isEthnic(black) && !Actor.isMale()
+            Actor:: "Most black women are repulsive. They all end up having 10 kids from 10 different baby daddies at some point!"
+
+
+        Elseif Actor.isEthnic(indian) && Actor.isMale()
+            Actor:: "Most Indian men are scammers or run dodgy businesses. They're always up to no good."
+            
+        Elseif Actor.isEthnic(indian) && !Actor.isMale()
+            Actor:: "At least as an Indian girl, you don't wear one of your stupid costume and do your Bollywood dance."
+
+            
+        Elseif Actor.isEthnic(arab) && Actor.isMale()
+            Actor:: "Most Muslims, you can't trust them, they're either terrorists themselves or their children will be terrorists some day. They could never assimilate into our culture."
+            
+        Elseif Actor.isEthnic(arab) && !Actor.isMale()
+            Actor:: "Most Muslims, you can't trust them, they're either terrorists themselves or their children will be terrorists some day. They could never assimilate into our culture."
+
+
+        Elseif Actor.isEthnic(latin) && Actor.isMale()
+            Actor:: "Most Latino men are either a drug dealer or a rapist!"
+            
+        Elseif Actor.isEthnic(latin) && !Actor.isMale()
+            Actor:: "Most Latina woman aren't even here legally!"
+
+            
+        Elseif Actor.isEthnic(asian) && Actor.isMale()
+            Actor:: "Most Chinamen are planning to invade this country, I'm telling you! Soon, you guys will take over everything if we don't stop you."
+            
+        Elseif Actor.isEthnic(asian) && !Actor.isMale()
+            Actor:: "Most Chinese are planning to invade this country, I'm telling you! Soon, you guys will take over everything if we don't stop them."
+
+
+        Elseif Actor.isEthnic(white) && Actor.isMale()
+            Actor:: "White people are colonizers and exploiters. Always have been, always will be."
+            
+        Elseif Actor.isEthnic(white) && !Actor.isMale() && !isTimingOut(strt_white_f)
+            Actor:: "White people are colonizers and exploiters. Always have been, always will be."
+        Endif
+        
+        If Random(50, 125) < Actor:attractiontoplayer + Actor:masochist
+            Actor:: "You're right ... I'm ashamed of my own people sometimes ..."
+            Player:: "Yeah, as I said, you're a rare exception ..."
+            Actor:: "It means so much to me that you would find me good enough to hang out with you despite my dirty background."
+            Actor:: "Please, you can do anything to me ... Conquer me and make me one of yours ..."
+            0:: "Fuck the <Actor.race> out of <Actor.name> and bless <Actor.him_or_her> with my <Player.race> superiority"
+            1:: "I ain't fucking no <Actor.race> <Actor.losers_or_bitches> ..."
+            
+            If 0
+                Sex(Player, Actor)
+            Endif
+        Else
+            Actor:: "Oh my God, are you serious?"
+            Actor:: "How dare you insult my whole community in front of me?"
+            Player:: "Calm down, didn't I tell you you were alright ... You're a rare exception ..."
+            Actor:: "Fuck off, you patronizing piece of shit ..."
+            Actor:: "Don't talk to me anymore!"
+            Actor:rapportwithplayer -= 30
+            Actor:attractiontoplayer -= 30
+            
+            endDate()
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, racist_pc_cms)

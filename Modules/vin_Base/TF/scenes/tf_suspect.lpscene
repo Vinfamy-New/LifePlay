@@ -1,0 +1,69 @@
+WHAT: all
+WHERE: nightclub, bar
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Actor.isFemale() && Actor:perversion > 70 && Actor:interpersonal > 50 && Actor:attractiveness > 50 && !Actor.hadSex() && Actor.isInterestedInMen()
+OTHER: TfGame() && !Player.isMale() && Player.isInterestedInMen()
+
+    //  While hanging out with a high perversion female friend in a bar or nightclub, she may find you odd and suspect you. She then dares you to hook up with a random guy and once her doubt subsides, she may even join you
+    
+    SceneStart()
+    "I'm hanging out with <Actor.name>, just having a few drinks. She's a very popular girl so I can't help but feel that becoming her friend would really help me in this new life as a woman. We're enjoying our conversation, although there has been quite a few awkward moments where I say something and <Actor.name> just stares at me a bit."
+    Actor:: "<Player.name>, I don't know ... There's just something about you, I can't quite put on my finger on it."
+    Actor:: "Don't take it the wrong way but sometimes with you, I feel like I'm talking to a guy ..."
+    "Oh no, <Actor.he_or_she> has become suspicious of me ..."
+    Player:: "What do you mean? I'm obviously not a guy ..."
+    Actor:: "I know ... you just never have met a girl like you before. Maybe you're a tomboy? Or, a lesbian? You can tell me, I'm open-minded, I won't judge."
+    Player:: "No, no ... I'm just a normal girl, I'm into guys ..."
+    Actor:: "Oh yeah, what types of guys do you like?"
+    Player:: "Ah .... Let me think ..."
+    Player:: "Um ..."
+    Actor:: "See ... you're taking way too long for such a simple question."
+    Player:: "No ... I'm just not particularly picky ... I like all types of guys ..."
+    Player:: "I have a lot of experience ... I want to try them all ... I'm all for free love."
+    "Oh dear, did I just dig a hole for myself?"
+    Actor:: "You sure? Then what about that guy over there?"
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.dress()
+    Actor2.show()
+    Player:: "What about him?"
+    Actor:: "He's been checking you out all night ... He's kinda cute, don't you think?"
+    Actor:: "Why don't you invite him into the bathroom over there and fuck him? That would prove you're not a lesbian."
+    0:: "Fuck the stranger to prove a point"
+    1:: "Shoot <Actor.name>'s idea down"
+    
+    If 0
+        Actor:rapportwithplayer += 20
+        Player:: "Okay, just watch and learn ... I do this all the time!"
+        Player.moveToPersonStand(Actor2)
+        "I approached the guy <Actor.name> had picked out for me."
+        "How did I end up in this situation? Not a long time ago I was still a man, now I'm already having to act like a slut that would sleep with a random guy she's just met, just to fit in with the popular girls."
+        animatePair(Actor2, Player, Kissing)
+        "I tried not to think too much and went for a passionate kiss right away ... <Actor.name> is already suspicious of me, last thing I want to do now is to show any hesitation."
+        "The guy responded in kind, <Actor.name> is right ... He must have had his eyes on me the whole night and now couldn't believe his luck."
+        "I couldn't help but think what would happen if I just walked up to a random girl and started making out with her when I was still a guy, I would have got slapped in the face and kicked out of the club for sure. Being a woman really allows me to do whatever I want ... Guys really are just THAT easy ... I would know, I used to be one."
+        Player:: "You ... come with me to the bathroom ... NOW!"
+        "I command him. It's amazing the power I now have over guys like him."
+        "His buddies cheer him on for his latest conquest ... me ... and he soon followed me to the club's bathroom. I caught a glimpse of <Actor.name> winking at me and couldn't help but feel victorious and vindicated."
+        setBackground(shower)
+        Actor.hide()
+        "As soon as we arrived at the bathroom, we started taking each others' clothes off. It's happening ... I'm about to fulfill the best case scenario that every guys can think of when going out to a place like this: that a hot girl is just gonna appear out of nowhere and bang them right away."
+        "Only this time, I'm not the guy in the story but the slutty girl who is about to be fucked in a dirty nightclub bathroom by a random guy whose name she didn't ever bother to ask for yet."
+        Sex(Actor2, Player)
+        Actor.show()
+        Actor:: "Wow, I must say I'm impressed! You really went for it, didn't you? I should never have doubted you. You must have done this many times before."
+        Player:: "Told you so ..."
+        Actor:: "I can't help but feel you're now outshining me though ... We can't have that ... Maybe I should show you what I'm capable of too ..."
+        Sex(Actor2, Actor, Player)
+        Actor2:: "My God, I can't believe what just happened! It must be my lucky day."
+        Actor:: "You bet it is ..."
+        "As a guy, I would do anything for a chance to have a threesome with two hot girls. It finally happened today ... only this time, I'm one of the girls ..."
+    Else
+        Player:: "I don't have to prove anything to you!"
+        Actor:: "Fine then ..."
+        Actor:rapportwithplayer -= 10
+    Endif
+    SceneEnd()
+    timeout(200, tf_suspect)

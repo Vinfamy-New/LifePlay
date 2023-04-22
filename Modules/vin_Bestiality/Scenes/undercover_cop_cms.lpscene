@@ -1,0 +1,69 @@
+WHAT: all
+WHERE: jewellery, department_store, marketplace, art, gift
+WHEN: 8 - 20
+WHO: none
+OTHER: Player.isFemale()
+
+    // The female PC is in a shop. She is approached by an undercover cop who has a sniffer dog with her. PC perversion would need to be high for the scene to become a sexual encounter, but the PC would not need to have already had sex with a dog in order to do so in this scenario.
+    SceneStart()
+    "While you are browsing in a shop, you see a pair of earrings that you really like. They are very expensive and you cannot afford to buy them. However, no one is looking. Would it hurt just to pick them up and put them in your pocket?"
+    0:: "DON'T TAKE THEM"
+    1:: "TAKE THEM"
+    
+    If 1
+        "You pick up the earrings and begin to leave the shop."
+        Actor = generatePersonTemporary()
+        While Actor.isMale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.dress()
+        Actor.show()
+        Actor2 = generateCreatureTemporary(dog)
+        Actor2.show()
+        "Just as you step out of the door a woman with a dog approaches you."
+        Actor:: "My name is detective <Actor.name> <Actor.name_last> and my sniffer dog has indicated that you have stolen items on your person. Come with me please so that I can conduct a search"
+        "Do you ..."
+        0:: "MAKE A RUN FOR IT"
+        1:: "GO WITH THE UNDERCOVER COP"
+        
+        If 0
+            If Random(0, 100) < fitness
+                "I managed to lose the cop in the end. Phew!"
+            Else
+                "Unfortunately I wasn't able to escape and was arrested."
+                sentence => 6
+                followUp(imprisoned)
+            Endif
+        Else
+            setBackground(police)
+            "The undercover cop takes you to a room."
+            "She locks the door and the dog begins to sniff you intimately. It soon locates the stolen item. And if you're not mistaken, you have become slightly aroused from the dogs probing snout. The cop reclaims the stolen earrings and speaks."
+            Actor:: "Ok, we can handle this two ways. I can arrest you, charge you and then you will be sent to jail. Or... it seems as though my dog likes the smell of you, so if you give him a 'reward' then we can forget that this ever happened. What do you say?"
+            0:: "NO WAY"
+            1:: "YES" 
+            
+            
+            If 0
+                "With that refusal, I was arrested."
+                sentence => 6
+                followUp(imprisoned)
+            Else
+                "Ok... I guess giving him a 'reward' won't be all that bad... and he does look really cute!"
+                Sex(Actor2, Player)
+                "The undercover cop indicates that she would like to join in. Do you ..."
+                0:: "SAY NO"
+                1:: "SAY YES"
+
+                If 0
+                    Player:: "Thanks but no thanks. That wasn't part of the deal"
+                Else
+                    Player:: "Ok... why the fuck not! I'm so horny now I'll do anything!"
+                    Sex(Actor2, Actor)
+                    Sex(Actor2, Player, Actor)
+                Endif
+                perversion += 2
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, undercover_cop_cms)

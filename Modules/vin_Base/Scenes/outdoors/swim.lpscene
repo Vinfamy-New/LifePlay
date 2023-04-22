@@ -1,0 +1,336 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    "I went for a swim."
+    
+    Dice = Player.getActorVar(rng_dice)
+    Dice += 1
+    If Dice > 7 // CHANGE HERE
+        Dice = 1
+    Endif
+    Player.setActorVar(rng_dice, Dice)
+    Nothing = false
+       
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    Player.animate(swim)
+    Actor.animate(swim)
+    
+    If Dice == 1
+        // A stranger 'accidentally' touches you under the water
+        If Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor:perversion > 50
+            "A fellow swimmer just swam past me and touched my private part under the water. I can't be sure if it's an accident or not."
+            0:: "Stay quiet"
+            1:: "Grope <Actor.him_or_her> back"
+            2:: "Tell <Actor.him_or_her> off"
+            
+            If 0
+                masochist += 0.25
+            Elseif 1
+                perversion += 0.25
+                "Only one way to find out ..."
+                "I decided to return the favor and swam past this stranger and groped <Actor.his_or_her> private part right back."
+                Actor:: "I'm glad to see that the interest is mutual!"
+                Player:: "I appreciate you taking risks and being forward."
+                0:: "Let's bang!"
+                1:: "Exchange numbers"
+                2:: "Enough flirting"
+                
+                If 0
+                    Player:: "What do you say we get out of the water and go find somewhere to have some fun?"
+                    Actor:: "Sounds like music to my ears. Where though?"
+                    0:: "There must be some hidden spot around here"
+                    1:: "Let's find a hotel room nearby"
+                    
+                    If 1
+                        setBackground(home)
+                    Endif
+                    Sex(Actor, Player)
+                Elseif 1
+                    Player:: "Maybe we should exchange numbers and get to know each other more some other time?"
+                    Actor:: "Of course, let's get out of the water and grab our phones."
+                    Actor.makePermanent()
+                    exchangeContact(Actor)
+                Else
+                    "That was just a bit of fun messing around with the pervert. I have no intention to take this any further."
+                Endif
+            Else
+                masochist -= 0.5
+                Player:: "Don't you dare lay another finger on me, you creep!"
+                Actor:: "I'm sorry, it was just an accident!"
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 2
+        // You 'accidentally' touch a stranger under the water. Alternative outcome if Netori is enabled.
+        If Player.isInterestedIn(Actor) && perversion > 25
+            "There's a good looking <Actor.guy_or_girl> also swimming near me."
+            0:: "Do nothing"
+            1:: "Swim past and 'accidentally' touch <Actor.his_or_her> private part"
+            
+            If 1
+                "I couldn't help myself sometimes ..."
+                masochist -= 0.25
+                perversion += 0.25
+                If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer
+                    "The stranger smiled at me and when I wasn't expecting, <Actor.he_or_she> cheekily swam past me and returned the favour by touching my private part as well."
+                    Player:: "I'm glad to see that the interest is mutual!"
+                    Actor:: "I appreciate you taking risks and being forward."
+                    0:: "Let's bang!"
+                    1:: "Exchange numbers"
+                    2:: "Enough flirting"
+                    
+                    If 0
+                        Player:: "What do you say we get out of the water and go find somewhere to have some fun?"
+                        Actor:: "Sounds like music to my ears. Where though?"
+                        0:: "There must be some hidden spot around here"
+                        1:: "Let's find a hotel room nearby"
+                        
+                        If 1
+                            setBackground(home)
+                        Endif
+                        Sex(Actor, Player)
+                    Elseif 1
+                        Player:: "Maybe we should exchange numbers and get to know each other more some other time?"
+                        Actor:: "Of course, let's get out of the water and grab our phones."
+                        Actor.makePermanent()
+                        exchangeContact(Actor)
+                    Else
+                        "That was just a bit of fun messing around with someone random. I have no intention to take this any further."
+                    Endif
+                Else
+                    If Actor:masochist > 0
+                        "The stranger looked embarrassed but didn't say a word."
+                    Else
+                        Actor:: "Don't you dare lay another finger on me, you creep!"
+                        Player:: "I'm sorry, it was just an accident!"
+                        masochist += 0.25
+                        mood -= 10
+                    Endif
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 3
+        // You save a stranger from drowning (if high fitness)
+        If fitness > 75 && Actor:fitness < 25
+            Actor:: "Help!"
+            "Oh no, someone is drowning. Must have underestimated the water depth."
+            "I rushed in to save the stranger in distress. My fitness really paid off here."
+            karma += 10
+            "Thankfully, I rescued <Actor.him_or_her> in time and aside from some panic, no damage was done and the victim stayed conscious."
+            Actor:: "Oh my God! I could have died ... You saved me! What can I do to repay you?"
+            0:: "It was only the right thing to do"
+            1:: "Would love your number!"
+            2:: "I wouldn't mind some cash"
+            3:: Player.isInterestedIn(Actor):: "Your hero has certain ... needs you can take care of"
+            
+            If 0
+                karma += 5
+                Player:: "It's okay ... I couldn't just stand by and watch you drown, could I?"
+            Elseif 1
+                Player:: "Maybe we should exchange numbers and get to know each other more some other time?"
+                Actor:: "Of course, let's grab our phones."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+                Actor:attractiontoplayer += 50
+                Actor:rapportwithplayer += 50
+            Elseif 2
+                money += 100
+                Actor:: "Of course, here's something for your troubles."
+            Else
+                If Random(25, 100) < Actor:perversion + Actor:attractiontoplayer
+                    Actor:: "I'm not usually that easy but I guess you deserve it. You saved my life after all ..."
+                    0:: "There must be some hidden spot around here"
+                    1:: "Let's find a hotel room nearby"
+                    
+                    If 1
+                        setBackground(home)
+                    Endif
+                    Sex(Actor, Player)                    
+                Else
+                    Actor:: "I'm sorry, but that's way too far."
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 4
+        // A stranger saves you from drowning (if low fitness)
+        If fitness < 25 && Actor:fitness > 75
+            Player:: "Help!"
+            "Oh no, I'm drowning. I underestimated the water depth."
+            "A stranger rushed in to save the me in my distress. <Actor.He_or_She> seemed an amazing swimmer."
+            "Thankfully, <Actor.he_or_she> rescued me in time and aside from some panic, no damage was done and I stayed conscious."
+            Player:: "Oh my God! I could have died ... You saved me! What can I do to repay you?"
+            
+            If Actor:attractiontoplayer < 10
+                Actor:: "It's okay ... I couldn't just stand by and watch you drown, could I?"
+            Elseif perversion < 50
+                Actor:: "Maybe we should exchange numbers and get to know each other more some other time?"
+                "I couldn't really refuse."
+                Player:: "Of course, let's grab our phones."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+            Elseif Actor:attractiontoplayer < 20
+                Actor:: "I wouldn't mind some cash"
+                money -= 100
+                Player:: "Of course, here's something for your troubles."
+            Else
+                Actor:: "Well, your hero has certain ... needs you can take care of, you know ..."
+                0:: "Have sex with my hero"
+                1:: "Turn <Actor.him_or_her> down"
+                
+                If 0
+                    Player:: "I'm not usually that easy but I guess you deserve it. You saved my life after all ..."
+                    0:: "There must be some hidden spot around here"
+                    1:: "Let's find a hotel room nearby"
+                    
+                    If 1
+                        setBackground(home)
+                    Endif
+                    Sex(Actor, Player)                    
+                Else
+                    Player:: "I'm sorry, but that's way too far."
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 5
+        // You check out a stranger's bulge or camel toe from the water
+        If Player.isInterestedIn(Actor) && perversion > 25
+            Actor.animate(sunbathe)
+            "I was swimming around with someone sunbathing on a sun lounger nearby."
+            If Actor.isFemale()
+                "From the water looking up, I had a perfect view of the sunbather's camel toe."
+            Else
+                "From the water looking up, I had a perfect view of the sunbather's bulge."        
+            Endif
+            "What should I do?"
+            0:: "Swim away"
+            1:: "Circle around and peep a bit more"
+            
+            If 0
+                "Let's not be a creep ... In fact, I'll just swim away so I don't have to look at someone's private part under their underwear."
+            Else
+                perversion += 0.25
+                "I tried to be as discreet as possible and enjoyed the view while pretending to swim around a bit."
+                If Actor:intelligence < 25
+                    "The sunbather doesn't seem to notice my peeping."
+                Else
+                    "Suddenly, our eyes meet ... Oh no ... I'm caught red-handed."
+                    If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer
+                        "To my pleasant surprise, <Actor.he_or_she> smiled flirtily at me."
+                        Player.moveToPersonStand(Actor, 50)
+                        "Sensing my chance, I got out of the water and approached <Actor.him_or_her>."
+                        Actor:: "I see you were enjoying the view."
+                        Player:: "Sorry, I couldn't help myself. You looked sexy sunbathing there."
+                        Actor:: "You looked rather hot yourself swimming down there. Let's just say the interest is mutual. The question is: what do we do about it?"
+                        0:: "Let's bang!"
+                        1:: "Exchange numbers"
+                        2:: "Enough flirting"
+                        
+                        If 0
+                            Player:: "What do you say we go find somewhere to have some fun?"
+                            Actor:: "Sounds like music to my ears. Where though?"
+                            0:: "There must be some hidden spot around here"
+                            1:: "Let's find a hotel room nearby"
+                            
+                            If 1
+                                setBackground(home)
+                            Endif
+                            Sex(Actor, Player)
+                        Elseif 1
+                            Player:: "Maybe we should exchange numbers and get to know each other more some other time?"
+                            Actor:: "Of course, I have my phone right here. What's your number?"
+                            Actor.makePermanent()
+                            exchangeContact(Actor)
+                        Else
+                            "That was just a bit of fun checking out and flirting with someone random. I have no intention to take this any further."
+                        Endif                 
+                    Else
+                        "The sunbather quickly crossed <Actor.his_or_her> legs, denying me the view. Embarrassed, I had no choice but swim away."
+                    Endif
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 6
+        // A stranger 'accidentally' touches your companion under the water and you protect them. Alternative outcome if Netorare is enabled.
+        If CurrentCompanion.isValid() && Actor.isInterestedIn(CurrentCompanion) && Actor:perversion > 50
+            CurrentCompanion.animate(swim)
+            "Did that random stranger just swim past <CurrentCompanion.name> and touch <CurrentCompanion.his_or_her> private part under the water?"
+            "That looked deliberate to me."
+            0:: "Stay quiet"
+            1:: "Confront the creep"
+            
+            If 0
+                masochist += 0.25
+                "Let's not cause a scene."
+                If isModEnabled(vin_NTR) && CurrentCompanion.isInterestedIn(Actor) && CurrentCompanion:perversion > 50
+                    "To my surprise, <CurrentCompanion.name> was receptive to this creep's groping and actually groped back at <Actor.him_or_her>."
+                    "Eventually. they got out of the water together and disappeared to a hidden spot, not caring one bit about me."
+                    Sex(Actor, CurrentCompanion)
+                    masochist += 0.25
+                Else
+                    "Freaked out by the creep's behavior, <CurrentCompanion.name> swam towards me and told me what happened. Seeing that <CurrentCompanion.name> now had company, the creep decided to leave <CurrentCompanion.him_or_her> alone."
+                Endif
+            Else
+                masochist -= 0.25
+                Player:: "I saw you did that on purpose. Don't you dare lay another finger on <CurrentCompanion.him_or_her>, you creep!"
+                Actor:: "I'm sorry, it was just an accident, I swear!"
+                CurrentCompanion:: "Thank you for standing up for me, <Player.name>."
+                CurrentCompanion:rapportwithplayer += 2
+                CurrentCompanion:attractiontoplayer += 2
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 7
+        // If much higher fitness, you may offer to help your companion improve
+        If CurrentCompanion.isValid() && fitness - CurrentCompanion:fitness > 30
+            CurrentCompanion.animate(swim)
+            "I'm a much better swimmer than <CurrentCompanion.name> so I offered to help <CurrentCompanion.him_or_her> improve <CurrentCompanion.his_or_her> skill."
+            "<CurrentCompanion.He_or_She> agreed and we had a fun and productive practice session."
+            CurrentCompanion:rapportwithplayer += 2
+            CurrentCompanion:attractiontoplayer += 2
+            
+            If CurrentCompanion:attractiontoplayer > 50 && Player.isInterestedIn(CurrentCompanion)
+                "<CurrentCompanion.name> seemed to admire how fit and skillful I was underwater and was flirting with me quite a bit."
+                0:: "Try to sleep with <CurrentCompanion.him_or_her>"
+                1:: "Maybe not"
+                
+                If 0
+                    Player:: "You know, they say being good at swimming means you'll be good in bed as well. Fitness, flexibility, endurance ..."
+                    CurrentCompanion:: "First time I've heard that, but I'm suddenly overcome with the urge to find out the truth myself."
+                    0:: "There must be some hidden spot around here"
+                    1:: "Let's find a hotel room nearby"
+                    
+                    If 1
+                        setBackground(home)
+                    Endif
+                    Sex(CurrentCompanion, Player)                    
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Else
+        Nothing = true
+    Endif
+    
+    If Nothing
+        "Nothing unusual happened."
+    Endif
+    
+    SceneEnd()

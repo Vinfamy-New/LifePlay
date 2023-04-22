@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: take_pet_home
+ACTION_NAME: Walk home
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: goodbye_companion
+ANIMATION:
+WHO: Companion = getTarget(); If Companion.isSameAs(CurrentCompanion) && Companion.isCreature()

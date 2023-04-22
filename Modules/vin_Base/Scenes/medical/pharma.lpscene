@@ -1,0 +1,130 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "An often unstated part of being a medical professional is dealing with pharmaceutical companies. Some doctors make a fortune colluding with the drug companies illegally, while others stick to their principle and never prescribe anything their patient doesn't absolutely need."
+    If Random(0, 100) < 20
+        "A sale representative from a drug company is here to present a new drug and wants to meet in your office."
+        0:: "I'm not supposed to even meet them"
+        1:: "Hearing them out can't hurt"
+        
+        If 0
+            "If they have something to present, it should be in a proper meeting in front of all the doctors, not this shady."
+            karma += 1
+        Else
+            Actor = generatePersonTemporary()
+            dressFormal()
+            Actor.dress()
+            Actor.show()
+            "<Actor.name>, the sale rep, certainly wasn't beating around the bush. After all, our discussion is in the privacy of my office. The drug company is offering a generous monthly commission if I start prescribing their new product to patients, even though it hasn't acquired all the necessary approval from health authorities yet."
+            0:: "Do a deal"
+            1:: "Do a deal, sign off by fucking the sale rep"
+            2:: "No deal"
+            
+            If 0
+                Deal = true
+                karma -= 0.5
+            Elseif 1
+                Actor:: "Of course, sleeping with doctors is part of my job description!"
+                Sex(Actor, Player)
+                Deal = true
+                karma -= 0.5
+            Else
+                Deal = false
+                "No deal, I'll have to stick to my principles."
+                karma += 0.5
+            Endif
+            
+            If Deal
+                "The new monthly commission from the drug company has been added to my income."
+                Salary = getSalary()
+                Salary += Random(500, 2000)
+                Salary.setSalary()
+            Endif
+        Endif
+    Elseif 1 < 2 // Random(0, 100) < 10
+        "A drug company is organizing a 'Medical Professional Appreciation Night' at a high-end bar. I've been invited."
+        "I heard rumours that place is actually just a cover for a luxury stripclub and brothel."
+        0:: "Decline the invitation"
+        1:: "Enjoying some 'entertainment' isn't illegal"
+        
+        If 0
+            "Too shady, they must be up to no good"
+            karma += 1        
+        Else
+            setBackground(stripclub)
+            "The rumour turned to be true. This place is just a high-end stripclub and brothel, full of doctors and prostitutes that the drug company has already paid for."
+            Actor2 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.show()
+            Actor2.moveToPersonStand(Player)
+            "A prostitute approached me and performed a nude dance."
+            Actor2.animate(dance)
+            Actor2:: "You can do whatever you want with me ... I'm already paid for my time."
+            0:: "Fuck the prostitute"
+            1:: "Decline"
+            
+            If 0
+                Fuck = true
+                Sex(Player, Actor2)
+            Else
+                Fuck = false
+            Endif
+            
+            "Soon, a sales rep from the drug company approached me. Of course, I expected them to make an appearance at some point, they weren't paying a fortune for high-end prostitutes to the doctors for shit and giggles."
+            Actor = generatePersonTemporary()
+            dressFormal()
+            Actor.dress()
+            Actor.show()
+            "<Actor.name>, the sale rep, certainly wasn't beating around the bush. After all, we're in a shady nightclub, not at the hospital. The drug company is offering a generous monthly commission if I start prescribing their new product to patients, even though it hasn't acquired all the necessary approval from health authorities yet."
+            0:: "Do a deal"
+            1:: "Do a deal, sign off by fucking the sale rep"
+            2:: "No deal"
+            
+            If 0
+                Deal = true
+                karma -= 0.5
+            Elseif 1
+                Actor:: "Of course, sleeping with doctors is part of my job description!"
+                Sex(Actor, Player)
+                Deal = true
+                karma -= 0.5
+            Else
+                Deal = false
+                "No deal, I'll have to stick to my principles."
+                karma += 0.5
+                
+                If Fuck
+                    Actor:: "I would suggest that you reconsider, for the sake of your career ..."
+                    Actor:: "You see, that over there is a camera. What would your boss at the hospital feel about your video fucking a prostitute being all the internet? What if the patients start recognizing you as 'that sex scandal doctor'?"
+                    "Oh shit ..."
+                    0:: "Do a deal"
+                    1:: "Still no deal"
+                    
+                    If 0
+                        "I have no choice ..."
+                        Deal = true
+                        karma -= 0.5
+                    Else
+                        Deal = false
+                        "Thankfully, the drug company was just bluffing and never actually put the video on the internet. I guess it could have brought down my career but also would have caused an investigation from the health authorities on why a drug company is inviting doctors to a brothel in the first place."
+                    Endif
+                Endif
+            Endif
+            
+            If Deal
+                "The new monthly commission from the drug company has been added to my income."
+                Salary = getSalary()
+                Salary += Random(500, 2000)
+                Salary.setSalary()
+            Endif            
+        Endif
+    Else
+        "Nothing interesting happened while dealing with the drug companies today. These seem to be abiding to the regulations, not doing any shady deals."
+    Endif
+    SceneEnd()

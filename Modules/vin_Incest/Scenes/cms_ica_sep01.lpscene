@@ -1,0 +1,56 @@
+WHAT: all
+WHERE: home
+WHEN: 17 - 21
+WHO: Actor = getRelative(); If !Actor.hasRelationship(Spouses, Dating) && !Actor.isAsexual()
+OTHER: none
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor2 = generatePersonTemporary()
+    While !Actor.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makePermanent()
+    Actor.dress()
+    Actor2.dress()
+    "My <Actor.relationship> introduces <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name> to a family dinner today."
+    Actor.hide()
+    Actor2.hide()
+    setBackgroundCustom(kitchen)
+    "It's dishwashing duty for me today."
+    If Random(0, 100) < 50
+        Actor2.show()
+        Actor2:: "You need any help?"
+        Player:: "If you don't mind, thank you!"
+        0:: "Seduce <Actor2.him_or_her>"
+        1:: "Just wash the dishes"
+        
+        If 0
+            If Random(40, 200) < Actor2:attractiontoplayer + Actor2:perversion
+                Actor2:: "You're such a pervert ... you want me to do it with you right behind my <Actor.boyfriend_or_girlfriend>'s back ... that sounds kinda exciting actually."
+                Actor2:: "Okay, you win ..."
+                Sex(Player, Actor2)
+            Else
+                Actor2:: "No way, definitely not when <Actor.name> is just in the other room."
+            Endif
+        Endif
+    Else
+        Actor.show()
+        Actor:: "You need any help?"
+        Player:: "If you don't mind, thank you!"
+        0:: "Seduce <Actor.him_or_her>"
+        1:: "Just wash the dishes"
+        
+        If 0
+            If Random(40, 200) < Actor:incest + Actor:perversion
+                Actor:: "You're such a pervert ... you want me to do it with you right behind my <Actor2.boyfriend_or_girlfriend>'s back ... that sounds kinda exciting actually."
+                Actor:: "Okay, you win ..."
+                Sex(Player, Actor)
+            Else
+                Actor:: "No way, definitely not when <Actor2.name> is just in the other room."
+            Endif
+        Endif    
+    Endif
+    
+    SceneEnd()
+    timeout(500, cms_ica_sep01)

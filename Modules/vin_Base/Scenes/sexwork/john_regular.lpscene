@@ -1,0 +1,107 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_john)
+OTHER:
+
+    SceneStart()
+    secondScreen(Actor)
+    Actor.show()
+    "One of my past customers, <Actor.name> got in touch with me again and wanted to 'meet' tonight ..."
+    Times = Actor.getActorVar(tag_john)
+    If Times > 3
+        "<Actor.name> has become somewhat of a regular customer who frequently blows a fortune on my service."
+    Endif
+    Dice = 500
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    
+    "How much should I charge <Actor.him_or_her>?"
+    0:: "Turn <Actor.him_or_her> down"
+    1:: "Rip <Actor.him_or_her> off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give <Actor.him_or_her> a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but I'm not in town today ..."
+        "Should I ignore <Actor.name> permanently from now on?"
+        0:: "Yes"
+        1:: "No, this is still a good regular client to keep around"
+        2:: "Tell all my regular customers that I'm retired from prostitution"
+        
+        If 0
+            Actor.setActorVar(tag_john, 0)
+            "This particular client annoys me, I don't want to see <Actor.him_or_her> ever again ..."
+        Elseif 2
+            "I no longer consider myself a prostitute so should go ahead and text all my regular customers to not contact me anymore." 
+            Actor.setActorVar(tag_john, 0)
+            While Actor.isValid()
+                Actor = getPerson(tag_john)
+                Actor.setActorVar(tag_john, 0)
+            Endwhile
+            
+            "I told all of them to leave me alone from now on. Let's move on from this stage of my life."
+        Endif
+    Else
+        Times += 1
+        Actor.setActorVar(tag_john, Times)
+        Actor:attractiontoplayer += choice*3
+        Actor(Flirty):: "Of course darling, I'll pay anything to be with you again."
+        secondScreen()
+        Actor.dress()
+        Actor.show()
+        "Soon enough, we were meeting at a hotel room that we agreed on. <Actor.name> didn't spare any expenses for this hotel either."
+        setBackground(home)
+        Sex(Actor, Player)
+        money => money + Dice/choice
+        perversion += 0.25
+        "Aside from our agreed fee, the John also gave me a big tip."
+        money += Dice/choice/2
+        If Times > 6 && Actor:attractiontoplayer > 50
+            Actor(Anxious):: "Listen, can we talk for a bit?"
+            "<Actor.name> has been acting rather weirdly tonight, as if <Actor.he_or_she> had something important to say."
+            Player(Curious):: "Of course, darling. What is it?"
+            Actor(Happy):: "You know, although our intimacy started as an transaction, I have grown emotionally attached to you and I hope you feel the same ..."
+            Actor(Happy):: "If so, I would love nothing more than to take our relationship to the next level and be able to call you my <Player.boyfriend_or_girlfriend>."
+            0:: "Agree to be <Actor.his_or_her> <Player.boyfriend_or_girlfriend>"
+            1:: "Reject <Actor.him_or_her>"
+            
+            If 0
+                karma += 10
+                Player(Happy):: "I like you a lot too, <Actor.name>. Of course I'll be your <Player.boyfriend_or_girlfriend>!"
+                exchangeContact(Actor)
+                Actor.setDating()
+                Actor.setActorVar(tag_john, 0)
+            Else
+                "Why would I agree and then have to have sex with <Actor.him_or_her> for free from now on? The money is too good!"
+                Player(Sad):: "Sorry, I'd prefer to keep this relationship strictly ... 'professional'."
+                Actor:attractiontoplayer -= 7
+            Endif
+        Elseif Times > 4 && Actor:attractiontoplayer > 35
+            Actor(Anxious):: "Listen, can we talk for a bit?"
+            "<Actor.name> has been acting rather weirdly tonight, as if <Actor.he_or_she> had something important to say."
+            Player(Curious):: "Of course, darling. What is it?"
+            Actor(Happy):: "You know, you've become my absolute favorite <Player.boy_or_girl>, I just can't get enough of you ..."
+            Actor(Happy):: "You deserve better than to be a common prostitute and sleep with just anyone. Why don't you become my sugarbabe instead?"
+            0:: "Agree to be <Actor.his_or_her> sugarbabe"
+            1:: "Reject <Actor.him_or_her>"
+            
+            If 0
+                karma += 10
+                Player(Happy):: "Yes, <Actor.Daddy_or_Mama>. Of course I'll be your sugarbabe!"
+                Actor.setActorVar(tag_john, 0)
+                SugarParent = Actor.getID()
+                SugarParent.setGlobal(SugarParent)
+            Else
+                "Nah, I'd rather keep my options open"
+                Player(Sad):: "Sorry, but sugardating isn't for me."
+                Actor:attractiontoplayer -= 4
+            Endif        
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(150, john_regular)

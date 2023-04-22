@@ -1,0 +1,61 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: none
+OTHER: Player.isPregnant() && Player.isInterestedInMen()
+    
+    SceneStart()
+    Actor = getPerson(tag_pregfetisher)
+    If Actor.isValid()
+        dressFormal()
+        Actor.dress()
+        "My millionaire lover with a pregnancy fetish, Mr <Actor.name> <Actor.name_last>, wants to meet me today as part of our arrangement."
+        0:: "Serve him"
+        1:: "End the arrangement"
+        
+        If 0
+            setBackground(home)
+            Actor.show()
+            "His secretary set us up at a luxurious hotel room where I'm simply there to satisfy this rich man's pregnancy fetish."
+            Sex(Actor, Player)
+            "The money was transferred to my bank account afterwards. It was a very generous sum."
+            money += Random(500, 1000)
+            Actor:attractiontoplayer += 5
+        Else
+            Actor.setActorVar(tag_pregfetisher, 0)
+            "I decided to end this arrangement."
+        Endif
+    Else
+        "I received an e-mail from a new address. Most of these emails usually ended up in my Spam box, but this was different since I recognized the name as one of the local multi-millionaires."
+        dressFormal()
+        Actor = generatePersonTemporary()
+        While !Actor.isMale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor:age += Random(10, 30)
+        Actor.randomizeFace()
+        Actor.randomizeHairs()
+        Actor:intelligence => Random(80, 100)
+        Actor:interpersonal => Random(80, 100)
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+        "His name is <Actor.name> <Actor.name_last>, owner of one of the largest companies in the area. I wonder what would he email a nobody like me for? Let's read the e-mail ..."
+        "In his email, <Actor.name> says he has fetish for pregnant women. He hires people to go out and scout attractive pregnant women in the area. He's willing to pay a small fortune to sleep with me once in a while for the duration of my pregnancy."
+        0:: "Agree to satisfy the millionaire's pregnancy fetish"
+        1:: "Turn down his indecent proposal"
+        
+        If 0
+            "I agree to his proposal and he put me in touch with his secretary, who will schedule an intimate meeting for us soon."
+            Actor.makePermanent()
+            Actor.makeInterested(Player)
+            
+            Actor.setActorVar(tag_pregfetisher, 1)
+            "All I can do now is wait."
+        Else
+            "What? No way! Just because the guy has a lot of money, does he think he can do whatever he wants and any women would sleep with him?"
+            timeout(500, pregnant_fetisher)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, pregnant_fetisher)

@@ -1,0 +1,71 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor:perversion > 75 && !Actor.isDating() && !Actor.hadRelationship(Spouses, Dating) && Actor:rapportwithplayer > 50 && Actor.isSameGender(Player)
+OTHER: isModEnabled(vin_Interracial)
+
+    SceneStart()
+    "I was hanging out with my friend <Actor.name>, who is a bit of an adventurous soul especially when it comes to 'trying out' lovers from all over the world."     
+    setRaceGenerated(Player, false)
+    Actor2 = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    
+    
+    If Actor2.isEthnic(black) && Actor2.isMale() && !isTimingOut(strt_black_m)
+        Actor2.blendPreset(strt_black_m)
+        
+    Elseif Actor2.isEthnic(black) && !Actor2.isMale() && !isTimingOut(strt_black_f)
+        Actor2.blendPreset(strt_black_f)
+
+    Elseif Actor2.isEthnic(indian) && Actor2.isMale() && !isTimingOut(strt_indian_m)
+        Actor2.blendPreset(strt_indian_m)
+        
+    Elseif Actor2.isEthnic(indian) && !Actor2.isMale() && !isTimingOut(strt_indian_f)
+        Actor2.blendPreset(strt_indian_f)
+        
+    Elseif Actor2.isEthnic(arab) && Actor2.isMale() && !isTimingOut(strt_arab_m)
+        Actor2.blendPreset(strt_arab_m)
+        
+    Elseif Actor2.isEthnic(arab) && !Actor2.isMale() && !isTimingOut(strt_arab_f)
+        Actor2.blendPreset(strt_arab_f)
+
+
+    Elseif Actor2.isEthnic(latin) && Actor2.isMale() && !isTimingOut(strt_latin_m)
+        Actor2.blendPreset(strt_latin_m)
+        
+    Elseif Actor2.isEthnic(latin) && !Actor2.isMale() && !isTimingOut(strt_latin_f)
+        Actor2.blendPreset(strt_latin_f)
+
+        
+    Elseif Actor2.isEthnic(asian) && Actor2.isMale() && !isTimingOut(strt_asian_m)
+        Actor2.blendPreset(strt_asian_m)
+        
+    Elseif Actor2.isEthnic(asian) && !Actor2.isMale() && !isTimingOut(strt_asian_f)
+        Actor2.blendPreset(strt_asian_f)
+
+
+    Elseif Actor2.isEthnic(white) && Actor2.isMale() && !isTimingOut(strt_white_m)
+        Actor2.blendPreset(strt_white_m)
+        
+    Elseif Actor2.isEthnic(white) && !Actor2.isMale() && !isTimingOut(strt_white_f)
+        Actor2.blendPreset(strt_white_f)
+    Endif
+    "<Actor.name> noted that I hadn't really crossed paths with a lot of <Actor2.race> <Actor2.men_or_women> in my private life."
+    "<Actor.He_or_She> insisted that I was missing out and wanted to call over one of <Actor.his_or_her> favorite <Actor2.race> escorts as a gift for me."
+    0:: "Try out <Actor.name>'s <Actor2.race> escort"
+    1:: "Decline"
+    
+    If 0
+        setBackground(home)
+        Actor2.dressUniform(sexwork)
+        Actor2.show()
+        "The hooker turned up and we had our fun"
+        Sex(Actor2, Player)
+        "<Actor.name> couldn't stop a neutral observer for long and had to join in in the end. Well, <Actor.he_or_she> paid for the escort so ..."
+        Sex(Actor2, Actor, Player)
+    Endif
+    
+    SceneEnd()
+    timeout(300, ctf_jan04_cms)

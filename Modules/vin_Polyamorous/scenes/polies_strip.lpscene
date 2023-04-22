@@ -1,0 +1,49 @@
+WHAT: all
+WHERE: home
+WHEN: 17-2
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If Actor:perversion > 50 && Actor2:perversion > 50 && Actor.isSameGender(Actor2)
+OTHER: OpenRelationship()
+
+    // Two partners compete for who have the sexiest body and perform striptease in front of you
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor2.dress()
+    Actor.show()
+    Actor2.show()
+    "I was hanging out with two of my lovers <Actor.name> and <Actor2.name> in the living room when a strange discussion started."
+    Actor:: "Baby, who do you think have the sexier body? Me or <Actor2.name>."
+    Actor2:: "Yes, I want to know!"
+    Player:: "I don't know ... Why don't you both show me? Just to refresh my memory, you know."
+    "And just like that, I get to enjoy stripping performances by two <Actor.handsome_or_beautiful> <Actor.men_or_women>. That's part of the perks of being in a polyamorous relationship I suppose."
+    Actor.animate(dance)
+    While !Actor.isNaked()
+        Actor.stripOne()
+        Actor:: "Off this goes!"
+    Endwhile
+    Actor2.animate(dance)
+    Actor2:: "I can do better!"
+    While !Actor2.isNaked()
+        Actor2.stripOne()
+        Actor2:: "Off this goes!"
+    Endwhile
+    Actor2:: "So what do you think? Of course I'm hotter than <Actor.name>, right?"
+    0:: "Choose <Actor.name> by fucking <Actor.him_or_her> while <Actor2.name> watches."
+    1:: "Choose <Actor2.name> by fucking <Actor2.him_or_her> while <Actor.name> watches."
+    2:: "They're equally hot so let's have a threesome!"
+    
+    If 0
+        Player:: "Well ... I think <Actor.name> just edged it."
+        Sex(Player, Actor)
+    Elseif 1
+        Player:: "Well ... I think <Actor2.name> just edged it."
+        Sex(Player, Actor2)    
+    Else
+        Player:: "It's so hard to decide ... You're every inch as hot as each other."
+        Player:: "Good thing I don't have to choose, since I can have both!"
+        Sex(Player, Actor, Actor2)
+    Endif
+    SceneEnd()
+    timeout(300, polies_strip)
+    

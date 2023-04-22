@@ -1,0 +1,94 @@
+WHAT: all
+WHERE: work
+WHEN: 7 - 19
+WHO: Actor = getSpecific(Colleague); If !Actor.isVirgin() && Actor:perversion > 30 && !Actor.isDating() && !Actor.isAsexual()
+OTHER:
+
+    // A colleague calls in pretending to be sick. You are asked to go retrieve some important documents from their home. You find them too busy having sex at home instead you can either snitch or stay quiet and have some fun yourself.
+    
+    SceneStart()
+    secondScreen(Actor)
+    Actor.show()
+    "My colleague <Actor.name> called in sick today. Must have been a sudden illness as <Actor.he_or_she> seemed perfectly fine yesterday."
+    secondScreen()
+    "Still, <Actor.he_or_she> was supposed to bring an important document to work today and the boss has asked me to retrieve it from <Actor.his_or_home>. I couldn't really refuse but I could respect <Actor.name>'s privacy by calling <Actor.him_or_her> first to tell <Actor.him_or_her> what time I'll be coming."
+    0:: "Just make a surprise visit and get it over and done with"
+    1:: "Call <Actor.him_or_her> first to arrange a time to come over"
+    
+    If 0
+        "I can't be bothered. Let's just head there now and get this errand over and done with."
+        setBackground(street)
+        "I'm in front of <Actor.name>'s house now, but before I could ring the doorbell, I heard strange sound coming from the window and went to investigate."
+        Player:: "What the hell!"
+        Player.hide()
+        setBackground(home)
+        Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+        If !Actor2.isValid()
+            Actor2 = generatePersonTemporary()
+            While !Actor.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.makePermanent()
+            Actor2.makeInterested(Actor)
+            addNpcRelationship(Dating, Actor, Actor2)
+        Endif
+        Sex(Actor, Actor2)
+        Actor.hide()
+        Actor2.hide()
+        setBackground(street)
+        Player.show()
+        "Wow, so <Actor.name> faked sick leave to stay home and have fun with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend>!"
+        "I can't really unsee that, but I still have a job to do here. Let's ring the bell now."
+        "Of course, <Actor.name> took <Actor.his_or_her> sweet time to come to the door, with getting dressed and all."
+        Actor.dress()
+        Actor.show()
+        Actor:: "Oh hey, <Player.name>. Did you the boss send you over to pick up that document? Here it is ..."
+        0:: "Mention what I saw"
+        1:: "Stay cool"
+        
+        If 0
+            Actor:: "Oh God, this is so embarrassing ... Yeah, it got too hot and steamy this morning - I couldn't help it. Listen, just don't tell the boss, okay?"
+            0:: "Snitch"
+            1:: "Demand some money as bribe"
+            2:: "I want to have some fun too to keep quiet"
+            3:: "I'll stay quiet, don't worry"
+            
+            If 0
+                "Being a model employee that I was, I couldn't let <Actor.name> get away with and tell the boss what I saw as soon as I got back to the office."
+                "<Actor.name> got an earful the next morning. The offence wasn't serious enough to get fired but my relationship with <Actor.name> really soared as a result."
+                Actor:rapportwithplayer -= 10
+            Elseif 1
+                Actor:: "Okay fine, have some cash."
+                money += 100
+            Elseif 2
+                Actor:: "Huh? What do you mean by 'fun'?"
+                0:: "Sex with you"
+                1:: "Sex with your <Actor2.boyfriend_or_girlfriend>"
+                2:: "How about a threesome?"
+                
+                Actor:: "I guess ... if it keeps your mouth shut ..."
+                setBackground(home)
+                If 0
+                    Sex(Player, Actor)
+                Elseif 1
+                    Actor2.show()
+                    Actor2:: "I can't believe you talked me into this ..."
+                    Actor:: "Alright, I'll leave you two to it ..."
+                    Sex(Player, Actor2)
+                Else
+                    Actor2.show()
+                    Actor2:: "I can't believe you talked me into this ..."
+                    Sex(Player, Actor, Actor2)
+                Endif
+            Else
+                "I decided to cover it up for <Actor.name>. Hardly a serious offence, was it?"
+                Actor:rapportwithplayer += 10
+            Endif
+        Endif
+    Else
+        "I decided to be polite and arranged for a suitable time to pick up the document."
+        "Thanks to this, I managed to retrieve the document with no incidence. Still, I'm doubtful that <Actor.name> is actually sick though - <Actor.he_or_she> seemed just fine. Probably just felt lazy that morning."
+    Endif
+    
+    SceneEnd()
+    timeout(300, colleague_calls_in_sick)

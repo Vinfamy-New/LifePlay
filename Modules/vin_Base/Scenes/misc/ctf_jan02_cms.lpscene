@@ -1,0 +1,39 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_incalling); If Actor.isDating()
+OTHER: isModEnabled(vin_NTR)
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.boyfriend_or_girlfriend> is getting ready for an evening of escorting a high-paying client. You're feeling horny, and watching <Actor.him_or_her> prepare has you really wanting to fuck them, but <Actor.he_or_she> doesn't want to be late."
+    0:: "Try to propose sex"
+    1:: "Leave them to go to 'work'"
+    
+    If 0
+        If masochist - Actor:masochist < -30
+            "I tell <Actor.name> this other person might be a client, but I'm a 'VIP' after all - and insist on a fuck before <Actor.he_or_she> goes."
+            Sex(Player, Actor)
+            masochist -= Random(1, 3)
+        Elseif Actor:masochist - masochist < -30
+            Actor:: "You know what, fine, but you're paying for it. Same rate as this client, 4-hour minimum even though I'm still leaving. Is a quickie worth that to you?"
+            0:: "Pay up..."
+            1:: "What? Hire my own <Actor.boyfriend_or_girlfriend>? Not happening."
+            
+            If 0
+                "I feel kind of pathetic paying my own <Actor.boyfriend_or_girlfriend> for sex... but then again <Actor.he_or_she> has every right to charge, <Actor.he_or_she>'s 'on the clock' so to speak, right now I'm no more important than any other client..."
+                masochist += Random(1, 3)
+                money -= 800
+                Sex(Player, Actor)
+            Else
+                "<Actor.name> just shrugs."
+                Actor:: "Hey, I was just offering. Anyway, if that's the case than I need to get going."
+                masochist -= 1
+            Endif
+        Else
+            Actor:: "Sorry, babe, but I just absolutely just don't have time right now. I really need to go."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, ctf_jan02_cms)

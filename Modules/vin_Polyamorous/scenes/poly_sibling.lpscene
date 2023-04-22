@@ -1,0 +1,77 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If !Actor.hasRelationship(Siblings) && Actor.isSameGender(Actor2)
+OTHER:
+
+    // A sibling of one of your poly partners found out and disapproved of your arrangement. You can try to convince them that your poly relationship is indeed a healthy one, and the relative may end up wanting to join too.
+
+    SceneStart()
+    setBackgroundCustom(kitchen)
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    "I was in the kitchen with two of my polyamorous lovers, <Actor.name> and <Actor2.name>. We were about to put the finishing touch to our cooking and set the table for dinner when suddenly someone barged through the front door."
+    Actor3 = Actor.generatePersonTemporaryMatchRace()
+    While !Actor.isSameGender(Actor3)
+        Actor3 = Actor.generatePersonTemporaryMatchRace()
+    endwhile
+    Actor3:age => Actor:age + Random(2, 6)
+    Actor3.randomizeFace()
+    Actor3.randomizeHairs()
+    Actor3.makePermanent()
+    addNpcRelationship(Siblings, Actor, Actor3)
+    Actor3.dress()
+    Actor3.show()
+    Actor3:: "<Actor.name>, let's go home. I'll protect you. You don't want to get stuck in this Stockholm Syndrome situation."
+    Actor:: "<Actor3.Brother_or_Sister>, how many times do I have to tell you? I'm not coerced into this arrangement. I'm really happy."
+    Actor3:: "Stop lying to yourself and wake up. How could polyamory be anything but a mental hostage situation? How could be power dynamics in the relationship ever be balanced!"
+    "Oh dear, I've heard <Actor.name> complaining about this <Actor2.brother_or_sister> of hers being against <Actor.him_or_her> being in a poly arrangement before, but I never expected <Actor3.name> to be this vocal and forceful."
+    0:: "Come join us for dinner, we can explain"
+    1:: "Kick <Actor.name>'s <Actor3.brother_or_sister> out!"
+    
+    If 0
+        "I managed to defuse the situation and invited <Actor3.name> to at least sit down and have a chat with us over dinner."
+        "While we're having dinner, I explain to <Actor3.him_or_her> that the whole point of our polyamorous arrangement isn't so that one person can hold all the power over all others, but is the freedom to be with anyone we want."
+        "I further justify our relationship by saying how it's only natural and traditional monogamous relationships are simply social inventions. In nature, animals are polyamorous too, and we're mammals after all."
+        "After a long discussion, <Actor3.name>'s stance starts to soften, and <Actor3.he_or_she> eventually agrees to let <Actor.name> continue staying with us."
+        0:: "Push my luck and have a threesome in front of <Actor3.name>"
+        1:: "Thank <Actor3.him_or_her> for understanding"
+        
+        If 0
+            Player:: "In fact, you're missing out on a whole lot of fun by not being polyamorous. Here, let us show you."
+            "<Actor.name> was hesistant at first about doing it in front of <Actor.his_or_her> <Actor3.brother_or_sister> and <Actor2.name> and I eventually turned <Actor.him_or_her> on enough to go along with it."
+            Sex(Player, Actor, Actor2)
+            If Random(50, 100) < Actor3:perversion
+                Actor3:: "Oh my god, you're right. That's so hot ..."
+                Actor3:: "Now I finally get why my <Actor.brother_or_sister> just can't get enough of your polyamorous relationship ..."
+                Actor3:: "If you don't mind ... maybe I should join in your arrangement, if nothing else, to keep my <Actor.brother_or_sister> company ... We always did everything together since we were young."
+                0:: "Take on <Actor3.name> as another polyamorous lover"
+                1:: "Maybe not"
+                
+                If 0
+                    Player:: "Of course, you're very welcome to join our family."
+                    Actor:: "I'm so glad you could now see it my way, <Actor3.brother_or_sister>."
+                    "Of course, I was more than eager to have a taste of my latest lover."
+                    Sex(Player, Actor3)
+                    "And the others join in too."
+                    Sex(Player, Actor, Actor2, Actor3)
+                Endif
+                exchangeContact(Actor3)
+                Actor3.setDating()
+            Else
+                Actor3:: "What the fuck? You degenerate! I was right ... The power dyanmic is all wrong. You're nothing but abusing my poor little <Actor.brother_or_sister>. You and the rest of your brainwashed slaves have been coercing <Actor.him_or_her> into doing unspeakable things like this ..."
+                Actor3:: "<Actor.name>, I'm so disappointed in you. You've completely lost your mind!"
+                "<Actor3.name> walked away eventually. At least, <Actor3.he_or_she> seemed to have completely given up on <Actor3.his_or_her> <Actor.brother_or_sister> and should leave us be from now on."
+                Actor3:rapportwithplayer -= 100
+            Endif
+        Else
+            Player:: "I'm glad we've come to an amicable understanding in the end. We both want the same thing: for <Actor.name> to be happy."
+        Endif
+    Else
+        Player:: "Get out of my property now or you'll be trespassing and I'll call the cops."
+        Actor3:rapportwithplayer -= 100
+    Endif
+    SceneEnd()
+    timeout(500, poly_sibling)

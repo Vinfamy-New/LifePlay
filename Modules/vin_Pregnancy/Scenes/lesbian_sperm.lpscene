@@ -1,0 +1,46 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If Actor.isFemale() && !Actor.isPregnant()
+OTHER: Player.isFemale() && !Player.isPregnant()
+
+    // Sperm donor for lesbian couple: with the PC as the lesbian getting impregnated.
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "<Actor.name> and I are a lesbian couple, who means we can't have a baby without the help of a sperm donor. Should we look for one now?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "Who should be the man we approach to become the sperm donor?"
+        selectNPC()
+        Actor2 = getSelectedNPC()
+        If Actor2.isValid() && Actor2.isMale()
+            If Actor2:rapportwithplayer > 30 || Actor2:perversion > 70 || Actor2.hadSex()
+                Actor2.dress()
+                Actor2.show()
+                Actor2.setWantsBabies(true)
+                "<Actor2.name> agreed to be our sperm donor. <Actor2.He_or_She> insisted on a 'traditional' insemination procedure without going to the hospital though ..."
+                0:: "Get impregnated by <Actor2.name> myself"
+                1:: "Let <Actor.name> get impregnated by <Actor2.name>"
+                2:: "On second thought, no"
+                
+                If 0
+                    Player.impregnate(Actor)
+                    Player.setWantsBabies(true)
+                    Sex(Actor2, Player)
+                Elseif 1
+                    Actor.impregnate(Player)
+                    Actor.setWantsBabies(true)
+                    Sex(Actor2, Actor)                
+                Endif
+            Else
+                "Unfortunately, <Actor2.name> turned down my invitation."
+            Endif
+        Else
+            "Must be a man."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, lesbian_sperm)

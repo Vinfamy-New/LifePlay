@@ -1,0 +1,81 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getRelative(); If Actor.hadSex() && Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor.livesWithPlayer()
+OTHER:
+
+    // Someone you're having a 'forbidden' affair with is sick of sneaking around the house and invites you to do it freely in a remote forest, mountain, riverbank or beach instead. There, you may meet a like-minded couple.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I've already tasted the forbidden fruit with my <Actor.relationship> <Actor.name> and we're keen to continue our affair. However, we don't get a chance to get intimate too often as there are other people in the house, let alone the neighbours, who might catch us in the act."
+    "Sick of always having to sneak around, my <Actor.relationship> suggested that we go to somewhere remote just the two of us and enjoying each other's bodies among nature, which is fitting because incest is totally natural."
+    0:: "Find some isolated and beautiful scenery to fuck my <Actor.relationship> freely"
+    1:: "Sneaking around the house is part of excitement"
+    
+    If 0
+        Random
+            setBackground(forest)
+            setBackground(river)
+            setBackground(mountain)
+            setBackground(beach)
+        endRandom
+        "It was a long drive before we found a nice place without any tourists."
+        "All that was left now is to take off our clothes and indulge in inbreeding passion just like the animals in nature do."
+        Sex(Actor, Player)
+        
+        "As we were taking a break enjoying the view, we heard someone around."
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Player)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2:age => Player:age
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        Actor2.dress()
+
+        "We panicked for a brief moment before realizing who they were."
+
+        
+        Actor3 = Actor2.generatePersonTemporaryMatchRace()
+        While !Actor.isSameGender(Actor3)
+            Actor3 = Actor2.generatePersonTemporaryMatchRace()
+        endWhile
+        Actor3:age => Actor:age
+        Actor3.randomizeFace()
+        Actor3.randomizeHairs()
+        Actor3.dress()
+        Actor2.show()
+        Actor3.show()
+        
+        Actor2.makeInterested(Actor3)
+        Actor3.makeInterested(Actor2)
+        
+        Actor2:: "Are you sure we're alone, <Actor.relationship>?"
+        Actor3:: "Don't worry, my dear <Actor.callplayer>, no-one goes here ... we can do whatever we want to each other here, without judgment, only nature."
+        
+        Sex(Actor2, Actor3)
+        
+        "How cute ... we're not the only incestuous couple who came up with the idea to escape to the wilderness and indulge in our natural passion."
+        "The other couple was too busy messing around that they failed to notice we were around. Maybe we should come say hi."
+        0:: "Introduce me and my <Actor.relationship> to the other couple"
+        1:: "Leave them be"
+        
+        If 0
+            Player.moveToPersonStand(Actor2, 50)
+            Actor.moveToPersonStand(Actor3, 50)
+            "We made friends with the couple, who introduced themselves as <Actor2.name> and <Actor3.name>, making it clear that they had nothing to fear from us as we understood better than anyone else their love for each other."
+            "In a world full of social judgment, it's hard to find like-minded people like this, especially in this beautiful scenery."
+            "Soon enough, the other couple invited us to swap partners to spice up our already spicy and forbidden relationships."
+            0:: "Swap my <Actor.relationship> with <Actor2.name>'s <Actor.relationship>"
+            1:: "Turn down their offer"
+            
+            If 0
+                Sex(Player, Actor3)
+                Sex(Actor2, Actor)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, incest_outdoors)

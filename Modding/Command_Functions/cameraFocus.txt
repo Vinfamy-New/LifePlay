@@ -1,0 +1,14 @@
+cameraFocus(Actor)
+
+USE: 
+Makes the camera focus on the given actor.
+
+TYPE: Command, Non-Ref
+RETURNS: /
+THEME: Camera
+COMPARE: cameraMove()
+EXAMPLE:
+    cameraMove( 0, 0, 800 ) // Move camera to the middle of the room
+    cameraFocus(MainActor)  // Make cam point to the main actor
+
+

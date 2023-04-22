@@ -1,0 +1,33 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor)
+OTHER:
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "I arrive home only to hear some moaning sounds coming from the bedroom ..."
+    0:: "Check it out"
+    
+    If 0
+        setBackground(home)
+        Sex(Actor, Actor2)
+        "In my absence, two of my polyamorous lovers <Actor.name> and <Actor2.name> have been pleasuring each other! Have I been neglecting them recently or something?"
+        0:: "Get angry and forbid them from doing it without me"
+        1:: "Be cool and join them for a threesome"
+        
+        If 0
+            Player(Angry):: "What the fuck! This is outrageous. You two are not allowed to do this without me!"
+            Actor:attractiontoplayer -= 3
+            Actor2:attractiontoplayer -= 3
+            timeout(1000, interpoly)
+        Else
+            Player(Flirty):: "I see my darlings have already warmed up, getting each other ready for me. Come here then ..."
+            Sex(Player, Actor, Actor2)
+            Actor:attractiontoplayer += 3
+            Actor2:attractiontoplayer += 3
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(300, interpoly)

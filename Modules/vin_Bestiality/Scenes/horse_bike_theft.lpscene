@@ -1,0 +1,89 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0-24
+WHO: Actor = getCompanionCreature(); If Actor.isCreatureType(Horse)
+OTHER:
+
+    // You're walking around with your horse only to witness a thief getting away with someone's bike. Your horse easily catches up to the thief and knocks them unconscious. The bike owner offers to reward you. You can suggest money, number, sex or 'servicing' your hero horse. Once done, you decide what to do with the bike thief, you can simply hand them over to the cops or make a similar exchange.
+    
+    SceneStart()
+    If WHERE == park || WHERE == river || WHERE == beach || WHERE == mountain
+        "Such a nice day outside."
+    Else
+        setBackground(street)
+    Endif
+
+    "I was enjoying a day out with my horse when I witness a suspicious character riding a bike away fast."
+    Actor2 = generatePersonTemporary()
+    Actor3 = generatePersonTemporary()
+    
+    Actor2.dress()
+    Actor3.dress()
+    
+    Actor2.show()
+    Actor3.show()
+    
+    Actor2:: "Help ... that <Actor3.guy_or_woman> stole my bike! Somebody stop <Actor3.him_or_her>!"
+    
+    "I order <Actor.name> to gallop ahead and chase after the thief. Of course, a human on a bike is no match for a horse and <Actor.name> soon catches up with <Actor3.him_or_her> and with one kick knocks <Actor3.him_or_her> off the bike."
+    Actor3.animate(fightlost)
+    
+    "After a while, the bike owner catches up to us."
+    Actor2:: "Thank you so much ... What are the odds that you're right there with your horse?"
+    Actor2:: "What can I do to thank you?"
+    0:: "No need"
+    1:: "Maybe some cash"
+    2:: "Your number"
+    3:: "Sex"
+    4:: "It's my horse who deserves some action"
+    
+    If 0
+        karma += 10
+        Actor2:: "That's so nice of you."
+    Elseif 1
+        Actor2:: "Sure, here's something for your trouble. Maybe you can buy some treat for your swift horse."
+        money += 20
+    Elseif 2
+        Actor2:: "Of course, let's hang out some time. Maybe you can take me on a ride on your horse!"
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+    Elseif 3
+        If Actor2:attractiontoplayer + Actor2:perversion > 50
+            Actor2:: "To be honest, the adrenaline of all of that does make me a little bit horny right now."
+            Sex(Player, Actor2)
+            "Who knows a horse can get its owner laid like that ..."
+        Else
+            Actor2:: "No way ... I'm not prostituting myself out for a bike."
+        Endif
+    Else
+        If Actor2:attractiontoplayer + Actor2:perversion > 50
+            Actor2:: "To be honest, the adrenaline of all of that does make me a little bit horny right now. And I must admit I've always been curious about horses ..."
+            Sex(Actor, Actor2)
+        Else
+            Actor2:: "What kind of sick <Player.bastard_or_bitch> are you? No way ..."
+        Endif        
+    Endif
+    
+    Actor2.hide()
+    "The bike owner is off with <Actor2.his_or_her> recovered bike. Now I have to decide what to do with the bike thief still injured from my horse's kick earlier."
+    Actor3:: "Please, I'll do anything. Don't hand me over to the police. It wasn't a violent crime, I'm just broke and desperate."
+    0:: "Hand <Actor3.him_or_her> to the police"
+    1:: "Spare <Actor3.him_or_her>"
+    2:: "Sex"
+    3:: "Demonstrate your apology to my horse instead"
+    
+    If 0
+        "I decided to do the right thing and hand <Actor3.hin_or_her> to the police."
+    Elseif 1
+        Actor3:: "Thank you so much ... I promise to clean up my act."
+        karma +=5
+    Elseif 2
+        Actor3:: "Okay ... It's not like I have any choice ..."
+        Sex(Player, Actor3)
+    Else
+        Actor3:: "What? That's disgusting ... but I guess I have no other choice."
+        Sex(Actor, Actor3)
+    Endif
+    
+    SceneEnd()
+    timeout(250, horse_bike_theft)

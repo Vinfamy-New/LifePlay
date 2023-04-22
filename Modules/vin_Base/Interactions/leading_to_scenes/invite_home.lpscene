@@ -1,0 +1,124 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Actor.isEmployee() || [Actor.isColleague() && jobexperience - Actor:jobexperience > 30]
+        Subor = true
+    Else
+        Subor = false
+    Endif
+    
+    If Actor.isDating() || Actor.isRelative() || [Random(30, 100) < interpersonal && [Actor:rapportwithplayer > 30 || Actor:attractiontoplayer > 30]] || [Subor && [Actor:rapportwithplayer > 20 || Actor:attractiontoplayer > 20 || Actor:masochist > 20]]
+        Actor(Happy):: "Of course, let's go back to your place and chill."
+        If Subor
+            "Of course, I can't tell if <Actor.he_or_she> actually wants to spend time with me so privately outside of work or just feels obliged to, fearing that rejecting me could affect <Actor.his_or_her> job. I guess I'll find out soon enough"
+        Endif
+        moveTo(home)
+        setBackgroundCustom(livingroom)
+        "We're now inside the apartment."
+        choice = -1    
+        ate = false
+        hadSex = false    
+        Vanilla = IsModEnabled(vin_VanillaRealistic)
+        MyHome = true
+            
+        While choice < 5
+            Kissed = false
+            "What should I suggest to <Actor.name> that we do?"
+            0:: "Chat"
+            1:: !ate:: "Eat something together"
+            2:: "Watch a movie"
+            3:: "Drink alcohol"
+            4:: !hadSex:: "Kiss <Actor.him_or_her>"
+            5:: MyHome:: "Politely ask <Actor.him_or_her> to leave"
+            
+            If 5
+                "We said goodbye and went our ways."
+            Else
+                If 0
+                    "We simply sat and chat for a while ..."
+                    passTime(0.1, 0.2)
+                Elseif 1
+                    "We made some quick snacks and enjoyed them together ..."
+                    ate = true
+                    passTime(0.2, 0.4)
+                Elseif 2
+                    "We watched a movie together ..."
+                    passTime(1, 2)
+                Elseif 3
+                    "We had a drink together ..."
+                    passTime(0.1, 0.2)
+                    Player:intoxication += Random(0,10)
+                    Actor:intoxication += Random(0,10)
+                Elseif 4
+                    Kissed = true
+                Endif
+
+                If Kissed || [Actor.isInterestedIn(Player) && !hadSex && Actor:attractiontoplayer > Random(0, 200)]
+                    AnimatePair(Player, Actor, Kissing)
+                    Player(Kiss):: "..."
+                    Actor(Kiss):: "..."
+                    If Actor.isDating()
+                        "We kissed. It started slow but soon became more passionate. It was obvious what we both wanted ..."
+                    Else
+                        "We had a kiss, an awkward one at first, but soon moving towards a more passionate direction."
+                    Endif
+                    "Should I let this escalate further?"
+                    0:: Vanilla:: "Make out"
+                    1:: "Stop"
+                    
+                    If 0
+                        If Actor.isDating() || [Actor.isInterestedIn(Player) && [Actor.IsDominantSex(Player) || Actor:attractiontoplayer + Actor:perversion > Random(50, 200) || Actor:intoxication > 80]]
+                            "Our kiss got more and more steamy and soon we were making out, our hands all over each other."
+                            If TfGame() && Actor.isMale()
+                                "I'm a man trapped inside a woman's body. I don't think I'm gay, but here I am, about to hook up with my male date."
+                            Endif
+                            hadSex = true
+                            Player:perversion += Random(0, 1)
+                            Sex(Player, Actor)
+                            Actor.show(2)
+                            "The sex was amazing. We put our clothes back on afterwards and continued our date."
+                            passTime(0.2, 0.5)
+                        Else
+                            "Unfortunately for me, <Actor.name> didn't seem interested in letting things escalate any further and pulled away."
+                        Endif
+                    Else
+                        "I decided to stop it there and not go any further."
+                    Endif
+                Elseif Random(0, 100) < 20
+                    If Actor.isDating()
+                        "After a while, we were both exhausted and went to bed together for the night."
+                        passTime(4, 8)
+                        energy += Random(50, 100)
+                        "The next morning ..."
+                        If MyHome
+                            Actor(Happy):: "I've gotta go now, honey. Thanks for letting me stay the night. I can't wait to see you again soon!"
+                        Else
+                            Player(Happy):: "I've gotta go now, honey. Thanks for letting me stay the night. I can't wait to see you again soon!"
+                        Endif
+                        Actor:attractiontoplayer += Random(0, 1)
+                    Else
+                        If MyHome
+                            Actor(Happy):: "I've gotta go now. Thank you for inviting me in."
+                            Player(Happy):: "Alright. Thank you for staying. Goodbye!"
+                        Else
+                            Actor(Happy):: "It has been a great day, but I'm getting quite tired now. Do you mind ..."
+                            "Getting the message from <Actor.name>, I said goodbye."
+                        Endif
+                        "We parted ways."
+                    Endif
+                    choice = 5            
+                Endif        
+            Endif
+        Endwhile
+    Else
+        If Subor
+            Actor(Sad):: "Sorry, I don't feel like I should go home with you. It's rather unprofessional, you being my boss after all ...  People may gossip ..."        
+        Else
+            Actor(Sad):: "Sorry, I don't feel like I know you enough to go home with you."
+        Endif
+    Endif    
+    SceneEnd()

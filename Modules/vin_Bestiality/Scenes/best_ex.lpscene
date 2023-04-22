@@ -1,0 +1,64 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24 
+WHO: Actor = getCreature(); Actor2 = getSpecific(ExDating); If Player.isInterestedIn(Actor) && Actor2:attractiontoplayer > 0 && Actor.isCreatureType(Dog)
+OTHER:
+
+    // You can't get over an ex and your pet dog consoles you
+
+    SceneStart()
+    secondScreen(Actor2)
+    Actor2.show()
+    "My ex <Actor2.name> is back in town and wants to 'Netflix and chill' at my place ..."
+    "We broke up for a reason but <Actor2.he_or_she> knows full well I still have feelings for <Actor2.him_or_her> and wouldn't be able to resist <Actor2.him_or_her> being so close back in my home again."
+    secondScreen()
+    "So basically, my ex is just looking for an easy fuck ... Surely I'm better than that ... am I?"
+    0:: "Stay strong and reject my ex"
+    1:: "Give in and invite <Actor2.name> to my home"
+    
+    If 0
+        "I'm not just some easy booty call available as and when my ex requires."
+        Actor2:attractiontoplayer -= 5
+        fucked = Actor.getActorVar(best_ex)
+        
+        If fucked > 0
+            Actor.show()
+            "Of course, I have my loyal dog lover <Actor.name> to thank for being able to reject my ex this time."
+            "After all, after the bestial passion I've shared with my dog, sex with my ex just doesn't seem all that anymore."
+            "I have another craving now and <Actor.name> can satisfy it without all the emotional baggage."
+            Sex(Actor, Player)
+        Endif
+    Else
+        "I know I'm not over <Actor2.name> and I know I shouldn't just let <Actor2.him_or_her> get whatever <Actor2.he_or_she> wants from me since we're not together anymore."
+        Actor2.dress()
+        Actor2.show()
+        "But in my moment of weakness, I accepted <Actor2.his_or_her> request to 'Netflix and chill' at my place."
+        "It was always going to end one way of course ..."
+        Sex(Actor2, Player)
+        Actor2:: "Haha, I knew it. You're still mine. You belong to me forever and I can do whatever whenever I want to you."
+        Actor2.hide()
+        "With those parting words, my ex left, having got exactly what <Actor2.he_or_she> wanted from me with not much effort."
+        "Of course, I felt so low and disappointed in myself for being so weak and easy to manipulate for a quick fuck ..."
+        "I certainly doesn't help that I'm lonely and not all that popular with other <Actor2.guys_or_girls>. It would have been liberating and confidence-boosting to reject my ex and have another <Actor2.guy_or_girl> on speed dial simping for me desperately. But I don't have that luxury."
+        Actor.show()
+        "Instead, I'm here all alone, with just my loyal pet dog <Actor.name> to console me."
+        "And to be fair, <Actor.he_or_she>'s trying <Actor.his_or_her> best to make me feel better. I think <Actor.he_or_she> understands my feelings right now. After all, <Actor.he_or_she> has witnessed far too many of my moments of weaknesses with my ex and the regret, self-hatred and depression that follows."
+        "<Actor.He_or_She>'s always there for me and it's good to know there's at least someone who sympathizes with me."
+        "It's a shame that <Actor.he_or_she> can't just fill in the hole in my heart that my ex left. If <Actor.name> was human, maybe <Actor.he_or_she> could have, but part of why my ex is so irresistible is the physical attraction and the steamy sex as well."
+        Player:: "It's a shame that <Actor2.name> for all <Actor2.his_or_her> flaws as a character really knows how to satisfy me in bed like no other partners. We always end up fucking like animals ..."
+        Actor:: "Woof woof"
+        Player:: "Wait ... fucking like animals ..."
+        "My dog gives me a look of approval ..."
+        "Maybe the solution to free me from the strong attachment to my ex is in front of me all this time ..."
+        0:: "Let my dog fuck me better than my ex ever could"
+        1:: "That's a silly idea"
+        
+        If 0
+            Sex(Actor, Player)
+            "I'm fully aware I've just committed a highly taboo act, but <Actor.name> did indeed outshine <Actor2.name> easily just purely using <Actor.his_or_her> animalistic instinct - the only sexual partner I've had to successfully do so."
+            "For the first time ever, I don't feel like I crave my ex's body so much anymore and I feel confident I could reject <Actor2.him_or_her> next time."
+            Actor.setActorVar(best_ex, 1)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, best_ex)

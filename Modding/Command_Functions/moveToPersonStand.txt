@@ -1,0 +1,13 @@
+Actor.moveToPersonStand(target, distance)
+
+USE:
+Make an actor move toward another actors position.
+
+Parameter:
+Distance to stay away from 'target'.
+0 = Move to exact the same spot as 'target'.
+
+TYPE: Command
+RETURNS: /
+THEME: Movement
+COMPARE: movetoPerson()

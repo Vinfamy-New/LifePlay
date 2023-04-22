@@ -1,0 +1,24 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    If Player.isPregnant()
+        "It's a difficult decision to make. Am I sure I want to go through with the abortion?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "Sometimes in life difficult choices must be made ..."
+            Player.strip()
+            Player.endPregnancy()
+            "Thankfully the procedure went according to plans, with no lasting impact on my future health and fertility."
+        Else
+            "Let's think about this some more ..."
+        Endif
+    Else
+        "I'm not pregnant!"
+    Endif
+    SceneEnd()

@@ -1,0 +1,14 @@
+Actor1.isSameRace(Actor2)
+
+USE:
+Check if the two actors are the same (fantasy) race: human, elf, orc, vampire.
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Fantasy
+COMPARE: isSameGender
+
+EXAMPLE:
+    If John.isSameRace(Jack)
+        "They're both same race."
+    Endif

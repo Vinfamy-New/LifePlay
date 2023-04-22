@@ -1,0 +1,47 @@
+WHAT: all
+WHERE: home
+WHEN: 22 - 4
+WHO: Actor = getRelative(); If Actor.livesWithPlayer()
+OTHER: isAtHome()
+
+    SceneStart()
+    "It's the middle of the night when my <Actor.relationship> comes into my room."
+    "<Actor.He_or_She> is disturbed and scared of this loud thunderstorm and comes into my room asking if <Actor.he_or_she> can sleep alongside me."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "Now that <Actor.he_or_she>'s lying in bed with me, how should I behave."
+        0:: "Touch <Actor.him_or_her>"
+        1:: "Nothing"
+        
+        If 0
+            Actor:incest += 5
+            If Actor:incest > 40 && Actor.isInterestedIn(Player)
+                Actor:: "You wanted this for a long time, didn't you?"
+                Sex(Player, Actor)
+            Endif
+        Else
+            If Actor:incest > 20
+                "<Actor.name> is touching me!"
+                0:: "Touch <Actor.him_or_her> back"
+                1:: "Reject <Actor.his_or_her> advance"
+                
+                If 0
+                    Actor:incest += 5
+                    If Actor:incest > 40 && Actor.isInterestedIn(Player)
+                        Actor:: "You wanted this for a long time, didn't you?"
+                        Sex(Player, Actor)
+                    Endif                
+                Elseif isModEnabled(vin_NonConsensual)
+                     If Actor:masochist < -50
+                        "My <Actor.relationship> wasn't one to take no for an answer ..."
+                        Filter(Aggressive)
+                        Sex(Actor, Player)
+                     Endif
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, cms_ica_sep06)

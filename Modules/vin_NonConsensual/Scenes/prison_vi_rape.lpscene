@@ -1,0 +1,35 @@
+WHAT: all
+WHERE: prison
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(0, 100) < perversion
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.show(2)
+    Actor.dressUniform(Prison)
+    Actor(Evil):: "I'm horny, let's fuck, bitch!"
+    "Another inmate grabbed me from behind, clearly already highly aroused ..."
+    0:: "Struggle"
+    1:: "Accept your fate"
+    
+    If 0 && Actor:martial < martial
+        Actor(Pain):: "Ah!"
+        Player(Angry):: "That should teach you!"
+    Else
+        "The element of surprise was too great. I was overwhelmed before I could even react to the assault."
+        Player(Crying):: "No! Please stop ... I beg you ... Somebody help ..."
+        "My cries for help went unheard in the dark prison cell and I had no choice but endure it all."
+        Filter(Aggressive)
+        TalkNonConsensual()
+        SexNoAffair(Actor, Player)
+        Actor.setActorVar(tag_Rapist, 1)
+        
+        Actor.hide()
+        "Despite the horrible incident that happened, I didn't have the guts to report the crime to the warden. I figure they'll just laugh at my face. Here in a prison, rape is the language of power."
+    Endif
+    SceneEnd()
+    timeout(200, prison_vi_rape)

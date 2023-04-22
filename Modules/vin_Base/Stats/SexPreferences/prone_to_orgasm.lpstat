@@ -1,0 +1,9 @@
+STAT_ID: prone_to_orgasm
+STAT_NAME: Proneness to Orgasm; The higher this value, the slower the natural orgasm drop per second during sex scene, so the more likely certain sex acts will exceed this drop. Very low proneness means that it takes a lot of stimulation for orgasm to rise at all.
+PLAYER_ONLY: false
+HIGHER_BETTER: no_difficulty_adjustment
+STAT_MIN: 0
+STAT_MAX: 100
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 50
+NPC_ONLY: false

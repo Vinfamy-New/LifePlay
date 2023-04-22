@@ -1,0 +1,63 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); Actor2 = Actor.getRelatedPerson(Siblings, Cousins); If !Actor.hasRelationship(Spouses, Dating) && !Actor2.hasRelationship(Spouses, Dating) && [Actor:rapportwithplayer > 50 || isQuestCompleted(legalized)] && !Actor.isDating() && !Actor2.isDating() && Actor:perversion > 50 && Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && !Actor.isExRelative() && !Actor2.isExRelative() && !Actor.isRelative() && Actor:interpersonal < 70
+OTHER: none
+
+    SceneStart()
+    "I was hanging out with <Actor.name> when <Actor.he_or_she> nervously started to confide in me some secret. Seems important."
+    Actor:: "You remember <Actor2.name>, who I introduced to you previously?"
+    If Actor2.hasRelationship(Siblings)
+        Player:: "Yes, I remember, <Actor2.he_or_she> is your <Actor2.brother_or_sister>, right?"
+    Else
+        Player:: "Yes, I remember, <Actor2.he_or_she> is your cousin, right?"    
+    Endif
+    Actor:: "Well, please don't tell anyone else this, but I've had a crush on <Actor2.him_or_her> for as long as I remember. I know we're related but I never feel the same attraction for any other <Actor2.men_or_women>."
+    Actor:: "And I think <Actor2.name> feels the same way towards me too. Should I go for it?"
+    "It turns out <Actor.name> has a little fantasy for incest ... not sure how I should react to this."
+    0:: "Act repulsed"
+    1:: "Politely discourage <Actor.him_or_her> from pursuing <Actor2.name>"
+    2:: "Encourage <Actor.name> to go for <Actor2.him_or_her>"
+    
+    If 0
+        Actor:: "I guess I was wrong to consider you a friend ... I didn't expect you to be so judgmental."
+        Actor:rapportwithplayer -= 10
+    Elseif 1
+        Player:: "I understand your feelings but sometimes fantasies should remain fantasies, you know."
+        If isQuestCompleted(legalized)
+            Player:: "I know they made it legal recently, but incest is still very much frowned upon in society. This will destroy both of your lives."
+        Else
+            Player:: "Incest is still very much illegal, you two could both end up in jail."
+        Endif
+        Actor(Sad):: "I suppose you're right ..."
+    Else
+        Player:: "Hey Judeeeeeeeeee .... Don't be afraiddddddd .... You have found <Actor2.himmmmmmmmmmm_or_herrrrrrrrr>, now go and get <Actor2.himmmmmmmmmmm_or_herrrrrrrrr>."
+        Actor:rapportwithplayer += 10
+        Actor:: "I'm so glad that you understand. You're a true friend. I guess I just have to be brave."
+        addNpcRelationship(Dating, Actor, Actor2)
+        Player.hide()
+        Actor.hide()
+        "A couple of weeks later .... I met with <Actor.name> again."
+        Player.show()
+        Actor.show()
+        Player:: "So ... how did it go with <Actor2.name>?"
+        Actor:: "As I suspect, the feeling was mutual all along ... <Actor2.he_or_she> agreed to be my <Actor2.boyfriend_or_girlfriend>. We have you to thank. Without your encouragement, we would have wasted our life never daring to show our true feelings to each other"
+        "<Actor.name> proceeded to show me some cheesy photos of <Actor.him_or_her> and <Actor2.name> showing affection on <Actor.his_or_her> phone, nothing hardcore though."
+        0:: "You two make a cute couple"
+        1:: "Push for naughtier content"
+        
+        If 0
+            Actor:: "Thank you!"
+        Else
+            Player:: "That's all? Don't you have something more hardcore with <Actor2.name>?"
+            Actor:: "Well, I do ... What the hell! Since this relationship wouldn't be possible without your encouragement, might as well show you all."
+            "<Actor.name> proceeded to show me a video of them two indulging in incestuous desire!"
+            setBackground(home)
+            Player.hide()
+            Actor.strip()
+            Sex(Actor, Actor2)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(500, friend_confides_shy)

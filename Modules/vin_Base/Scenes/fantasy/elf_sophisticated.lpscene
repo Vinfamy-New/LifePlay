@@ -1,0 +1,56 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isRace(Elf) && Actor.hadSex() && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player) && Actor:attractiontoplayer > 10
+OTHER: PercentageOrcs > 0 && !Player.isRace(Orc) && !Player.isRace(Elf) && isModEnabled(vin_NonConsensual)
+
+    SceneStart()
+    Race = Player.getRace()
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isSameGender(Player)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.blendPreset(Orc)
+    Actor2.dress()
+    Actor2.show()
+    Actor.hide()
+    "I was hanging out with my elf lover <Actor.name>, who excused <Actor.himself_or_herself> to go to the bathroom, when I was approached by an orc I've never met before."
+    Actor2:: "You there ... I have a question."
+    Actor2:: "You've been sleeping with that elf? <Actor.He_or_She> seems quite smitten with you."
+    "Not sure how that's any of <Actor2.his_or_her> business ..."
+    Actor2:: "Those damn elves are so arrogant, always priding themselves on being intelligent and sophisticated. Yet here's one crossbreeding with a <Race>."
+    Actor2:: "Yet they look down on us Orcs and would never even consider sleeping with someone like me ..."
+    Actor2:: "You know what ... I'll love to hit that elf's ass. I'll pay you good money if you trick <Actor.him_or_her> with a blindfold and let me fuck the crap out of <Actor.him_or_her>."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Player:: "Getting paid while helping out with Orc-Elf diplomacy? We have a deal ..."
+        money += 1000
+        Actor2.hide()
+        setBackground(home)
+        Actor.show()
+        "Later on I invited the unsuspecting <Actor.name> back to a hotel."
+        Player:: "Baby, I want to try something a bit different tonight ..."
+        Player:: "Put this blindfold on, it will enhance the senses and help you feel every touch."
+        Actor:: "Alright then ... you naughty <Player.boy_or_girl> ..."
+        Actor.strip()
+        Actor.closeEyes(true)
+        Actor.dressBondage(Bdg_Blindfold)
+        Actor.animate(na_sleep)
+        "As soon as <Actor.name> lied down in bed with the blindfold on, I signalled for the orc to come in the room who whispered to me."
+        Actor2.show()
+        Actor2:: "Finally I get to fuck one of these arrogant elves. I'll see if you still look down on us orcs after this."
+        Sex(Actor2, Actor)
+        Actor2.hide()
+        "As soon the orc finished, <Actor2.he_or_she> gave me the money as promised and got out of the room before <Actor.name> could take off <Actor.his_or_her> blindfold."
+        Actor.strip()
+        Actor.closeEyes(false)
+        Actor:: "<Player.name>, what the hell was that all about? I mean the blindfold was an interesting experience, but why were you so rough on me tonight?"
+        Actor:attractiontoplayer -= 3
+    Else
+        Player:: "Get the fuck out of here, you damn orc savage."
+    Endif
+    Actor.show()
+    SceneEnd()
+    timeout(200, elf_sophisticated)

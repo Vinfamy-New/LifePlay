@@ -1,0 +1,163 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Oh no, I'm going into labour ..."
+    0:: "Be taken to a hospital"
+    
+    setBackground(hospital)
+    Player.strip()
+    If TfGame()
+        "Pain like I’ve never experienced, followed by exhaustion so deep it feels like my bones have melted; the end result of hours of labor. But when they lay the child back into my arms, it’s all swept away by exhilaration and an odd feeling of triumph. I did this. I made this little person. I’m a mom now. And I’m going to do everything I can to make sure this little person gets the best life I can possibly give them. I made a miracle happen; I feel like a God right now."
+        "No. A Goddess!"
+    Else
+        "It was a painful experience, but thankfully, everything went smoothly in the end. Nothing beats the feeling of being a new mom."
+    Endif
+    Actor2 = getPerson(tag_DaddyKnows)
+    DaddyKnows = Actor2.getActorVar(tag_DaddyKnows)
+    Actor2.setActorVar(tag_DaddyKnows, 0)
+    BioDaddy = Player.getBabyDaddy()
+    Player.endPregnancy()
+    energy -= 100
+    mood += 100
+    Surrogated = Surrogate.getGlobal()
+    Surrogated *= 2
+    
+    If Surrogated > 0
+        Surrogate.setGlobal(0)
+        "Of course, I know better than anyone that even though I personally carried this child to term, I'm only a surrogate mother and it's not my baby after all. I now have to hand the child over to <Actor2.name> as agreed."
+        0:: "Hand over the child and get paid the rest"
+        1:: "Keep the baby and return the first payment"
+        
+        If 0
+            "As agreed, as soon as I've given birth, the baby was given to the paying father <Actor2.name>. I did my best to not look at the baby and avoid getting too attached."
+            KeepBaby = false
+            Actor = Player.generatePersonMatchRace()
+            Actor:age => 18
+            Actor.randomizeFace()
+            Actor.randomizeHairs()
+            Actor.blendAppearanceFrom(Actor2, Player)
+            
+            money => money + Surrogated
+            addNpcRelationship(ParentChild, Actor2, Actor)
+            Actor.matchLastName(Actor2)
+        Else
+            "The truth is I have grown attached to this child, who's unquestionably mine!"
+            KeepBaby = true
+            "The law permits surrogate mothers to change their mind and keep the baby, thankfully. But any payment to date must be refunded. I have no choice but return the money. <Actor2.name> was understandably upset but had to accept my choice after all since it was all legal."
+            money => money - Surrogated
+            Actor2:rapportwithplayer -= 50
+            Actor2:attractiontoplayer -= 50
+        Endif
+    Else
+        KeepBaby = true
+    Endif
+    If KeepBaby   
+        If BioDaddy.isCreature()
+            If BioDaddy.isCreatureType(Dog)
+                Actor = generateCreatureTemporary(Dog)
+                Actor.makePermanent()
+                Actor:age => 0
+                "To the shock of all the doctors, I somehow gave birth to a puppy. Only I know the real reason of course."
+                "It's a <Actor.male_or_female> puppy! What should I name my dog <Actor.son_or_daughter>?"
+                Actor.enterFirstName()                
+            Else    
+                Actor = generateCreatureTemporary(Horse)
+                Actor.makePermanent()
+                Actor:age => 0
+                "To the shock of all the doctors, I somehow gave birth to a foal. Only I know the real reason of course"
+                "It's a <Actor.male_or_female> foal! What should I name my horse <Actor.son_or_daughter>?"
+                Actor.enterFirstName()         
+            Endif
+        Else
+            Actor = Player.generateRelativeMatchRace()
+            Actor:age => 0
+            Actor.randomizeFace()
+            Actor.randomizeHairs()
+            If BioDaddy.isValid() && !BioDaddy.isCreature()
+                Actor.blendAppearanceFrom(BioDaddy, Player)
+            Endif
+            
+            Actor.setRelativeType(Child)
+            If Actor2.isValid()
+                addNpcRelationship(ParentChild, Actor2, Actor)
+            Endif
+            "It's a <Actor.boy_or_girl>! What should I name my <Actor.son_or_daughter>?"
+            Actor.enterFirstName()
+            Player:children += 1
+            
+            If BioDaddy.isValid() && BioDaddy.isRelative() && Random(0, 100) < 50
+                "Unfortunately, I was informed by the doctor that <Actor.name> was born with a birth defect."
+                If Random(0, 100) < 25
+                    "This particular birth defect leads to a deformed face"
+                    Actor:attractiveness -= 75
+                    Actor.randomizeFace()
+                Elseif Random(0, 100) < 33
+                    "This particular birth defect leads to a very low IQ"
+                    Actor:intelligence -= 75                
+                Elseif Random(0, 100) < 50
+                    "This particular birth defect leads to a infertility."
+                    Actor:fertility => 0                       
+                Else
+                    "This particular birth defect leads to a very low natural fitness"
+                    Actor:fitness -= 75                  
+                Endif
+                "It baffled the doctors because such serious birth defects are usually caused by inbreeding by very closely-related family members. Of course, only I knew that <Actor.name>'s father is my own <BioDaddy.relationship> ... so this is the consequence I'll have to accept."
+            Endif
+            
+            If Random(0, 200) < fertility || [Random(0, 50) < fertility && [Player.isRace(Orc) || BioDaddy.isRace(Orc)]]
+                "I'm having twins!"
+                Actor3 = Player.generateRelativeMatchRace()
+                Actor3:age => 0
+                Actor3.randomizeFace()
+                Actor3.randomizeHairs()
+                If BioDaddy.isValid() && !BioDaddy.isCreature()
+                    Actor3.blendAppearanceFrom(BioDaddy, Player)
+                Endif
+                Actor3.setRelativeType(Child)
+                If Actor2.isValid()
+                    addNpcRelationship(ParentChild, Actor2, Actor3)
+                Endif
+                "It's a <Actor3.boy_or_girl>! What should I name my <Actor3.son_or_daughter>?"
+                Actor3.enterFirstName()
+                Player:children += 1
+                If Random(0, 200) < fertility || [Random(0, 100) < fertility && [Player.isRace(Orc) || BioDaddy.isRace(Orc)]]
+                    "I'm having triplets!"
+                    Actor4 = Player.generateRelativeMatchRace()
+                    Actor4:age => 0
+                    Actor4.randomizeFace()
+                    Actor4.randomizeHairs()
+                    If BioDaddy.isValid() && !BioDaddy.isCreature()
+                        Actor4.blendAppearanceFrom(BioDaddy, Player)
+                    Endif
+                    Actor4.setRelativeType(Child)
+                    If Actor2.isValid()
+                        addNpcRelationship(ParentChild, Actor2, Actor4)
+                    Endif
+                    "It's a <Actor4.boy_or_girl>! What should I name my <Actor3.son_or_daughter>?"
+                    Actor4.enterFirstName()
+                    Player:children += 1
+                Endif        
+            Endif
+            
+            If Actor2.isValid() && Surrogated == 0
+                If Actor2.isContactExchanged()
+                    Actor2.dress()
+                    Actor2.show()
+                    "Of course, <Actor2.name> was there with me in the hospital, welcoming his new born child into the world."
+                    If DaddyKnows == 2
+                        "Little did he know, the baby might not even be his ... let's hope it's a secret that never comes out."
+                    Endif
+                Else
+                    "<Actor2.name>, who was told that he was the father of the baby, didn't even bother to show up at the hospital ... Looks like I have no choice but to raise this child on my own."
+                Endif
+            Else
+                "It's a shame that my baby was born without me even knowing who the father is, or at least not being able to even get in contact with. But after all, it was my choice not to try and find that out. I'm more than capable of raising the child on my own."
+            Endif
+        Endif
+    Endif
+
+    SceneEnd()

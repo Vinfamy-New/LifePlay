@@ -1,0 +1,43 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // A option to spend time with your neighbours, landlord or boss (in case you did not get their number and dont want to cheat) 
+    SceneStart()
+    If WHERE == work
+        Actor = getSpecific(Boss)
+        While Actor.isValid()
+            Actor.dress()
+            Actor.show()
+            "I got to know <Actor.name> a bit better"
+            Actor:rapportwithplayer += 5
+            If !Actor.isContactExchanged() && Actor:rapportwithplayer > 20
+                exchangeContact(Actor)
+                "We even exchanged mobile numbers."
+            Endif
+            Actor.hide()
+            Actor.saveAndDelete()
+            Actor = getSpecific(Colleague)
+        Endwhile
+    Else
+        Actor = getSpecific(Landlord)
+        While Actor.isValid()
+            Actor.dress()
+            Actor.show()
+            "I got to know <Actor.name> a bit better"
+            Actor:rapportwithplayer += 5
+            If !Actor.isContactExchanged() && Actor:rapportwithplayer > 20
+                exchangeContact(Actor)
+                "We even exchanged mobile numbers."
+            Endif
+            Actor.hide()
+            Actor.saveAndDelete()
+            Actor = getSpecific(Neighbour)
+        Endwhile
+    Endif
+    "I didn't speak to anyone else while hanging around today."
+    SceneEnd()
+    
+    

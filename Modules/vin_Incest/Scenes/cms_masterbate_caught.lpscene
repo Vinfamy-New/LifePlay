@@ -1,0 +1,32 @@
+WHAT: masturbate, sleep, nap
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If Actor.livesWithPlayer() && Actor.isInterestedIn(Player) && Actor:perversion > 30 && Actor:incest > 10
+OTHER:
+
+    SceneStart()
+    "I was getting ready for bed and relieving a little stress.... when I noticed somebody at my door. From the shadows, I could guess it's my <Actor.relationship> <Actor.name>"
+    0:: "Ignore"
+    1:: "Scold <Actor.him_or_her>"
+    2:: "Invite <Actor.him_or_her> in"
+    
+    If 0
+        "I pretend not to notice"
+    Elseif 1
+        Player(Angry):: "<Actor.relationship>! Stop peeping on me!"
+        Actor:incest -= 5
+        Actor:rapportwithplayer -= 5
+    Else
+        perversion += 2
+        If Actor.hadSex() || Random(10, 50) < Actor:incest
+            "My <Actor.relationship> slowly comes into the room"
+            Sex(Actor, Player)
+            Actor:incest += 50            
+        Else
+            "My <Actor.relationship> blushes and runs back to <Actor.his_or_her> room."
+            Actor:incest += 5     
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, cms_masterbate_caught)

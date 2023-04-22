@@ -1,0 +1,52 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If isWithCompanion()
+        endDate()
+    Endif
+    stage = il_stage.getGlobal()
+    Actor = VicA.getActorAlias()
+    Actor.dress()
+    Actor.show()
+    Actor.startDate()
+    Actor.show()
+    "Let's continue corrupting the innocent <Actor.name> ..."
+
+    If stage == 1
+        followUp(co_ag_dickpic)
+    Elseif stage == 2
+        followUp(co_ag_erotica)
+    Elseif stage == 3
+        followUp(co_ag_gift)
+    Elseif stage == 4
+        followUp(co_ag_masturbate)
+    Elseif stage == 5
+        followUp(co_ag_strippoker)
+    Elseif stage == 6
+        followUp(co_ag_stripclub)
+    Elseif stage == 7
+        followUp(co_ag_pornin)
+    Elseif stage == 8
+        followUp(co_ag_pornout)
+    Elseif stage == 9
+        followUp(co_ag_sex_shop)
+    Elseif stage == 10
+        followUp(co_ag_changingroom)
+    Elseif stage == 11
+        followUp(co_ag_publicsex)
+    Else
+        "After a lot of effort, I believe I have fully awakened the sexual side inside <Actor.name>. <Actor.He_or_She> is now as perverted as I am ..."
+        Actor:perversion => perversion
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer => 100
+        questEnd()
+    Endif
+    stage += 1
+    Actor:perversion += 5
+    Actor:attractiontoplayer += 10
+    il_stage.setGlobal(stage)
+    SceneEnd()

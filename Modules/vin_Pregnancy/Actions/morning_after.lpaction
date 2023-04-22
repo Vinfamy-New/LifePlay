@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: morning_after
+ACTION_NAME: Take a morning-after pill
+WHERE: hospital, doctor, pharmacy, chemist
+WHEN: 0 - 24
+MINUTES: 1 - 2
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS: false (IS_MALE)
+MOVE_FIRST: true
+SCENE_ALWAYS: morning_after
+ANIMATION:   

@@ -1,0 +1,228 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    GoingAhead = true
+    "First, I must decide who to invite"
+    While !Actor.isValid() && GoingAhead
+        "Who is the first person to invite?"
+        0:: "Someone I know"
+        1:: "Random stranger on Craiglist"
+        2:: "Forget this whole group sex party idea!"
+        
+        If 0
+            "Pick someone with high perversion or I've done sexual things with previously."
+            selectNPC()
+            Actor = getSelectedNPC()
+            
+            If Actor.hadSex() || Actor:perversion > 50
+                "<Actor.name> accepted my invitation."
+            Else
+                "Unfortunately, <Actor.name> turned down my invitation."
+                Actor.delete()
+            Endif
+            
+        Elseif 1
+            "What gender should I specifically look for in the Craiglist ad?"
+            0:: "Male"
+            1:: "Female"
+            2:: "Trans"
+            
+            Actor = generatePersonTemporary()
+            While [!Actor.isMale() && choice == 0] || [!Actor.isFemale() && choice == 1] || [!Actor.isTrans() && choice == 2]
+                Actor = generatePersonTemporary()
+            Endwhile
+            secondScreen(Actor)
+            Actor.show()
+            "<Actor.name> responded to my ad and sent over a photo of <Actor.him_or_her> as requested."
+            0:: "Invite <Actor.name>"
+            1:: "Look for someone else"
+            
+            If 1
+                Actor.delete()
+            Endif
+            secondScreen()
+            Actor.hide()
+        Else
+            GoingAhead = false
+        Endif
+    Endwhile
+    
+    While !Actor2.isValid() && GoingAhead
+        "Who is the second person to invite?"
+        0:: "Someone I know"
+        1:: "Random stranger on Craiglist"
+        2:: "Forget this whole group sex party idea!"
+        
+        If 0
+            "Pick someone with high perversion or I've done sexual things with previously."
+            selectNPC()
+            Actor2 = getSelectedNPC()
+            
+            If Actor2.hadSex() || Actor2:perversion > 50
+                "<Actor2.name> accepted my invitation."
+            Else
+                "Unfortunately, <Actor2.name> turned down my invitation."
+                Actor2.delete()
+            Endif
+            
+        Elseif 1
+            "What gender should I specifically look for in the Craiglist ad?"
+            0:: "Male"
+            1:: "Female"
+            2:: "Trans"
+            
+            Actor2 = generatePersonTemporary()
+            While [!Actor2.isMale() && choice == 0] || [!Actor2.isFemale() && choice == 1] || [!Actor2.isTrans() && choice == 2]
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            secondScreen(Actor2)
+            Actor2.show()
+            "<Actor2.name> responded to my ad and sent over a photo of <Actor2.him_or_her> as requested."
+            0:: "Invite <Actor2.name>"
+            1:: "Look for someone else"
+            
+            If 1
+                Actor2.delete()
+            Endif
+            secondScreen()
+            Actor2.hide()
+        Else
+            GoingAhead = false
+        Endif
+    Endwhile
+    
+    While !Actor3.isValid() && GoingAhead
+        "Who is the third person to invite?"
+        0:: "Someone I know"
+        1:: "Random stranger on Craiglist"
+        2:: "Two guests are enough. Let's go ahead with the party."
+        
+        If 0
+            "Pick someone with high perversion or I've done sexual things with previously."
+            selectNPC()
+            Actor3 = getSelectedNPC()
+            
+            If Actor3.hadSex() || Actor3:perversion > 50
+                "<Actor3.name> accepted my invitation."
+            Else
+                "Unfortunately, <Actor3.name> turned down my invitation."
+                Actor3.delete()
+            Endif
+            
+        Elseif 1
+            "What gender should I specifically look for in the Craiglist ad?"
+            0:: "Male"
+            1:: "Female"
+            2:: "Trans"
+            
+            Actor3 = generatePersonTemporary()
+            While [!Actor3.isMale() && choice == 0] || [!Actor3.isFemale() && choice == 1] || [!Actor3.isTrans() && choice == 2]
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            secondScreen(Actor3)
+            Actor3.show()
+            "<Actor3.name> responded to my ad and sent over a photo of <Actor3.him_or_her> as requested."
+            0:: "Invite <Actor3.name>"
+            1:: "Look for someone else"
+            
+            If 1
+                Actor3.delete()
+            Endif
+            secondScreen()
+            Actor3.hide()
+        Else
+            GoingAhead = false
+            setBackgroundCustom(livingroom)
+            
+            Actor.dress()
+            Actor.show()
+            
+            Actor2.dress()
+            Actor2.show()
+            
+            "My guests showed up to the party and after a little bit of mingle, we got down to business."
+            Sex(Player, Actor, Actor2)
+        Endif
+    Endwhile
+    
+    While !Actor4.isValid() && GoingAhead
+        "Who is the fourth person to invite?"
+        0:: "Someone I know"
+        1:: "Random stranger on Craiglist"
+        2:: "Three guests are enough. Let's go ahead with the party."
+        
+        If 0
+            "Pick someone with high perversion or I've done sexual things with previously."
+            selectNPC()
+            Actor4 = getSelectedNPC()
+            
+            If Actor4.hadSex() || Actor4:perversion > 50
+                "<Actor4.name> accepted my invitation."
+            Else
+                "Unfortunately, <Actor4.name> turned down my invitation."
+                Actor4.delete()
+            Endif
+            
+        Elseif 1
+            "What gender should I specifically look for in the Craiglist ad?"
+            0:: "Male"
+            1:: "Female"
+            2:: "Trans"
+            
+            Actor4 = generatePersonTemporary()
+            While [!Actor4.isMale() && choice == 0] || [!Actor4.isFemale() && choice == 1] || [!Actor4.isTrans() && choice == 2]
+                Actor4 = generatePersonTemporary()
+            Endwhile
+            secondScreen(Actor4)
+            Actor4.show()
+            "<Actor4.name> responded to my ad and sent over a photo of <Actor4.him_or_her> as requested."
+            0:: "Invite <Actor4.name>"
+            1:: "Look for someone else"
+            
+            If 1
+                Actor4.delete()
+            Endif
+            secondScreen()
+            Actor4.hide()
+        Else
+            GoingAhead = false
+            setBackgroundCustom(livingroom)
+            
+            Actor.dress()
+            Actor.show()
+            
+            Actor2.dress()
+            Actor2.show()
+            
+            Actor3.dress()
+            Actor3.show()
+            
+            "My guests showed up to the party and after a little bit of mingle, we got down to business."
+            Sex(Player, Actor, Actor2, Actor3)
+        Endif
+    Endwhile
+    
+    If GoingAhead
+        setBackgroundCustom(livingroom)
+        
+        Actor.dress()
+        Actor.show()
+        
+        Actor2.dress()
+        Actor2.show()
+        
+        Actor3.dress()
+        Actor3.show()
+        
+        Actor4.dress()
+        Actor4.show()
+        
+        "My guests showed up to the party and after a little bit of mingle, we got down to business."
+        Sex(Player, Actor, Actor2, Actor3, Actor4)    
+    Endif
+    
+    SceneEnd()

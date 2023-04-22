@@ -1,0 +1,80 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Random(50, 100) < Actor:perversion && !Actor.isAsexual() && Actor:likes_bondage > 0
+OTHER: !Player.isMale()
+
+    SceneStart()
+    "I was hanging out with <Actor.name> when <Actor.he_or_she> asks me to follow <Actor.his_or_her> lead. I had no reason to refuse."
+    setBackground(street)
+    "Looks like it's some sort of clothing store ..."
+    "Wait a minute ... It's a bondage clothing store ... Am I sure about this?"
+    0:: "Follow <Actor.name> inside the BDSM clothing store"
+    1:: "Refuse"
+    
+    If 0
+        "I'm quite curious and excited about what <Actor.name> wants to show me in there."
+        likes_bondage += 1
+        setBackground(clothes)
+        "Once inside, <Actor.name> picked out some BDSM outfits for me to try ..."
+        Player.dressBondage()
+        Actor:: "These look great on you!"
+        If Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor)
+            Actor:: "In fact, you look so incredibly delicious with them on that I can't help myself ..."
+            "<Actor.name> started to touch me ... It was clear what <Actor.he_or_she> wanted, right here in the middle of a bondage clothing store."
+            0:: "Have sex with <Actor.name> while all bondaged up"
+            1:: "Show my disapproval"
+            
+            If 0
+                likes_bondage += 2
+                masochist += 1
+                perversion += 1
+                Sex(Player, Actor)
+                "I can't believe I just did that, have I turned in a bit of a bondage whore?"
+            Else
+                "Sensing my objection, <Actor.name> decided to leave me alone." 
+            Endif
+        Else
+            If !Actor.isMale()
+                Actor:: "Let me try on some as well. I'll ask the shop assistant to help me out ..."
+                Actor2 = generatePersonTemporary()
+                While !Actor.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.dress()
+                Actor2.show()
+                Actor2:: "Yes, <Actor.Sir_or_Madam>, how can I help?"
+                Actor:: "Could you recommend a few things for me?"
+                Actor2:: "Of course, <Actor.Sir_or_Madam>, that's what I'm here for."
+                Actor.dressBondage()
+                "The shop assistant picked up a few bondage gears for <Actor.name> as well ..."
+                "<Actor.He_or_She> does look really good in them ..."
+                Actor2:: "<Actor.Sir_or_Madam>, you look so incredibly delicious with them on that I can't help myself ..."
+                "The shop assistant started to touch <Actor.name> ... It was clear what they both wanted, right here in the middle of a bondage clothing store."
+                Sex(Actor2, Actor)
+                "I can't believe <Actor.name> just did that, I didn't realize how much of a bondage whore <Actor.he_or_she> was! Looks like they're about to go for a second round too. It's almost as if the bondage gear gives them extra energy and endless arousal."
+                0:: "I want some action too!"
+                1:: "Just let them be"
+
+                If 0
+                    Player:: "Hey, not fair, what about me?"
+                    Actor:: "I thought you'd never ask ..."
+                    Sex(Actor2, Player, Actor)
+                    "I can't believe I just had a threesome with <Actor.name> both dressed up in BDSM equipment, have I turned in a bit of a bondage whore?"
+                    likes_bondage += 2
+                    masochist += 1
+                    perversion += 1
+                Else
+                    Sex(Actor2, Actor)
+                Endif
+            Else
+                "Once we're done, we continue hanging out."
+            Endif
+        Endif
+    Else
+        Player:: "Sorry, but this isn't my thing at all ..."
+        Actor:rapportwithplayer -= 1
+    Endif
+    
+    SceneEnd()
+    timeout(100, bdsm_shop_companion)

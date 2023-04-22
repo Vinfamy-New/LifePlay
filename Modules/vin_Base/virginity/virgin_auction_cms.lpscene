@@ -1,0 +1,114 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: Player.isVirgin() && Player.isFemale()
+    
+    SceneStart()
+    
+    Step = Player.getActorVar(virgin_step)
+    
+    If Step == 0
+        "I'm still a virgin. Virginity is highly prized for a woman ... I could save it for marriage ... for someone special ... or maybe for the right prize to the highest bidder that will set me up for life."
+        0:: "Auction off my virginity"
+        1:: "No way"
+        
+        If 0
+            Step += 1
+        Else
+            timeout(1000, virgin_auction_cms)
+        Endif
+    Elseif 1
+        "Having decided to auction off my virginity, the first step is to get a letter from a gynecologist to certify that my hymen is still intact."
+        0:: "Obtain the letter now"
+        1:: "Maybe later"
+        2:: "On second thought, I'm not selling off my dignity"
+        
+        If 0
+            setBackground(clinic)
+            Player.strip()
+            "Since I'm genuinely a virgin, it didn't take long or much effort for the doctor to confirm my virginity."
+            Step += 1            
+        Elseif 2
+            Step => 0 
+            timeout(1000, virgin_auction_cms)
+        Endif
+    Elseif 2
+        Next scene, a clothed photo shoot, followed by listing the auction.
+        "Next stop is aunctioning off my virginity is to take some nice photos in a professional studio to encourage bidders."
+        0:: "Take the photos"
+        1:: "Maybe later"
+        2:: "On second thought, I'm not selling off my dignity"
+        
+        If 0
+            setBackground(photo)
+            "Unlike any other types of 'pimping' photoshoots, mine went down fully clothed and as innocently as possible. After all, that innocence is what the bidders are looking for"
+            "Now that I have everything ready, I managed to find an auction house that secretly deals in this types of virginity auctions."
+            "I should be receiving offers quite soon now ..."
+            Step += 1
+        Elseif 2
+            Step => 0 
+            timeout(1000, virgin_auction_cms)
+        Endif
+    Else
+        Actor = generatePersonTemporary()
+        While !Actor.isMale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.makeInterested(Player)
+        
+        secondScreen(Actor)
+        Actor.show()
+        
+        If Step == 3
+            bid = 100000
+        Elseif Step == 4
+            bid = 175000
+        Elseif Step == 5
+            bid = 225000
+        Elseif Step == 6
+            bid = 250000
+        Elseif Step == 7
+            bid = 260000
+        Elseif Step == 8
+            bid = 263000
+        Endif
+        
+        bidConverted = bid.convertToLocalCurrency(true)
+        "My virginity aunction house just called ... A bidder just put in a bid of <bidConverted> for the privilege of deflowering me."
+        0:: "Accept the bid"
+        1:: Step < 8:: "Wait for a better bid"
+        2:: "Change my mind about selling off my virginity altogether"
+        
+        If 0
+            "I decided to accept the bid. The wealthy man with the honor to deflower me is called <Actor.name> <Actor.name_last>."
+            dressFormal()
+            Actor.makePermanent()
+            exchangeContact(Actor)
+            Actor.dress()
+            Actor.show()
+            setBackground(home)
+            "Being so rich to win the auction, of course, he was never going to turn around and be stingy with the hotel room. He booked us a luxurious stay at one of the best hotels in the world to make sure my first time is truly magical."
+            Sex(Player, Actor)
+            money += bid
+        Elseif 1
+            "I reckon I could still fetch more than that! Let's just wait for a better offer."
+        Else
+            "The auction house got very upset that I chickened out of the deal and demanded that I paid them back all the costs. They also blacklist me and warn others in their industry so it would be hard for me to auction off my virginity again in the near future"
+            timeout(2000, virgin_auction_cms)
+            "I have no choice but pay back their costs even if it means going into debt, but at least I managed to save my virginity for someone more special, rather than a transaction, no matter how lucrative."
+            money -= 5000
+        Endif
+    Endif
+    
+    If Step > 2
+        timeoutPrecise(12, virgin_auction_cms)    
+    Else
+        timeout(100, virgin_auction_cms)
+    Endif
+    
+    Player.setActorVar(virgin_step, Step)    
+    SceneEnd()
+    
+
+    

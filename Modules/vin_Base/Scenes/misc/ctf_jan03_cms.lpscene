@@ -1,0 +1,106 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(Parent, StepParent); If !Actor.hadRelationship(Spouses, Dating) && !Actor.isMarried()
+OTHER:
+
+    SceneStart()
+    
+    Actor2 = Actor.getRelatedPerson(JohnSexWorker)
+    If Actor2.isValid()
+        Actor.dress()
+        Actor.show()
+        secondScreen(Actor2)
+        Actor2.show()
+        "Last time I hired an escort called <Actor2.name> to spend an evening with my lonely <Actor.relationship>, who seemed to enjoy <Actor2.his_or_her> company very much. Perhaps I should hire <Actor2.him_or_her> again?"
+        0:: "Hire <Actor2.name>"
+        1:: "Cut contact with <Actor2.him_or_her> and find someone else"
+        2:: "Not today, but keep <Actor2.his_or_her> number for the future"
+        3:: "Forget this whole idea"
+        
+        If 3
+            timeout(1000, ctf_jan03_cms)
+            "It was a mistake hiring escorts for my <Actor.relationship> anyway. Let's not do this again anytime soon."
+        Elseif 1
+            removeNpcRelationship(Actor, Actor2)
+            "My <Actor.relationship> was getting too attached emotionally to this escort, which will not be a good thing for the long term. Might as well cut it off now."
+            followUp(ctf_jan03_cms)
+        Elseif 0    
+            fuckParent = Actor2.getActorVar(fuckParent)
+            fuckParent += 1
+            money -= 100
+            secondScreen()
+            Actor2.setActorVar(fuckParent, fuckParent)
+            "I once again arranged for my <Actor.relationship> and <Actor2.name> to meet for dinner at a nice restaurant. I also booked them a nice hotel room for afterwards."
+            0:: "Fantasize about my <Actor.relationship> fucking an escort"
+            1:: "Ew, I'd rather not think about details"
+            
+            If 0
+                Actor2.dress()
+                Actor2.show()
+                Sex(Actor, Actor2)
+            Endif
+            
+            If fuckParent > Random(3, 10)
+                setBackgroundCustom(livingroom)
+                "I came home one day to find both my <Actor.relationship> and <Actor2.name> the escort there. It was quite shocking at first. Have they been seeing each other outside of the dates I arrange myself?"
+                "And my shock didn't end there, as my <Actor.relationship> now introduced <Actor2.name> as <Actor.his_or_her> new <Actor2.boyfriend_or_girlfriend> ..."
+                removeNpcRelationship(Actor, Actor2)
+                Actor2.setActorVar(fuckParent, 1)
+                addNpcRelationship(Dating, Actor, Actor2)
+                "I could never imagine things would escalate quite this fast ..."
+                "Something telling me that my <Actor.relationship> being in a public relationship with a former escort isn't the best idea in the world, but I'm partly responsible for this."
+                "In a way though, I'm happy for my <Actor.relationship>. At least, <Actor.he_or_she> isn't lonely anymore. And who knows, this might work ... Maybe this is a new beginning for both of them."
+                "Of course, I'm not thrilled about the prospect of one day calling an escort I used to hire my step-<Actor2.mom_or_dad> though ..."
+            Endif
+        Endif
+    Else
+        Actor3 = getRelative(Parent, StepParent)
+        If Actor3.isValid()
+            "Both my parents <Actor.name> and <Actor3.name> seem to be enjoying life lately. I've become a bit closer to them too."
+            Actor:rapportwithplayer += 2
+            Actor:rapportwithplayer += 3
+            timeout(1000, ctf_jan03_cms)
+        Else
+            Actor.dress()
+            Actor.show()
+            "My <Actor.relationship> is a single parent who hasn't been on a date for a long time."
+            "I worry about <Actor.his_or_her> mental well-being, I think it's only a matter of time before the loneliness could cause my <Actor.relationship> to become depressed."
+            "Maybe I should hire one of those '<Actor.Girlfriend_or_Boyfriend> Experience' escorts for an evening with my <Actor.relationship>?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                Actor2 = generatePersonTemporary()
+                While !Actor.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                secondScreen(Actor2)
+                Actor2.show()
+                "One of the escorts, called <Actor2.name>, is advertising <Actor2.his_or_her> services online, apparently having experience with older <Actor.men_or_women> like my <Actor.relationship>."
+                0:: "Hire <Actor2.him_or_her>"
+                1:: "Look for someone else another day"
+                
+                If 0
+                    money -= 100
+                    secondScreen()
+                    Actor2.makePermanent()
+                    addNpcRelationship(JohnSexWorker, Actor, Actor2)
+                    Actor2.setActorVar(fuckParent, 1)
+                    "I arranged for my <Actor.relationship> and <Actor2.name> to meet for dinner at a nice restaurant. I also booked them a nice hotel room for afterwards."
+                    0:: "Fantasize about my <Actor.relationship> fucking an escort"
+                    1:: "Ew, I'd rather not think about details"
+                    
+                    If 0
+                        Actor2.dress()
+                        Actor2.show()
+                        Sex(Actor, Actor2)
+                    Endif
+                Endif
+            Else
+                timeout(1000, ctf_jan03_cms)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, ctf_jan03_cms)

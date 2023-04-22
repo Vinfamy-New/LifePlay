@@ -1,0 +1,117 @@
+WHAT: all
+WHERE: work
+WHEN: 22 - 5
+WHO: Actor = getSpecific(Colleague); Actor2 = getSpecific(Colleague); If !Actor.isDating() && Actor:rapportwithplayer > 0 && Actor:masochist > 0
+OTHER:
+
+    // If you work past 10pm, another colleague working late may ask you to walk them home since they have to walk past a dodgy part of town to get home. If you refuse, they ask another colleague and there's a small chance the two of them show up the next morning as a new couple. They may invite you inside ... or if 'Rap... music' is enabled, you may get ambushed during your walk.
+    
+    SceneStart()
+    "There's a lot of work today so I'm doing a whole lot of overtime and working till very late. It's already very dark outside."
+    Actor.dress()
+    Actor.show()
+    "There are not many colleagues still left in the office, among them <Actor.name>, who I get along quite well with."
+    Actor:: "<Player.name>, can I ask a favor of you?"
+    Actor:: "I got carried away with work and didn't realize how late it was already."
+    Actor:: "Would you mind walking me home? In order to get home, I'll have to walk past a really dodgy part of town. It's okay during the day but a bit dangerous at night."
+    0:: "Sure"
+    1:: "I'm not leaving yet"
+    
+    If 0
+        Actor:rapportwithplayer += 2
+        Actor:attractiontoplayer += 2
+        Player:: "Of course, I'm too exhausted to do more work anyway."
+        setBackground(street)
+        
+        If !isModEnabled(vin_NonConsensual) || Random(50, 100) < martial + muscle
+            "Getting <Actor.name> home did indeed involve walking past some shady characters. Thankfully, I think I managed to look intimidating enough to scare off the wrong kind of attention."
+            HomeSafe = true
+        Else
+            "As we were walking past the dodgy part of the journey, we were ambushed by two thugs."
+            Actor2 = generatePersonTemporary()
+            Actor3 = generatePersonTemporary()
+            Actor2.dressUniform(Crime)
+            Actor3.dressUniform(Crime)
+            
+            Actor2.show()
+            Actor3.show()
+            Actor2.moveToPersonStand(Player, 50)
+            Actor3.moveToPersonStand(Actor, 50)
+            Actor2:: "You two must be either lost or incredibly stupid to walk here at night."
+            Actor3:: "They don't call this rape alley for no reason!"
+            Actor2.animate(martialart)
+            Actor3.animate(martialart)
+            Player.animate(martialart)
+            Actor.animate(martialart)
+            "A struggle broke out"
+            
+            If Actor2:martial + Actor3:martial > martial + Actor:martial
+                Player.animate(fightLost)
+                Actor.animate(fightLost)
+                "Unfortunately for us, both of us were soon knocked down by the thugs."
+                "We had no choice but accept our fate ... why did I agree to walk <Actor.name> home knowing full well I'm not much of a fighter myself ..."
+                If !Actor2.isMale() && Player.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                SexNoAffair(Actor2, Player)
+                
+                If !Actor3.isMale() && Actor.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                SexNoAffair(Actor3, Actor)
+            Else
+                Actor3.animate(fightLost)
+                Actor2.animate(fightLost)
+                "Thankfully, we managed to defeat the thugs together and escaped danger. Phew, that was close."
+            Endif
+        Endif
+        
+        If HomeSafe
+            Actor:: "Here we are ... Thank you for walking me home. Do you want to come in for tea? It's the least I could do for being so kind ..."
+            0:: "Come in"
+            1:: "Refuse"
+            
+            If 0
+                setBackground(livingroom)
+                "We sat down together and had some tea while watching TV. We really enjoyed each other's company but it was getting late."
+                If Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+                    "I can't help but feel certain chemistry developing between us. If we're to be more than colleagues, this is my chance."
+                    0:: "Make out with <Actor.name>"
+                    1:: "Say goodbye"
+                    
+                    If 0
+                        Sex(Player, Actor)
+                    Else
+                        "Soon, I bid <Actor.name> farewell."
+                    Endif
+                Else
+                    "Soon, I bid <Actor.name> farewell."
+                Endif
+            Endif
+        Endif
+    Else
+        Player:: "Sorry, but I still have work to do. Maybe you could ask someone else."
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "I'll go with you, <Actor.name>. Don't worry."
+        Actor:: "Thank you, <Actor2.name>. That's very kind of you ..."
+        Actor.hide()
+        Actor2.hide()
+        "Off they go ... leaving me alone in the office ..."
+        If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && !Actor.hasRelationship(Spouses, Dating) && !Actor2.hasRelationship(Spouses, Dating) && Random(0, 1000) < 100 - Actor:attractiontoplayer
+            "As it turns out, <Actor.name> and <Actor2.name> did indeed get in danger on the way home with some gang."
+            "Thankfully, <Actor.name> managed to fend off the attack and become the <Actor.hero_or_heroine>."
+            "Which no doubt leads to some adrenaline-filled fucking once they manage to reach their destination safely ..."
+            "That would explain why the two of them show up the next morning at the office as a brand-new couple."
+            addNpcRelationship(Dating, Actor2, Actor)
+            "It's fate ... but maybe it should have been me."
+        Else
+            "They must have had no problems walking home since they never said anything about it."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, walk_colleague_home)

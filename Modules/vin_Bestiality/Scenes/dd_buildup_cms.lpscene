@@ -1,0 +1,222 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getCreature(); If !Actor.hadSex()
+OTHER:
+
+    SceneStart()
+    Actor.hide()
+    count = buildup_count.getGlobal()
+    If count == 0
+        setBackground(street)
+        Actor2 = generatePersonTemporary()
+        Actor2.dress()
+        Actor2.show()
+        Actor3 = generatePersonTemporary()
+        Actor3.dress()
+        Actor3.show()
+        "You overhear two people having a conversation about sex. The couple are talking quite openly about a porn clip they have seen which shows a woman having sex with a dog. You listen carefully to them, hoping that they don't catch you eavesdropping. Unfortunately, one of the people notices that you are listening in on them."
+        Actor2:: "I can't help but notice that you are listening to our conversation. Does what we are talking about interest you?"
+        0:: "No"
+        1:: "Yes"
+        
+        If 0
+            Player:: "Of course not, why would I be interested in something so disgusting!" 
+            "And with that you get up and leave. The truth though is that the subject of bestiality might have have been more interesting to you that you are able to admit. Perhaps next time your curiosity will get the better of you and will make a different decision?"
+        Else
+            "You are surprised at the openness of the person talking to you. It's as though they don't care that what they are talking about is taboo and illegal in most countries. There attitude inspires you to make a very bold decision."
+            Player:: "Well... it didn't before... but hearing your conversation has definitely made me feel curious about it."
+            Actor2:: "That's good to hear. It's a positive thing to have an open mind about such matters. So... would you like to see the clip we are talking about?"
+            0:: "No"
+            1:: "Yes"
+            
+            If 0
+                "That's probably a step too far. You can admit to being curious about the subject but you're not prepared to watch beast porn in a public place. You say goodbye and leave. However, you have to admit that you were tempted to say 'yes'. Perhaps next time you will make a different decision?"
+            Else
+                "With your curiosity in full flow, you decide to make a massive leap of faith."
+
+                Player:: "Yes... ok... show me the clip!"
+                Actor4 = generatePersonTemporary()
+                While !Actor4.isFemale()
+                    Actor4 = generatePersonTemporary()
+                Endwhile
+                Actor5 = generateCreatureTemporary(Dog)
+                While !Actor5.isMale()
+                    Actor5 = generateCreatureTemporary(Dog)
+                Endwhile
+                Sex(Actor5, Actor4)
+                Actor5.hide()
+                Actor4.hide()
+                Actor2:: "So, what do you think about that? Did you enjoy the clip?"
+                0:: "No"
+                1:: "Yes"
+
+                If 0
+                    "You may have been curious but now you're just disgusted. If you never see another clip like that it will be too soon. You say goodbye to the couple and you hope to never see them again."
+                Else
+                    count += 1
+                    "It's the most incredible thing you have ever seen in your life. You knew that bestiality existed, but you never though that it could look so sexy. You might not be ready to admit this, but seeing the clip has made you feel very horny."
+                    Player:: "Yes... yes I did like it! I've never seen anything like that before in my whole life! The woman looked like she was really enjoying herself!"
+                    Actor2:: "I'm glad you liked it. If you want to see more then you just need to search for it on the internet. There is just so much to see, if you really want to see it!"
+                    "And with that the couple get up and leave."
+                    "You are left wondering where this new and exciting appreciation of bestiality will take you. Only time will tell."
+                Endif
+            Endif
+        Endif
+        
+    Elseif count < 4
+        "You think back to the porn clip you were shown of the woman having sex with a dog. Since that day you've not been able to get the image out of your mind. It's makes you feel incredibly horny every time you think about it. You then remember what the advice that person gave you. You are so so tempted to search the internet for more animal porn. Will you?"
+        0:: "REFUSE TEMPTATION"
+        1:: "GIVE IN TO TEMPTATION"
+        
+        If 0
+            "As much as that clip turned you on, you don't want to risk having illegal material on your personal computer. Perhaps you just need time to think about it though?"
+        Else
+            count += 1
+            If count == 1
+                "You simply cannot ignore how turned on you are or how desperate you are to see more beast porn. You turn on your computer and Google 'animal having sex with a woman'. You can't believe how many clips you find. You click on a link and begin to watch."
+            Elseif count == 2
+                "You simply cannot ignore how turned on you are or how desperate you are to see more beast porn. You turn on your computer and Google 'animal having sex with a woman' again. Just like the last time, you can't believe how many clips you find. You click on a link and begin to watch."
+            Elseif count == 3
+                "You simply cannot ignore how turned on you are or how desperate you are to see even more beast porn. You turn on your computer and Google 'animal having sex with a woman' again. Just like the last time, you can't believe how many clips you find. There always seem to be new and exciting videos to see. You click on a link and begin to watch."
+            Endif
+
+            Player.hide()
+            Actor4 = generatePersonTemporary()
+            While !Actor4.isFemale()
+                Actor4 = generatePersonTemporary()
+            Endwhile
+            "This is going to be good"
+            Actor5 = generateCreatureTemporary()
+            While !Actor5.isMale()
+                Actor5 = generateCreatureTemporary()
+            Endwhile
+            Sex(Actor5, Actor4)
+            Actor4.hide()
+            Actor5.hide()
+            Player.show()
+            "You watch the clip and become more and more turned on. Eventually you have to give in to your base desires."
+            
+            Filter(Solo)
+            Sex(Player)
+
+            If count == 1
+                "You have just brought yourself to orgasm from watching animal porn. A part of you feels a bit disgusted with yourself. However, a much bigger part of you feels incredibly satisfied. This might not be the last time that you bring yourself off from watching bestiality."                
+            Elseif count == 2
+                "You have just brought yourself to orgasm again from watching animal porn. This time you don't feel disgusted at all. You just feel incredibly satisfied and happy that you have found something that gets you off so easily. This won't be the last time that you make yourself cum from watching bestiality."
+            Elseif count == 3
+                "You have just brought yourself to orgasm again from watching animal porn. As before you feel incredibly satisfied and happy that you have found something that gets you off so easily. You begin to wonder how far this will go. You begin to imagine what experiencing bestiality in real life might feel like."
+            Endif
+        Endif
+    Elseif count == 4
+        "Even though you are getting lots of pleasure from watching animal porn, you just can't help wondering what it would be like to see and do those things in real life. Perhaps now would be a good time to make plans to turn your fantasy into a reality?"
+        0:: "FORGET THE IDEA"
+        1:: "LET'S MAKE IT HAPPEN"
+        
+        If 0
+            "It's a nice idea but some fantasies should remain as fantasies. At least for now."
+        Else
+            "You've come a long way since overhearing that conversation about a woman having sex with a dog. But now, after seeing so much porn and it making you feel so horny, you want more. You want the real thing. But how on earth are you going to make it happen?"
+            0:: "TRY IT YOURSELF"
+            1:: "TRY TO CONVINCE SOMEONE TO PUT ON A SHOW"
+            
+            If 0
+                "You decide that this is something you have to experience for yourself. Nothing else will scratch your itch. You decide to do some research on the internet. You read a lot of 'how to' guides and watch as much amateur porn were dogs are fucking women as you can find. Finally you feel as if you are ready to take the plunge and go all the way."
+                Actor.show()
+                "You call your pet <Actor.name> into your bedroom."
+                Player:: "Ok <Actor.name>, this is my first time... please be gentle with me!"
+                Player:: "You then take deep breath and prepare to be fucked by a dog!"
+                Sex(Actor, Player)
+                "<Actor.name> fucks you like you've never been fucked before! His knot stretches you and makes you cum so hard that you nearly pass out. You can't believe how much you have enjoyed having sex with your dog. Today you have lost your bestiality cherry and this won't be the last time that you taste the forbidden fruit."
+            Else
+                "Who should be the lucky person?"
+                0:: "YOU DECIDE TO ASK SOMEONE YOU KNOW"
+                1:: "YOU DECIDE TO HIRE A HOOKER."
+
+                If 1
+                    "You call an agency and tell them the perverted act you will be wanting the escort to perform."
+                    Actor2 = generatePersonTemporary()
+                    While !Actor2.isFemale()
+                        Actor2 = generatePersonTemporary()
+                    Endwhile
+                    secondScreen(Actor2)
+                    Actor2.show()
+                    "They say they only have one lady willing to perform bestiality. She charges a lot for her services and it's non-negotiable. Do you accept the price?"
+                    0:: "No"
+                    1:: "Yes"
+                    
+                    If 0
+                        "There is no way you are paying that much to see your dog fuck a woman. So for now you decide to make do with porn from the internet and your imagination. Perhaps you can think of another way to see your dream come true, or maybe you will just end up calling the agency back?"
+                    Else
+                        money -= 1000
+                        secondScreen()
+                        Actor2.dress()
+                        Actor2.show()
+                        Actor.show()
+                        "You can afford the price and you are desperate to see your dog fucking a woman. You happily pay and an hour later, the call-girl arrives. After some chit chat and small talk, the real action get underway."
+                        Sex(Actor, Actor2)
+                        "The hooker has a great time with your dog. She then says that for an extra tip you can join in. What do you say?"
+                        0:: "NO THANKS"
+                        1:: "YES PLEASE!"
+                        
+                        If 0
+                            "You feel tempted, but you don't feel the need to go all the way. But who knows, if you do this again then next time you might decide to take the plunge."
+                        Elseif 1
+                            money -= 200
+                            "You decide that, after all the porn you have watched and all the research you have done, it's time to get stuck in and go all the way!"
+                            Sex(Actor, Player, Actor2)
+                            "You all have a fantastic time and are thoroughly satisfied. As she is leaving, the hooker gives you her private number and says"
+                            "I really enjoyed that. If you want to do this again then give me a call... no charge next time!"
+                        Endif
+                    Endif
+                Elseif 0
+                    "Who am I thinking about?"
+                    selectNpc()
+                    Actor2 = getSelectedNpc()
+                    setBackgroundCustom(kitchen)
+                    Actor2.dress()
+                    "You're not going to leave anything to chance so the first thing you do is buy some aphrodisiac from the pharmacy."
+                    "Then you invite <Actor2.name> to come over for a meal and a drink. <Actor2.He_or_She> agrees. While you are waiting for <Actor2.him_or_her> to arrive, you spike the food and the alcohol with the aphrodisiac."
+                    Actor2.show()
+                    "Eventually  arrives. You eat the food, have a few drinks and watch a mainstream movie together."
+                    setBackgroundCustom(livingroom)
+                    "Then, you spice things up a bit and put on a porn film"
+                    "You can tell that your companion is getting horny. Really horny. You decided to up the ante and put on a more specific film."
+                    Actor4 = generatePersonTemporary()
+                    While !Actor4.isFemale()
+                        Actor4 = generatePersonTemporary()
+                    Endwhile
+                    "This is going to be good"
+                    Actor5 = generateCreatureTemporary()
+                    While !Actor5.isMale()
+                        Actor5 = generateCreatureTemporary()
+                    Endwhile
+                    Sex(Actor5, Actor4)
+                    Actor4.hide()
+                    Actor5.hide()
+                    
+                    "You look over at your companion. You can see <Actor2.he_or_she> is shocked. You can also see the lust in <Actor2.his_or_her> eyes. You lean in and casually say."
+                    Player:: "You know, <Actor.name> is just in the other room. I could bring him in and, if you want to, you can try what we've just watched."
+                    "Your companion looks at you. You can tell that <Actor2.he_or_she>'s actually considering what you've just suggested. <Actor2.He_or_She> looks at you again."
+                    Actor2:: "Go on then... bring <Actor.name> in!"
+                    Actor.show()
+                    "You take a deep breath and bring your pet dog into the room. You are about to see your wildest dream play out in front of you!"
+                    Sex(Actor, Actor2)
+                    "You can't believe it! <Actor2.name> has just fucked a dog right in front of you! And what's more, <Actor2.he_or_she> has enjoyed herself as well! <Acto2.He_or_She> still looks hungry for more. Do you join in?"
+                    0:: "No"
+                    1:: "Of course"
+                    
+                    If 0
+                        "You think that things have gone far enough now. You've seen your dream come to life and you're more than happy with that. However, there may be a 'next time', and if there is you might be tempted to make a different decision." 
+                    Else
+                        "In for a penny, in for a pound! You have put a lot of work into making this happen, and you may as well get as much from the situation as you possibly can!"
+                        Sex(Actor, Player, Actor2)
+                        "Eventually the sex comes to a halt and you can barely believe what has just happened! You are all totally satisfied. Even the dog is smiling! You wonder if this will be a one-off fling or if you will be able to convince your current companion, or someone else, to do this all over again!"
+                    Endif
+                Endif
+            Endif
+        Endif
+    Endif
+    buildup_count.setGlobal(count)
+    SceneEnd()
+    timeoutPrecise(192, dd_buildup_cms)

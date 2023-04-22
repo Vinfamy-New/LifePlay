@@ -1,0 +1,82 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Colleague); If jobexperience - Actor:jobexperience > 30 && Actor.isSameGender(Player) && !Actor.hadSex()
+OTHER: none
+
+    // If you're quite senior in your office job, you may get seduced by the spouse of a subordinate (their jobexperience is at least 30 lower than yours) to help get them promoted. When you finally give them their promotion, they may then come home to celebrate only to find you there.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My subordinate <Actor.name> has been working extra hard lately and is clearly trying to impress and push for a promotion."
+    "Apparently <Actor.he_or_she> just bought a new family home and is desperate for a salary boost to help keeping up with the mortgage."
+    "Still though, <Actor.his_or_her> last promotion isn't actually that long ago and I'm not really considering giving <Actor.him_or_her> another one anytime soon to be honest."
+    Actor.hide()
+    setBackground(street)
+    Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+    If !Actor2.isValid()
+        Actor2 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.makePermanent()
+        addNpcRelationship(Spouses, Actor, Actor2)
+    Endif
+    
+    Actor2.dress()
+    Actor2.show()
+    "As I was leaving from work, I was approached by <Actor.name>'s <Actor2.boyfriend_or_girlfriend> <Actor2.name> who was waiting to pick up <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> outside the office. I wonder what <Actor2.he_or_she> has to say."
+    Actor2:: "You're <Actor.name>'s boss, right? How much harder does <Actor.he_or_she> have to work before you give <Actor.him_or_her> that promotion we so desperately need."
+    "Wow, not sure giving an attitude to your <Actor.boyfriend_or_girlfriend>'s boss is a good strategy to go about securing <Actor.him_or_her> a promotion, <Actor2.name> ..."
+    "Still, I stayed professional and gave out the reasons why a promotion wasn't available and said I sympathized with their situation but there was nothing I could do to help without overriding company policies."
+    "That was when <Actor2.name> came out with a shocking offer .."
+    Actor2:: "I'll sleep with you if you give <Actor.name> the promotion ... This promotion means that much to our financial future ... Just promise <Actor.name> never finds out ..."
+    "That certainly makes this much more interesting ..."
+    0:: "Fuck <Actor.name>'s <Actor2.boyfriend_or_girlfriend> in exchange for a promotion"
+    1:: "Turn <Actor.him_or_her> down"
+    
+    If 0
+        Player:: "Well, it can be risky to override company policies but you're worth it."
+        setBackground(home)
+        "Another evening, we meet up again in a hotel room, while I give <Actor.name> plenty of work to keep <Actor.him_or_her> occupied in the office, having no idea the length <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> would go to secure <Actor.him_or_her> the promotion."
+
+        Sex(Player, Actor2)
+        Actor2.hide()
+        setBackground(work)
+        Actor:jobexperience += 30
+        "As promised, on the next Monday morning, I gave <Actor.name> the promotion. <Actor.He_or_She> almost burst into tears, thinking <Actor.he_or_she> worked so hard to earn it." 
+        0:: "Keep the deal secret and let <Actor.him_or_her> celebrate"
+        1:: "Set up a trap to humiliate <Actor.him_or_her> and put <Actor.him_or_her> in <Actor.his_or_her> place"
+
+        If 0
+            "We both got our rewards. Let's just do the decent thing and keep my little arrangement with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> a secret forever." 
+        Else
+            "Seeing how happy <Actor.he_or_she> became at such a minor achievement, I can't help but feel a little evil satisfaction at the knowledge I cucked <Actor.his_or_her> sorry ass."
+            "I decided to be the generous boss and give <Actor.him_or_her> the afternoon off that day to go home and celebrate with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend>, who would no doubt be so happy for <Actor.him_or_her>."
+            Actor.hide()
+            "Of course, that also gives me plenty of time to drive to <Actor.his_or_her> family home beforehand to see <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> myself."
+            setBackgroundCustom(livingroom)
+            Actor2.show()
+            Actor2:: "What are you doing here? Did you give my <Actor.boyfriend_or_girlfriend> the promotion like we agreed?"
+            Player:: "Don't worry, I already did it this morning. <Actor.He_or_She> will no doubt tell you all about it this evening coming home from work. Remember to act surprised."
+            "Of course, I deliberately failed to mention that I gave <Actor.name> the afternoon off and <Actor.he_or_she> will be here any moment now ..."
+            Player:: "It's just that ... I feel guilty about what we did ... I don't know if I will be able to keep this secret from <Actor.him_or_her> forever ... You know, after all, if I was <Actor.him_or_her>, I would want somebody to tell me that my <Actor2.boyfriend_or_girlfriend> cheated on me ..."
+            Actor2:: "What? No! We had a deal. I can't tell <Actor.name> how <Actor.he_or_she> really got the promotion. It would break <Actor.his_or_her> heart ..."
+            Player:: "I'll tell you what ... How about one last time between us and I'll bury this secret forever ..."
+            Actor2:: "I knew it, you pervert. Fine, but be quick, I'll need to clean up before <Actor.name> comes home in a few hours."
+            "Yeah, <Actor.he_or_she>'ll come home, alright ... but it will be in minutes, not hours."
+            Sex(Player, Actor2)
+            "Of course, <Actor.name> came home in the middle of me fucking <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> ..."
+            Actor:: "Baby ... I have an amazing news to tell you ... My boss finally gave me that promo..."
+            "As soon as <Actor.he_or_she> saw us, <Actor.he_or_she> was so shocked that <Actor.he_or_she> became frozen mid-sentence."
+            Actor2:: "Baby, let me explain ... I only did it for you ..."
+            "Of course, I got the hell out of there while the couple sorted out their drama, feeling a hint of victory at the humiliation I just dished out. Of course, <Actor.he_or_she> isn't brave enough to quit the job now, so whatever <Actor.he_or_she> goes on to achieve in <Actor.his_or_her> career, deep inside <Actor.he_or_she> will always know who's boss."
+            Actor:rapportwithplayer -= 50
+            masochist -= 10
+        Endif
+    Else
+        Player:: "Sorry, I'm not that type of boss."
+    Endif
+    SceneEnd()
+    timeout(500, bull_subordinate)

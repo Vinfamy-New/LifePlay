@@ -1,0 +1,13 @@
+Actor.getBabyDaddy()
+
+USE:
+Get the current baby daddy for a pregnant actor
+
+TYPE: Command, Reference
+RETURNS: Actor
+THEME: Pregnancy
+COMPARE:
+
+Example:
+    Actor = Player.getBabyDaddy()
+    "<Actor.name> is the father of the unborn baby inside me."

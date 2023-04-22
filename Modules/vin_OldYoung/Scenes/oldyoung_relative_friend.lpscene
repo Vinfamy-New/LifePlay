@@ -1,0 +1,72 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 21
+WHO: Actor = getRelative(); If Actor.livesWithPlayer() && Player.isInterestedIn(Actor) && Actor:age > age - 10 + likes_older*0.5 && Actor:age < age + 10 + likes_older*0.5
+OTHER:
+
+
+    // Your younger / older relative living with you is away and makes a friend of theirs wait for their return at your place so you end up hanging out with someone younger / older
+
+    SceneStart()
+    "It's the door bell. I wonder who it might be. I'm not expecting anyone today."
+    Actor2 = generatePersonTemporary()
+    While !Actor.isSameGender(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makeInterested(Player)
+    
+    Actor2:age => Actor:age
+    Actor2:age += Random(-3, 3)
+    Actor2.randomizeFace()
+    Actor2.randomizeHairs()
+    Actor2:likes_older => 2*[age - Actor2:age]
+    Actor2:attractiontoplayer += Random(25, 50)
+    
+    setBackgroundCustom(livingroom)
+    Actor2.dress()
+    Actor2.show()
+    "It's one of my <Actor.relationship>'s friends, <Actor2.name>, who was invited to come hang out with my <Actor.relationship>."
+    "But where is my <Actor.relationship> anyway? <Actor.He_or_She> isn't home."
+    Actor2:: "Let me call <Actor.him_or_her> ..."
+    secondScreen(Actor)
+    Actor.show()
+    Actor:: "Oh shoot ... I completely forgot that I asked you to come today. I'm in the middle of something right now but I'll be back in about half an hour. Sorry ..."
+    secondScreen()
+    "My absent-minded <Actor.relationship> left <Actor.his_or_her> friend hanging ..."
+    Actor2:: "It's okay, I can just wait here in the living room for <Actor.name> ..."
+    0:: "Keep <Actor2.him_or_her> company"
+    1:: "Just go back to whatever I was doing"
+    
+    If 0
+        Player:: "Let me get you some drinks at least ... It's only right to treat my <Actor.relationship>'s friends well on <Actor.his_or_her> behalf."
+        Actor2:: "That'll be great. Thank you!"
+        Actor2.animate(drinkglass)
+        Player.animate(drinkglass)
+        "We had some drinks and chatted with each other. Surprisingly, although we came from different generations, we actually had a very nice conversation and got along just fine. We enjoyed each other's company very much ..."
+        "Furthermore, I couldn't help but feel some chemistry between us ... some sexual tension even ... and at times, some of the things that <Actor2.name> says could easily be interpreted as flirting ..."
+        "But am I really going to seduce someone who is my <Actor.relationship>'s age? We're alone and my bedroom is even right there, there's probably only one way this is going to end if I decide to escalate things ..."
+        0:: "Seduce <Actor2.name>"
+        1:: "Just exchange numbers for another day"
+        2:: "Put <Actor2.him_or_her> off"
+        
+        If 0
+            "I made clear to <Actor2.name> that I had a thing for <Actor2.men_or_women> <Actor2.his_or_her> age. To my pleasant surprise, <Actor2.name> also admitted that <Actor2.he_or_she> found <Actor2.himself_or_herself> instantly attracted to me the moment I opened the door."
+            animatePair(Player, Actor2, Kissing)
+            "With those admissions out of the way, one thing led to another and soon we were making out right there in the living room."
+            setBackground(home)
+            "And not long after, we ended up in bed together."
+            Sex(Player, Actor2)
+            "After a passionate session far more pleasurable than anyone my own age could offer, we got dressed before my <Actor.relationship> got back. Of course, we managed to exchange numbers for more fun in the future."
+            Actor2.makePermanent()
+            exchangeContact(Actor2)            
+        Elseif 1
+            "Maybe this is a start of something special, but it's wiser to take it slow."
+            "I decided to exchange numbers with <Actor2.name> so that we could hang out in our own time without the risk of my <Actor.relationship> finding out ..."
+            Actor2.makePermanent()
+            exchangeContact(Actor2)
+        Else
+            "Things are getting a bit too heated and somewhat inappropriate even ... Let's try to kill off the conversation now." 
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, oldyoung_relative_friend)

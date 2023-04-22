@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: university:school
+WHEN: 0-24
+WHO: Actor = getSpecific(Coursemate); If Actor:rapportwithplayer > 39 || Actor:attractiontoplayer > 39
+OTHER:
+
+    // If you have at least 40 rapport or attraction with a classmate, depending on their highest stat (intelligence, attractiveness, interpersonal, fitness), they'll eventually invite you to hang out with their social circle, where you get to meet a bunch of other university students similar to them (i.e. if you become friend with a hot girl, she can take you to a party full of hot girls)
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I've been getting along quite well with one of my coursemates, <Actor.name> recently. <Actor.He_or_She> sort of has <Actor.his_or_her> own social circle and is inviting me to one of their gatherings where I can meet <Actor.his_or_her> friends."
+    If Actor:attractiveness > 75
+        "<Actor.name> is an attractive <Actor.guy_or_girl>. Hot people tend to stick togehter ..."
+    Elseif Actor:fitness > 75
+        "<Actor.name> is a bit of a <Actor.jock_or_jockette> who is into sports and fitness. I imagine most of <Actor.his_or_her> friends were made via sports."
+    Elseif Actor:interpersonal > 75
+        "<Actor.name> enjoys socializing and partying. <Actor.His_or_Her> friends are probably similar party animals."
+    Else
+        "<Actor.name> is a bit of a nerd. I've seen <Actor.him_or_her> discussing video games a lot of <Actor.his_or_her> other friends on social media."
+    Endif
+    "Should I accept <Actor.his_or_her> invitation to this social gathering?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        setBackground(livingroom)
+        "Here I am at the gathering with <Actor.name> and <Actor.his_or_her> friends. I don't know anyone yet, but soon <Actor.name> introduces me to everyone."
+        Total = Random(3, 7)
+        count = 0
+        While count < Total
+            Actor2 = generatePersonTempor ary()
+            If Actor:attractiveness > 75
+                Actor2:attractiveness => Random(75, 100)
+            Elseif Actor:fitness > 75
+                Actor2:fitness => Random(75, 100)
+            Elseif Actor:interpersonal > 75
+                Actor2:interpersonal => Random(75, 100)
+            Else
+                Actor2:intelligence => Random(75, 100)
+            Endif
+
+            Actor2:age => Random(18, 22)
+            Actor2.randomizeHairs()
+            Actor2.randomizeFace()
+
+            Actor2.dress()
+            Actor2.show(2)
+            Actor2.moveToPerson(Player)
+            "One of <Actor.name>'s friends approached me."
+            Actor(Happy):: "Hi there, I'm <Actor2.name>. Nice to meet you!"
+            Player(Happy):: "Nice to meet you, <Actor2.name>. I'm <Player.name>."
+            0:: "Offer to add <Actor.him_or_her> on Facebook"
+            1:: "Just chat"
+            
+            If 0
+                Actor2.makePermanent()
+                Actor2.setDifferentMajor()
+                exchangeContact(Actor2)
+                "Before we ended our conversation, I made sure to befriend <Actor2.name>, who I soon found out was studying <Actor2.Major>, on Facebook for easy contact in the future."
+            Endif
+            Actor2.hide()
+            Actor2.saveandDelete()
+            count += 1
+        Endwhile
+    Endif
+    SceneEnd()
+    timeout(400, uni_circles)

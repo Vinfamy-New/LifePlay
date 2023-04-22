@@ -1,0 +1,31 @@
+WHAT: all
+WHERE: home
+WHEN: 8-24
+WHO: Actor = getSpecific(Dating); If Actor.livesWithPlayer()
+OTHER: OpenRelationship()
+
+    // Poly partner going for a shower ends up catching you and another poly partner already going at it in there
+    
+    SceneStart()
+    "From the sound of it, <Actor.name> is currently taking a shower ... And I'm a bit horny ..."
+    0:: "Join <Actor.him_or_her> in the shower and fuck <Actor.him_or_her>"
+    1:: "Let <Actor.him_or_her> shower in peace"
+    
+    If 0
+        "It's part of the reason we're living together after all."
+        setBackground(shower)
+        Actor.show()
+        "<Actor.name> wasn't the tiniest bit surprised by me interrupting <Actor.his_or_her> shower and knew what I wanted right away."
+        Sex(Player, Actor)
+        
+        Actor2 = getSpecific(Dating)
+        If Actor2.isValid() && Actor2.livesWithPlayer()
+            Actor2.show()
+            Actor2:: "Looks like you two are already having some fun. I'm a bit offended that you didn't feel the need to invite me too."
+            Actor2:: "You realize that I live here too, right?"
+            Actor:: "It's not too late! Come join us!"
+            Sex(Player, Actor2, Actor)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, poly_showers)

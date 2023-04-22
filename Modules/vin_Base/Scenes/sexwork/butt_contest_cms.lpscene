@@ -1,0 +1,49 @@
+WHAT: all
+WHERE: brothel, brothel:business
+WHEN: 0-24
+WHO: none
+OTHER: !Player.isFemale()
+
+    // Two prostitutes argue about who has the tighter asshole and ask you (The pimp or the John) to give them a test run and pick a winner. They then pay you (pimp) or charge you half off (john) for helping them settle it.
+    
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While Actor.isMale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor2 = generatePersonTemporary() 
+    While Actor2.isMale()
+        Actor2 = generatePersonTemporary() 
+    Endwhile
+    "I came across two prostitutes arguing .."
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    Actor:: "I have a tigher asshole!"
+    Actor2:: "You wish! All my Johns say mine is the tighest!"
+    Actor:: "Maybe <Player.name> can give each of us a test run and pick a winner?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Player:: "It will be my pleasure to be the judge."
+        Filter(Anal)
+        "Let's try <Actor.name>'s ass first."
+        Sex(Player, Actor)
+        "That was pretty tight. But is <Actor2.name>'s even tighter? Only one way to find out."
+        Sex(Player, Actor2)
+        Actor2:: "So what do you say? Whose ass was tighter?"
+        0:: "<Actor.name>'s"
+        1:: "<Actor2.name>'s"
+        
+        If 0
+            Reward = Actor
+        Else
+            Reward = Actor2
+        Endif
+        Reward:: "Yes! I knew it. Here's some money I earned earlier as thanks for your impartial judgment!"
+        money += 200
+    Endif
+    SceneEnd()
+    timeout(500, butt_contest_cms)

@@ -1,0 +1,95 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    endorse = rfm_endorse.getGlobal()
+    "I'm not the first politician in this city nor this country. There are plenty of current and former politicians with existing supporter bases that I could do well to cozy up to."
+    "An appearance and official endorsement by a popular national politician at one of campaign speeches could bring in a lot of potential voters."
+    "However, I'm a relatively newcomer to politics and isn't quite part of the Old Boys' Club."
+    "There's an alternative way to get inside the circle though ... quite a few politicians are known to be rather debaucherous."
+    Actor2 = getSpecific(Dating)
+    
+    dressFormal()
+    If Actor2.isValid() && Random(0, 100) < 50
+        Swing = true
+    Else    
+        Swing = false
+    Endif
+    
+    If Swing
+        Actor = generatePersonTemporary()
+        While !Player.isSameGender(Actor)
+            Actor = generatePersonTemporary()
+        endWhile
+        Actor:age += Random(10, 20)
+        Actor.randomizeFace()
+        Actor.randomizeHairs()
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+      
+        "<Actor.Mr_or_Ms> <Actor.name> <Actor.name_last>, for example, is a popular politician with a lot of loyal supporters gained through the <Actor.his_or_her> years in politics. <Actor.He_or_She> is also known for being a swinger ..."
+        secondScreen()
+        "In fact, if you look at the past political candidates <Actor.he_or_she> endorsed, they all have suspiciously attractive spouses ..."
+        0:: "Bring <Actor2.name> and swing with the popular politician"
+        1:: "Maybe not"
+        
+        If 0
+            Actor3 = generatePersonTemporary()
+            While !Actor2.isSameGender(Actor3)
+                Actor3 = generatePersonTemporary()
+            endWhile
+            Actor3.dress()
+            Actor3.show()
+            Actor2.dress()
+            Actor2.show()
+            Actor.show()
+            Actor:: "You have no idea how eagerly I've been waiting for your call since you've started your campaign. I just knew an ambitious rising star like yourself wouldn't pass on a chance to be mentored and supported by me both in the arts of politics and swinging!"
+            Actor:: "Let me first have a taste of your <Actor2.handsome_or_beautiful> <Actor2.boyfriend_or_girlfriend> here!"
+            Sex(Actor, Actor2)
+            "Now it's time for me to fuck the politician's <Actor3.husband_or_wife>."
+            Sex(Player, Actor3)
+            
+            "After we've got to know each other intimately, the politician promises to come to one of my campaign speeches to officially support me, which will no doubt bring in more voters."            
+            endorse += Actor:interpersonal + Actor:age*2
+        Endif    
+    Else
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        endWhile
+        Actor:age += Random(10, 30)
+        Actor.randomizeFace()
+        Actor.randomizeHairs()
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+
+        
+        "<Actor.Mr_or_Ms> <Actor.name> <Actor.name_last>, for example, is a popular politician with a lot of loyal supporters gained through the <Actor.his_or_her> years in politics. <Actor.He_or_She> is also known for enjoying some quid pro quo sex with rising stars like me."
+        secondScreen()
+        "In fact, if you look at the past political candidates <Actor.he_or_she> endorsed, they're all suspiciously attractive ..."
+        0:: "Sleep with the popular politician"
+        1:: "Maybe not"
+        
+        If 0
+            Actor.show()
+            Actor:: "You have no idea how eagerly I've been waiting for your call since you've started your campaign. I just knew an ambitious rising star like yourself wouldn't pass on a chance to be mentored and supported by me!"
+            Sex(Actor, Player)
+            
+            "After we've got to know each other intimately, the politician promises to come to one of my campaign speeches to officially support me, which will no doubt bring in more voters."
+            endorse += Actor:interpersonal + Actor:age*2
+        Endif
+    Endif
+    
+    If endorse < 0
+        endorse => 0
+    Elseif endorse > 1000
+        endorse => 1000
+    Endif
+    rfm_endorse.setGlobal(endorse)
+    SceneEnd()
+    

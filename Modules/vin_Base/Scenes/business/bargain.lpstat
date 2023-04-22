@@ -1,0 +1,9 @@
+STAT_ID: bargain
+STAT_NAME: Company's bargaining power; Only relevant if you're running your own business. The higher this value, the lower your business expenses will be.
+PLAYER_ONLY: true
+HIGHER_BETTER: true
+STAT_MIN: 0
+STAT_MAX: 100
+DAILY_CHANGE: -0.01
+DEFAULT_VALUE: 0
+NPC_ONLY: false

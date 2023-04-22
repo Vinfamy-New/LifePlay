@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: watch_tentacles_porn
+ACTION_NAME: Watch tentacles porn
+WHERE: home
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT:
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: watch_tentacles_porn
+ANIMATION: browse

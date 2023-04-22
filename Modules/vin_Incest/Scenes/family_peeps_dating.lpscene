@@ -1,0 +1,101 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); Actor2 = getSpecific(Dating); If !Actor2.isExRelative() && Actor2:attractiontoplayer > 20 && Actor:perversion > 30
+OTHER:
+
+    // While making love to your SO at home, you may catch a relative peeping on you. If forbidden fruit has been tasted before, things can escalate fast. If not, you can confront them about it later.
+    
+    SceneStart()
+    Actor2.dress()
+    Actor2.show()
+    "My <Actor2.boyfriend_or_girlfriend> is staying the night today. Life's been a bit busy so it's been a while since we last got it on."
+    Sex(Player, Actor2)
+    Actor.dress()
+    secondScreen(Actor)
+    Actor.show()
+    
+    Actor:incest += Random(0, 2)
+    "While making love to <Actor2.name>, I spotted my <Actor.relationship> peeping on us ..."
+    0:: "Invite my <Actor.relationship> to join us"
+    1:: "Stay quiet for now"
+    
+    If 0
+        secondScreen()
+        Actor.show()
+        Actor:incest += Random(0, 2)
+        Player:: "I saw you there the whole time, my dear <Actor.relationship>. Why don't you come and join us?"
+        If Actor.hadSex() || Actor:incest > 75
+            Actor:incest => 100
+            Actor:: "Don't mind if I do ..."
+            "Of course, my <Actor.relationship> has done sexual things together before. There's no reason to be shy now ..."
+            Sex(Player, Actor, Actor2)
+            Fucked = true
+        Else
+            Fucked = false
+            Actor:: "Oh sorry, I didn't mean to ..."
+            Actor.hide()
+            "Embarrassed, my <Actor.relationship> ran back to <Actor.his_or_her> room ..."
+        Endif
+    Else
+        secondScreen()
+        Fucked = false
+        "No need to make things weird right now ..."
+    Endif
+    
+    If !Fucked
+        Actor2.hide()
+        "Now that <Actor2.name> is asleep, maybe I should go to the living room and have a conversation with my <Actor.relationship> about <Actor.his_or_her> peeping on us earlier ..."
+        0:: "Confront my <Actor.relationship>"
+        1:: "Pretend nothing happened"
+        
+        If 0
+            setBackgroundCustom(livingroom)
+            Actor.show()
+            Player:: "We need to talk, <Actor.relationship>, about you peeping on me and my <Actor2.relationship> earlier ..."
+            0:: "It was weird"
+            1:: "It was hot"
+            
+            If 0
+                Actor:incest -= 10
+                Player:: "It was fucking weird, <Actor.relationship>, please, never do that again!"
+            Else
+                Actor:incest += 10
+                Player:: "It was hot, don't you think? Let me guess, you masturbated afterwards thinking about it, didn't you?"
+                Player:: "Did you imagine yourself in my place fucking my <Actor2.boyfriend_or_girlfriend>?"
+                Player:: "Don't tell me that you imagined yourself in <Actor2.name>'s place fucking me!"
+                If Actor:incest < 50 && !Actor.hadSex()
+                    Actor:: "I didn't imagine anything of the sorts. It was just an accident. You're overthinking things."
+                Elseif Actor.isInterestedIn(Player)
+                    Actor:: "I must admit I wouldn't mind being in your <Actor2.boyfriend_or_girlfriend>'s shoes ..."
+                    0:: "Go ahead then"
+                    1:: "That should remain a fantasy"
+                    
+                    If 0
+                        Player:: "Well, there's no reason you can't be like <Actor2.him_or_her>. In fact, how about right now?"
+                        Sex(Actor, Player)
+                        Actor:incest => 100
+                    Else
+                        Player:: "I'm flattered, but that should remain a fantasy. We're family after all."
+                    Endif
+                Else
+                    Actor:: "I must admit I wouldn't mind being in your shoes banging your hot <Actor2.boyfriend_or_girlfriend> ..."
+                    0:: "Go ahead then"
+                    1:: "That should remain a fantasy"
+                    
+                    If 0
+                        Player:: "Well, there's no reason you can't be like me. <Actor2.name> is in my bed right now, why don't you come in there and tell <Actor2.him_or_her> I sent you"
+                        setBackground(home)
+                        Actor2.show()
+                        "<Actor2.name> was awaken by the footsteps of my <Actor.relationship> stepping inside the bedroom. <Actor2.He_or_She> was confused and unsure at first, but I winked at <Actor2.him_or_her> to signal my consent and <Actor2.he_or_she> smiled back before welcoming the lucky peeping Tom into my bed with <Actor2.him_or_her>"
+                        Sex(Actor, Actor2)
+                        Actor:incest += 20
+                    Else
+                        Player:: "Nice try, but I'm not letting my <Actor.relationship> bang my <Actor2.boyfriend_or_girlfriend>."
+                    Endif                    
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, family_peeps_dating)

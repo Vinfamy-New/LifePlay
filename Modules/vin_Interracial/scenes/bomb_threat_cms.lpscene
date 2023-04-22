@@ -1,0 +1,49 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor2 = getSpecific(Boss)
+OTHER: !isTimingOut(strt_arab_f) && !isTimingOut(strt_arab_m) && !Player.isEthnic(arab)
+
+    // receiving a terrorist/bomb threat at work randomly and go on a quest to find out it’s a middle eastern girl desperately wanting to seduce you. you can either sleep them or get them arrested. 
+    
+    SceneStart()
+    "I was just checking my e-mail at work when I receive a strange e-mail from an unknown address ..."
+    "It reads: Go to this hotel tonight, room number 669 or your office will be blown up with a bomb. If you tell anyone else, the bomb will be detonated as well."
+    "Oh wow ... is this some sort of prank or a serious terrorist threat? Why me though? I'm not the CEO or anything ... Should I report this to my boss?"
+    0:: "Report"
+    1:: "Comply with the terrorist's demand"
+    
+    If 0
+        "It's just a bluff I'm sure ... Let's just report the e-mail to the boss and let the company deal with it."
+    Else
+        "I can't risk it ... Let's go to this hotel room and see what the terrorist wants."
+        setBackground(hotel)
+        "This is quite a nice hotel ... this terrorist is definitely not sort of money ..."
+        "Let's just go to room 669 now ..."
+        setBackground(home)
+        "As I opened the door, I was half-expecting to be ambushed and tied up right away by a bunch of masked men ..."
+        setRaceGenerated(arab)
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        endWhile
+        Actor.makeInterested(Player)
+        Actor.show()
+        "Instead I was greeted by the sight of a Middle Eastern <Actor.man_or_woman> naked in the bed ..."
+        "I think I recognized <Actor.him_or_her> somewhat actually ..."
+        "Yes, it's one of the company's employees from another department who I've caught staring at me quite a few times during my lunch break in the company canteen."
+        Player:: "Did you seriously make a bomb threat just to get me here and watch you naked?"
+        Actor:: "Please, I can't help it ... From the last moment I've laid my eye on you ... I wanted a piece of that <Player.race> <Player.cock_or_pussy> ..."
+        Actor:: "Just one night and I'll leave you alone, I promise ..."
+        0:: "Fuck the crazy wannabe terrorist"
+        1:: "Get <Actor.him_or_her> arrested"
+        
+        If 0
+            "Who knew the War on Terror would be so pleasurable ..."
+            Sex(Player, Actor)
+        Else
+            "Of course, I did the sensible thing and that was to call the cops and arrest this crazy <Actor.man_or_woman>."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, bomb_threat_cms)

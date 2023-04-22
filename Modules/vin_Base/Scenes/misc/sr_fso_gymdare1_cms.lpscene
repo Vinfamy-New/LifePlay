@@ -1,0 +1,106 @@
+WHAT: all
+WHERE: sports_centre
+WHEN: 8-17
+WHO: Actor = getSpecific(Dating); If !Actor.isMale() && Actor:perversion > 45
+OTHER: Player.isMale() && Player:perversion > 45 && isModEnabled(vin_NTR)
+
+    // Summery - male player convinces GF/wife to flash at the gym. This can end with multiple different outcomes and has a few choices along the way.
+
+    SceneStart()
+    
+    Actor.dress()
+    Actor.show()
+    
+    "While I was looking at hentai last night I saw a great one about a girl showing off at the gym. Perhaps I should convince my <Actor.boyfriend_or_girlfriend> to do something naughty here at the gym?"
+    0:: "Why not. This could be quite fun." 
+    1:: "Hmm...no I think not. A fantasy is one thing, reality is another."
+
+    If 1
+        timeout(140, sr_fso_gymdare1_cms)
+    Else
+        timeout(170, sr_fso_gymdare1_cms)
+        Player:: "Hey <Actor.name>, up for doing something a bit risky here at the gym?" 
+        Actor:: "Oh? Hmm well it depends on what you want us to do." 
+        Player:: "I was thinking, what if you did some flashing while you worked out? Make it seem like an 'accident' at that. Or maybe let me expose you and hope we aren't caught?"
+        Actor:: "Heh, that is pretty lewd. Well it certainly is making my heart beat quickly. I'll try it out. Got an idea of exactly what you want to see?"
+        0:: "I think I'll suddenly pull her bottoms down somewhere less crowded."
+        1:: "I'll ask her to go to the bathroom and adjust her top so that her nipples can be seen from a downblouse."
+        2:: "I'll ask her to quickly moon a random person here! Hopefully they won't turn around and see her do it!"
+
+        If 0
+            "I ask <Actor.name> to follow me to a dimly light hallway, they then pull her bottoms down suddenly."
+            Actor.stripOne()
+            Actor.stripOne()
+            "<Actor.name> then yells out in suprise and we fool around together."
+            Sex(Player, Actor)
+            
+            If Random(0, 100) < 20
+                setBackground(street)
+                "We were caught and thrown out of the gym temporarily by gym worker."
+                perversion += 2
+                Actor:perversion += 2
+            Elseif Random (0, 100) < 25
+                "We were caught by a corrupt cop, who ask me to pay them a small bribe or be taken to jail."
+                0:: "Pay the bribe"
+                1:: "Get arrested"
+                
+                If 0
+                    money -= 50
+                    "I decided to avoid further troubles and pay up."
+                Else
+                    sentence => 7
+                    followUp(imprisoned)
+                Endif
+                perversion += 2
+                Actor:perversion += 2
+            Else
+                "We weren't caught by anyone, and we leave the gym to go get a drink together."
+                perversion += 1
+                Actor:perversion += 1
+            Endif
+        Elseif 1
+            "I ask <Actor.name> to go to the bathroom real quick and take her bra off and adjust her top to allow easy downblouse visuals."
+            Actor.stripOne()
+            Actor.stripOne()
+
+            If Random(0, 100) < 50
+                "A stranger notices this and looks down her shirt enjoying the sight of her breast."
+                perversion += 2
+                Actor:perversion += 2
+            Else
+                "No one notices what she did as they were too busy working out. But you still managed some good pictures of her at least."
+                perversion += 1
+                Actor:perversion += 1
+            Endif
+        Else
+            "I request <Actor.name> to full on quickly flash her butt at a stranger's direction."
+            If Random(0, 100) < 50
+                "Your <Actor.boyfriend_or_girlfriend> is able to moon the target in time without being caught. The two of you laugh about this and share a kiss before working out again."
+                perversion += 1
+                Actor:perversion += 1
+            Else
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isSameGender(Player)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.dress()
+                Actor2.show()
+                "The target looked, saw out of the corner of their eye and when your <Actor.boyfriend_or_girlfriend> goes to the locker room to change the target approaches you."
+                "He then asks you if they can go play with the cute girl you brought that mooned them."
+                0:: "Yes"
+                1:: "No"
+                
+                If 0
+                    Sex(Actor2, Actor)
+                    "Should I join them?"
+                    0:: "Yes"
+                    1:: "No"
+                    
+                    If 0
+                        Sex(Player, Actor2, Actor)
+                    Endif
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

@@ -1,0 +1,59 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If !Actor.isPregnant() && !Actor.isMale()
+OTHER: isPlayerMarried() && Player.isMale() && isModEnabled(vin_Pregnancy)
+
+    SceneStart()
+    "My wife <Actor.name> and I recently received an invitation to join some secret society's fertility festival to celebrate female fertility."
+    "There, all the women are supposed to be off birth control and will spend the whole night getting creampied again and again by other women's husbands and other single men invited."
+    "Of course this would almost guarantee impregnation but also make it nearly impossible to figure out the baby daddy for each woman."
+    "Therefore, it's part of the festival agreement that any child produced during the event will be raised by the actual husband and wife and no DNA test attempts shall be made at all."
+    "This could be a good chance to combine both our swinging fantasy and our desire to have a baby together."
+    0:: "Attend the fertility festival"
+    1:: "No"
+    
+    If 0
+        If Actor:perversion > 50 || Actor:attractiontoplayer > 40 || OpenRelationship()
+            "<Actor.name> agreed with me that this festival would be a fun way for her to get pregnant."
+            Actor.impregnate(Player)
+            setBackground(place_of_worship)
+            Player.strip()
+            Actor.strip()
+            Actor.show()
+            Actor.setWantsBabies(true)
+            "This secret society must have some friends in high places, they actually managed to rent a church for their debaucherous festival. So many naked bodies around in a place that should be sacred."
+            count = 0
+            While count < 3
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.makePermanent()
+                Actor2.setWantsBabies(true)
+                Actor2.show()
+                "<Actor2.name> is the next guy trying to make my wife pregnant."
+                SexNoAffair(Actor2, Actor)
+                
+                Actor3 = generatePersonTemporary()
+                While !Actor3.isFemale()
+                    Actor3 = generatePersonTemporary()
+                Endwhile
+                Actor3.makePermanent()
+                Actor3.setWantsBabies(true)
+                addNpcRelationship(Spouses, Actor2, Actor3)
+                Actor3.show()
+                "<Actor3.name> is the <Actor2.name>'s wife who I'm going to try to impregnate."
+                Actor3.impregnate(Actor2)
+                SexNoAffair(Player, Actor3)
+                Actor2.hide()
+                Actor3.hide()            
+                count += 1
+            Endwhile
+            "Eventually, the festival wound down. With so much cum from so many different guys inside her, my wife is pregnant for sure. I didn't do badly myself and I have a funny feeling that I've fathered my fair share of babies tonight with other women."
+        Else
+            "Unfortunately, <Actor.name> turned down my suggestion. Maybe I should ease her into it by making her more open sexually or turning our traditional marriage into an open one first."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, fertility_festival_cms)

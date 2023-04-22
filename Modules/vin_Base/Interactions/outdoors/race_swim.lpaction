@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: race_swim
+ACTION_NAME: Race
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: energy -10 (DURATION), fitness +0.05 (DURATION), muscle -0.01 (DURATION), mood +2 (END)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: race_swim
+ANIMATION: swim
+WHO: Actor = getTarget(); If !Actor.isCreature() && [WHERE == pool || WHERE == beach]   

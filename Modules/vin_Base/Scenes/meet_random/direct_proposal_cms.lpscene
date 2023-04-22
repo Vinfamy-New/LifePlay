@@ -1,0 +1,36 @@
+WHAT: all
+WHERE: all, -home, -work
+WHEN: 8-24
+WHO: none
+OTHER: Random(75, 300) < attractiveness && Random(75, 300) < fitness
+
+    // Something where a stranger offers MC (one where it's a gender MC is attracted to) like $25,000 for a night of sex (something like "Oh, you are about the hottest guy/girl I ever seen!" to start) money adjusted by attractiveness/fitness with a minimum of 75 for each.
+    
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    Actor:attractiontoplayer => 100
+    Actor.dress()
+    Actor.show()
+    "I was going about my business when I was suddenly approached by a stranger."
+    Actor:: "Oh my God, you are the hottest <Player.guy_or_girl> I ever seen!"
+    "Wow, that's quite a direct pickup line ..."
+    "Seemingly driven out of <Actor.his_or_her> mind by my attractiveness, the stranger is offering a large amount of money to me to fuck <Actor.him_or_her>"
+    0:: "Agree to fuck <Actor.name>"
+    1:: "No deal!"
+    
+    If 0
+        setBackground(home)
+        "Soon enough I followed <Actor.name> back to <Actor.his_or_her> luxury home"
+        "As agreed, <Actor.name> and I got down to business right away."
+        Sex(Player, Actor)
+        "<Actor.name> wasn't joking around. Not only did I get to fuck this rich <Actor.guy_or_bitch>, I also walked away with a large suitcase full of cash."
+        money += Random(20000, 30000)
+    Endif
+    
+    SceneEnd()
+    timeout(5000, direct_proposal_cms)
+

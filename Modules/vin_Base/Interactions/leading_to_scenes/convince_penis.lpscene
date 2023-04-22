@@ -1,0 +1,30 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    // If you have at least 50 rapport with a girl, you could click on her and try to "Convince her to get a penis implant". To accept, she either needs <-50 submissiveness ("It suits your dominant attitude"), or >50 attraction to you, slept with you but not dating you, and you're interested in men ("It's the only way I won't need any men anymore"), or interested in women and >50 perversion ("Think of all the straight girls you could satisfy").
+
+    SceneStart()
+    "It's a huge life-changing decision for <Actor.name> to get a penis implant instead of relying on a strap-on dildo every time so I'd better come up with a convincing argument to tell <Actor.him_or_her>."
+    0:: Actor:masochist < -50:: "It suits your dominant attitude"
+    1:: Actor:attractiontoplayer > 50 && Actor.hadSex() && !Actor.isDating() && Player.isInterestedInMen():: "It's the only way I won't need any men anymore"
+    2:: Actor.isInterestedInWomen() && perversion > 50:: "Think of all the straight girls you could satisfy"
+    3:: "Can't think of anything convincing enough"
+    
+    If 3
+        "To accept, she either needs one out of the following three:"
+        "<-50 submissiveness"
+        ">50 attraction to you, slept with you but not dating you, and you're interested in men"
+        "Interested in women and >50 perversion. You could press Q > 'She Kissed a Girl' to convert a straight girl to be into women."
+    Else
+        "<Actor.name> agreed that a penis implant is for the best."
+        Actor.hide()
+        "That was the last I heard from <Actor.name> for nearly a year, who went abroad for the procedure and its subsequent recovery."
+        
+        Actor.blendPreset(blend_penis)
+        Actor.show()
+        "<Actor.name> came back to a country with a brand new penis, the surgeons did a wonderful job."
+    Endif
+    SceneEnd()

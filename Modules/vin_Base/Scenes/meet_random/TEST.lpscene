@@ -1,0 +1,13 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If isTimingOut(test)
+        "test is timing out"
+    Else
+        "test isn't timing out"
+    Endif
+    SceneEnd()

@@ -1,0 +1,140 @@
+WHAT: all
+WHERE: library
+WHEN: 0 - 24
+WHO: none
+OTHER: !Player.isFemale() && Player.isRace(Orc) && [Player.isInterestedInWomen() || Player.isInterestedInTrans()] && intelligence > 80 && PercentageElves > 0 && isModEnabled(vin_Pregnancy)
+
+    SceneStart()
+    "I was deeply focused on the book I was reading, when I was distracted by what sounded like a sharp whisper from behind some shelves toward the back of the library."
+    "Glancing around, the place seems rather empty... what could that have been about?"
+    0:: "It sounded odd enough to be worth investigating..."
+    1:: "Doesn't matter, I want to get back to reading"
+    
+    If 0
+        "As I stepped around the shelves, I heard a hiss and felt a sting in my neck. Reaching for the spot, I found a dart stuck in me! Drowsiness rapidly overcame me, and as my legs gave out I noticed lithe hands from someone I didn't even hear approaching reach out to catch me..."
+        setBackground(clinic)
+
+        "When I came to, I found myself strapped to a chair in a basement, a pair of elves with dart guns standing watch over me. When they noticed my eyes open, one called to someone else, 'Doctor, the greenskin's awake.' Another elf in a lab coat stepped into view..."
+        
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.blendPreset(Elf)
+        Actor:attractiveness => Random(75, 85)
+        Actor:intelligence => Random(70, 100)
+        Actor.makeInterested(Player)
+
+        "She stared at me inquisitvely for a moment." 
+        Actor:: "So, you're the orc who aspires to intellect better suited for elves?' she smiled distantly. It might surprise you, but I actually quite approve. Most of your... people... seem thoroughly uninterested in improving anything about themselves that can't be done with weights or fighting - perhaps you'd be more tolerable if more were like you. To that end... let me show you why you were brought here."
+        
+        "The guards released me from the chair, and the leader had me follow her into another room... where three orc women sat chained and blindfolded against the wall."
+        
+        Actor2 = getPerson(tag_Orc)
+        
+        If !Actor2.isValid() || Actor2.isMale()           
+            Actor2 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.blendPreset(Orc)
+            Actor2:attractiveness => Random(65, 80)
+            Actor2:intelligence => Random(40, 100)
+            Actor2.makeInterested(Player)
+        Endif
+        
+        Actor3 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor3)
+            Actor3 = generatePersonTemporary()
+        Endwhile
+        Actor3.blendPreset(Orc)
+        Actor3:attractiveness => Random(65, 80)
+        Actor3:intelligence => Random(40, 100)
+        Actor3.makeInterested(Player)
+        
+        Actor4 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor4)
+            Actor4 = generatePersonTemporary()
+        Endwhile
+        Actor4.blendPreset(Orc)
+        Actor4:attractiveness => Random(65, 80)
+        Actor4:intelligence => Random(40, 100)
+        Actor4.makeInterested(Player)
+        
+        Actor2.show()
+        Actor3.show()
+        Actor4.show()
+        
+        If !Actor2.isTemporary()
+            "I even recognized one of them, it's <Actor2.name> ... poor girl ..."
+        Endif
+
+        Bonus = false
+        Actor:: "I'd like you to impregnate these specimens. The offspring should, with any luck, be much more mentally capable than the average orc. I've treated them with a special cocktail of fertility agents, so a single insemination should suffice."
+        0:: "No"
+        1:: "Yes"
+        
+        If 0
+            Player:: "Force children on my abducted kindred? I'm not going to be a pawn in this presumptuous knife-ear's eugenicist schemes!"
+            "She scoffs."
+            Actor:: "Really? I suppose your intelligence is more focused, missing the big picture...' She thought for a moment. Picking up a syringe, she appeared to be considering something. 'How about this, as an incidental benefit - I'll let you do the same to me. The resulting child would have more potential than any other you'll have... and besides, I know your kind has a deep-seated obsession with mating with elves."
+            0:: "On top of everything, has she no personal dignity?!"
+            1:: "Despite my misgivings, this really is a genetic opportunity too good to pass up."
+            
+            If 1
+                "And she is right, there is something inherently appealing about impregnating one of the fair folk."
+                Ahead = true
+                Bonus = true
+            Else
+                Ahead = false
+                Actor:: "I genuinely cannot overstate my disappointment. Perhaps you're not truly as sublime a mind as I was led to believe."
+            Endif
+        Else
+            "It may not be in any way ethical, but she does have a point... orc society could benefit from more genetic predisposition to academics. Plus, it'd be fun..."
+            Ahead = true
+        Endif
+    
+        If Ahead
+            "And just like that, I go ahead and fuck each orc girl in turn."
+            Sex(Player, Actor2)
+            Sex(Player, Actor3)
+            Sex(Player, Actor4)
+            
+            If Random(0, 100) < 80
+                Actor2.impregnate(Player)
+            Endif
+            
+            If Random(0, 100) < 80
+                Actor3.impregnate(Player)
+            Endif
+            
+            If Random(0, 100) < 80
+                Actor4.impregnate(Player)
+            Endif
+            
+            If !Bonus
+                Actor:: "I must admit, orcish vigor is impressive - in a bestial sort of way. In any case, I'll do my best to ensure that each of those inseminations turns out to be viable, so the next generation of orcs will be slightly less insufferable."
+            Else
+                Actor:: "I must admit, orcish vigor is impressive - arousing, even, despite its bestial nature. If you keep that up I might even climax myself from this process - I'm uncertain how to feel about that. In any case, let's proceed."
+                "She injects herself with the syringe, which you assume is one of the fertility agents she mentioned earlier."
+                Sex(Player, Actor)
+                "That should certainly be an adequate volume... I'll just have to wait and see if the virility is sufficient."
+                
+                If Random(0, 100) < 50
+                    Actor.impregnate(Player)
+                Endif
+            Endif
+            Actor:: "Our business is concluded, you will be returned to where we found you." 
+            "One of the guards raises their dart gun with a grin, and I feel the same sting, followed shortly by darkness."
+            Actor.hide()
+            Actor2.hide()
+            Actor3.hide()
+            Actor4.hide()
+            setBackground(library)
+            "When I come to, I'm slumped in a chair in a secluded alcove of the library..."
+        Endif
+    Else
+        "I didn't hear the sound again, and enjoyed my book in peace. I couldn't help but wonder if I'd missed out on something interesting though..."
+    Endif
+    SceneEnd()
+    timeout(300, orc_breeding_cms)

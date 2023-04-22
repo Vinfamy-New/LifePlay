@@ -1,0 +1,61 @@
+WHAT: all
+WHERE: home
+WHEN: 9 - 21
+WHO: Actor = getRelative(); Actor2 = getRelative(); If !Actor.hadSex() && Player.isInterestedIn(Actor2) && Actor2.hadSex() && Actor.livesWithPlayer() && Actor2.livesWithPlayer() && Actor:rapportwithplayer > 0
+OTHER: none
+
+    // Family movie night: Getting bored, you can sneakily mess around with an existing taboo lover. Getting caught by another relative will have good or bad consequences depending on perversion.
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.relationship> <Actor.name> is suggesting that we have a family movie night, my <Actor2.relationship> <Actor2.name> is going to join us too."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        setBackgroundCustom(livingroom)
+        Actor2.dress()
+        Actor2.show()
+        "The three of us are in the living room watching a movie that <Actor.name> has chosen for us."
+        "The movie is sooooo long and boring though, and I'm having a hard time not falling asleep."
+        Actor2:: "I'll grab some more snacks from the kitchen. Will be right back ..."
+        Actor2.hide()
+        "<Actor2.name> excused <Actor2.himself_or_herself>, probably also getting as bored as I am." 
+        "Unbeknown to <Actor.name>, <Actor2.name> and I have already tasted the forbidden fruit so simply watching a movie with <Actor2.him_or_her> is quite a bit tamer than what we're used to."
+        "And now that the thought comes to mind, maybe I can sneak away to have a quickie with <Actor2.name>. Much better than enduring more of this boring movie that <Actor.name> picked."
+        0:: "Sneak away and mess around with <Actor2.name>"
+        1:: "Just stay and watching the movie"
+        
+        If 0
+            setBackgroundCustom(kitchen)
+            Actor.hide()
+            Actor2.show()
+            "As soon as I show up in the kitchen, <Actor2.name> reads my mind and we start messing around right away."
+            Sex(Player, Actor2)
+            If Random(0, 200) < sneak + Actor2:sneak
+                "Afterwards, we fixed our clothes and headed back to the living room to continue the boring movie. <Actor.name> never suspected a thing."
+            Else
+                Actor.show()
+                Actor:: "What the fuck is going in here!?"
+                "Oh no, <Actor.name> caught us red-handed ..."
+                If Actor:incest + Actor:perversion > 70
+                    Actor:: "You know ... I've been suspicious of you two of late ..."
+                    Actor:: "Kinda unfair that you decide to leave me out of all the fun you're having ..."
+                    0:: "Invite <Actor.name> to join for a threesome"
+                    1:: "Play dumb and get out of there"
+                    
+                    If 0
+                        Player:: "Well, since you're obviously open to it, why don't you join us?"
+                        Actor2:: "This is so much better than a boring family movie night, don't you think?"
+                        Actor:: "So much better ..."
+                        Sex(Player, Actor, Actor2)
+                    Endif
+                Else
+                    Actor:: "This is disgusting ... I can't believe I'm living with such degenerates!"
+                    Actor:rapportwithplayer -= 20
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, family_movie_night)

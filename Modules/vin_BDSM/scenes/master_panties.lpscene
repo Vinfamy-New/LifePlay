@@ -1,0 +1,81 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getPerson(tag_Master); If Actor:perversion > 50 && Random(0, 100) < 33
+OTHER:
+
+    // Your Master demands that you go about your everyday life without wearing panties. They then occasionally check and reward or punish you accordingly.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    DressRequest = Actor.getActorVar(tag_DressRequest)
+    If DressRequest == 0
+        Player.dressBondage(Collar)
+        "My <Actor.Master_or_Mistress> today demands that I go about my everyday life without wearing panties from now on."
+        "I have no choice but to obey ... it shouldn't be too difficult anyway."
+        Actor.setActorVar(tag_DressRequest, 1)
+    Elseif DressRequest == 1
+        Player.dressBondage(Collar)
+        "My <Actor.Master_or_Mistress> has previously demanded that I never ever wear panties in my everyday life."
+        "As <Actor.his_or_her> slave, I swore to obey <Actor.his_or_her> every commands and this is no exception. If I fail to stick to such a simple requirement, I deserve a severe punishment."
+        "<Actor.Master_or_Mistress> showed up suddenly and demanded that I proved to <Actor.him_or_her> right now that I wasn't wearing any underwear down there."
+        If Player.isEquipped(Bottom_Under)
+            "Unfortunately, this absent-minded slave was in fact covered down there right this moment. My <Actor.Master_or_Mistress> has just caught me violating one of <Actor.his_or_her> rules."
+            "<Actor.Master_or_Mistress> got angry and decided to punish me."
+            "<Actor.He_or_She> spanked me hard before demanding that I come with <Actor.him_or_her> somewhere."
+            If Random(0, 100) < 14
+                setBackground(street)
+                "My <Actor.Master_or_Mistress> tied me up and left me in a dodgy part of town ..."
+            Elseif Random(0, 100) < 17
+                setBackground(park)
+                "My <Actor.Master_or_Mistress> tied me up and left me in a public park ..."        
+            Elseif Random(0, 100) < 20
+                setBackground(beach)
+                "My <Actor.Master_or_Mistress> tied me up and left me on a public beach ..."        
+            Elseif Random(0, 100) < 25
+                setBackground(forest)
+                "My <Actor.Master_or_Mistress> tied me up and left me in the middle of a forest ..."        
+            Elseif Random(0, 100) < 33
+                setBackground(river)
+                "My <Actor.Master_or_Mistress> tied me up and left me by a popular fishing spot ..."        
+            Elseif Random(0, 100) < 50
+                setBackground(mountain)
+                "My <Actor.Master_or_Mistress> tied me up and left me on a hill popular with hikers ..."
+            Else
+                setBackground(pool)
+                "My <Actor.Master_or_Mistress> tied me up and left me at a popular public swimming pool ..."        
+            Endif
+            Player.dressBondage()
+            Player.dressBondage(Handcuffs)
+            Player.dressBondage(Shincuffs)
+            Player.dressBondage(Thighcuffs)
+            "<Actor.He_or_She> also left a sign next to me that simply said 'Fuck <Player.him_or_her> hard! This slave dares to disobey <Player.his_or_her> <Actor.Master_or_Mistress>'"
+            count = 0
+            While count < 3
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.dress()
+                Actor2.show()
+
+                "A stranger passed by and took up the offer and immediately became violent with me."
+                Filter(Aggressive)
+                Sex(Actor2, Player)
+                count += 1
+            Endwhile
+            Actor:: "That's enough for now, slave, I hope that punishment makes you remember your lesson ..."
+            mood -= 20
+            Actor:attractiontoplayer -= 3
+        Else
+            masochist += 2
+            mood += 30
+            "Thankfully, I've remembered to not wear any panties today just as my <Actor.Master_or_Mistress> demanded."
+            "Pleased by my obedience, my <Actor.Master_or_Mistress> decided to reward me with some of <Actor.his_or_her> spare changes and a good fuck."
+            money += 20
+            Sex(Actor, Player)
+        Endif        
+    Endif
+    SceneEnd()
+    timeout(200, master_panties)

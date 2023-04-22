@@ -1,0 +1,103 @@
+WHAT: masturbate
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Neighbour); If Actor:masochist < 0 && Actor.isInterestedIn(Player) & Actor:perversion > 50
+OTHER:
+
+    // When you play with yourself in your room and fail to keep it down, a neighbour may try to flirt with you later on. Rejecting them too many times and your increasingly frustrated neighbour may make you listen to rap music for your next solo session.
+
+    SceneStart()
+    "While in the middle of my passionate solo session, I hear the footsteps of someone next door. Maybe I should reduce the intensity or risk an embarrassing situation where my neighbour can hear me masturbating and moaning."
+    0:: "Take it easy"
+    1:: "Bring myself to a mind-blowing orgasm"
+    
+    If 0
+        "I slow down the intensity of my solo session and make sure I have a quiet finish."
+    Else
+        "I couldn't care less that the neighbour may be able to hear. All I care about right now is pleasure."
+        Filter(Solo)
+        Sex(Player)
+        If Actor:attractiontoplayer > 40 && Actor:rapportwithplayer < -20
+            Player.animate(na_sleep)
+            "Suddenly, just as I was lying in my bed recovering from an amazing orgasm, my bedroom's door was pushed open by force and my neighbour <Actor.name> appeared out of nowhere."
+            Actor.show()
+            Actor.moveToPersonStand(Player, 50)
+            Actor:: "Damn, I can't take this anymore. You're doing this on purpose, aren't you? Did you want to sexually frustrate to death with your constant loud masturbating sessions?"
+            Raped = true
+            Actor:: "I have to have you and I don't care if you want it or not!"
+            0:: "Resist"
+            1:: "Accept my fate"
+            
+            If 0
+                Player:: "What? It's none of your business what I'm doing in the privacy of my bedroom. I owe you nothing. Get away, you creep!"
+                Actor:: "Come on, stop resisting ..."
+                "A struggle ensued ..."
+                If Actor:martial > martial - intoxication
+                    "Unfortunately, my neighbour soon overwhelmed me ... and I was simply too exhausted from my previous intense solo session to have the energy for a fight."
+                    Player:: "Please stop ... I'm your neighbour, for god's sake. I'll report to management ... to the police. Think about it."
+                    Actor:: "I don't care about the consequences ... I need to have you ... You've teased me long enough."
+                Else    
+                    Raped = false
+                    Actor.animate(fightlost)
+                    "Thankfully, I still had enough energy left and I landed a kick that knocked my perverted neighbour out."
+                    Player:: "That'll teach you a lesson, you pathetic peeping Tom."
+                Endif
+            Else
+                "I pretend to resist a bit, but it was almost role playing. Deep inside, I'm incredibly turned on by the thought of my neighbour having to endure listening to me masturbate all this time and can't wait for <Actor.him_or_her> to fuck me roughly, fueled by all of that pent-up sexual frustration."
+            Endif
+            
+            If Raped
+                Actor:: "Now, get ready to get fucked hard."
+                Actor:: "That's what you deserve after teasing me with your loud moaning and leaving me sexually frustrated for so long."
+                
+                If !Actor.isMale() && Player.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                Sex(Actor, Player)
+                
+                
+                Actor:: "I finally got what I wanted. Now, you do what you must ..."
+                Actor.hide()
+                "Having sexually assaulted me, my neighbour calmly walked back to <Actor.his_or_her> apartment, seemingly accepting that I will report the crime and have <Actor.him_or_her> arrested."
+                0:: "Report the sexual assault"
+                1:: "Stay silent"
+                
+                If 0
+                    "I decided to report <Actor.name> to the cops, who soon had <Actor.him_or_her> arrested and sentenced to a long prison term."
+                    Actor.deletePerson()
+                Else
+                    "For some reason, I didn't have courage to report the crime and let my neighbour get away with it."
+                    "Let's hope that this won't embolden <Actor.him_or_her> in the future."
+                    Actor.setActorVar(tag_Rapist, 1)
+                Endif
+            Endif
+        Else
+            "That was amazing orgasm, so amazing that I moaned so loudly that I was sure the whole building could hear me and what I was up to."
+            setBackground(street)
+            Actor.dress()
+            Actor.show()
+            "Later on, I was just coming out of my apartment building when I was stopped by my neighbour <Actor.name>."
+            Actor:: "I could tell you're a bit lonely these days."
+            "Oh no, how else could <Actor.he_or_she> make that conclusion except having heard me pleasuring myself earlier."
+            Actor:: "I'm a bit lonely myself, maybe we should go on a date."
+            0:: "Hang out with my neighbour"
+            1:: "No, thank you"
+            
+            If 0
+                Player:: "Sure, why not, let's hang out. I guess we both could do with some companionship."
+                Actor.startDate()
+                Actor:attractiontoplayer += 5
+                Actor:rapportwithplayer += 5
+                "(<Actor.name> is now my current companion.)"
+            Else
+                Player:: "Sorry, but I'm not lonely at all actually."
+                Actor:rapportwithplayer -= 5
+                Actor:attractiontoplayer += 5
+                Actor:: "Stop lying to yourself, dear. I heard some interesting sound coming from your apartment earlier."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(50, vi_masturbate_neighbour)

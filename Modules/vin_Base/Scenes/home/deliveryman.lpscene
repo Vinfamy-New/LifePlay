@@ -1,0 +1,267 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8-20
+WHO: none
+OTHER: IsAtHome() && Random(0, 100) < ActionDuration
+
+    SceneStart()
+    setBackground(home)
+    If ForcedTrigger()
+        food = true
+        "I made my order and paid with my credit card. All I can do now is wait for the food to arrive."
+    Else
+        Random
+            food = true
+            food = false
+        EndRandom
+    Endif
+
+    If food
+        If isModEnabled(vin_Interracial)
+            "Which dish should I order?"
+            0:: "Jollof Rice"
+            1:: "Curry"
+            2:: "Hummus and Pita"
+            3:: "Taco"
+            4:: "Noodles"
+            5:: "Hamburger"
+            
+            If 0
+                setRaceGenerated(black)
+                dish = "Jollof Rice"
+            Elseif 1
+                setRaceGenerated(indian)
+                dish = "Curry"
+            Elseif 2
+                setRaceGenerated(arab)
+                dish = "Hummus and Pita"                
+            Elseif 3
+                setRaceGenerated(latin)
+                dish = "Taco"                
+            Elseif 4
+                setRaceGenerated(asian)
+                dish = "Noodles"                
+            Else
+                setRaceGenerated(white)
+                dish = "Hamburger"                
+            Endif
+        Else
+            Random
+                dish = "pizza"
+                dish = "Chinese takeaway"
+                dish = "curry"
+                dish = "kebab"
+                dish = "sushi"
+            endRandom
+        Endif
+    Else
+        Random
+            source = "Amazon"
+            source = "Ebay"
+            source = "a boutique shop"
+            source = "an online store"
+        endRandom
+    Endif
+
+    "My door bell rang ... Must be the delivery person"
+    Delivery = generatePersonTemporary()
+    Delivery.dressUniform(Fast_food)
+    
+    If isModEnabled(vin_Interracial)
+        If Delivery.isEthnic(black) && Delivery.isMale() && !isTimingOut(strt_black_m)
+            Delivery.blendPreset(strt_black_m)
+            
+        Elseif Delivery.isEthnic(black) && !Delivery.isMale() && !isTimingOut(strt_black_f)
+            Delivery.blendPreset(strt_black_f)
+
+        Elseif Delivery.isEthnic(indian) && Delivery.isMale() && !isTimingOut(strt_indian_m)
+            Delivery.blendPreset(strt_indian_m)
+            
+        Elseif Delivery.isEthnic(indian) && !Delivery.isMale() && !isTimingOut(strt_indian_f)
+            Delivery.blendPreset(strt_indian_f)
+            
+        Elseif Delivery.isEthnic(arab) && Delivery.isMale() && !isTimingOut(strt_arab_m)
+            Delivery.blendPreset(strt_arab_m)
+            
+        Elseif Delivery.isEthnic(arab) && !Delivery.isMale() && !isTimingOut(strt_arab_f)
+            Delivery.blendPreset(strt_arab_f)
+
+        Elseif Delivery.isEthnic(latin) && Delivery.isMale() && !isTimingOut(strt_latin_m)
+            Delivery.blendPreset(strt_latin_m)
+            
+        Elseif Delivery.isEthnic(latin) && !Delivery.isMale() && !isTimingOut(strt_latin_f)
+            Delivery.blendPreset(strt_latin_f)
+            
+        Elseif Delivery.isEthnic(asian) && Delivery.isMale() && !isTimingOut(strt_asian_m)
+            Delivery.blendPreset(strt_asian_m)
+            
+        Elseif Delivery.isEthnic(asian) && !Delivery.isMale() && !isTimingOut(strt_asian_f)
+            Delivery.blendPreset(strt_asian_f)
+
+        Elseif Delivery.isEthnic(white) && Delivery.isMale() && !isTimingOut(strt_white_m)
+            Delivery.blendPreset(strt_white_m)
+            
+        Elseif Delivery.isEthnic(white) && !Delivery.isMale() && !isTimingOut(strt_white_f)
+            Delivery.blendPreset(strt_white_f)
+        Endif    
+    Endif
+    Actor2 = getSpecific(Dating)
+    "What should I do?"
+    0:: "Pick it up myself"
+    1:: Actor2.isValid():: "Ask my <Actor2.boyfriend_or_girlfriend> to answer the door instead"
+    
+    If 0
+        Delivery.show(2)
+
+        Delivery(Happy):: "Hi there, is this the home of <Player.Mr_or_Ms> <Player.name_last>?"
+        Player(Happy):: "Yes, that is me."
+        If food
+            Delivery(Happy):: "I've got your <dish> delivery order ..."
+        Else
+            Delivery(Happy):: "I've got your package from <source> ..."
+        Endif 
+        "Ah, just what I was expecting ..."
+        Player(Excited):: "Thank you. I did indeed order them. Took less than I thought they would."
+        Delivery(Happy):: "Alright, I think that's everything. Have a nice day!"
+
+        If Player.IsInterestedIn(Delivery)
+            "This <Delivery.guy_or_girl> isn't actually too bad-looking. Should I just let <Delivery.him_or_her> leave, or do I have a better plan?"
+            0:: "Say goodbye"
+            1:: interpersonal > 20:: "Exchange numbers"
+            2:: IsModEnabled(vin_VanillaPorn) && perversion > 50:: "Invite in for sex"
+            
+            If 0
+                "The delivery <Delivery.guy_or_girl> left and I closed the doors."
+            Else
+                If isModEnabled(vin_Interracial)
+                    If Delivery.isEthnic(black) && Delivery.isMale() && !isTimingOut(strt_black_m)
+                        "The deliveryman is black and I can't help but fantasize about black men and their big black cocks and how they will really stretch my poor little <Player.race> body to its limits."
+                        
+                    Elseif Delivery.isEthnic(black) && !Delivery.isMale() && !isTimingOut(strt_black_f)
+                        "The deliverywoman is black and I can't help but fantasize about those strong black women and their voluptuous curves. Personally, I've always preferred thicker women to the skinny fashion model types."
+
+                    Elseif Delivery.isEthnic(indian) && Delivery.isMale() && !isTimingOut(strt_indian_m)
+                        "The deliveryman is from a South Asian origin and I can't help but fantasize about these exotic South Asian men with their dark skin matched by thick black body hair."
+                        
+                    Elseif Delivery.isEthnic(indian) && !Delivery.isMale() && !isTimingOut(strt_indian_f)
+                        "The deliverywoman is South Asian and there are just something about exotic yet sexually repressed South Asian women that really attract me to them. I also don't mind my ladies being a bit on a hairier side."
+                        
+                    Elseif Delivery.isEthnic(arab) && Delivery.isMale() && !isTimingOut(strt_arab_m)
+                        "The deliveryman is Middle Eastern and I can't help but fantasize about these exotic Arab men with their manly black beard and hairy chest."
+                        If Player.isMale()
+                            "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                        Else
+                            "I find their more dominant attitude towards women somewhat arousing too."
+                        Endif
+                        
+                    Elseif Delivery.isEthnic(arab) && !Delivery.isMale() && !isTimingOut(strt_arab_f)
+                        "The deliverywoman is Middle Eastern and there are just something about exotic yet sexually repressed Arab women that really attract me to them."
+                        If !Player.isMale()
+                            "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                        Else
+                            "I find their more traditional attitude towards the role of the woman in a relationship somewhat arousing too."
+                        Endif
+
+                    Elseif Delivery.isEthnic(latin) && Delivery.isMale() && !isTimingOut(strt_latin_m)
+                        "The deliveryman is Latino and I can't help but fantasize about these passionate Latino men with their tanned skin and dark handsome features. It's so sexy when they talk dirty in their mother tongue."
+                        
+                    Elseif Delivery.isEthnic(latin) && !Delivery.isMale() && !isTimingOut(strt_latin_f)
+                        "The deliverywoman is Latina and I can't help but fantasize about those sexy Latinas with their voluptuous curves and fiery passion. I'd love nothing more but to dance with them all night."
+                        
+                    Elseif Delivery.isEthnic(asian) && Delivery.isMale() && !isTimingOut(strt_asian_m)
+                        "The deliveryman is East Asian and I can't help but fantasize about these cute youthful-looking East Asian men. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair."
+                        "I also find their intelligence and more gentle and shy demeanor absolutely irresistible."
+                        
+                    Elseif Delivery.isEthnic(asian) && !Delivery.isMale() && !isTimingOut(strt_asian_f)
+                        "The deliverywoman is East Asian and there are just something about smart but shy youthful-looking East Asian women that really attract me to them. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair. I also don't mind my ladies being all natural down there."
+                        "I find their somewhat more submissive behavior in a relationship quite arousing too."
+                    Endif    
+                Endif
+                
+                If 1
+                    Player(Happy):: "Wait ... Sorry if I'm being weird but I find you quite cute. Perhaps we could exchange numbers and hang out another day?"
+                    If Delivery.IsInterestedIn(Player) && [Delivery.IsDominantSex(Player) || Delivery:attractiontoplayer + Delivery:perversion > Random(0, 30)]
+                        Delivery(Surprised):: "Of course! Let's exchange contacts. It's not often that I make a delivery to someone this nice ..."
+                        Delivery.makePermanent()
+                        exchangeContact(Delivery)
+                        "Having given me <Delivery.his_or_her> number, the delivery <Delivery.guy_or_girl> begged <Delivery.his_or_her> leave."
+                    Else
+                        Delivery(Irritated):: "I'm sorry, but I only met you a few minutes ago. I don't normally exchange numbers with random people I met on the job."
+                        "With that said, the delivery <Delivery.guy_or_girl> begged <Delivery.his_or_her> leave."
+                    Endif
+                Else
+                    Player(Flirty):: "You must be exhausted from going door to door delivering stuffs all day. Why don't you come inside so that I can help you 'relax'?"
+                    Dominant = Delivery.IsDominantSex(Player)
+                    If Delivery.IsInterestedIn(Player) && [[Dominant && Delivery:perversion + Delivery:attractiontoplayer > Random(0, 50)] || [!Dominant && Delivery:perversion + Delivery:attractiontoplayer > Random(0, 100)]]
+                        Delivery(Flirty):: "How can I say no? An offer like that rarely comes by ..."
+                        perversion += Random(0, 0.5)
+                        Sex(Delivery, Player)
+                        passTime(0.2, 1)
+                        Delivery.show(2)
+                        If Actor.isValid()
+                            Actor.show()
+                            If Random(20, 100) < Actor:perversion && [Actor.isInterestedIn(Delivery) || Actor.isInterestedIn(Player)]
+                                Actor(Flirty):: "You guys are having fun, I see?"
+                                Actor(Flirty):: "But it's not fair to have all the fun to yourself, <Player.name>! We ordered the takeaway together after all!"
+                                Sex(Delivery, Player, Actor)
+                            Else
+                                Actor(Irritated):: "Damn it, <Player.name>. You didn't warn that ordering takeaway with you would involve being forced to watch you fuck the delivery <Delivery.guy_or_girl>!"
+                                Actor:rapportwithplayer -= 1
+                            Endif
+                        Else
+                            Player(Flirty):: "Wow, that was something else! You certainly know how to 'deliver' an orgasm."
+                            Delivery(Flirty):: "You flattered me. In all my time doing this job, I've never had this happen to me before. Let's see each other again, okay?"
+                        Endif
+                        Delivery.makePermanent()
+                        exchangeContact(Delivery)
+                        "Once the sex was over, the delivery <Delivery.guy_or_girl> begged <Delivery.his_or_her> leave, but thankfully not before giving me <Delivery.his_or_her> number."
+                    Else
+                        Delivery(Angry):: "I'm afraid I can't do that. I would lose my job!"
+                        Player(Angry):: "Fine, it's your loss!"
+                        "With that said, the delivery <Delivery.guy_or_girl> begged <Delivery.his_or_her> leave."          
+                    Endif
+                Endif
+            Endif
+        Endif
+    Else
+        Actor2.dress()
+        Actor2.show()
+        Player:: "Baby, I think there's a delivery. Would you mind picking it up for me?"
+        Actor2:: "Of course"
+        Actor2.hide()
+        
+        If Actor2.isInterestedIn(Delivery) && [Actor2:perversion - Actor2:attractiontoplayer > 50 || OpenRelationship()]
+            "A while later ..."
+            Caught = false
+            "Hmm, why isn't <Actor2.name> back with the delivery yet. What's taking <Actor2.him_or_her> so long?"
+            "And what's that sound coming out of the living room?"
+            0:: "Check it out"
+            1:: "Just be patient"
+            
+            If 0
+                setBackgroundCustom(livingroom)
+                Sex(Delivery, Actor2)
+                "My <Actor2.boyfriend_or_girlfriend> is fucking the delivery <Delivery.boy_or_girl>."
+                0:: "Join them"
+                1:: "Stay quiet and leave"
+                
+                If 0
+                    Caught = true
+                    Sex(Delivery, Actor2, Player)
+                Endif
+            Endif
+            
+            If !Caught
+                Actor2.show()
+                Actor2:: "Here you go. That was free by the way."
+                Player:: "What? Why?"
+                Actor2:: "Some promotion run by the restaurant for loyal and nice customers."
+                Player:: "Oh cool then ..."
+            Endif
+        Endif
+    Endif
+
+    passTime(0.05, 0.2)
+
+    timeout(200, deliveryman)
+    SceneEnd()

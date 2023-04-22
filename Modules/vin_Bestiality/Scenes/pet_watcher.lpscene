@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor = getCreature(); If Actor.isCreatureType(Dog)
+OTHER:
+
+    // If you own a pet and are working in an office, sometimes you have to go on a business trip out of town for a few days. You'll be prompted to ask someone to watch your pet for you. Your business trip ends up being shorter than expected and you arrive home. Either nothing happens or because of either the pet's previous experience with you or your friend's high perversion, you catch them in the act. You can then get angry or join them.
+
+    SceneStart()
+    "I have an opportunity to go a business trip out of town for a few days. I could decline but this trip be good for my career advancement. My only concern is that there'll be no-one to look after <Actor.name>."
+    0:: "Ask someone to house-sit and look after my pet"
+    1:: "Stay home"
+    
+    If 0
+        "Who should I ask to look after <Actor.name> while I'm away on business? They should be someone I'm friendly with."
+        selectNpc()
+        Actor2 = getSelectedNpc()
+        
+        If Actor2:rapportwithplayer > 10 || Actor2.isDating() || Actor2.hadSex()
+            jobperformance += 10
+            jobexperience += 3
+            "<Actor2.name> gladly accepted my request. <Actor2.He_or_She> will be staying at my place for the duration of my business trip."
+            
+            setBackground(street)
+            "A few days later ..."
+            "That was a successful business trip, although it did end one day earlier than expected. Let's go home now ..."
+            moveTo(home)
+            setBackgroundCustom(livingroom)
+            Player:: "<Actor2.name>, I'm home early. I hope everything was okay?"
+            If Actor2.isInterestedIn(Actor) && [Actor2:perversion > 50 || Actor.hadSex()]
+                Actor2.show()
+                Actor.show()
+                animatePair(Actor, Actor2, Penetration)
+                Player:: "What the fuck!?"
+                Sex(Actor, Actor2)
+                "I caught my house-sitter fucking my dog!"
+                If Actor.hadSex()
+                    Actor2:: "It's not my fault ... Your dog started it ... It's as if <Actor.he_or_she> has done this many times with another human." 
+                Else
+                    Actor2:: "I'm sorry but I've been feeling so lonely here the last few days and your dog is so hot."
+                Endif
+                "How should I react?"
+                0:: "Get angry"
+                1:: "Say it's okay"
+                2:: "Join them"
+                
+                If 0
+                    Player:: "I trusted you! How could you?"
+                    Actor2:rapportwithplayer -= 10
+                Elseif 1
+                    Player:: "It's okay ... We all make mistakes ..."
+                Else
+                    Player:: "Looks like you two have been having all the fun while I'm busy working out of town."
+                    Player:: "That's so unfair, you know! We'll have to fix this injustice!"
+                    Sex(Actor, Player, Actor2)
+                Endif
+            Else
+                Actor2.dress()
+                Actor2.show()
+                Actor.show()
+                Actor2:: "Oh, you're back! Yeah, everything is okay! <Actor.name>'s been a good dog."
+            Endif
+        Else
+            "Unfortunately, <Actor2.name> turned me down. I have no choice but stay home this time."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, pet_watcher)

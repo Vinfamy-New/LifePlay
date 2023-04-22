@@ -1,0 +1,35 @@
+WHAT: all, -sleep, -nap, -go_to_the_bathroom
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If Actor.livesWithPlayer()
+OTHER: !Player.isEquipped(Bottom) && !Player.isEquipped(Bottom_Under)
+    
+    // Doing anything around the house (except sleeping and going to the bathroom) while butt-naked may get you either scolded or 'noticed' by a relative living with you
+    SceneStart()
+    "I was going around my business butt-naked not expecting to see anyone when my <Actor.relationship> suddenly walks out of <Actor.his_or_her> room and sees me in all my glory ..."
+    Actor.dress()
+    Actor.show()
+    If Actor.hadSex() || Actor:incest + Actor:perversion > 80
+        Actor:: "Are you showing that to me on purpose?"
+        0:: "Yes, start to touch <Actor.him_or_her>"
+        1:: "No"
+        
+        If 0
+            Actor:: "Someone is too horny ... Let me take care of that. We're family after all."
+            Sex(Player, Actor)
+            Actor:incest += 100
+        Else
+            Actor:: "Sorry, forget I said anything ..."
+        Endif
+    Elseif Actor:incest + Actor:perversion > 50
+        Actor:: "You're bit of an exhibitionist these days, aren't you?"
+        Actor:incest += 3
+    Elseif Actor:incest + Actor:perversion > 20
+        "<Actor.name> seems embarrassed by the sight but didn't say a word ..."
+        Actor:incest += 2
+    Else
+        Actor(Angry):: "Put on some pants, god damn it! You're sharing a house with your <Actor.relationship> after all!"
+        Actor:rapportwithplayer -= 1
+    Endif
+    SceneEnd()
+    timeout(48, naked_around_family)

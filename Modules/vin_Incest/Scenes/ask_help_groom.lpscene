@@ -1,0 +1,111 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // You can click on any relative and ask them to help you groom your private region, which could lead to things escalating fast
+
+    SceneStart()
+    "Am I sure that I want to ask my own <Actor.relationship> to help me groom my private region down there?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        attractiveness += 0.25
+        fitness += 0.1
+        Actor:incest += 5
+        "My <Actor.relationship> agreed to help me ..."
+        setBackground(shower)
+        Player.strip()
+        "We went to the bathroom together, where I took off my clothes and got ready for my <Actor.relationship> to help me groom."
+        "As much as <Actor.relationship> tried to not touch me with anything but the razor, that was impossible and <Actor.his_or_her> fingers ended up touching many of many sensitive spots ..."
+        "I've become quite aroused ..."
+        0:: "Ask my <Actor.relationship> to touch me more"
+        1:: "Try and stay composed"
+        
+        If 0
+            If Actor:incest > 10
+                Ahead = true
+                Actor:: "Well ... if you insist ..."
+            Else
+                Ahead = false
+                Actor:: "Come on, what go into you? I'm <Actor.relationship> for God's sake!"
+            Endif
+        Else
+            Ahead = false
+        Endif
+        
+        If !Ahead && Actor:incest > 30
+            Ahead = true
+            Actor:: "I see you're getting <Player.hard_or_wet> ... Here, let me help you relax a bit."
+        Endif
+        
+        If Ahead
+            Actor:incest += 10
+            If Player.isMale()
+                Filter(Handjob)
+            Else
+                Filter(FingerPussy)
+            Endif
+            Sex(Player, Actor)
+            
+            "Wow, that felt so good ... and my body is telling me not to stop"
+            0:: "Ask my <Actor.relationship> to use <Actor.his_or_her> mouth"
+            1:: "Try and regain composure"
+            
+            If 0
+                If Actor:incest > 30
+                    Ahead = true
+                    Actor:: "Well ... I suppose I might as well use more than my hand ..."
+                Else
+                    Ahead = false
+                    Actor:: "Sorry, but we've done too much already!"
+                Endif
+            Else
+                Ahead = false
+            Endif
+                
+            If !Ahead && Actor:incest > 50
+                Ahead = true
+                Actor:: "I see my hand wasn't enough to satisfy you ... Let me try use my mouth instead."
+            Endif
+            
+            If Ahead
+                Actor:incest += 10
+                If Player.isMale()
+                    Filter(Blowjob)
+                Else
+                    Filter(LickPussy)
+                Endif
+                Sex(Player, Actor)
+                
+                "Things are escalating very quickly"
+                0:: "Ask my <Actor.relationship> to fuck me"
+                1:: "Try and regain composure"
+                
+                If 0
+                    If Actor:incest > 50
+                        Ahead = true
+                        Actor:: "Well ... I guess we've already reached the point of no return ..."
+                    Else
+                        Ahead = false
+                        Actor:: "Sorry, but we've done too much already!"
+                    Endif
+                Else
+                    Ahead = false
+                Endif
+                    
+                If !Ahead && Actor:incest > 70
+                    Ahead = true
+                    Actor:: "I see that even my mouth wasn't enough to satisfy you ... I guess I have to give you everything I have to offer."
+                Endif
+                
+                If Ahead
+                    Actor:incest += 20
+                    Sex(Player, Actor)
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

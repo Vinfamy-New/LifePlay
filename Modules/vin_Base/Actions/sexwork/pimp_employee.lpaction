@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: pimp_employee
+ACTION_NAME: Pimp out
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: pimp_employee
+ANIMATION: socialize
+WHO: Actor = getTarget(); If Actor.isEmployee() && [WHERE == brothel:business || WHERE == stripclub:business]

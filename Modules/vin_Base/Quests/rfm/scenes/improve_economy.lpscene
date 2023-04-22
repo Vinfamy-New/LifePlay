@@ -1,0 +1,111 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    dressFormal()
+    before = c_economy.getGlobal()
+    "The latest poll indicates that about <before>% of citizens are happy with the state of the economy."
+    
+    after = before
+    Aide = getPerson(tag_Aide)
+    "I spent some time working to try to improve the economy."
+    If Aide.isValid()
+        Aide.dress()
+        Aide.show()
+        "Helping me in particular today is my trusted aide <Aide.name>."
+        0:: "Let <Aide.him_or_her> concentrate on work"
+        1:: "Take every opportunity to flirt"
+        
+        If 0
+            after += 0.01*[Aide:intelligence + Aide:interpersonal]
+        Else
+            Aide:attractiontoplayer += 2
+            If Aide:attractiontoplayer > 30 || Aide.hadSex()
+                "<Aide.name> seems responsive to my flirting and would probably be down to help me the Mayor release some stress."
+                0:: "Fuck my aide"
+                1:: "Enough fun"
+                
+                If 0
+                    Sex(Player, Aide)
+                    If Random(0, 100) < Aide:intelligence
+                        "Unfortunately, my aide was too busy getting fucked that <Aide.he_or_she> made a rather big mistake for work."
+                        after -= Random(0, 2)
+                    Endif
+                Endif
+            Endif
+        Endif
+        
+    Endif
+    
+    If Random(0, 100) < 66
+        "Nothing unusual happened and I think I've made some good decisions to improve the economy."
+        after += 0.02*[intelligence + interpersonal]
+    Elseif Random(0, 100) < 50
+        Actor = generatePersonTemporary()
+        Actor.dress()
+        Actor.show()
+        "A dodgy businessman is offering me a sizable bribe to agree to a deal that would do harm to the economy."
+        0:: "Accept the bribe"
+        1:: "How about sex instead?"
+        2:: "Stay upright"
+        
+        If 0
+            money += Random(1000, 2000)
+            after -= Random(0, 5)
+        Elseif 1
+            Sex(Player, Actor)
+            after -= Random(0, 5)
+            If Aide.hadSex()
+                "Since I've been sleeping with my aide <Aide.name> as well, I could ask <Aide.him_or_her> to join us for some fun ..."
+                0:: "Have a threesome with my aide"
+                1:: "Enough fun"
+                
+                If 0
+                    Sex(Player, Aide, Actor)
+                Endif
+            Endif
+        Endif
+    Else
+        Actor = generatePersonTemporary()
+        Actor.dress()
+        Actor.show()
+        "A struggling <Actor.businessman_or_businesswoman> is practically begging for government funding to save <Actor.his_or_her> business. According to my aide <Aide.name>'s analysis, it's not clear whether it would be a wise spending as it's questionable how much this would actually benefit the economy."
+        0:: "Spend the money to help"
+        1:: "Demand sex in exchange"
+        2:: "Refuse"
+        
+        If 0
+            karma += 5
+            jobperformance -= Random(0, 2)
+            after += Random(-3, 3)
+        Elseif 1
+            jobperformance -= Random(0, 2)
+            Sex(Player, Actor)
+            after += Random(-3, 3)
+            If Aide.hadSex()
+                "Since I've been sleeping with my aide <Aide.name> as well, I could ask <Aide.him_or_her> to join us for some fun ..."
+                0:: "Have a threesome with my aide"
+                1:: "Enough fun"
+                
+                If 0
+                    Sex(Player, Aide, Actor)
+                Endif
+            Endif            
+        Endif    
+    Endif
+    
+    If before < after || after < before
+        jobperformance += 0.15*[after - before]
+    Endif
+    
+    If after < 0
+        after => -100
+    Elseif after > 100
+        after => 100
+    Endif 
+    
+    c_economy.setGlobal(after)
+    SceneEnd()

@@ -1,0 +1,36 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "<Actor.name> decides to introduce me to one of <Actor.his_or_her> regular Johns. In our field of work, such 'introduction' usually takes the form of a threesome."
+    Actor2 = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.dress()
+    Actor2.show(2)
+    "Should I go ahead with a threesome with this customer?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Actor2(Flirty):: "It looks like we have a deal, darling. So thoughtful of you to bring your friend to me. I definitely know my type, <Actor2.name>"
+        "Soon enough, I was following them to one of the brothel's rooms."
+        Sex(Actor2, Player, Actor)
+        money => money + Dice
+        
+        Actor2.makeInterested(Player)
+        If Actor2:attractiontoplayer < 30
+            Actor2:attractiontoplayer => 35
+        Endif
+        "Aside from our agreed fee, the John also gave me a big tip."
+        money += Dice/2
+        "I can't help but notice how smitten this John has become with me after sex, even somewhat ignoring <Actor.name> for me... looks like <Actor2.he_or_she> is going to become a regular customer ..."
+        Actor2.makePermanent()
+        Actor2.setActorVar(tag_john, 1)
+    Endif
+    
+    SceneEnd()

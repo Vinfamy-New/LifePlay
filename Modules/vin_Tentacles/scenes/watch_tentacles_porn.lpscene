@@ -1,0 +1,76 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // New "Watch Tentacles porn" action you can take at home, which will then allow you to fantasize about you or a girl you know being in the pornstar's place as well. Basically this provides a guaranteed way to check out Tentacles content without waiting for random triggers.
+
+    SceneStart()
+    "I'm just relaxing and enjoying some porn but I must admit I've become a bit desensitized to vanilla porn."
+    0:: "Watch some Tentacles porn"
+    1:: "Just stick to the usual"
+    
+    If 0
+        "I decided to watch some hentai-inspried tentacles porn."
+        Player.hide()
+        Random
+            setBackgroundCustom(livingroom)
+            setBackgroundCustom(kitchen)
+            setBackground(work)
+            setBackground(sports_centre)
+        endRandom
+        
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isFemale()
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2:age => Random(18, 30)
+        Actor2:attractiveness => Random(75, 100)
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        Actor2.dress()
+        Actor2.show()
+        "The scene started with a beautiful girl just going about her business."
+        Actor = generateCreatureTemporary(Tentacles)
+        Actor.show()
+        "Of course, before long, a tentacle monster appeared and ambushed <Actor2.him_or_her>. Poor girl couldn't resist those long and thick tentacles that no man's penis could match."
+        Sex(Actor2, Actor)
+        
+        "That was hot ..."
+        0:: "Just masturbate"
+        1:: !Player.isMale():: "Fantasize about myself being in the pornstar's place"
+        2:: "Fantasize about another girl I know being in the pornstar's place"
+        
+        If 0
+            setBackground(home)
+            Actor2.hide()
+            Actor.hide()
+            Player.show()
+            "Being super aroused by what I just watched, I needed to release."
+            Filter(Solo)
+            Sex(Player)
+        Elseif 1
+            Actor2.hide()
+            Player.show()
+            "Seeing how she enjoyed being fucked by those tentacles, I couldn't help but fantasize about being in her place."
+            SexNoAffair(Actor, Player)
+        Else
+            Actor2.hide()
+            "Who do I imagine to be in the pornstar's place?"
+            selectNpc()
+            Actor3 = getSelectedNpc()
+            
+            If !Actor3.isMale()
+                Actor3.dress()
+                Actor3.show()
+                "I couldn't help but fantasize about <Actor3.name> being in the pornstar's place to fuck those tentacles."
+                SexNoAffair(Actor, Actor3)
+            Else
+                "That's not even a woman!"
+            Endif
+        Endif
+        Player.show()
+    Endif
+    
+    SceneEnd()

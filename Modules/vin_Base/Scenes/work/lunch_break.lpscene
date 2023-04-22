@@ -1,0 +1,47 @@
+WHAT: all
+WHERE: work
+WHEN: 11-14
+WHO: Boss = getSpecific(Boss)
+OTHER:
+
+    // Lunch break scene triggered occasionally, where you simply get a boost to rapport and attraction to numerous colleagues where appropriate.
+    
+    SceneStart()
+    "Some of my colleagues are going for a lunch break together down at a nearby lunch spot."
+    0:: "Join them"
+    1:: "Keep working"
+    
+    If 0
+        dressFormal()
+        energy += 20
+        "I need to eat anyway ... and it's good to get along and build rapport with your colleagues."
+        setBackground(cafe)
+        "I sit down with my colleagues and enjoy a lunch together while chatting about work and life in general."
+        count = 0
+        While count < 5
+            Actor = getSpecific(Colleague)
+            If Actor.isValid()
+                Actor.dress()
+                Actor.show()
+                If Actor:rapportwithplayer > 0
+                    "I feel that my rapport with my colleague <Actor.name> has improved."
+                    Actor:rapportwithplayer += 1
+                Else
+                    "Still, I can't seem to get along with my colleague <Actor.name> any better."
+                Endif
+                
+                If Actor:attractiontoplayer > 10 && Player.isInterestedIn(Actor)
+                    "I can't help but feel a little a bit of special chemistry developing with <Actor.name>."
+                    Actor:attractiontoplayer += 1
+                Endif
+                Backup = Actor
+            endIf
+            count += 1
+        endWhile
+    Else
+        energy -= 10
+        jobperformance += 1
+        "I'm sure the boss will eventually notice how hard-working I am by skipping lunch and risking being anti-social for the sake of work."
+    Endif
+    SceneEnd()
+    timeoutPrecise(24, lunch_break)

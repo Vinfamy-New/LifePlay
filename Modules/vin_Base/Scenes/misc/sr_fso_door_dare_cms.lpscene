@@ -1,0 +1,117 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: Player.isMale() && Random(44, 100) < perversion && isModEnabled(vin_NTR)
+
+    SceneStart()
+    "I was looking at some couple dares online and saw one that peeked my interest."
+    "It had the guy’s gf opening the door nude for the pizza delivery man."
+    Actor.dress()
+    Actor.show()
+    "Should I try to get my <Actor.boyfriend_or_girlfriend> <Actor.name> to do this?"
+    0:: "Yes! I always wanted to see <Actor.name> do such a kinky dare!"
+    1:: "No, it’s too risky"
+    
+    If 0
+        Actor:: "Wow… I never really thought about such an idea before. It sounds fun! Let’s do it!"
+        Player:: "I’m going to film it as well so we can replay and watch you being so kinky anytime we want."
+        Actor:: "Mmm good idea."
+        setBackgroundCustom(livingroom)
+        Actor.strip()
+        "I ordered a pizza from a local restaurant to be delivered."
+        Player.animate(camera)
+        If Random(0, 100) < 60
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+            
+            Actor.moveToPersonStand(Actor2, 100)
+            
+            "The delivery boy shows up with the pizza." 
+            "When the door is opened he is surprised to see my nude <Actor2.boyfriend_or_girlfriend>." 
+            "He becomes aroused seeing this. The wife notices his arousal along with the me."
+            0:: "Shake my head"
+            1:: "Nod my head"
+            
+            If 0
+                Actor2.hide()
+                "The delivery boy left."         
+            Else
+                "<Actor.name> got my message and proceeded to seduce the delivery boy"
+                Sex(Actor2, Actor)
+                
+                If Random(25, 75) < Actor2:prone_to_orgasm
+                    "The sex was so good that <Actor.name> insisted that we kept this delivery boy's phone number to have some fun with him in the future."
+                    Actor2.makePermanent()
+                    exchangeContact(Actor2)
+                Endif
+            Endif
+        Elseif Random(0, 100) < 25 && isModEnabled(vin_NonConsensual) && isModEnabled(vin_NTR)
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+
+            "The doorbell was not the delivery boy. In fact it was a known local repeated sex offender who had been in and out of prison 
+            many times!" 
+            "He tells her she's a pretty lady and looks like she requires some company." 
+            "She screams and is pushed down onto the sofa"
+            0:: "Watch"
+            1:: "Try to fight him off"
+            
+            If 0
+                Raped = true
+            Else
+                Player.animate(martialart)
+                Actor2.animate(martialart)
+                "I'm not letting my <Actor.boyfriend_or_girlfriend> get raped just like that."
+                If Actor2:martial - Actor2:intoxication > martial - intoxication
+                    Player.animate(fightlost)
+                    "But I was no match for this guy"
+                    Raped = true
+                Else
+                    Raped = false
+                    Actor2.hide()
+                    "I managed to win the fight and the sex offender ran away."
+                Endif
+            Endif
+            
+            If Raped
+                TalkNonConsensual()
+                Filter(Aggressive)
+                Sex(Actor2, Actor)
+            Endif   
+        Elseif Random(0, 100) < 33
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+            
+            "The delivery boy shows up with the pizza." 
+            "He is surprised to see my nude <Actor.boyfriend_or_girlfriend>." 
+            "He somehow notices me hiding behind cover filming and straight up asks if he can watch the <Actor.name> masturbate."
+            0:: "Yes"
+            1:: "How about a threesome instead"
+            
+            If 0
+                Filter(Solo)
+                Sex(Actor)
+            Else
+                Sex(Actor2, Actor, Player)
+            Endif
+        Else
+            "The delivery person turned out to be a middle-aged woman, who wasn't too amused by our whole dare and simply delivered the pizza and got out of there quick."
+        Endif
+    Else
+        Actor:: "No, I’m not feeling up for that kind of thing."
+    Endif
+    SceneEnd()
+    timeout(120, sr_fso_door_dare_cms)

@@ -1,0 +1,74 @@
+WHAT: all
+WHERE: work
+WHEN: 14 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Boss); If !Actor.isMale() && Actor.isColleague() && Actor2.isMale()
+OTHER: Player.isMale() && Random(50, 100) < perversion && isTimingOut(sr_fso_work_dare1_cms) && isModEnabled(vin_NTR)
+
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    
+    Actor2.dress()
+    Actor2.show()
+    Flash = Actor.getActorVar(tag_sr_fso_work_flash)
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> works in the same office as me."
+    If Flash >= 1
+        Player.moveToPersonStand(Actor, 100)
+        "While you are working you decide to make a stop at your <Actor.boyfriend_or_girlfriend>’s desk."
+        Player:: "Hey sweetie. How is work going?" 
+        Actor:: "Pretty much the same as usual. Nothing exciting, but nothing bad at least."
+        Player: "Want to take a break with me?" 
+        Actor:: "Sure."
+        
+        Player.moveToPersonStand(Actor2, 100)
+        Actor.moveToPersonStand(Actor2, 100)
+        "<Actor.name> and I went to the boss's desk."
+        0:: "Give your <Actor.boyfriend_or_girlfriend> a dare."
+        1:: "Let the boss give the dare."
+        
+        If 0
+            "I dare <Actor.name> to pose for nude pictures there in the office."
+            Actor.strip()
+            Player.animate(camera)
+            "We sneak around taking some nudes throughout the office using the boss’s and my phones."
+        Else
+            "The boss gave her a dare, he told my <Actor.boyfriend_or_girlfriend> to give a stripdance and then masturbate right there on the table in front of him."
+            Actor.animate(dance)
+            count = 0
+            While !Actor.isNaked() && count < 5
+                Actor.stripOne()
+                count += 1
+                "Off this goes ..."
+            Endwhile
+            
+            "Finally ..."
+            Filter(Solo)
+            Sex(Actor)
+        Endif
+
+        "The boss says that watching and taking pictures of that got him turned on and he wants to finger your <Actor.boyfriend_or_girlfriend>."
+        0:: "Sure"
+        1:: "No"
+        
+        If 0
+            Filter(FingerPussy)
+            Sex(Actor2, Actor)
+            Actor2:rapportwithplayer += 3
+            jobperformance += 5
+            Actor2:perversion += 1
+            Actor:perversion += 1
+            perversion += 1
+        Else
+            Player:: "No it was just a show this time"
+            Actor2:rapportwithplayer -= 3
+            jobperformance -= 3
+            Actor:attractiontoplayer += 3
+        Endif
+    Else
+        "This is certainly a morale booster, having someone so dear near me for the whole work day."
+        "As a result, my stress level reduces ..."
+        mood += 10
+    Endif
+    SceneEnd()
+    timeout(100, sr_fso_work_dare2_cms)

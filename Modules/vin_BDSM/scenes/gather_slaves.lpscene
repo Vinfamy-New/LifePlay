@@ -1,0 +1,20 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "I have decided to gather all the slaves in my harem together. They have all accepted me as their <Player.Master_or_Mistress>."
+    Actor = getPerson(tag_Slave)
+    While Actor.isValid()
+        Actor.show()
+        Actor.dressBondage(Collar)
+        Actor.addToPeopleHere()
+        Actor:: "Please use me as your slave, my <Player.Master_or_Mistress>."
+        Backup = Actor
+        Actor = getPerson(tag_Slave)
+    Endwhile
+    "All my obedient slaves are here now. They'll let me do anything I want with them."
+    "(Click on a slave and select 'Use my slave')"
+    SceneEnd()

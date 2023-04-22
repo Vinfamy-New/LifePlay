@@ -1,0 +1,238 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getRelatedPeople(Dating); If !Actor0.isDating() && !Actor1.isDating() && [[Actor0.isSameGender(Player) && Actor0.isContactExchanged()] || [Actor1.isSameGender(Player) && Actor1.isContactExchanged()]]
+OTHER:
+
+    // A friend or relative of yours who's the same gender as you and currently in a relationship with someone else is about to get married and entrusts you with planning their bachelor(ette) party. You get to invite the guests (all needs to be same gender as you of course) and decide whether to get strippers or past lovers (and how many) for 'entertainment'. Depending how 'entertained' the future bride/ groom end up being that night, the marriage may or may not go ahead of course.
+    
+    SceneStart()
+    If Actor0.isSameGender(Player)
+        Actor = Actor0
+        Spouse = Actor1
+    Else
+        Actor = Actor1
+        Spouse = Actor0
+    Endif
+    secondScreen(Actor)
+    Actor.show()
+    If Actor.isRelative()
+        "My <Actor.relationship> <Actor.name> has been dating <Actor.his_or_her> <Spouse.boyfriend_or_girlfriend> <Spouse.name> for a while now and they just got engaged. <Actor.He_or_She> is entrusting me with planning a <Actor.bachelor_or_bachelorette> party before the wedding."
+    Else
+        "<Actor.name> has been dating <Actor.his_or_her> <Spouse.boyfriend_or_girlfriend> <Spouse.name> for a while now and they just got engaged. <Actor.He_or_She> is entrusting me with planning a <Actor.bachelor_or_bachelorette> party before the wedding."
+    Endif
+    secondScreen()
+    "Should I agree to plan this party for <Actor.name>?"
+    0:: "Yes"
+    1:: "Not for now"
+    
+    If 0
+        "I decided to take this responsibility seriously." 
+        "First, I need to decide which other guests to invite. Of course, it's a <Actor.bachelor_or_bachelorette> party after all so only our <Actor.male_or_female> friends should be invited as the main guests."
+        "Who is the first guest to invite?"
+        selectNpc()
+        Actor2 = getSelectedNpc()
+        
+        If Actor2.isValid() && Actor2.isSameGender(Player)
+            "I invited our mutual friend <Actor2.name>"
+        Else
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2:age => Actor:age + Random(-5, 5)
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            "I couldn't think of anyone so <Actor.name> suggested one of <Actor.his_or_her> own friends I haven't met before, called <Actor2.name>." 
+        Endif
+        
+        "Who is the second guest to invite?"
+        selectNpc()
+        Actor3 = getSelectedNpc()
+        
+        If Actor3.isValid() && Actor3.isSameGender(Player)
+            "I invited our mutual friend <Actor3.name>"
+        Else
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Actor)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3:age => Actor:age + Random(-5, 5)
+            Actor3.randomizeFace()
+            Actor3.randomizeHairs()
+            "I couldn't think of anyone so <Actor.name> suggested one of <Actor.his_or_her> own friends I haven't met before, called <Actor3.name>." 
+        Endif
+        "Now the most important question is whether this is going to be a boring <Actor.bachelor_or_bachelorette> party where our <Actor.groom_or_bride>-to-be remains faithful to their fiance or a wild one where <Actor.he_or_she> is peer pressured by <Actor.his_or_her> friends to have one last fling before the wedding."
+        0:: "Just a night out with friends should be fine"
+        1:: "Plan a naughty surprise"
+        
+        If 0
+            setBackground(fraternity)
+            Actor.dress()
+            Actor.show()
+            Actor2.dress()
+            Actor2.show()
+            Actor3.dress()
+            Actor3.show()
+            "I made sure it was an enjoyable night for all of us, nice food, nice drinks, nice music, nice company, but I allowed nothing out of the ordinary to happen."
+            "Still we ended up having lots of fun and the rapport among the guests all improve."
+            Actor:rapportwithplayer += 5
+            Actor2:rapportwithplayer += 5
+            Actor3:rapportwithplayer += 5
+            "The <Spouse.groom_or_bride> found out about how non-controversial the party was and thanked me out of our relief."
+            Spouse:rapportwithplayer += 10
+            "With nothing unfaithful committed during the party, the wedding went ahead. <Actor.name> and <Spouse.name> got married."
+            removeNpcRelationship(Actor0, Actor1)
+            addNpcRelationship(Spouses, Actor0, Actor1)
+        Else
+            "What kind of special 'entertainment' do I have in mind?"
+            0:: "Get a <Player.girl_or_guy> for each of us to fuck"
+            1:: "Get only one <Player.girl_or_guy> for us to share"
+            
+            If 0
+                "Who is the lucky <Player.girls_or_guys> to invite as entertainment for the whole group? Must be people I've had a sexual encounter with before. If I can't pick someone appropriate, a stripper will have to do."
+                
+                "Who is the first 'entertainer' to invite?"
+                selectNpc()
+                Fuck = getSelectedNpc()
+                
+                If Fuck.isValid() && Fuck.isSameGender(Player)
+                    "I invited one of my favorite lovers <Fuck.name>"
+                Else
+                    Fuck = generatePersonTemporary()
+                    While Fuck.isSameGender(Actor)
+                        Fuck = generatePersonTemporary()
+                    Endwhile
+                    Fuck:age => Actor:age + Random(-5, 5)
+                    Fuck.randomizeFace()
+                    Fuck.randomizeHairs()
+                    "I couldn't think of anyone so I hired a stripper, called <Fuck.name>." 
+                Endif
+
+                "Who is the second 'entertainer' to invite?"
+                selectNpc()
+                Fuck2 = getSelectedNpc()
+                
+                If Fuck2.isValid() && Fuck2.isSameGender(Player)
+                    "I invited one of my favorite lovers <Fuck2.name>"
+                Else
+                    Fuck2 = generatePersonTemporary()
+                    While Fuck2.isSameGender(Actor)
+                        Fuck2 = generatePersonTemporary()
+                    Endwhile
+                    Fuck2:age => Actor:age + Random(-5, 5)
+                    Fuck2.randomizeFace()
+                    Fuck2.randomizeHairs()
+                    "I couldn't think of anyone so I hired a stripper, called <Fuck2.name>." 
+                Endif
+
+                "Who is the third 'entertainer' to invite?"
+                selectNpc()
+                Fuck3 = getSelectedNpc()
+                
+                If Fuck3.isValid() && Fuck3.isSameGender(Player)
+                    "I invited one of my favorite lovers <Fuck3.name>"
+                Else
+                    Fuck3 = generatePersonTemporary()
+                    While Fuck3.isSameGender(Actor)
+                        Fuck3 = generatePersonTemporary()
+                    Endwhile
+                    Fuck3:age => Actor:age + Random(-5, 5)
+                    Fuck3.randomizeFace()
+                    Fuck3.randomizeHairs()
+                    "I couldn't think of anyone so I hired a stripper, called <Fuck3.name>." 
+                Endif
+
+                "Who is the fourth 'entertainer' to invite?"
+                selectNpc()
+                Fuck4 = getSelectedNpc()
+                
+                If Fuck4.isValid() && Fuck4.isSameGender(Player)
+                    "I invited one of my favorite lovers <Fuck4.name>"
+                Else
+                    Fuck4 = generatePersonTemporary()
+                    While Fuck4.isSameGender(Actor)
+                        Fuck4 = generatePersonTemporary()
+                    Endwhile
+                    Fuck4:age => Actor:age + Random(-5, 5)
+                    Fuck4.randomizeFace()
+                    Fuck4.randomizeHairs()
+                    "I couldn't think of anyone so I hired a stripper, called <Fuck4.name>." 
+                Endif
+
+                setBackground(fraternity)
+                Actor.dress()
+                Actor.show()
+                Actor2.dress()
+                Actor2.show()
+                Actor3.dress()
+                Actor3.show()
+                "I made sure it was an enjoyable night for all of us, nice food, nice drinks, nice music, nice company."
+                Fuck.show()
+                Fuck2.show()
+                Fuck3.show()
+                Fuck4.show()
+                "Of course, when the time came, I unveiled the surprise entertainment for the night, four naked and eager <Fuck.men_or_girls>"
+                "The other guests were on board right away but our <Actor.groom_or_bride>-to-be as reluctant at first. Still, in the end, peer pressure got to <Actor.him_or_her> and <Actor.he_or_she> decided to fuck one of them while we enjoyed the rest."
+                Sex(Fuck, Player)
+                Sex(Fuck2, Actor2)
+                Sex(Fuck3, Actor3)
+                Sex(Fuck4, Actor)
+                
+                "Of course, I wasn't satisfied and wanted <Actor.name> to be the center of attention for night. To end the party, I signaled for the rest of <Fuck.guys_or_girls> to come join <Actor.him_or_her> and pleasure our <Actor.groom_or_bride>-to-be together."
+                Sex(Actor, Fuck, Fuck2, Fuck3, Fuck4)
+            Else
+                "Who is the lucky <Player.girl_or_guy> to invite as entertainment for the whole group? Must be someone I've had a sexual encounter with before. If I can't pick someone appropriate, a stripper will have to do."
+                selectNpc()
+                Fuck = getSelectedNpc()
+                
+                If Fuck.isValid() && Fuck.isSameGender(Player)
+                    "I invited one of my favorite lovers <Fuck.name>"
+                Else
+                    Fuck = generatePersonTemporary()
+                    While Fuck.isSameGender(Actor)
+                        Fuck = generatePersonTemporary()
+                    Endwhile
+                    Fuck:age => Actor:age + Random(-5, 5)
+                    Fuck.randomizeFace()
+                    Fuck.randomizeHairs()
+                    "I couldn't think of anyone so I hired a stripper, called <Fuck.name>." 
+                Endif
+
+                setBackground(fraternity)
+                Actor.dress()
+                Actor.show()
+                Actor2.dress()
+                Actor2.show()
+                Actor3.dress()
+                Actor3.show()
+                "I made sure it was an enjoyable night for all of us, nice food, nice drinks, nice music, nice company."
+                Fuck.show()
+                "Of course, when the time came, I unveiled the surprise entertainment for the night, a naked and eager <Fuck.name>"
+                "The other guests were on board right away but our <Actor.groom_or_bride>-to-be as reluctant at first. Still, in the end, peer pressure got to <Actor.him_or_her> and <Actor.he_or_she> decided to share <Fuck.name> with all of us."
+                Sex(Fuck, Actor, Actor2, Actor3, Player)
+            Endif
+            
+            If Random(0, 100) < Spouse:intelligence
+                Spouse.dress()
+                Spouse.show()
+                "Unfortunately, feeling uneasy, <Actor.name>'s fiance paid us a surprise visit to check that we weren't doing anything wild and caught us in the act ..."
+                "The engagement was cancelled and <Actor.name> is single once more ..."
+                removeNpcRelationship(Actor0, Actor1)
+            Else
+                secondScreen(Spouse)
+                Spouse.show()
+                "The poor <Spouse.groom_or_bride> trusted <Actor.name> completely and assumed we just had a nice friendly get-together."
+                secondScreen()
+                "With memory of that wild party kept a secret, the wedding went ahead. <Actor.name> and <Spouse.name> got married."
+                removeNpcRelationship(Actor0, Actor1)
+                addNpcRelationship(Spouses, Actor0, Actor1)            
+            Endif
+        Endif
+    Else
+        "I argued that there was still plenty of time before the wedding for such a party. No need to plan it now." 
+    Endif
+        
+    
+    SceneEnd()
+    timeout(500, friend_bachelor_party)

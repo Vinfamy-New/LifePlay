@@ -1,0 +1,34 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 8 - 21 
+WHO: Actor = getCompanion(); If Actor.isDating() && [Actor:perversion > 70 || OpenRelationship()]
+OTHER: isModEnabled(vin_NTR)
+
+    SceneStart()
+    "I was on a date with <Actor.name> when we were approached by a man in suit offering us a crazy deal ..."
+    "He offered us a free vacation to this famous beach resort for ultra-rich individuals that even in our wildest dreams, we could never afford."
+    "Plus tons of cash too, if my <Actor.boyfriend_or_girlfriend> would sleep with some of his VIP clients on some of the nights ..."
+    "<Actor.name> seems open to the offer ..."
+    0:: "Let's go"
+    1:: "No way"
+    
+    If 0
+        "Soon enough, we were on a plane to paradise ..."
+        money += 5000
+        setBackground(hotel)
+        "Wow, this resort looks magnificent. But we're not here strictly on a vacation of course ... my <Actor.boyfriend_or_girlfriend> has some people to meet and some work to do ..."
+        setBackground(home)
+        dressFormal()
+        count = 0
+        While count < 3
+            "Here's a VIP guest that <Actor.name> has been arranged to meet ..."
+            Actor2 = generatePersonTemporary()
+            Actor2.makeInterested(Actor)
+            Actor2.dress()
+            "They get it on right away"
+            Sex(Actor2, Actor)
+            count += 1
+        Endwhile
+    Endif
+    SceneEnd()
+    timeout(2000, pimp_abroad)

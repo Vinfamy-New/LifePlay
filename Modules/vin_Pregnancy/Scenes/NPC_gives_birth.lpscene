@@ -1,0 +1,299 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Impregnated); If Actor.isValid()
+OTHER: none
+
+    If !Actor.isMale()
+        SceneStart()
+        If Player.isMale() || Player.isTrans()
+            Actor3 = Actor.getRelatedPerson(Spouses, Dating)
+            If Actor3.isValid() && !Actor.isDating()
+                secondScreen(Actor)
+                BioDaddy = Actor.getBabyDaddy()
+                Actor.endPregnancy()
+                Actor.dress()
+                Actor.show(2)
+                Actor.setActorVar(tag_Pregnant, 0)
+                Actor2 = Actor.generatePersonMatchRace()
+                Actor2:age => 18
+                Actor2.randomizeFace()
+                Actor2.randomizeHairs()
+
+                If BioDaddy.isValid() && !BioDaddy.isCreature()
+                    Actor2.blendAppearanceFrom(BioDaddy, Actor)
+                Endif
+                addNpcRelationship(ParentChild, Actor, Actor2)
+                addNpcRelationship(ParentChild, Actor3, Actor2)
+                Actor2.matchLastName(Actor3)
+                "<Actor.name> has recently given birth to a cute baby, whom she named <Actor2.name>. Her baby photos are all her and <Actor3.name>'s Facebook."
+                If isModEnabled(vin_Netori)
+                    Actor3 = Actor.getRelatedPerson(Spouses, Dating)
+                    If Actor3.isValid() && Actor3.isMale()
+                        secondScreen(Actor3)
+                        Actor3.show()
+                        setBackgroundCustom(livingroom)
+                        "Of course, by fucking and impregnating <Actor.name> in the first place, I have cucked <Actor.his_or_her> <Actor3.boyfriend_or_girlfriend> <Actor3.name>. Let's see if he ever finds out that the baby isn't his."
+                        Past = Actor3.getActorVar(tag_NTRCuck)
+                        If Past > 0
+                            "Of course, there's no reason at all to hide that baby is mine, since <Actor3.name> is a willing cuck and is the one who asks me to fuck his <Actor.boyfriend_or_girlfriend> in the first place. I'm sure the pathetic cuckold will be more than happy to bring up the lovechildren of his <Actor.boyfriend_or_girlfriend> and her favorite bull."
+                            "In fact, now that <Actor.name> has given birth, I probably should visit the couple soon and try to impregnate her again. It would be quite something to create a family full of my love-children."
+                        Elseif Random(0, 100) < Actor3:intelligence || !Actor3.isSameEthnic(Player)
+                            "Unfortunately, <Actor.name> must have been a terrible liar or the baby's physical features at birth had made it obvious that the baby wasn't <Actor3.name>'s."
+                            secondScreen()
+                            Actor3.dress()
+                            Actor3.show()
+                            "Soon, <Actor3.name> confronted me about the baby."
+                            If Actor3:masochist > 0
+                                Actor3.setActorVar(tag_NTRCuck, 1)
+                                "To my surprise, instead of getting angry, <Actor3.name> admitted knowing <Actor.name> had been having an affair for a while now and deliberately did nothing to stop it due to his own cuckold fantasies."
+                                "<Actor3.name> confessed feeling so turned on by the thought of his <Actor.boyfriend_or_girlfriend> enjoying sex with another man so much that she threw away all precautions and let him creampie her so many times that she eventually got pregnant."
+                                "And it's a fantasy come true for <Actor3.name> to raise a bull's lovechild with his <Actor.boyfriend_or_girlfriend>. What a cuck!"
+                                "In fact, <Actor3.name> begged me to continue the affair with <Actor.name> and try to impregnate her many more times. <Actor3.He_or_She> would love nothing more but to watch."
+                                0:: "Try to impregnate <Actor.name> again, while <Actor3.name> watches this time"
+                                1:: "Refuse"
+                                
+                                If 0
+                                    Actor.dress()
+                                    Actor.show()
+                                    "Soon enough, as soon as <Actor.name> becomes fertile again, I have another secret rendezvous with her. Only this time, it isn't so secret, as <Actor3.name> was kind enough to arrange the whole thing and is even there to watch the whole thing."
+                                    Sex(Player, Actor)
+                                    If !Actor.isPregnant()
+                                        Actor.impregnate(Player)
+                                    Endif
+                                Else
+                                    "Must be a trap to collect evidence for a divorce or child support lawsuit. No man is that pathetic ..."
+                                Endif
+                            Else
+                                Actor3:rapportwithplayer -= 50
+                                Dating = getSpecific(Dating)
+                                "<Actor3.name> has already found out and forgiven <Actor.name>. He agreed to accept the innocent child as his. However, he doesn't let me off the hook easily and demand I pay him a lump sum now as a sort of unofficial child support."
+                                0:: "Pay up"
+                                1:: Dating.isValid() && Actor3.isInterestedIn(Dating):: "You can fuck my <Dating.boyfriend_or_girlfriend> <Daing.name> as payback"
+                                2:: "Refuse"
+                                
+                                If 0
+                                    Player:: "Fine ... rather some cash now than a lifetime of child support ..."
+                                    money -= 2000
+                                    karma += 10
+                                Elseif 1
+                                    Actor3:: "Well ... that's certainly an interesting way to make it even between the two of us. It helps with my ego too. Fine."
+                                    Dating.dress()
+                                    Dating.show()
+                                    Dating:attractiontoplayer -= 10
+                                    "I didn't tell <Dating.name> the full story of course, just bullshitting about some debt I owed to <Actor3.name> but got <Dating.him_or_her> drunk enough to go along with sleeping with him."
+                                    Sex(Actor3, Dating)
+                                    "That wasn't really enjoyable to taste your own poison ... Or was it?"
+                                    masochist += 2
+                                Else
+                                    karma -= 25
+                                    masochist -= 2
+                                    "I flatly refused. After all, the guy seems too cowardly to really do anything about it."
+                                    "And what is he going to do anyway? Sue me for child support and let the whole world known he got cucked and is taking care of his <Actor.boyfriend_or_girlfriend>'s lovechild with another man?"
+                                Endif
+                            Endif
+                        Else
+                            "Thankfully, <Actor3.name> never confronted me about the baby."
+                            "Maybe <Actor.name> managed to convince her <Actor3.boyfriend_or_girlfriend> that the baby is his. Either that or he decides to forgive her and take responsibility of an innocent child."
+                            "Or, maybe deep inside, <Actor.name> is a bit of a cuckold who enjoys finding out his <Actor.boyfriend_or_girlfriend> got impregnated by another man. <Actor.He_or_She> just isn't willing to admit it yet."
+                        Endif
+                    Endif
+                Else
+                    "Of course, there's a secret only <Actor.name> and I know: Baby <Actor2.name> isn't really <Actor3.name>'s biological child after all. I was the real baby daddy! Of course, <Actor3.name> has no idea and will now unwittingly raise another's child as <Actor3.his_or_her> own."                    
+                Endif
+            Else
+                setBackground(home)
+                Actor.dress()
+                Actor.show(2)
+                Actor.setActorVar(tag_Pregnant, 0)
+                "<Actor.name> is going into labour. I need to take her to the hospital ..."
+                0:: "Take <Actor.name> to a hospital"
+                1:: "I want nothing to do with this baby!"
+                
+                If Actor.isValid()
+                    If 0
+                        Ahead = true
+                        Cucked = false
+                        Loc = findNearbyBuilding(hospital)
+                        moveTo(Loc)        
+                        Actor.strip()
+                        BioDaddy = Actor.getBabyDaddy()
+                        Actor.endPregnancy()
+                        "Those were among the tensest hours in my life, but thankfully, everything went smoothly in the end. Both <Actor.name> and our child were in good condition. Nothing beats the feeling of being a new father."
+                        Surrogate = Actor.getActorVar(tag_Surrogate)
+                        If Surrogate == 1
+                            "Of course, all the credits should go to <Actor.name>, the surrogate mother. I must have been difficult for her to give away the baby she's just given birth to."
+                        Elseif BioDaddy.isCreature()
+                            Ahead = false
+                            If BioDaddy.isCreatureType(Dog)
+                                Actor = generateCreatureTemporary(Dog)
+                                Actor:age => 0
+                                "To the shock of all the doctors, <Actor.name> somehow gave birth to a puppy. There's no doubt that <Actor.name> must have had sex with a dog for this to happen."
+                            Else    
+                                Actor = generateCreatureTemporary(Horse)
+                                Actor:age => 0
+                                "To the shock of all the doctors, <Actor.name> somehow gave birth to a foal. There's no doubt that <Actor.name> must have had sex with a horse for this to happen."  
+                            Endif
+                                "Should I be magnanimous and adopt <Actor.him_or_her> as a pet anyway?"
+                                0:: "Yes"
+                                1:: "No"
+                                
+                                If 0
+                                    Actor.makePermanent()
+                                    If BioDaddy.isCreatureType(Dog)
+                                        "It's a <Actor.male_or_female> foal! What should I name my horse <Actor.son_or_daughter>?"
+                                        Actor.enterFirstName()
+                                    Else
+                                        "It's a <Actor.male_or_female> puppy! What should I name my dog <Actor.son_or_daughter>?"
+                                        Actor.enterFirstName()
+                                    Endif
+                                Endif
+                        Elseif !BioDaddy.isCreature() && BioDaddy.isValid() && !BioDaddy.isSameEthnic(Player) && !BioDaddy.isSameAs(Player)
+                            "However, my happiness soon turned sour as I had my first look at the newborn."
+                            Cucked = true
+                            "The skin tone of the child clearly showed that the baby isn't mine."
+                            0:: "Forgive <Actor.name> and accept the child as mine"
+                            1:: "Dump <Actor.name> right there and then"
+                            
+                            If 0
+                                "Deep inside, I knew already that the baby wasn't mine, but I have accepted it."
+                                karma += 20
+                                Actor:attractiontoplayer += 20
+                            Else    
+                                Ahead = false
+                                "The baby is clearly not mine. I made that clear to <Actor.name>, who could no longer make any excuses."
+                                "I broke up with <Actor.name> right there and then and wanted nothing to do with this child."
+                                If Actor.isDating()
+                                    Actor.setDatingId()
+                                    loseDating()
+                                Endif
+                            Endif
+                        Elseif Actor.isRelative()
+                            "Of course, nobody else knows that I'm the father. <Actor.name> is my own <Actor.relationship> after all ... We agreed to keep it a secret and made up a story about a sperm donor to the rest of the family and society."
+                            "We did something forbidden and extremely risky that led to this baby. Yet by some miracle, the baby turned out to be healthy both physically and mentally." 
+                        Elseif Actor.isExRelative()
+                            "<Actor.name> and I are related after all so I would be lying if I said I wasn't concerned. Thankfully, the baby turned out to be healthy both physically and mentally. Maybe God changes his mind about incest?"       
+                        Endif
+                        If Surrogate == 0 && !Actor.isDating() && !Actor.isRelative()
+                            "However, the fact that I impregnated someone I'm not in a committed relationship with could potentially leave the child growing up without a steady family unit. Maybe I should settle down with <Actor.name> for the sake of the baby."
+                            karma -= 5
+                        Endif
+                        
+                        If Ahead
+                            Actor2 = Actor.generateRelativeMatchRace()
+                            Actor2:age => 0
+                            Actor2.randomizeFace()
+                            Actor2.randomizeHairs()
+
+                            If BioDaddy.isValid() && !BioDaddy.isCreature()
+                                Actor2.blendAppearanceFrom(BioDaddy, Actor)
+                            Endif
+                            Actor2.setRelativeType(Child)
+                            AddNpcRelationship(ParentChild, Actor, Actor2)
+                            "It's a <Actor2.boy_or_girl>! What should I name my <Actor2.son_or_daughter>?"
+                            Actor2.enterFirstName()
+                            children += 1
+                            
+                            If Random(0, 200) < Actor:fertility || [Random(0, 50) < Actor:fertility && [Actor.isRace(Orc) || BioDaddy.isRace(Orc)]]
+                                Actor5 = Actor.generateRelativeMatchRace()
+                                Actor5:age => 0
+                                Actor5.randomizeFace()
+                                Actor5.randomizeHairs()
+
+                                If BioDaddy.isValid() && !BioDaddy.isCreature()
+                                    Actor5.blendAppearanceFrom(BioDaddy, Actor)
+                                Endif
+                                Actor5.setRelativeType(Child)
+                                AddNpcRelationship(ParentChild, Actor, Actor5)
+                                "It's a <Actor5.boy_or_girl>! What should I name my <Actor5.son_or_daughter>?"
+                                Actor5.enterFirstName()
+                                children += 1
+                                If Random(0, 200) < Actor:fertility || [Random(0, 100) < Actor:fertility && [Actor.isRace(Orc) || BioDaddy.isRace(Orc)]]
+                                    Actor6 = Actor.generateRelativeMatchRace()
+                                    Actor6:age => 0
+                                    Actor6.randomizeFace()
+                                    Actor6.randomizeHairs()
+
+                                    If BioDaddy.isValid() && !BioDaddy.isCreature()
+                                        Actor6.blendAppearanceFrom(BioDaddy, Actor)
+                                    Endif
+                                    Actor6.setRelativeType(Child)
+                                    AddNpcRelationship(ParentChild, Actor, Actor6)
+                                    "It's a <Actor6.boy_or_girl>! What should I name my <Actor6.son_or_daughter>?"
+                                    Actor6.enterFirstName()
+                                    children += 1
+                                Endif        
+                            Endif
+                            
+                            mood += 100
+                        Endif
+                        
+                        If Cucked
+                            // a scene where you randomly find out the baby your wife/you have is a different race from your partner, and you go find/confront or go after the guy who did it based off clues. can choose to get revenge, blackmail him, or something else (prolly ntr)
+                            
+                            "Should I confront <Actor.name>'s baby daddy about this though?"
+                            0:: "Yes"
+                            1:: "No"
+                            
+                            If 0
+                                secondScreen(BioDaddy)
+                                BioDaddy.show()
+                                "After some detective work, I became certain that the baby daddy is called <BioDaddy.name>. I also found out where he lived."
+                                setBackgroundCustom(livingroom)
+                                secondScreen()
+                                If isModEnabled(vin_NTR) && Random(50, 200) < masochist + Actor:perversion                                   
+                                    "As soon as I stormed into his apartment, I was confronted by a shocking view: <Actor.name> was there as well ... continuing their affair ..."
+                                    Sex(BioDaddy, Actor)
+                                Else
+                                    BioDaddy.dress()
+                                    BioDaddy.show()
+                                    Actor6 = BioDaddy.getRelatedPerson(Spouses, Dating)
+                                    BioDaddy:: "What do you want?"
+                                    0:: "Blackmail him for money"
+                                    1:: Actor6.isValid():: "Blackmail him for sex with his <Actor6.boyfriend_or_girlfriend> <Actor6.name>"
+                                    2:: "Chicken out ..."
+                                    
+                                    If 0
+                                        BioDaddy:: "Fine ... rather some cash now than a lifetime of child support ..."
+                                        money += 2000
+                                    Elseif 1
+                                        BioDaddy:: "Fine ... you just wanted to make it even, didn't you? I'll make sure <Actor6.name> drinks too much this date night and let you in."
+                                        setBackground(home)
+                                        Actor6.show()
+                                        Sex(Player, Actor6)
+                                    Else
+                                        "Having made my way all the way there, I lost the courage to confront the man and simply went home humiliated."
+                                    Endif   
+                                Endif
+                            Endif
+                        Endif
+                    Else
+                        Actor.endPregnancy()
+                        "I didn't bother to take <Actor.name> to the hospital, nor even acknowledge this baby as mine. As far as I'm concerned, it's her business to raise the child. If she cannot, she can just put him up for adoption."
+                        "Obviously, my denial of any responsibility regarding the child greatly upset <Actor.name> and her family. Thankfully, they stopped short of suing me for child support. I got away with it basically."
+                        Actor:attractiontoplayer -= 50
+                        Actor:rapportwithplayer -= 50
+                        If Actor.isDating()
+                            Actor.setDatingId()
+                            loseDating()
+                            "Needless to say though, <Actor.name> promptly broke up with me ..."
+                        Endif
+                    Endif
+                Endif
+            Endif
+        Else
+            secondScreen(Actor)
+            Actor.endPregnancy()
+            Actor.dress()
+            Actor.show(2)
+            Actor.setActorVar(tag_Pregnant, 0)
+            Actor2 = Actor.generatePersonMatchRace()
+            Actor2:age => 18
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            addNpcRelationship(ParentChild, Actor, Actor2)
+            Actor2.matchLastName(Actor)
+            "<Actor.name> has recently given birth to a cute baby, whom she named <Actor2.name>. Her baby photos are all over Facebook."      
+        Endif
+        SceneEnd()
+    Endif

@@ -1,0 +1,17 @@
+sexAtPoint(x, y, z, angle)
+
+USE:
+Let the following sex scene happen at a specific position and not at a randomly choosen one.
+
+TYPE: Command, non-Ref
+RETURNS: /
+THEME: Sex
+COMPARE: sex()
+
+EXAMPLE:
+	Player.show(100,20,0)   // Move player in front of bed
+    cameraFocus(Player)
+    Player(Flirty)::"Come to me honey..."
+	Girlfriend.show(110,30,0)   // Move actor next to player
+    sexAtPoint( 150, 50, 200 )  // Let the sex scene take place on the bed
+	Sex(Player, Girlfriend)

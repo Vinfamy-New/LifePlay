@@ -1,0 +1,132 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Using a dating app is a good way to meet new potential lovers, friends with benefits and one-night stands"
+    If isModEnabled(vin_Incest) && Random(0, 100) < 33
+        followUp(incest_dating_app)
+    Else
+        // When using a dating app (the standard one, not the interracial or old-young one) with the Poly module enabled, you can look for other poly couples to swing with instead
+        
+        If isModEnabled(vin_Polyamorous) && openRelationship()
+            Actor3 = getSpecific(Dating)
+            If Actor3.isValid()
+                "Am I simply looking for someone to date or another open-minded couple to swing with?"
+                0:: "Another polyamorous couple"
+                1:: "Just a normal date for me"
+                
+                If 0
+                    Normal = false
+                    setBackgroundCustom(livingroom)
+                    Actor3.dress()
+                    Actor3.show()
+                    "My <Actor3.boyfriend_or_girlfriend> is particularly excited by the idea of inviting another polyamourous couple over to have some fun with."
+
+                    "After some time swiping right on those couples we like, we finally got a match."
+                    Actor = generatePersonTemporary()
+                    While !Player.isSameGender(Actor)
+                        Actor = generatePersonTemporary()
+                    Endwhile
+                    Actor.makeInterested(Actor3)
+                    Actor.dress()
+                    Actor.show()
+                    "The couple introduced themselves as <Actor.name> ..."
+                    
+                    Actor2 = generatePersonTemporary()
+                    While !Actor3.isSameGender(Actor2)
+                        Actor2 = generatePersonTemporary()
+                    Endwhile
+                    Actor2.makeInterested(Player)
+                    Actor2.dress()
+                    Actor2.show()                    
+                    "And <Actor2.name>."
+                    "Should we invite this couple over to have fun with?"
+                    0:: "Invite <Actor.name> and <Actor2.name> over"
+                    1:: "Turn them down"
+                    
+                    If 0
+                        "We invited the couple over. We had drinks, chat and share our own experience about the polyamorous lifestyle."
+                        "Of course, none of us were simply there to chit chat and soon things got heated. <Actor2.name> and I started."
+                        Sex(Player, Actor2)
+                        "Then it was my <Actor3.boyfriend_or_girlfriend> with <Actor.name>."
+                        "That was a fun night. Maybe we should exchange numbers with the couple for more fun in the future?"
+                        0:: "Keep in touch"
+                        1:: "One night is enough"
+                        
+                        If 0
+                            Actor:perversion += 50
+                            Actor2:perversion += 50
+                            Actor.makePermanent()
+                            Actor2.makePermanent()
+                            exchangeContact(Actor)
+                            exchangeContact(Actor2)
+                            If isPlayerMarried()
+                                addNpcRelationship(Spouses, Actor, Actor2)
+                            Else
+                                addNpcRelationship(Dating, Actor, Actor2)
+                            Endif
+                        Endif
+                    Endif
+                Else
+                    Normal = true
+                Endif
+            Else
+                Normal = true
+            Endif
+        Else
+            Normal = true
+        Endif
+        
+        If Normal
+            If PercentageOrcs + PercentageVampires + PercentageElves > 0
+                "Should I state a preference for a particular race?"
+                0:: "Orcs"
+                1:: "Vampires"
+                2:: "Elves"
+                3:: "No preference"
+                
+                "Alright, let's get swiping"
+            Else
+                choice = 3
+            Endif
+            
+            "After some time swiping right on those I like, I finally got a match."
+            Actor = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor)
+                Actor = generatePersonTemporary()
+            Endwhile
+            If choice == 0
+                Actor.blendPreset(Orc)
+            Elseif choice == 1
+                Actor.blendPreset(Vampire)
+            Elseif choice == 2
+                Actor.blendPreset(Elf)
+                Actor.randomizeRace()
+            Endif
+            Actor.dress()
+            secondScreen(Actor)
+            Actor.show()
+            "I was matched with <Actor.name>."
+            0:: "Arrange a date with <Actor.name>"
+            1:: "Turn <Actor.him_or_her> down"
+            
+            If 0
+                Actor.makeInterested(Player)
+                Actor.makePermanent()
+                exchangeContact(Actor)
+                secondScreen()
+                "Soon enough, we meet up for our first date."
+                Actor.startDate()
+                Actor.show()
+                "Hopefully it will be a good experience"
+                
+                If Actor:masochist < -66 && isModEnabled(vin_NonConsensual)
+                    followUp(vi_wanted)
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

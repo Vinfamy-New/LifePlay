@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: alcohol, art, bag, bakery, bank, beauty, beverages, bicycle, biergarten, bar, books, butcher, cafe, car, chemist, clothes, coffee, community_centre, computer, confectionery, convenience, copyshop, cosmestics, deli, dentist, department_store, doctor, doityourself, electronics, fast_food, florist, furniture, garden_centre, gift, greengrocer, hairdesser, hospital, ice_cream, jewellery, kitchen, laundry, library, marketplace, mobile_phone, motorcycle, musical_instrument, newsagent, nightclub, optician, outdoor, pet, pharmacy, photo, post_office, pub, restaurant, seafood, shoes, sports, sports_centre, stationery, supermarket, tea, tobacco, toys, travel_agency, variety_store, veterinary
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.hadSex() && [Actor:perversion > 60 && [arousal > 60 && perversion > 40]]
+OTHER: none
+
+    // During a date with someone you've slept with before at a public establishment like a restaurant, beauty salon or bank, if you have high arousal and at least average perversion, you could suddenly have urges and suggest to your date to do it right there. Alternatively, if your date has high perversion, they may suggest this instead. An employee of the establishment or another customer then may offer to join you.
+
+    SceneStart()
+    Fucking = false
+    If Actor:perversion > 60
+        "I'm on a date with <Actor.name>, whose body I'm no stranger with. <Actor.He_or_She> seems particularly restless today, probably fully expecting our date to have a happy ending tonight."
+        Actor:: "Damn in, I can't help but think about all the fun we had before in the past even while we're in public."
+        Actor:: "I'm so horny and honestly, I wish I could just rip <Actor.his_or_her> clothes off and take <Actor.him_or_her> right now ... or maybe can we?"
+        0:: "Fuck <Actor.name> right here and now"
+        1:: "Calm <Actor.him_or_her> down"
+        
+        If 0
+            Player:: "You know what ... I've been thinking the same thing ... Screw the consequences, I want you right here right now."
+        Else
+            Player:: "I promise we'll have some fun later in private. No need to rush it and do something so crazy in public."
+        Endif    
+    Else
+        "I'm on a date with <Actor.name>, whose body I'm no stranger with. I can't help but think about all the fun we had before in the past even while we're in public."
+        "I'm so horny and honestly, I wish I could just rip <Actor.his_or_her> clothes off and take <Actor.him_or_her> right now ... or maybe I can?"
+        0:: "Suggest to <Actor.name> that we fuck right here and now"
+        1:: "Calm myself down"
+        
+        If 0
+            If Random(0, 100) < Actor:perversion + Actor:attractiontoplayer
+                Fucking = true
+                Actor:: "You know what ... I've been thinking the same thing ... Screw the consequences, I want you right here right now."
+            Else
+                Actor:: "I want you too ... but not right here. We're surrounded by people. What if one of them calls the cops on us?"
+            Endif
+        Else
+            "This date will probably end up in bed anyway. No need to rush it and do something so crazy in public."
+        Endif
+    Endif
+    
+    If Fucking
+        Sex(Player, Actor)
+        
+        Actor2 = getPersonHere()
+        If Actor2.isValid()
+            Actor2.movetoPersonStand(Player, 50)
+            "While the rest of the people were too shocked by our brazen public act to say a word, an employee of the place we were at approached us ..."
+            Actor2.dressUniform()
+            Actor2.show()
+            Actor2:: "Damn that was so hot ... I could lose my job over this, but you two got me so horny as well. Can I join you?"
+        Else
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show()
+            Actor2.movetoPersonStand(Player, 50)
+            "While the rest of the people were too shocked by our brazen public act to say a word, another customer of the place we were at approached us ..." 
+            Actor2:: "Damn that was so hot ... They'd probably put me in the same blacklist that they surely would put you, but you two got me so horny as well. Can I join you?"
+        Endif
+        "Let <Actor2.him_or_her> join us?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Sex(Player, Actor2, Actor)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, public_business)

@@ -1,0 +1,44 @@
+WHAT: all
+WHERE: brothel, stripclub
+WHEN: 8 - 22
+WHO: none
+OTHER: !Player.isDating() || isModEnabled(vin_Polyamorous)
+
+    SceneStart()
+    "I know it's a bit of a common joke that lonely <Player.men_or_women> end up getting too attached to sex workers whose service they've used regularly. Some people even frown upon having any sort of deep conversations with your sex workers in the first place."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor:age => age + Random(-3, 3)
+    Actor:attractiveness => Random(66, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.dressUniform(sexwork)
+    Actor.show()
+    "Still I've been deep in conversation with one of my favorites, <Actor.name>, for the last hour or so. I can't help but feel there's attraction between us beyond sexual."
+    "What's more: I can't help but feel <Actor.he_or_she> deserves more than this and is only forced into the sex industry by dire financial situation."
+    "Am I ready to be <Actor.his_or_her> knight in shining armour though?"
+    0:: "Ask <Actor.name> to quit this place and become my <Actor.boyfriend_or_girlfriend>"
+    1:: "Give <Actor.name> some money to quit this place and start a new life"
+    2:: "Why would I do that?"
+    
+    If 0
+        "Delighted, <Actor.name> agreed right away. Her colleagues mocked <Actor.him_or_her> for running away with a former client and all bet that our relationship won't last and <Actor.name> will be back here working before long. Maybe they're just salty because how life treated them previously."
+        Actor.makePermanent()
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer += Random(20, 50)
+        exchangeContact(Actor)
+        Actor.setDating()
+        "As <Actor.his_or_her> new <Player.boyfriend_or_girlfriend>, I support <Actor.him_or_her> financially for a while before <Actor.he_or_she> could find a normal job."
+    Elseif 1
+        "Feeling charitable, I decided to give <Actor.him_or_her> some money to quit this place and survive for a few months while looking for a 'normal' job."
+        money  -= 1000
+        karma += 100
+        "<Actor.name> eventually managed to do so and is forever thankful to me for giving <Actor.him_or_her> another chance in life. Of course, we keep in touch."
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        Actor:rapportwithplayer => 100
+    Endif
+    SceneEnd()
+    timeout(500, chemistry_stripper)

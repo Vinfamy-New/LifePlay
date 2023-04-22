@@ -1,0 +1,24 @@
+GetPersonHere(optional bool permanent)
+
+USE: 
+Returns a person in the current building / location.
+
+If parameter 'bool permanent' is true only permanent actors will be returned.
+If its false only temporary NPCs will be returned.
+If its omitted all NPCs will be returned.
+The function will return an invalid Actor as soon as there are no more NPCs in the location.
+
+TYPE: Command, Reference
+RETURNS: Actor
+THEME: NPCs
+COMPARE: getSpecific(), getPerson(), clearGetList()
+EXAMPLE:
+    cnt = 0
+    While getPersonHere().isValid()
+        cnt += 1
+    EndWhile
+    
+    "There are <cnt> people in this building."
+    clearGetList()  // to be able to use the getPerson* calls again in this scene
+
+

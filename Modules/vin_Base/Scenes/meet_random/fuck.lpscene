@@ -1,0 +1,12 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart() 
+    "Sex"
+    Actor = getCreature()
+    Sex(Actor, Player)
+    "Done"
+    SceneEnd()

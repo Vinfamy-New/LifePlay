@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor2 = getSpecific(Dating); If !Actor2.isRace(Vampire)
+OTHER: Player.isRace(Vampire)
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor2.dress()
+    Actor2.show()
+    "I'm a vampire in a relationship with someone who's not, which sounds like every teenagers' dream but in the real world it does come with some potential risks."
+    "Someone's banging aggressively on the door. Looking through the peephole, it's someone carrying some scary weapons and artifacts. It's a vampire hunter ... a professional one at that."
+    0:: "Try to ambush the vampire hunter"
+    1:: "Hide and ask <Actor2.name> to answer the door instead"
+    
+    If 1
+        "Let's not be reckless and just hide."
+        "<Actor2.name> opened the door instead."
+        Actor = generatePersonTemporary()
+        Actor.dress()
+        Actor.show()
+        Actor:: "I sense a vampire here. Stop hiding and come out to face your death, creature!"        
+        If !isModEnabled(vin_NTR) || !Actor2.isInterestedIn(Actor) || Actor2:perversion < 60
+            "Thankfullly, <Actor2.name> managed to bullshit <Actor2.his_or_her> way to convince the vampire hunter to leave, having been reassured that no vampires were to be found in this home."
+            Actor2:attractiontoplayer += 2
+        Else
+            Actor2:: "Trust me, this is the last place you would be able to find a vampire."
+            Actor2:: "In fact, I can't help but feel incredibly attracted to a brave vigilante like yourself."
+            Actor2:: "Why don't you let me show you my appreciation ..."
+            Sex(Actor, Actor2)
+            "<Actor2.name> fucked the vampire hunter so good that <Actor.he_or_she> forgot what <Actor.he_or_she> came here for."
+            "I can't believe <Actor2.name> just cheated and fucked a sworn enemy of mine in front of me. But <Actor2.he_or_she> only did it to save my life, right ... I can't be mad at <Actor2.him_or_her>."
+            masochist += 2
+        Endif
+    Else
+        "I quickly devised a plan and ambushed the vampire hunter. Despite being a veteran and coming close to killing me multiple times, the hunter was no match for my devious plan and I defeated him."
+        "Phew, that was close."
+    Endif
+    
+    SceneEnd()
+    timeout(150, vampire_hunter_ntr)

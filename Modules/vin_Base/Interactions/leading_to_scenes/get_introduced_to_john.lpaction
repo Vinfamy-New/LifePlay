@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: get_introduced_to_john
+ACTION_NAME: Get introduced to a John
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: get_introduced_to_john
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && WHERE == brothel && Actor.isAt(work)

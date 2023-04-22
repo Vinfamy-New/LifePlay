@@ -1,0 +1,17 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "To us orcs, having a lot of children to maintain the Orc bloodline is an important duty. As such, unlike other races who go through the whole dating and marriage ordeal, whenever an Orc male and an Orc female meet, we skip straight to the breeding."
+    "Of course, since making Orc babies is the number one priority, we don't bother with condoms, pills and other crap that the humans came up with."
+    "<Actor.name> here is a fellow Orc who looks like <Actor.he_or_she> could be a suitable mate to produce an Orc baby. Should we fuck?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Sex(Player, Actor)
+    Endif
+    SceneEnd()

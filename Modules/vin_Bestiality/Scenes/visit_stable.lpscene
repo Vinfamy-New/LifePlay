@@ -1,0 +1,16 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    setBackgroundCustom(stable)
+    Actor = getCreature()
+    While Actor.isValid()
+        If Actor.isCreatureType(Horse)
+            Actor.show()
+            Actor.addToPeopleHere()
+            Backup = Actor
+        Endif
+        Actor = getCreature()
+    Endwhile

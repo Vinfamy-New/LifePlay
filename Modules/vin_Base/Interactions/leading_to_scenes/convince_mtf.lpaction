@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: convince_mtf
+ACTION_NAME: Convince him to undergo MtF transition
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: convince_mtf
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && Actor.isMale() && Actor:rapportwithplayer > 49

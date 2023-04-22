@@ -1,0 +1,64 @@
+WHAT: all
+WHERE: place_of_worship
+WHEN: 0 - 24
+WHO: none
+OTHER: PercentageVampires > 0 && !Player.isRace(Vampire)
+
+    SceneStart()
+    "I came aross a suspicious-looking coffin ..."
+    0:: "Open it"
+    1:: "Show some respect to the dead"
+    
+    If 0
+        If Random(0, 100) < 50
+            "I found some cash in there. Could it be that someone was living in this coffin?"
+            money += 100
+            "A vampire, perhaps?"
+        Else
+            "To my horror, there was someone sleeping inside the coffin."
+            "The pale skin explained the whole thing to me right away, it's a vampire."
+            0:: "Sneak away"
+            1:: "Panic and freeze"
+            
+            If 0 && Random(0, 100) < sneak
+                "I managed to sneak away safely before the vampire woke up."
+            Else
+                "Unfortunately for me, I woke the vampire up ..."
+                Actor = generatePersonTemporary()
+                Actor.blendPreset(Vampire)
+                Actor.dress()
+                Actor.show()
+                Actor:: "Wait ... don't go ..."
+                Actor:: "Please ... I'm desperate ... I'm starving to death ... It's been a week since I last managed to drink blood."
+                0:: "Run!"
+                1:: "Offer some blood as mercy"
+                2:: "Demand sex in exchange for blood"
+                
+                If 0
+                    "I couldn't care less if a vampire dies from lack of blood ..."
+                    "I ran away, the vampire must have been honest about starving to death since <Actor.he_or_she> failed miserably at catching up to me."
+                Elseif 1
+                    Player:: "Well, if it's to save a life then I guess it's no different from a normal blood donation at the hospital"
+                    animatePair(Actor, Player, Kissing)
+                    "The vampire sucked out some of my blood, which saved <Actor.his_or_her> life, but I feel quite weakened."
+                    fitness -= 0.5
+                    attractiveness -= 0.5
+                    karma += 20
+                Else
+                    Player:: "I can spare you some blood, but in exchange, you'll have to fuck me afterwards."
+                    Actor:: "Alright ... I guess I have no other choice ... It's this or death."
+                    animatePair(Actor, Player, Kissing)
+                    "The vampire sucked out some of my blood, which saved <Actor.his_or_her> life, but I feel quite weakened."
+                    fitness -= 0.5
+                    attractiveness -= 0.5
+                    Player:: "Now, about our deal ..."
+                    Sex(Player, Actor)
+                Endif
+            Endif
+        Endif
+    Else
+        "I wouldn't do something so creepy."
+    Endif
+    
+    SceneEnd()
+    timeout(100, vampire_coffin)

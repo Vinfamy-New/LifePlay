@@ -1,0 +1,38 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getPerson(true); If !Actor.isRace(Human) && Actor2.isRace(Human) && Actor2:rapportwithplayer > 20 && Actor2:perversion < 30
+OTHER: Player.isRace(Human)
+
+    SceneStart()
+    Actor2.dress()
+    Actor2.show(2)
+    Actor.dress()
+    Actor.show()
+    Race = Actor.getRace()
+    "My friend <Actor2.name> has made no secret <Actor2.his_or_her> disdain for my <Actor.boyfriend_or_girlfriend> <Actor.name>. <Actor2.He_or_She> thinks a <Race> like <Actor.name> has no business dating a human. People who consider such relationships a taboo aren't in the minority either ..."
+    0:: "Unashamedly show affection to <Actor.name> in front of <Actor2.name>"
+    1:: "Tone down the PDA a bit"
+    
+    If 0
+        Actor:attractiontoplayer += Random(0, 2.5)
+        animatePair(Actor, Player, Kissing)
+        "My show of affection to my dear <Race> clearly made <Actor2.name> uncomfortable. Oh well, <Actor2.he_or_she> can judge us as much as <Actor2.he_or_she> wants, it's not going to change who we are."
+        Actor2:attractiontoplayer -= Random(0, 5)
+        Actor2:rapportwithplayer -= Random(0, 10)
+        Actor.show()
+        Actor:: "Maybe we should be more discreet in front of other people ... they may judge us. I'm an <Race> after all ..."
+        0:: "Just tell <Actor.him_or_her> not to worry"
+        1:: "Comfort <Actor.him_or_her> with sex"
+        
+        If 1
+            Actor:attractiontoplayer += Random(0, 2.5)
+            Sex(Actor, Player)
+        Endif
+    Else
+        Actor:attractiontoplayer -= Random(0, 1)
+        "Let's be pragmatic here: I love <Actor.name>, but it's not worth destroying all other relationships in my life by flaunting our public display of affection. Society judges relationships like ours harshly still."
+    Endif
+    
+    SceneEnd()
+    timeout(200, fantasy_condemned)

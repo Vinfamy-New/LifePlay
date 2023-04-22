@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: oldyoung_dating_app
+ACTION_NAME: Use Old-Young dating app
+WHERE: home, pc
+WHEN: 0 - 24
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS: companioncount == 0 (STAT_COMPARE)
+MOVE_FIRST: false
+SCENE_ALWAYS: oldyoung_dating_app
+ANIMATION: browse

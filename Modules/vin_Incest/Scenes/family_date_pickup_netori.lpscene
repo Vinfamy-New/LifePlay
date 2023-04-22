@@ -1,0 +1,71 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22 
+WHO: Actor = getRelative(Cousin, Sibling, Child, StepSibling, StepChild); Actor2 = Actor.getRelatedPerson(Spouses, Dating); If Actor.livesWithPlayer() && Actor.hadSex()
+OTHER: isModEnabled(vin_Netori) && !Player.isFemale()
+
+    // If the Netori module is also enabled and you've already tasted the forbidden fruit with someone who also has a 'normal' relationship with someone else, you can have a quickie with them before their bf/gf arrives, finish inside their mouth or another hole, and then watch the bf/gf giving your relative a kiss / oral and noting the strange taste
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    "I've already tasted the forbidden fruit with my <Actor.relationship> <Actor.name>."
+    "As much fun as we had together, we couldn't really make our incest relationship publicly known so in the meantime, my <Actor.relationship> also maintains a 'normal' relationship with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name>, who had no idea about our illicit relations."
+    "Of course, we both knew whose dick <Actor.he_or_she> really desires."
+    "<Actor2.name> is coming over later in half an hour or so and they'll spend the night together, as couples do. As much as I'm not thrilled to see my forbidden lover banging another <Actor2.guy_or_girl>, it's not really my place to put a stop to it."
+    "However, I reckon there might be a way to assert my dominance over my <Actor.relationship>'s placemat <Actor2.boyfriend_or_girlfriend>."
+    0:: "Have a quickie with my <Actor.relationship> before <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> arrives"
+    1:: "I'm not that mean ..."
+    
+    If 0
+        masochist -= 2
+        "Where should I cum?"
+        0:: "In my <Actor.relationship>'s mouth"
+        1:: !Actor.isMale():: "In my <Actor.relationship>'s pussy"
+        2:: "In my <Actor.relationship>'s ass"
+        
+        If 0
+            Filter(Blowjob)
+        Elseif 1
+            Filter(Vaginal)
+        Else
+            Filter(Anal)
+        Endif
+        Sex(Player, Actor)
+        
+        "Once done, my <Actor.relationship> wanted to go to the bathroom and clean up but I stopped <Actor.him_or_her>."
+        "I insisted that <Actor.he_or_she> simply put <Actor.his_or_her> clothes back on and keep my cum inside <Actor.him_or_her> so that <Actor.he_or_she> can share this delicious taste with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> later ..."
+        "My <Actor.relationship> understood right away what I wanted and agreed to my evil plan."
+        
+        "A few minutes later ..."
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "Baby, I'm here. Sorry, I kept you waiting. The traffic was mad today."
+        Actor:: "Say no more, baby. I want you right now!"
+        Actor2:: "But your <Actor.callplayer> is right there ..."
+        Actor:: "It's okay, <Actor.he_or_she> won't care."
+        
+        If 0
+            animatePair(Actor2, Actor, Kissing)
+            "And just like that my <Actor.relationship> gave <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> a passionate makeout right in front of me."
+            "Normally, this would be humiliating for me, but in this case where my cum is still fresh in <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend>'s mouth, the one being humiliated is <Actor2.name>, without knowing it."
+        Elseif 1
+            "And just like that my <Actor.relationship> made <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> eat <Actor.him_or_her> out in front of me."
+            Filter(LickPussy)
+            Sex(Actor2, Actor)
+            "Normally, this would be humiliating for me, but in this case where my cum is still fresh in <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend>'s pussy, the one being humiliated is <Actor2.name>, without knowing it."
+        Else
+            "And just like that my <Actor.relationship> made <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> give <Actor.him_or_her> a rimjob in front of me."
+            Filter(Oral)
+            Sex(Actor2, Actor)
+            "Normally, this would be humiliating for me, but in this case where my cum is still fresh in <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend>'s ass, the one being humiliated is <Actor2.name>, without knowing it."
+        Endif
+        Actor2:: "Baby, there was some strange taste today ... A bit salty ..."
+        Actor:: "It must be something I ate. Don't worry about it, babe."
+        "<Actor2.name> might be my <Actor.relationship> <Actor.boyfriend_or_girlfriend> but there was no doubt in my mind who <Actor.he_or_she> really preffered after this."
+    Else
+        masochist += 0.5
+    Endif
+    SceneEnd()
+    timeout(200, family_date_pickup_netori)

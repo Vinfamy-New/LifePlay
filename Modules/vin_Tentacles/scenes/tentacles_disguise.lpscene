@@ -1,0 +1,57 @@
+WHAT: all
+WHERE: nightclub, bar
+WHEN: 0 - 24
+WHO: none
+OTHER: !Player.isMale() || [isWithCompanion() && !CurrentCompanion.isMale() && isModEnabled(vin_NTR) && CurrentCompanion.isDating()]
+
+    // At a nightclub or bar, an attractive guy or girl seduces you and takes you back to their place (if you're with your SO, they invite you back for a threesome), only to turn out to be a tentacle monster in disguise
+    
+    SceneStart()
+    "I was at the bar when a hot stranger approached me. I must say I'm flattered ..."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor:age => Random(18, 28)
+    Actor:attractiveness => Random(85, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.dress()
+    Actor.show()
+    "<Actor.He_or_She> introduced <Actor.himself_or_herself> as <Actor.name>. Not only is <Actor.he_or_she> incredibly <Actor.handsome_or_beautiful> but <Actor.he_or_she> is very confident and charming as well. We hit off instantly."
+    Actor:: "What do you say that we get out of here and back to my place?"
+    If isWithCompanion()
+        Actor:: "Your <CurrentCompanion.boyfriend_or_girlfriend> is invited too of course. The more the merrier."
+        CurrentCompanion:: "I'm down for a threesome, babe!"
+    Endif
+    0:: "Follow <Actor.name> home"
+    1:: "I barely know <Actor.him_or_her>!"
+    
+    If 0
+        setBackground(home)
+        "Soon we ended up in <Actor.name>'s bedroom, and I started making out with <Actor.him_or_her>! Things are very getting heated."
+        animatePair(Player, Actor, Kissing)
+        Player:: "Wait ... something isn't right"
+        Actor.hide()
+        Actor.delete()
+        Actor = generateCreatureTemporary(Tentacles)
+        Actor.show()
+        "Suddenly, <Actor.handsome_or_beautiful> stranger started ... melting into some sort of terrible creature full of tentacles."
+        "Before I could react, I was knocked down to the ground by one of such tentacles."
+        Player.animate(fightlost)
+        Player:: "Don't hurt me, I surrender!"
+        If !Player.isMale()
+            "Soon, the tentacles wrap around me and prevent me from escaping ..."
+            "Before long, some of the tentacles were penetrating my holes and soon I was overcome with pleasure to even resist anymore."
+            Sex(Actor, Player)
+        Else
+            "To my shock, the tentacle monster pays me no further interest and instead focuses on my <CurrentCompanion.boyfriend_or_girlfriend> <CurrentCompanion.name>."
+            "Soon, the tentacles wrap around <CurrentCompanion.name> and prevent <CurrentCompanion.him_or_her> from escaping ..."
+            CurrentCompanion:: "Ahhhhhhhhhhhhhhhhhh"
+            "Before long, some of the tentacles were penetrating <CurrentCompanion.his_or_her> holes and soon <CurrentCompanion.he_or_she> was overcome with pleasure to even resist anymore."
+            "I had no choice but watch"
+            Sex(Actor, CurrentCompanion)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, tentacles_disguise)

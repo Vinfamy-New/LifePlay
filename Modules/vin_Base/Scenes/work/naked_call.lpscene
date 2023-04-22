@@ -1,0 +1,41 @@
+WHAT: work_from_home
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Boss)
+OTHER: none
+
+    SceneStart()
+    "Oh no, I was so distracted by other things while working from home that lost track of the time. It's one minute till the next video conference call."
+    "Now where is the invitation link? Here it is."
+    "I'm in. Just in time for the call to start"
+    If Player.isNaked()
+        dressFormal()
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+        Actor:: "Welcome everyone to today's video conference call. Today's agenda includes ..."
+        Actor:: "What the fuck, <Player.name>? Why are you naked?"
+        "Oh no! In my hurry to log into the conference call in time, I completely forgot to get dressed."
+        If Actor:perversion > 50 || Actor.hadSex()
+            Actor:: "Well, since you're already nude, I think we might be able to fit some adult entertainment into the agenda."
+            Actor:: "Why don't you start playing with yourself? Spice this boring conference call up a bit"
+            0:: "Masturbate for everyone to watch"
+            1:: "I'll just put on some clothes"
+            
+            If 0
+                filter(Solo)
+                Sex(Player)
+                perversion += 1
+                jobperformance += 5
+            Else
+                jobperformance -= 5
+            Endif
+        Else
+            Actor:: "This is the most unprofessional behaviour I've ever seen. Rest assured this will be reflected in your next performance review!"
+            jobperformance -= 5
+        Endif
+    Else
+        "The video conference call went according to plans. I have the technology to thank for being able to work from home so effectively." 
+    Endif
+    SceneEnd()
+    timeout(200, naked_call)

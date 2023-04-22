@@ -1,0 +1,64 @@
+WHAT: work
+WHERE: work
+WHEN: 13 - 20
+WHO: Actor = getSpecific(Colleague); If jobexperience - Actor:jobexperience > 30 && !Actor.isDating() && !Actor.hasRelationship(Spouses, Dating) && Actor.hadSex() && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+OTHER: isModEnabled(vin_Netori)
+
+    // If the Netori module is enabled and you're banging one of your subordinates, you may find out they're having a date with a new bf/ gf after work. If you let them be, their new relationship is unharmed. You can assert your dominance instead by convincing them to bang you before the date and either cuck the unknowing new bf / gf or actually send the video to this new bf / gf, which may result in either a breakup or a new willing cuck depending on the bf/ gf's masochist.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I'm having some casual office sex with one of my subordinates <Actor.name>."
+    "As much fun as I'm having with my little junior staff plaything, I can't really stop <Actor.him_or_her> from having a personal life outside of the office."
+    "In fact, <Actor.name> has apparently been seeing a new <Player.guy_or_girl> and is going on another date this evening after work."
+    0:: "Let <Actor.him_or_her> be"
+    1:: "Assert my dominance by fucking <Actor.name> before <Actor.his_or_her> date"
+    
+    If 0
+        "I let <Actor.name> be, I can have fun with <Actor.him_or_her> any other time."
+        "Apparently the date didn't go that well though and <Actor.he_or_she> broke up with this new <Player.guy_or_girl> not long after. Maybe once <Actor.he_or_she> has had a taste of me, no other <Player.guy_or_girl> could satisfy <Actor.him_or_her> anymore."
+    Else
+        "Sure, <Actor.he_or_she> is free to go on a little date. But <Actor.he_or_she> should not forget who really owns <Actor.him_or_her>. I can't let this new <Player.guy_or_girl> gets any more than a sloppy second."'
+        Actor:: "Okay, but let's be quick. I don't want to keep my <Player.guy_or_girl> waiting ... I really like <Player.him_or_her>, you know ..."
+        Player:: "Don't worry, we have plenty of time before your little date, since you're not allowed to clean up afterwards. Just go straight to <Actor.him_or_her> after I'm done with you."
+        Sex(Player, Actor)
+        masochist -= 2
+        Actor:masochist += 2
+        Actor:: "Alright ... I really need to leave now ... I'm late for the date ..."
+        Player:: "Give the poor cuck a deep passionate kiss for me, will you? Let's see if the <Player.guy_or_girl> could taste something else on your lips."
+        Actor.hide()
+        
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Player)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        
+        Actor2.makeInterested(Actor)
+        secondScreen(Actor2)
+        Actor2.show()
+        "An hour later, I got a Facebook notification of <Actor.name> checking into a fancy cocktail bar with the new <Player.guy_or_girl>, called <Actor2.name>, also tagged in the check-in post. How sweet of <Player.him_or_her> to treat my office fucktoy to a nice date ..."
+        0:: "Send <Actor2.name> a video of our quickie earlier"
+        1:: "Just let the unknowing cuck have <Actor2.his_or_her> moment"
+        
+        If 0
+            "In fact, I did film the whole thing earlier on my phone. Since <Actor.name> has been so helpful in tagging the new <Actor2.guy_or_girl>, I'll just send the video over to <Actor2.him_or_her> in a Facebook Messenger DM."
+            If Actor2:masochist > 0
+                Actor2:: "Wow, honestly, that's so hot ... I've always fantasized about watching my <Actor.guy_or_girl> fuck a real <Player.man_or_woman> like this! Please, continue to fuck my <Actor.boyfriend_or_girlfriend> anytime!"
+                Actor2.makePermanent()
+                addNpcRelationship(Dating, Actor, Actor2)
+                Actor2.setActorVar(tag_NTRCuck, 1)
+                "Well, isn't that a pleasant surprise, <Actor2.name> is already a bit of a cuck <Actor2.himself_or_herself>. A perfect new <Actor2.boyfriend_or_girlfriend> for my office fucktoy then, as far as I'm concerned."
+            Else
+                "<Actor2.name> didn't respond."
+                "The next morning, I found out from <Actor.name> that <Actor.his_or_her> date ended the date suddenly and ghosted <Actor.him_or_her>. <Actor.He_or_She> had no idea why, of course I do, but I'm too busy enjoying my victory to tell <Actor.him_or_her>."               
+            Endif
+        Else
+            "Little did <Actor2.he_or_she> know, <Actor2.his_or_her> date was just done with me earlier. All the cuck is getting tonight is a sloppy second at best."
+            "Not knowing better, eventually after a few more dates, <Actor2.name> asked <Actor.name> to become <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend>, still having no idea that <Actor.he_or_she> has been fucking <Actor.his_or_her> boss long before they met."
+            Actor2.makePermanent()
+            addNpcRelationship(Dating, Actor, Actor2)
+        Endif        
+    Endif
+    SceneEnd()
+    timeout(300, subordinate_date)

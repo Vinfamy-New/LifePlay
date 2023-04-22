@@ -1,0 +1,61 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getCreature(); If Actor.isInterestedIn(Actor2) && Actor:perversion > 50
+OTHER: isModEnabled(vin_Bestiality) && OpenRelationship()
+
+    SceneStart()
+    Allow = Actor.getActorVar(poly_best)
+    
+    If Allow == 0
+        Actor.show()
+        "I caught <Actor.name> watching some bestiality porn and masturbating."
+        "<Actor.name> then admits <Actor.he_or_she>'s been fantasizing about having sex with an animal, in particular my own <Actor2.name>."
+        0:: "Give <Actor.name> the freedom to engage in bestiality"
+        1:: "Put an end to the idea"
+        
+        If 0
+            Player:: "That's so hot babe. Of course, you can fuck as many animals as you want."
+            Actor2.show()
+            Actor:: "I knew you would be open-minded honey. Let's try with <Actor2.name> first."
+            Sex(Actor, Actor2)
+            Actor.setActorVar(poly_best, 1)
+        Else
+            timeout(1000, poly_best)
+        Endif
+    Else
+        setBackgroundCustom(livingroom)
+        "I arrive home only to hear some moaning sounds coming from the bedroom ..."
+        0:: "Check it out"
+        
+        If 0
+            setBackground(home)
+            Sex(Actor, Actor2)
+            "In my absence, one of polyamorous lovers <Actor.name> is having a go with my own pet <Actor2.name>!"
+            "Of course, I've already given my blessing to <Actor.name> to fuck animals to satisfy <Actor.his_or_her> urges."
+            0:: "Change my mind about allowing bestiality"
+            1:: "Be cool and have some fun with them"
+            
+            If 0
+                Player:: "Please stop doing this ... It was a mistake agreeing to this in the first place"
+                Actor:attractiontoplayer -= 3
+                Actor2:attractiontoplayer -= 3
+                Actor.setActorVar(poly_best, 0)
+                timeout(1000, poly_best)
+            Else
+                Player(Flirty):: "I see <Actor2.name> has already warmed you up, getting you ready for me. Come here then ... I don't mind sloppy seconds from my own pet at all."
+                Sex(Player, Actor)
+                Actor:attractiontoplayer += 3
+                Actor2:attractiontoplayer += 3
+                
+                If Player.isInterestedIn(Actor2)
+                    Sex(Actor2, Player)
+                Endif
+                
+                Sex(Actor2, Actor, Player)
+            Endif
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(300, poly_best)

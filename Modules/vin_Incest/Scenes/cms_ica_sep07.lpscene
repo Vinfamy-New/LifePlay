@@ -1,0 +1,24 @@
+WHAT: bathe, go_to_the_bathroom
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If Actor.livesWithPlayer() && Actor:masochist < -50 && Actor.isInterestedIn(Player) && Actor:incest > 10
+OTHER: isAtHome() && masochist > 50 && isModEnabled(vin_NonConsensual)
+
+    SceneStart()
+    "I was using the bathroom when my <Actor.relationship> just walked in to use it anyway, butt naked."
+    Actor.show()
+    Actor:: "It's not like that you will say or do anything anyway, submissive bitch."
+    Actor:incest += 5
+    If Actor:incest > 45
+        Actor:: "I'll fuck you now"
+        Filter(Aggressive)
+        Sex(Actor, Player)
+    Elseif Actor:incest > 30
+        Actor:: "Now lick me dry ..."
+        Filter(Oral)
+        Sex(Actor, Player)
+    Elseif Actor:incest > 15
+        Actor:: "Now let me touch you a bit ..."
+    Endif
+    SceneEnd()
+    timeout(300, cms_ica_sep07)

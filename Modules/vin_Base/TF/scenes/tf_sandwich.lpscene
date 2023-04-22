@@ -1,0 +1,58 @@
+WHAT: all
+WHERE: home
+WHEN: 8-22
+WHO: none
+OTHER: TfGame() && !Player.isMale() && Player.isInterestedInMen() && !isWithCompanion() && !Player.isVirgin()
+
+    // When you were male, you have two friends who you know to enjoy sharing girls between them. Now that you're a girl yourself and they don't recognize you, maybe you can give a threesome a try.
+    
+    SceneStart()
+    "I have found that after my transformation, most of the people that knew me still know me, but they all act like they know me as a woman the whole time ..."
+    "... which can be problematic, since sometimes one of my guy friends who I used to watch sports and play video games with would now try to ask me out or even send me their dick pics."
+    Actor = generatePersonTemporary()
+    While !Actor.isMale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor:perversion => Random(80, 100)
+    Actor.makeInterested(Player)
+    Actor:attractiontoplayer += 60
+    secondScreen(Actor)
+    Actor.show()
+    "Among the dick pic senders is <Actor.name>"
+    Actor.hide()
+    
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2:perversion => Random(80, 100)
+    Actor2.makeInterested(Player)
+    Actor2:attractiontoplayer += 60
+    secondScreen(Actor2)
+    Actor2.show()
+    "Another is <Actor2.name>"
+    
+    "Usually, I find it too weird and just block them."
+    "But for these two guys, I kinda hesitate for a rather embarrassing reason ..."
+    "From being friends with both of them when I was a guy, I often heard them boasting about being 'Eskimo brothers', i.e. they enjoyed sharing girls between them. In the past, I think they even suceeded in convincing a girl or two to get sandwiched by them in a threesome."
+    "And as much as I hate to admit it, now that I'm stuck in a female body, I can't help but be curious about fucking two guys at the same time ... And it's not like I can just ask any two random guys to do it, so knowing two guys who already had experience is kinda valuable"
+    0:: "Tell <Actor.name> and <Actor2.name> I'm down for a threesome"
+    1:: "Maybe not"
+    
+    If 0
+        secondScreen()
+        Actor.dress()
+        Actor.show()
+        Actor2.dress()
+        Actor2.show()
+        Actor.makePermanent()
+        Actor2.makePermanent()
+        exchangeContact(Actor)
+        exchangeContact(Actor2)
+        "I asked both of them to come over to my place, they couldn't believe their luck since the last girl that did it took so much convincing and here I was, just directly offering myself."
+        Sex(Actor, Actor2, Player)
+        "That was an interesting experience. I guess if I'm going to be a woman, might as well enjoy everything that has to offer."
+    Endif
+
+    SceneEnd()
+    timeout(200, tf_sandwich)

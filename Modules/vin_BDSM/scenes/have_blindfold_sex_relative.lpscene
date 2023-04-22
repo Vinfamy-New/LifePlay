@@ -1,0 +1,63 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor2 = getRelative(); Actor = Actor2.getRelatedPerson(Dating, Spouses); If Random(20, 100) < Actor2:likes_bondage && Actor2:perversion > 30 && Actor2.livesWithPlayer() && !Actor.isMale()
+OTHER:
+
+    // A relative living with you put their SO in a blindfold and some other BDSM clothes. You can peek and get invited in if your relative has high perversion and rapport with you or trick them out of the room and lock them out. 
+
+    SceneStart()
+    "Coming back from the bathroom, I walked past my <Actor2.relationship>'s bedroom. The door was slightly open and I couldn't help but notice a rather unusual scene unfolding inside ..."
+    Player.hide()
+    Actor2.dress()
+    Actor2.show()
+    Actor.show()
+    Actor.animate(na_sleep)
+    Actor.dressBondage()
+    Actor.dressBondage(Blindfold)
+    
+    "My <Actor2.relationship>'s <Actor.boyfriend_or_girlfriend> is dressed up in bondage gear and blindfold. Is this what they are into as a couple?"
+    0:: "Peep on them"
+    1:: "Trick my <Actor2.relationship> and lock <Actor2.him_or_her> out"
+    2:: "Leave them be"
+
+    If 0
+        SneakGame()
+        If Random(0, 100) < sneak
+            "I managed to stay still and watched the whole thing ..."
+            Sex(Actor2, Actor)
+        Else
+            "Unfortunately, my <Actor2.relationship> noticed me sneaking around."
+            If Actor2:perversion > 50 && Actor2:rapportwithplayer > 30 && Actor2:masochist > 0
+                "To my surprise, my <Actor2.relationship> stayed quiet, winked at me and gestured for me to come inside."
+                Player.show()
+                "Still confused, I came inside the room."
+                "My <Actor2.relationship> then whispered to me, being careful not for <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend> to notice anything unusual ..."
+                Actor2:: "You're such a good <Actor2.callplayer> ... Go ahead and have sex with my <Actor.boyfriend_or_girlfriend> ... <Actor.He_or_She> won't be able to tell the difference ..."
+                0:: "Accept"
+                1:: "Turn <Actor2.him_or_her> down"
+                
+                If 0
+                    Actor:: "Baby, what's taking you so long?"
+                    Actor2:: "I'm right here, darling. Here I go ..."
+                    Sex(Player, Actor)
+                Endif
+            Else
+                Actor2:: "What the fuck, <Actor2.callplayer>! Get out of here!"
+            Endif
+        Endif
+    Elseif 1
+        "I moved back into the bathroom and shouted out"
+        Player:: "<Actor2.name>, can you get the main door please? I have an important delivery but I'm stuck in the bathroom."
+        Actor2:: "Sorry, baby, I'll be right back. My <Actor2.callplayer> is so annoying, honestly!"
+        Actor2.hide()
+        "Just as my <Actor2.relationship> left <Actor2.his_or_her> room and went out of the apartment to check for any deliveries, I sneaked out of the bathroom and locked the door behind <Actor2.him_or_her>, preventing <Actor2.name> from getting back inside."
+        Player.show()
+        "I then proceeded to my <Actor2.relationship>'s bedroom to claim my prize ... <Actor2.his_or_her> <Actor.boyfriend_or_girlfriend>, all blindfolded and bondaged up."
+        "Keeping as quiet as possible, I started having my way with my <Actor2.relationship>'s <Actor.boyfriend_or_girlfriend> ..."
+        Actor:: "Oh baby, you're back ..."
+        "<Actor.He_or_She> had no idea ..."
+        Sex(Player, Actor)
+    Endif
+    SceneEnd()
+    timeout(300, have_blindfold_sex_relative)

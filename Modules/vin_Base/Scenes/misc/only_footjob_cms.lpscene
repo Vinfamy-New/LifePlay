@@ -1,0 +1,82 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); Actor2 = Actor.getRelatedPerson(Spouses, Dating); If !Actor.isDating() && Actor:rapportwithplayer > 50  && Actor2:rapportwithplayer > 50 && Player.isInterestedIn(Actor) 
+OTHER: Actor.isFemale() && Player.isMale()
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor2.dress()
+    Actor2.show()
+    Actor.animate(drinkglass)
+    Actor2.animate(drinkglass)
+    Player.animate(drinkglass)
+    "I am hanging out with my friend <Actor.name> and <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name> when <Actor2.name> suddenly notices that we are running out of drinks"
+
+    Actor2:: "Hey guys, I just noticed we are out of booze, I'll go and grab some from the store. I'll be right back!"
+    Actor2.hide()
+
+    Actor:: "Listen, I know we're all very close and he's your best friend but.. that doesn't mean you get a pass on things like that"
+
+    Player:: "I just..."
+
+    Actor:: "<Actor2.He_or_She> would kill you if <Actor2.he_or_she> knew what you were trying to pull off earlier."
+
+    Player:: "What do you mean?"
+
+    Actor:: "Oh yes, I saw it. You're lucky I didn't tell on you. I know it's hard for you to look away, especially cause I love to dress short for my <Actor2.boyfriend_or_girlfriend>"
+
+    Player:: "Oh yes you look so hot in with this short skirt and..."
+
+    Actor:: "Hey focus! I know the tease must be unbearable...whatever, I let you slide.."
+
+    Player:: "Thank you <Actor.Name> that's quite understanding of you..."
+
+    Actor:: "Don't get me wrong, the shit *you* are doing doe? It's starting to piss me off. It's one thing to check me out, and then it's a whole other thing to just *obsess* over me. You wanna take your friend's place so bad... It's not even funny anymore."
+
+    Player:: "You know I never would..."
+
+    Actor:: "That's not the point. I bet while gawking at me like a creep, you were thinking about fucking me, weren't you?"
+
+    Player:: "I...ehhm"
+
+    Actor:: "Of course you were, it's beyond obvious! It frustrates me, but I also understand you. I'm the hottest <Actor.guy_or_bitch> on the block afterall. So here's what we will do about it.. I'm not gonna let you fuck me, that would be wrong..."
+
+    Player:: "Yeah obviously..."
+
+    Actor:: "I'm gonna give you a footjob."
+
+    Player:: "What...?!"
+
+    Actor:: "Yeah you heard right. I'm gonna get you off with my feet and then you will stop staring at me and making me feel uncomfortable around my boyfriend. Do we got a deal?"
+    0:: "Can't say no to some feet action!"
+    1:: "No, I'm not that needy"
+
+    If 0 
+        "<Actor.Name> drops off <Actor.his_or_her> shoes and socks and comes pushes me onto the bed."
+        Actor(flirty):: "Ok my friend, let's drop your pants and get this obsession out of your system!"
+
+        Filter(Footjob)
+        Sex(Player, Actor)
+
+
+        Actor:: "Okay, you got what you wanted now...Can you stop drooling over me so much now? Atleast around my <Actor2.boyfriend_or_girlfriend> ?"
+
+        Player:: "I guess, it will be even harder not to fantasize even more about you now..."
+
+        Actor:: "Dammit you are the worst...I'm gonna go to the bathroom real quick, I need to wash my feet...before <Actor2.name> catches us."
+
+        "<Actor.Name> stops a moment in the doorway." 
+
+        Actor:: "But I gotta admit...That was actually pretty fun!"
+
+        "With that <Actor.he_or_she> leaves into the bathroom and after <Actor2.Name> came back, we both just pretend like nothing ever happened"
+    Else
+        Player:: "You are thinking to high of yourself  <Actor.name>... I'm not that much of a needy pervert! I won't deny my little crush on you, but I won't lower myself to being pitty-feet-fucked by you!"
+
+        Actor:: "Fine...But then stop this drooling, before you get yourself kicked in the butt by <Actor2.name>"
+
+        "With that we spend a couple of time in akward silence, before <Actor2.name> finally comes back and we continue our day altogether."
+    EndIf
+    SceneEnd()
+    timeout(300, only_footjob_cms)

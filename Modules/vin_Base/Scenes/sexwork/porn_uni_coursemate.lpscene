@@ -1,0 +1,154 @@
+WHAT: all
+WHERE: university:school
+WHEN: 0-24
+WHO: Actor = getSpecific(Coursemate)
+OTHER: pornfame > 0
+
+    // If you're a unversity student who's also a por nstar, you're working on an assignment in a pair with another coursemate, who admits they've watched your videos. Depending on their interpersonal and perversion, they may be direct about having some fun as a break or be shy about it and wait for you to offer. When done once, they'll try to work in pairs with you again in the future.
+    
+    // On the other hand, if they're the same gender as you, this coursemate working in pairs with you may express their admiration for the skill you've shown in your por n performances instead. They ask you to teach them to improve their ability to satisfy a partner. This lesson could be done with their current partner, or you could suggest another practice target (who could become their partner afterwards unless already yours). After this first lesson, from time to time, they may continue to ask you to have fun with them and their partner, up to you whether you want to demand money for such service.
+
+    SceneStart()
+    
+    Fan = Actor.getActorVar(tag_pornfan)
+    
+    If Fan == 0
+        Actor.dress()
+        Actor.show()
+        "I was assigned to work in a pair with <Actor.name> for an assignment, who invited me to <Actor.his_or_her> place to do the work together."
+        setBackground(home)
+        "As we were working together, I couldn't help but notice that <Actor.he_or_she> acts a bit strange around me ..."
+        Player:: "What's wrong, <Actor.name>? I'm not bothering you somehow, am I?"
+        Actor:: "No, not at all ... It's just that ..."
+        Actor:: "To be honest, I saw one of your videos ... the adult ones ..."
+        Player:: "Oh ...."
+        "I guess there's no point denying it ..."
+        Player:: "Yeah, it's one of the few options I had to make ends meet while financing my education ..."
+        Actor:: "Oh no, don't get me wrong ... I'm not judging at all ..."
+        "With that awkward conversation out of the way for now, we went back to working on the assignment ..."
+        "Two hours later ..."
+        Player:: "Let's have a break. I'm not good at concentrating on something for so long."
+        
+        If Actor.isSameGender(Player) && Random(0, 100) < 50 && !Actor.isAsexual()
+            Actor:: "You know ... ever since I came across that video of yours, I couldn't stop thinking about it ..."
+            Actor:: "You were so good at it. It was clear that your co-star was enjoying it so much."
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            If !Actor2.isValid()
+                Actor2 = generatePersonTemporary()
+                While !Actor.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+            Endif
+            Actor:: "I'm pretty bad at it ... I could never get my <Actor2.boyfriend_or_girlfriend> to cum."
+            0:: "Well, good to know ..."
+            1:: "Offer to teach <Actor.him_or_her>"
+            
+            If 0
+                Player:: "You'll get better with experience, I'm sure ..."
+            Else
+                Actor:: "Really? That's so nice of you. Maybe I can call my <Actor2.boyfriend_or_girlfriend> <Actor2.name> over to watch and learn from how you satisfy <Actor2.him_or_her>?"
+                0:: "Use <Actor.name>'s <Actor2.boyfriend_or_girlfriend> as target practice"
+                1:: "Suggest my own target practice"
+                
+                If 1
+                    "Who do I have in mind?"
+                    selectNpc()
+                    Actor2 = getSelectedNpc()
+                Endif
+                
+                Actor2.dress()
+                Actor2.show()
+                "Soon <Actor2.name> arrived and I put my pornstar skill on show, while my eager student <Actor.name> watched and learned."
+                Sex(Actor2, Player)
+                
+                Player:: "Looks like <Actor2.name> is ready for another round. Now, <Actor.name>, why don't you show me how much you've learned?"
+                Sex(Actor2, Actor)
+                Actor.setActorVar(tag_pornfan, 2)
+                "<Actor.name> was definitely a quick learner. <Actor.He_or_She> already improved so much just from watching me having a go first."
+                
+                If Actor2.isTemporary()
+                    Actor2.makePermanent()
+                Endif
+                If !Actor2.isDating() && !Actor.hasRelationship(Dating, Spouses)
+                    addNpcRelationship(Dating, Actor2, Actor)
+                Endif
+            Endif        
+        Elseif Actor.isInterestedIn(Player)
+            If Actor:interpersonal + Actor:perversion > 100
+                Actor:: "You know ... ever since I came across that video of yours, I couldn't stop thinking about it ..."
+                Actor:: "Why don't we have some fun right now? Sex is a great stress relief."
+                0:: "Okay"
+                1:: "I'm only here for the assignment"
+                
+                If 0
+                    Sex(Actor, Player)
+                    Actor.setActorVar(tag_pornfan, 1)
+                Endif
+            Else
+                Actor:: "..."
+                "<Actor.name> seems tongue-tied around me but I did notice <Actor.him_or_her> checking me out a lot for the last two hours. If I have to bet, the poor <Actor.guy_or_girl> is probably feeling guilty because <Actor.he_or_she>'s been secretly getting off on my poor videos ..."
+                0:: "Seduce <Actor.him_or_her>"
+                1:: "I'm only here for the assignment"
+                
+                If 0
+                    Player:: "It's okay ... I know you probably masturbated fantasizing about me ..."
+                    Player:: "Now that it's just the two of us here together and we have some free time, that doesn't have to be a fantasy anymore."
+                    "<Actor.name> was stil nervous, no doubt unsure if <Actor.he_or_she> could handle a real professional in bed. To my pleasant surprise though, <Actor.he_or_she> ended up putting in an admirable effort." 
+                    Sex(Actor, Player)
+                    Actor.setActorVar(tag_pornfan, 1)
+                Endif                
+            Endif
+        Else
+            "After the break, we got back into it and completed the assignment while any further discussing of my porn career."
+        Endif
+    
+    Elseif Fan == 1
+        Actor.dress()
+        Actor.show()
+        "One of my classmates <Actor.name> knew about my porn career. In fact, the last time we worked together for a course assignment, we ended up fucking."
+        "So it's no surprise that for another assignment that allows students to pick their own partners, <Actor.name> asks me to work with <Actor.him_or_her> again."
+        0:: "Work in a pair with <Actor.name> again"
+        1:: "Work with someone else"
+        
+        If 0
+            setBackground(home)
+            "<Actor.name> invited me to work together at <Actor.his_or_her> place again. Of course, we also took a break to have some fun."
+            Sex(Actor, Player)
+        Else
+            "It was fun last time, but this time, I'd rather just do the assignment without even having to mention what I do for a living outside of the classroom."
+            timeout(300, porn_uni_coursemate)
+        Endif
+    Else
+        Actor:perversion += 5
+        Actor.dress()
+        Actor.show()
+        Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+
+        "One of my classmates <Actor.name> knew about my porn career. In fact, the last time we worked together for a course assignment, I ended up showing <Actor.him_or_her> a thing or two about the arts of sex."
+        "With this newly-built sexual chemistry, <Actor.name>'s relationship with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> has become very strong. They have me to thank for that so I have become somewhat of a close friend to the couple."
+        "In fact, they're inviting me over for dinner tonight. No doubt, they have a threesome in mind to spice up their sex life even further."
+        0:: "Have some fun with the couple"
+        1:: "Only if they pay me"
+        2:: "Not tonight"
+        
+        If 2
+            "I'm just not in the mood"
+        Else
+            If 1
+                "I'll come over, but not for free. Sex is my job after all."
+                money += Random(200, 400)
+            Endif
+            setBackgroundCustom(kitchen)
+            Actor2.dress()
+            Actor2.show()
+            "I enjoyed a good home-cooked dinner with the couple."
+            setBackground(home)
+            "Soon we moved into the bedroom, where <Actor.name> continued to surprise me with how much <Actor.he_or_she> improved in bed since that first lesson I gave <Actor.him_or_her>."
+            Sex(Actor2, Actor, Player)
+            Actor:rapportwithplayer += 5
+            Actor2:rapportwithplayer += 5
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(100, porn_uni_coursemate)

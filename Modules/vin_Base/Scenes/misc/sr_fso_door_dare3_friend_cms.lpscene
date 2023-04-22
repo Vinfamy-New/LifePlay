@@ -1,0 +1,31 @@
+WHAT: all, -sleep, -nap
+WHERE: all, -home
+WHEN: 8 - 22
+WHO: Actor = getRelatedPeople(Spouses, Dating); If Actor1.isFemale() && Actor0:perversion > 50 && Actor1:perversion > 50 && Actor0.isContactExchanged()
+OTHER: Player.isMale() && isModEnabled(vin_NTR)
+
+    // A friend of the player sends a text telling player to go the his house. This ends with the player seeing his friend's girl masturbating in the doorway and the two can optionally have sex.
+    
+    SceneStart()
+    secondScreen(Actor0)
+    Actor0.show()
+    "My friend <Actor0.name> just requested that I go to his house. I have no idea why but he said it'll be fun."
+    secondScreen()
+    
+    setBackgroundCustom(livingroom)
+    "When I arrived I saw a very interesting sight indeed. <Actor0.name>'s <Actor1.boyfriend_or_girlfriend> <Actor1.name> was literally masturbating in the open at their door!"
+    Filter(Solo)
+    Sex(Actor1)
+
+    "After she noticed me watching she invited me to join her."
+    0:: "I'm sorry I cannot at this time."
+    1:: "Don't worry, we'll bang!"
+
+    If 1
+        setBackground(home)
+        Sex(Player, Actor1)
+        "She will then comment on the sex being quite fun and her <Actor0.boyfriend_or_girlfriend> <Actor0.name> will certainly enjoy hearing what they did."
+    Endif
+    
+    SceneEnd()
+    timeout(240, sr_fso_door_dare3_friend_cms)

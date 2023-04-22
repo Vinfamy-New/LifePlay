@@ -1,0 +1,62 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Impregnated)
+OTHER: none
+
+    If !Actor.isMale()
+        SceneStart()
+        secondScreen(Actor)
+        BioDaddy = Actor.getBabyDaddy()
+        Actor.endPregnancy()
+        Actor.dress()
+        Actor.show(2)
+        Actor.setActorVar(tag_Pregnant, 0)
+        Actor2 = Actor.generatePersonMatchRace()
+        Actor2:age => 18
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        If BioDaddy.isValid() && BioDaddy.isCreature()
+            "<Actor.name> is going into labour."
+            If BioDaddy.isCreatureType(Dog)
+                Actor2 = generateCreatureTemporary(Dog)
+                Actor2:age => 0
+                "To the shock of all the doctors, <Actor.name> somehow gave birth to a puppy. Only we know the real reason of course."
+                
+                If Actor.isDating() || [Actor.isRelative() && Actor.livesWithPlayer()]
+                    "<Actor.name> is asking that we adopt <Actor.his_or_her> newborn as a pet to avoid a scandal"
+                    0:: "Adopt as a pet"
+                    1:: "Give away to an animal shelter"
+                    
+                    If 0
+                        Actor2.makePermanent()
+                        "It's a <Actor2.male_or_female> puppy! What should we name our new dog?"
+                        Actor.enterFirstName()
+                    Endif
+                Endif
+            Else    
+                Actor2 = generateCreatureTemporary(Horse)
+                Actor2:age => 0
+                "To the shock of all the doctors, <Actor.name> somehow gave birth to a foal. Only we know the real reason of course"
+                If Actor.isDating() || [Actor.isRelative() && Actor.livesWithPlayer()]
+                    "<Actor.name> is asking that we adopt <Actor.his_or_her> newborn as a pet to avoid a scandal"
+                    0:: "Adopt as a pet"
+                    1:: "Give away to an animal shelter"
+                    
+                    If 0
+                        Actor2.makePermanent()
+                        "It's a <Actor2.male_or_female> foal! What should we name our new horse?"
+                        Actor.enterFirstName()
+                    Endif
+                Endif    
+            Endif
+        Else
+            If BioDaddy.isValid() && !BioDaddy.isCreature()
+                Actor2.blendAppearanceFrom(BioDaddy, Actor)
+            Endif
+            addNpcRelationship(ParentChild, Actor, Actor2)
+            Actor2.matchLastName(Actor)
+            "<Actor.name> has recently given birth to a cute baby, whom she named <Actor2.name>. Her baby photos are all over Facebook."
+        Endif
+        SceneEnd()
+    Endif

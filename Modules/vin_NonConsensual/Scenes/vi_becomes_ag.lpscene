@@ -1,0 +1,55 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_Rapist); If !Actor.isDating()
+OTHER: none
+
+    // You can take revenge on someone who forced you to listen to rap music by doing it yourself or hiring someone tough.
+
+    SceneStart()
+    secondScreen(Actor)
+    Actor.show()
+    "I'm still traumatised by the experience of being raped by <Actor.name>."
+    secondScreen()
+    "Maybe revenge and showing <Actor.him_or_her> I'm now in control is the only way that can help me move on."
+    0:: "Take revenge on my rapist by raping <Actor.him_or_her>"
+    1:: "Bad idea!"
+    
+    If 0
+        setBackground(livingroom)
+        "I manage to track down my rapist to where <Actor.he_or_she> lives and ambush <Actor.him_or_her> as soon as <Actor.he_or_she> opens the front door."
+        Actor.dress()
+        Actor.show()
+        Actor:: "Back for more?"
+        Actor.animate(martialart)
+        Player.animate(martialart)
+        Player:: "In your dream! Take this!"
+        If martial > Actor:martial
+            Actor.animate(fightlost)
+            "I won this time. It's time for my rapist to suffer what <Actor.he_or_she> did to me."
+            masochist -= 5
+            If Actor.isMale() && !Player.isMale()
+                Filter(AggressiveFM)                
+            Else
+                Filter(Aggressive)
+            Endif
+            TalkNonConsensual()
+            SexNoAffair(Player, Actor)
+            Actor.setActorVar(tag_Rapist, 0)
+            Actor.setActorVar(tag_Raped, 1)
+        Else
+            Player.animate(fightlost)
+            "Oh no, I'm an idiot. I was trying to take revenge on my rapist, only to lose a fistfight to <Actor.him_or_her> again."
+            "The same fate awaits me ..."
+            masochist += 2
+            If Player.isMale() && !Actor.isMale()
+                Filter(AggressiveFM)                
+            Else
+                Filter(Aggressive)
+            Endif
+            TalkNonConsensual()
+            SexNoAffair(Actor, Player)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(400, vi_becomes_ag)

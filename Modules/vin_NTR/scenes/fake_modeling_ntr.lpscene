@@ -1,0 +1,66 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 8 - 21 
+WHO: Actor2 = getCompanion(); If Actor2.isDating() && Random(0, 100) < Actor2:attractiveness && Actor2:intelligence < 70
+OTHER:
+
+    SceneStart()
+    If [OpenRelationship() && random(0,100) > 70] || Actor:perversion > 75 || Actor:masochist < -50 || masochist > 50
+        Ignored = true
+    Else
+        Ignored = false
+    Endif
+    Actor = generatePersonTemporary()
+    Actor.makeInterested(Actor2)
+    Actor.dress()
+    Actor.show()
+    "My <Actor2.boyfriend_or_girlfriend> and I was just hanging out when suddenly a <Actor.man_or_woman> approached <Actor2.him_or_her> ..."
+    Actor:: "Hello there, I represent this city's biggest model agency. You look like you have what it takes to go far in this industry. Would you like to come to our office to sort out some arrangements?"
+    0:: "Sounds too good to be true"
+    1:: "Encourage <Actor2.name> to take this chance"
+    
+    If 0 && !Ignored
+        Actor2:: "I'm not that keen on becoming a model. And you're right, honey, this is too out of the blue, I'm a little bit suspicious too ..."
+    Else
+        If Ignored || !OpenRelationship()
+            masochist += 1
+            Actor:masochist -= 1
+        Endif
+        Actor2:perversion += 1
+        Actor2:: "My God, this is a once-in-a-lifetime opportunity! I've always wanted to be a model ..."
+        If 0
+            "<Actor2.name> seemed too struck by the prospect of becoming a model that <Actor2.he_or_she> paid no attention to my skepticism."
+            Actor2:attractiontoplayer -= 2
+        Endif
+        Actor:: "Please, follow me ..."
+        "I decided to come along just to make sure <Actor2.name> is safe ..."
+        setBackground(home)
+        "The agency office turns out to be rather small and more like a cheap motel room than an office."
+        Actor:: "As I said, you have the look we're looking for ... what remains to be seen is whether you have the drive and determination to do whatever it takes to survive and thrive in this cutthroat industry ..."
+        Actor2:: "I do ..."
+        Actor:: "Have you heard about casting couch culture? Let me tell you it's a very real and necessary part of the industry. You refuse to do it, and your modelling career will be cut short right away ..."
+        Actor:: "What are you waiting for? Show me how driven you are for success in this industry, and we'll give you a contract right away."
+        0:: "Put an end to this right now!"
+        1:: "Let <Actor2.name> fuck the agent for a modelling contract"
+        
+        If 0 && !Ignored
+            Actor:: "It's your loss ... Your possessive <Player.boyfriend_or_girlfriend> is ruining your career!"
+        Else
+            If 0
+                "Despite my protests, my <Actor2.boyfriend_or_girlfriend> seemed to be completely hypnotized by the promise of money and fame of a modeling career. <Actor2.He_or_She> completely ignored me and went for it."
+                Actor2:attractiontoplayer -= 5
+            Else
+                "I stayed silent, implying consent. I guess as <Actor2.his_or_her> <Player.boyfriend_or_girlfriend>, I should be happy that <Actor2.he_or_she> is getting such a great opportunity and I cannot be so selfish as to stand in the way of <Actor2.his_or_her> career success."
+            Endif
+            masochist += 1
+            Actor2:masochist -= 1
+            Actor2:perversion += 1
+            Sex(Actor, Actor2)
+            Actor:: "Well done, I was right about you. You have everything required for a successful modeling career. Now, let me go to the next room and grab some paperwork and we can sort out the contract right away ..."
+            Actor.hide()
+            "So we wait ... and wait ... and wait ... the agent never came bank"
+            "We soon found out that the so-called 'agency office' was in fact an AirBnB and <Actor2.name> was duped into sleeping with a charlatan ... How embarrassing"
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, fake_modeling_ntr)

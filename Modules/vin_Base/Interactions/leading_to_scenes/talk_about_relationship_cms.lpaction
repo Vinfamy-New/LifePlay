@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: talk_about_relationship_cms
+ACTION_NAME: Confirm NPC-NPC Relationship
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: talk_about_relationship_cms
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && !Actor.isTemporary()

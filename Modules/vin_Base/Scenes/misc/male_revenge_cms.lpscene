@@ -1,0 +1,42 @@
+WHAT: all
+WHERE: home
+WHEN: 8-20
+WHO: Actor = getRelatedPeople(Dating); If Actor0.isMale() && !Actor1.isMale() && Actor1:perversion > 70 && [Actor0:rapportwithplayer > 30 || Actor0.hadSex()] && !Actor0.isDating()
+OTHER: !Player.isMale()
+
+    // A situation for a female player. A male friend that likes the player wants to get back at their ex, so they ask the player to give them a blowjob that can be taped to send to their ex. It can increase attraction/rapport to the player if done
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    removeNpcRelationship(Actor0, Actor1)
+    "I was just relaxing at home when my friend <Actor0.name> suddenly showed up at my door, looking very depressed."
+    Actor0.dress()
+    Actor0.show()
+    Player:: "Oh my God, <Actor0.name>, what's wrong? Did something happen?"
+    Actor0:: "That whore, she cheated on me!"
+    "Oh no ... I always knew <Actor1.name> was a slut and <Actor0.name> is too good for her."
+    Actor0:: "She went on a girls' night out last night and ended up giving the bartender a blowjob in the club's bathroom."
+    Actor0:: "I broke up with that bitch!"
+    Player:: "You did the right thing ... you deserve better!"
+    Actor0:: "But I'm still mad! She shouldn't be able to get off this so easily ..."
+    Player:: "Huh? What do you have in mind?"
+    Actor0:: "I want revenge! I want to do to her what she did to me last night ... I want to send her a surprise tape!"
+    "And <Actor0.name> started looking at me ... I think I know why <Actor0.name> came here and where I came in the equation of him getting back at his ex ..."
+    0:: "I'll blow you and let you film"
+    1:: "No way"
+    
+    If 0
+        Player:: "Say no more ... I'm happy to help you get revenge on that bitch."
+        Filter(Blowjob)
+        Sex(Actor0, Player)
+        "<Actor0.name> filmed everything and sent it to his ex, who no doubt got a taste of her own medicine. Of course, I got a taste too ... of <Actor0.name>'s cum, that is."
+        Actor0:rapportwithplayer += 10
+        Actor0:attractiontoplayer += 10
+    Else
+        Player:: "I'm sorry but I don't think I like where this is going."
+        Player:: "I'm sure a prostitute would be happy to do it if you pay her enough."
+        Actor0:rapportwithplayer -= 10
+    Endif
+    SceneEnd()
+    timeout(1000, male_revenge_cms)
+

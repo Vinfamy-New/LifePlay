@@ -1,0 +1,6 @@
+ID: rfm
+NAME: Run for Mayor
+DESC: Launch a campaign to become the mayor of my city    
+ONCE: false
+CONDITIONS: none
+START: rfm_start

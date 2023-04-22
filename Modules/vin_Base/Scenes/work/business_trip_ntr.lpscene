@@ -1,0 +1,79 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: Sec = getPerson(tag_secretary); Boss = getSpecific(Boss)
+OTHER:
+
+    // Your boss borrows your own PA or SO working with you to accompany them during a business trip. If NTR is enabled, whoever it is may end up sleeping with the boss and even being pimped out to other executives as a sort of "sealing the deal" incentive.
+    
+    SceneStart()
+    dressFormal()
+    Dating = getSpecific(Dating)
+    Boss.dress()
+    Boss.show(2)
+    Boss:: "I'm going on a business trip out of town for a few days. My secretary happens to be on annual leave for that period. You know me, I can't handle everything myself outside of the office without some admin support. Can you borrow your secretary to accompany me for the trip?"
+    0:: "Let the boss take <Sec.name> with <Boss.him_or_her>"
+    1:: Dating.isColleague():: "Maybe <Dating.name> could go instead"
+    2:: "Sorry, but I need <Sec.name> here also"
+    
+    If 2
+        Ahead = false
+        Player:: "Sorry, but I have some work here of my own and I need my secretary's help as well. Maybe you can ask another colleague?"
+    Elseif 0
+        Ahead = true
+        Player:: "Of course ... you're <Sec.name>'s boss as well at the end of the day."
+        jobperformance += 2
+        Actor = Sec
+    Else
+        Ahead = true
+        Player:: "Why don't you take my <Dating.boyfriend_or_girlfriend> <Dating.name> instead? It will be a good opportunity for <Dating.his_or_her> career."
+        Boss:: "You sure? Thank you for your support. I'll let <Dating.him_or_her> know myself."
+        jobperformance += 4
+        Dating.dress()
+        Dating.show()
+        Sec.hide()
+        Actor = Dating
+    Endif
+    
+    If Ahead
+        If !isModEnabled(vin_NTR) || !Boss.isInterestedIn(Actor) || Actor:perversion < 50 || !Actor.isInterestedIn(Boss) || Boss:perversion < 50
+            "The trip went well according to both the boss and <Actor.name>. They came back with some new signed contracts with clients."
+        Else
+            "The trip went exceptionally well. They came back with an unbelievable number of new signed contracts with clients. The boss wouldn't stop praising how key was <Actor.name>'s role in the success of the trip. Suspicious, I tried to get more details and the boss wasn't too shy to tell me how everything went down either."
+            Player.hide()
+            setBackground(hotel)
+            "I should have known better but I could never have imagined it would only be their first night at the hotel ..."
+            "After many exhausting meetings that day in the hotel's conference room, <Actor.name> went back to <Actor.his_or_her> room and rest, ready for another busy day ahead."
+            setBackground(home)
+            "As <Actor.name> was about to go to sleep, <Actor.he_or_she> heard a knock on <Actor.his_or_her> door ..."
+            Boss.show(2)
+            Boss(Flirty):: "<Actor.name>, can I come in ... for tea?"
+            "It was obvious that <Boss.name> wants a hell lot more than tea from <Actor.name>. <Actor.He_or_She> must have known that once the boss is inside, <Actor.he_or_she> can't really say no ..."
+            "Yet <Actor.he_or_she> invited <Boss.him_or_her> in, whether this was simply business trying to impress the boss whatever it took or as revenge to me for letting the boss 'borrow' <Actor.him_or_her> without a second thought. Needless to say, they ended up spending the night together."
+            Sex(Boss, Actor)
+            Actor:perversion += Random(0, 0.5)
+            setBackground(hotel)
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Boss)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.dress()
+            Actor2.show()
+            
+            "Things only escalated further from the next morning till the end of the trip as the boss pimped <Actor.name> out to potential clients in order to seal the deals."
+
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Boss)
+                Actor3 = generatePersonTemporary()
+            endWhile
+            Actor3.dress()
+            Actor3.show()
+            
+            "Like a hard-working employee that <Actor.he_or_she> was, <Actor.name> rose up to the challenge and fucked the clients with diligence."
+            
+            Sex(Actor, Actor2, Actor3)
+            Player.show()
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, business_trip_ntr)

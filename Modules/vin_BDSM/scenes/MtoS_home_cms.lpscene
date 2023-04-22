@@ -1,0 +1,26 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getRelative(); If Actor.hadSex() && Actor:masochist < -50 && Actor:perversion > 50
+OTHER:
+
+    // If a family member have very high Defiant, in (both) very good relationships with player and player has yet to find a master. The member can take a initiative and require the player to be their slave, which player can refuse, but might fail if having to high submissive/perversion? Which will trigger a bonus scene and still make the player his/her slave. 
+
+    SceneStart()
+    
+    "I've had sex with my <Actor.relationship> and <Actor.he_or_she> now demanded me to submit to <Actor.him_or_her> and accepted <Actor.him_or_her> as my rightful <Actor.Master_or_Mistress> ..."
+    "Should I fully submit to <Actor.his_or_her> authority now?"
+    0:: "Submit to my <Actor.relationship> as <Actor.his_or_her> personal slave"
+    1:: "Not now"
+    
+    If 0
+        "My <Actor.relationship> once again stressed that I was worthless and should rightfully submit to <Actor.him_or_her> as <Actor.his_or_her> slave."
+        "As a slave, I swore to obey my <Actor.Master_or_Mistress>'s every commands. In fact, satisfying all <Actor.his_or_her> needs is all that I was born for."
+        Actor.setActorVar(tag_Master, 1)
+        Player.strip()
+        Player.dressBondage(Collar)
+        "To show <Actor.his_or_her> newly recognized ownership over <Actor.his_or_her> former <Actor.callplayer>, my <Actor.Master_or_Mistress> put a collar around my neck and forbid me from ever removing it."
+    Endif
+    
+    SceneEnd()
+    timeout(5000, MtoS_home_cms)

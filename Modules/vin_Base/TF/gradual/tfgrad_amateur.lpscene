@@ -1,0 +1,115 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: TfGame() && Player.isMale()
+
+    // Follow gonewildcouples subreddit for amateur por n -> Start noticing the guy more and inserting yourself in the girl's place -> don't even need the girls anymore and follow a bunch of subreddits for men posting nudes and dick pics instead -> make a female-sounding Reddit account and make flirtatous comments under these male nudes -> make fake female profiles on dating apps and catfish men into showing you their dicks -> use DeepFak e AI to put on webcam show for them -> Tech malfunctions and you're exposed, thankfully, the guy is bi and DTF anyway ...
+    
+    SceneStart()
+    dys = Player.getActorVar(tf_dys) 
+    stage = Player.getActorVar(tfgrad_amateur)
+    
+    If dys > 60 && stage > 4
+        If Random(0, 100) < 50 && dys > 80 && stage > 5
+            Actor = generatePersonTemporary()
+            While !Actor.isMale()
+                Actor = generatePersonTemporary()
+            endWhile
+            secondScreen(Actor)
+            Actor.show()
+            "My deepfake webcam sex thing was going so well when in the middle of my performance, the tech malfunctions and I'm exposed as a guy."
+            Actor:: "You're a guy! You know you shouldn't catfish people like that!"
+            Player:: "I'm sorry ... I just fantasize about being a woman getting fucked by a man so much these days ..."
+            secondScreen()
+            Actor:: "Well, I can't help you becoming a woman. But you'd definitely not be the first man I'm fucking. I swing both ways you see ... Why don't you put this fake webcam bullshit behind you and come to my place tonight?"
+            0:: "Fuck him"
+            1:: "No thanks"
+            
+            If 0
+                "Just my luck to be exposed for my deepfake webcam, but to a bisexual guy who's attracted to my male form anyway."
+                dys += 7
+                stage => 7
+                setBackground(home)
+                Actor.show()
+                Player.show()
+                "I meet up with him that night."
+                Sex(Actor, Player)
+            Endif
+        Else
+            "Having had so much fun collecting men's nudes and dick pics by catfishing them as a hot woman, I keep hitting the wall when they start asking for webcam sex."
+            "Then I realize that a Deepfake AI and voice alteration can be my savior, albeit it would be a lot of effort to set up."
+            0:: "Deepfake webcam sex chat"
+            1:: "Let's not fall further the catfish rabbit hole"
+            
+            If 0
+                "Took me weeks to set up everything but I finally managed to achieve decently realistic results that could fool most men. Or at least those robbed of their caution due to horniness."
+                "Webcam sex with random men on the dating app was quite incredible. It's the only way a guy can be intimate with me thinking of me as a woman for now."
+                dys += 6
+                stage => 6
+            Endif
+        Endif
+    Elseif dys > 40 && stage > 3
+        "Having made a fake female Reddit account to make harmless flirtatous comments with men who are showing off on there and enjoy the attention anyway, I can't help but seek out something a bit more exclusive that's not just on show for the whole of the internet."
+        "I admire the confidence of posting your nudes on a public subreddit, but having a man sending you a dick pic privately is just way hotter."
+        0:: "Make fake female profiles on dating apps"
+        1:: "That would a serious catfish crime now!"
+        
+        If 0
+            dys += 5
+            stage => 5
+            "I couldn't believe how easy it was to get a man to send you his nudes and dick pics as long as you pose as an attractive woman DTF on dating apps."
+            "Okay, I'm probably not the only 'girl' these horny men send these to, but still, I can't help but feel a sense of accomplishment of building up such a impressive gallery of dicks in just a couple of days on these dating apps."
+            "And some of these dicks are quite impressive ... Others' strength lies less in the size of their dick but their dirty talk in the chat."
+            "All too hot for me to handle sometimes that I need to jerk off to release ... then as post-nut clarity hits, feel a hint of regret for my catfishing action."
+            dys += 5
+            stage => 5
+            "However, as soon as the guy mentions webcam, that's me going silent and the guy immediately becomes suspicious ... I have no way to overcome that ... at least not yet."
+        Endif
+    Elseif dys > 20 && stage > 1
+        If Random(0, 100) < 50 && stage > 2
+            "I've been following many subreddits for dick pics and male nudes. I'm sort of jealous of these female users, most of whom aren't even that attractive judging by their profile pics, being able to comment flirtatously under these men's pics and get flirted back. Some even get sexual proposals from that who knows may end in a happy ending."
+            "Although, it's just Reddit, who's going to verify the gender of my account just making a few comments ..."
+            0:: "Make a female-sounding Reddit account to flirt with nude-posting men"
+            1:: "Let's not catfish anyone"
+            
+            If 0
+                "I'm not harming anyone here. If anything, I'm making their day by making them think an attractive young woman was impressed by their body and tool and flirted with them."
+                dys += 4
+                stage => 4                
+            Endif
+        Else
+            "I've been following the gonewildcouples subreddit long enough that I've started to accept that the men on there have their own attraction. There are of course far more 'dickpics'-type subreddits than subreddits for nude couples, there is probably even one for each age group, ethnicity and dick shape. Maybe I should follow some of them."
+            0:: "Follow subreddits for dick pics and male nudes"
+            1:: "You need a girl in the picture to get that aroused."
+            
+            If 0
+                "Wow, some of these bodies .... some of these dicks ... And it's the masculine confidence to show off for everyone as well. It's a shame most of them clearly state they're straight and only interested in women though ... If only I'm a woman."
+                dys += 3
+                stage => 3
+            Endif
+        Endif
+    Else
+        "I follow the gonewildcouples subreddit for amateur porn where real life couples post their nudes together or actual sex tape, which sometimes can be quite refreshing compared to the over-produced studio stuffs."
+        0:: "My eyes are drawn mostly to the girls"
+        1:: "Start noticing their boyfriends more"
+        
+        If 1
+            "I won't lie. Some of the guys on there are decent-looking and have big packages ... no wonder they show off their body online."
+            "For some really hot amateur clips, I can't help but insert myself into the girl on screen getting fucked ..."
+            dys += 2
+            stage => 2
+        Endif
+    Endif
+    
+    Player.setActorVar(tfgrad_amateur, stage)
+    If dys > 100
+        dys => 100
+    Endif
+    "My gender dysphoria level is now <dys>."
+    Player.setActorVar(tf_dys, dys)
+    If dys > 90
+        followUp(tfgrad_magic)
+    Endif
+    SceneEnd()
+    timeout(100, tfgrad_amateur)

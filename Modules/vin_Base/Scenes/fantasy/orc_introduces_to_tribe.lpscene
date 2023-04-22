@@ -1,0 +1,35 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isRace(Orc) && Actor.hadSex() && Player.isInterestedIn(Actor)
+OTHER: PercentageOrcs > 0
+
+
+    SceneStart()
+    If Actor.isRace(Orc) && PercentageOrcs > 0
+        "My orc lover, <Actor.name>, is inviting me to come with <Actor.him_or_her> to one of <Actor.his_or_her> tribe's gatherings."
+        "No doubt the arrogant orc wants to show off me as <Actor.his_or_her> latest conquest."
+        "Of course, I heard about how these gatherings of the orc tribes tend to go. If I accept this invitation, I should be prepared for a long night, being passed from one orc to another."
+        0:: "Attend <Actor.name>'s tribal gathering"
+        1:: "I'd rather not"
+        
+        If 0
+            setBackground(fraternity)
+            "Here we are at the tribe's gathering. I've never seen so many orcs in one place before, all equally horny. This is going to be a massive orgy."
+            count = 0
+            While count < 7
+                count += 1
+                Actor2 = generatePersonTemporary()
+                Actor2.blendPreset(orc)
+                If Player.isInterestedIn(Actor2)
+                    Actor2.show()
+                    "Here comes another orc from <Actor.name>'s tribe that wants to fuck me rough ..."
+                    Sex(Actor2, Player)
+                Endif
+                Actor2.hide()
+            Endwhile
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(300, orc_introduces_to_tribe)

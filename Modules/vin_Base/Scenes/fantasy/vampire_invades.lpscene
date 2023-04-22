@@ -1,0 +1,49 @@
+WHAT: sleep
+WHERE: home
+WHEN: 20 - 5
+WHO: none
+OTHER: PercentageVampires > 0 && !Player.isRace(Vampire)
+
+    SceneStart()
+    Player.closeEyes()
+    Player.animate(na_sleep)
+    "It's a peaceful night sleep until ..."
+    Actor = generatePersonTemporary()
+    Actor.blendPreset(Vampire)
+    Actor.dress()
+    Actor.show()
+    Actor:: "Finally, someone left <Player.his_or_her> window open ... I need this blood so bad ..."
+    Player.closeEyes(false)
+    Player.animate()
+    Player.moveToPersonStand(Actor, 100)
+    Player:: "What the fuck!"
+    Player:: "Stop there. What are you trying to do?"
+    Player:: "Hang on ... I know what you are ... you're a vampire, aren't you? You were trying to suck my blood."
+    Actor:: "Please ... I'm desperate ... I'm starving to death ... It's been a week since I last managed to drink blood."
+    0:: "Kick <Actor.him_or_her> out"
+    1:: "Offer some blood as mercy"
+    2:: "Demand sex in exchange for blood"
+    
+    If 0
+        Player:: "Get out of here now! Or I'll kill you!"
+        "I couldn't care less if a vampire dies from lack of blood ..."
+    Elseif 1
+        Player:: "Well, if it's to save a life then I guess it's no different from a normal blood donation at the hospital"
+        animatePair(Actor, Player, Kissing)
+        "The vampire sucked out some of my blood, which saved <Actor.his_or_her> life, but I feel quite weakened."
+        fitness -= 0.5
+        attractiveness -= 0.5
+        karma += 20
+    Else
+        Player:: "I can spare you some blood, but in exchange, you'll have to fuck me afterwards."
+        Actor:: "Alright ... I guess I have no other choice ... It's this or death."
+        animatePair(Actor, Player, Kissing)
+        "The vampire sucked out some of my blood, which saved <Actor.his_or_her> life, but I feel quite weakened."
+        fitness -= 0.5
+        attractiveness -= 0.5
+        Player:: "Now, about our deal ..."
+        Sex(Player, Actor)
+    Endif
+    
+    SceneEnd()
+    timeout(300, vampire_invades)

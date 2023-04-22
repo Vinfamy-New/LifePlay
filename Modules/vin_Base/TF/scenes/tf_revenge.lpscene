@@ -1,0 +1,131 @@
+WHAT: all
+WHERE: all, -home, -prison, -work
+WHEN: 0-24
+WHO: none
+OTHER: TfGame() && !Player.isMale()
+
+    // You used to have a crush on a popular girl and felt helpless when she rejected and humiliated you then started going out with your bully. Now female, you came across them now as a couple having a loud argument and can finally take revenge, but on whom is the question!
+    
+    SceneStart()
+    "I was just going about my day when I overheard some loud arguments between two rather familiar faces."
+    Actor = generatePersonTemporary()
+    While !Actor.isFemale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.blendPreset(fashion_model_F)
+    Actor:age => Random(18, 29)
+    Actor:attractiveness => Random(80, 100)
+    Actor:interpersonal => Random(80, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.makeInterested(Player)
+    Actor:attractiontoplayer += 60
+    
+    Actor.dress()
+    Actor.show()
+    "It's <Actor.name>, a popular girl I used to have a crush on."
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.blendPreset(bodybuilder)
+    Actor2:age => age + Random(2, 10)
+    Actor2:attractiveness => Random(80, 100)
+    Actor2:interpersonal => Random(80, 100)
+    Actor2:fitness => Random(80, 100)
+    Actor2:martial => Random(80, 100)
+    Actor2:muscle => Random(80, 100)
+    Actor2:masochist => -90
+    Actor2:perversion => 90
+    Actor2.randomizeFace()
+    Actor2.randomizeHairs()
+    Actor2.makeInterested(Player)
+    Actor2:attractiontoplayer += 60
+    
+    Actor2.dress()
+    Actor2.show()
+    "And her boyfriend <Actor2.name>, who used to bully me."
+    "Years ago, I tried to ask <Actor.name> out but she rejected and humiliated me in front of everyone, telling me that even if I was the only man left in the whole world, she would rather be with a girl than be with me. Later on, I found out that she was already sleeping with <Actor2.name>, who bullied me for years and one of the biggest assholes I ever had the displeasure to know, and they soon started a relationship."
+    "Which is clearly not going so well for either of them since they're having a huge fight in public. If they keep up, I think someone might even call the police."
+    Actor:: "You'll regret this, asshole!"
+    Actor2:: "No, it's you who will regret this, bitch!"
+    Actor.hide()
+    Actor2.hide()
+    "Soon they had enough of going at each other, and flew away in rage in opposite directions. That must have been that for their relationship. Knowing these two shallow douchebags, each of them is probably going to find someone to fuck, film the whole thing and send the video to each other as revenge."
+    "Suddenly, I remember I'm no longer the guy that <Actor.name> rejected nor the guy that <Actor2.name> bullied. I'm a girl now, a hot one that neither of them would recognize. This is my perfect chance for revenge."
+    0:: "Seduce <Actor.name>"
+    1:: "Seduce <Actor2.name>"
+    2:: "Maybe not"
+    
+    If 0
+        Actor.show()
+        Player.moveToPersonStand(Actor)
+        "I decided to go after <Actor.name>, still remembering her old insult to me about rather sleeping with a girl. This could work."
+        Player:: "Excuse me, miss."
+        Actor:: "Who are you? And why should I care?"
+        "A true bitch, as expected ..."
+        Player:: "I see you're having an argument with your boyfriend ..."
+        Actor:: "Ex boyfriend!"
+        Player:: "Exactly, you see guys like that are all super insecure about their masculinity."
+        Player:: "Nothing would piss him off more than being humiliated by a girl ..."
+        Player:: "Like a girl that fucks his ex for example ..."
+        Actor:: "That's an amazing idea ... say no more!"
+        setBackground(home)
+        "Soon enough, we ended up at their place and I got to fuck <Actor.name> on their bed!"
+        Sex(Player, Actor)
+        "We filmed the whole thing and <Actor.name> sent it to <Actor2.name>, with the same insult that she gave me years ago."
+        Actor:: "<Actor2.name>, even if you were the only man left in the whole world, I would rather be fucked by a girl than be with you!"
+        "Sweet revenge ... <Actor2.name>, that's what you get for bullying me and stealing the girl I like."
+    Elseif 1
+        Actor2.show()
+        Player.moveToPersonStand(Actor2)
+        "I decided to go after <Actor2.name>. This could work, this asshole would fuck anyone, perfect revenge on the girl that used to reject me. Now, I'm fucking her boyfriend!"
+        Player:: "Excuse me, mister."
+        Actor2:: "Oh hi there, aren't you an eye candy?"
+        "A true sleazeball as expected ..."
+        Player:: "I see you're having an argument with your girlfriend ..."
+        Actor2:: "Ex girlfriend!"
+        Player:: "Exactly, I don't see why a hot guy like you would settle for such an average looking girl in the first place."
+        Player:: "Why don't you show her how you couldn't give a crap about her ..."
+        Player:: "Like fucking a new girl as soon as you break up with her for example ..."
+        Actor2:: "That's an amazing idea ... say no more!"
+        setBackground(home)
+        "Soon enough, we ended up at their place and I got to fuck <Actor2.name> on their bed! The sex was incredibly rough."
+        Filter(Aggressive)
+        Sex(Actor2, Player)
+        "We filmed the whole thing and <Actor2.name> sent it to <Actor.name>."
+        Actor2:: "Fuck you bitch, look how much hotter she is compared to you!"
+        "Sweet revenge ... although once that victorious feeling passes, I couldn't help but feel strange that I've just slept with my former bully ..."
+        0:: "I enjoyed being dominated by <Actor2.name>"
+        1:: "It was just a means to an end"
+        
+        If 0
+            masochist += 5
+            "I couldn't lie to myself ... I really enjoyed that way too much ... The way he dominated and manhandled me ... The way he called me names, fucked me roughly and treated me like his sex slave. Everything about him turned me on ..."
+            "The most unsettling thing about it was in a way, <Actor2.name> didn't treat me any differently as a woman from when he used to bully me as a man ..."
+            "My fear and hatred of him as man has turned into some sort of submissive desires for him to fuck me hard a woman."
+            "He did call me a sissy quite a few times when he was bullying me back then, have I become one?"
+            Actor2:: "That was quite good, you're a submissive slut who enjoy being treated like trash, aren't you?"
+            Actor2:: "Here, put your number in my phone. I'll call you whenever I feel like fucking you again!"
+            0:: "Surrender my number to my former bully"
+            1:: "Turn him down"
+            
+            If 0
+                masochist += 5
+                Actor2.makePermanent()
+                exchangeContact(Actor2)
+                "I decided to exchange numbers with my former bully ... Have I surrendered myself and submitted to a more dominant man?"
+                "Why have I done that? This was supposed to be revenge, not submission."
+                "Maybe my transformation is fate after all. Since I was too much of a sissy to stand up for myself against a bully in my previous life as a man, I might as well be turned into a girl and become my former bully's cock sleeve instead."
+            Else
+                "Let's get out of here before it's too late and I end up completely submitting to me."
+            Endif            
+        Else
+            "Job done, let's get out of here ..."
+        Endif
+    Else
+        "It's best not to get involved in their stupid drama."
+    Endif
+    
+    SceneEnd()
+    timeout(300, tf_revenge)

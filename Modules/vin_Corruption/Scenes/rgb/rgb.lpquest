@@ -1,0 +1,6 @@
+ID: rgb
+NAME: Repressed Girl Boss
+DESC: You're assigned to help your repressed new girl boss and her husband settle in the new country
+ONCE: false
+CONDITIONS: none
+START: rgb_start

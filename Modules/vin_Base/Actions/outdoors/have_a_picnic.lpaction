@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: have_a_picnic
+ACTION_NAME: Have a picnic
+WHERE: river, park
+WHEN: 6 - 18
+MINUTES: 45 - 90
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT:
+EFFECTS: money -50 (START), mood +10 (START), interpersonal +0.25 (START), energy -10 (START)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: picnic
+ANIMATION: picnic

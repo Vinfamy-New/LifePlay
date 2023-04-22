@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: experiment_vore
+ACTION_NAME: Take part in Vore experiment
+WHERE: hospital, clinic
+WHEN: 0 - 24
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: experiment_vore
+ANIMATION:

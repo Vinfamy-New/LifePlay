@@ -1,0 +1,206 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getPerson(tag_Master)
+OTHER:
+
+    // Content: besides working, sleeping or during a party event, being a slave (preferably female sub) can trigger a event where you’re called by your master to finish the requested service, multiple branch event preferable.
+
+    SceneStart()
+    "I was going about my day when my <Actor.master_or_mistress> called me."
+    secondScreen(Actor)
+    Actor:: "Slave, come over at once!"
+    Player:: "Of course, <Actor.master_or_mistress>."
+    
+    Follow = false
+    If isWithCompanion() && !CurrentCompanion.isCreature()
+        SlaveNpc = CurrentCompanion.getActorVar(tag_SlaveNpc)
+        
+        If SlaveNpc > 0
+            "Since it happened that I was with <CurrentCompanion.name>, who was another of my <Actor.Master_or_Mistress>'s slaves, my <Actor.Master_or_Mistress> demanded that we go together."
+            Actor3 = CurrentCompanion
+            Actor3.dressBondage(Collar)
+        Else
+            "Because I was hanging out with <CurrentCompanion.name>, I had to find an excuse to bid farewell to <CurrentCompanion.him_or_her> before heading to my <Actor.master_or_mistress>'s place."
+            If CurrentCompanion:masochist > 25 && !CurrentCompanion.isMale() && CurrentCompanion.isInterestedIn(Actor) && Actor.isInterestedIn(CurrentCompanion)
+                Follow = true
+                "<CurrentCompanion.name> seemed a bit suspicious that I had to go so suddenly after a phone call with someone, but let me go in the end."
+                CurrentCompanion.hide()
+            Else
+                "<CurrentCompanion.name> didn't seem to suspect a thing."
+                endDate()
+            Endif
+        Endif
+    Endif
+    
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    Player.dressBondage(Collar)
+    "I have already accepted my place as <Actor.name>'s personal slave. As my rightful <Actor.master_or_mistress>, <Actor.he_or_she> can do whatever <Actor.he_or_she> wants with me!"
+    Player:: "I'm here as you requested, <Actor.Master_or_Mistress>. What do you need of me?"
+    
+    If Follow
+        CurrentCompanion.show()
+        "Suddenly, just as my <Actor.Master_or_Mistress> was about to open <Actor.his_or_her> mouth, <CurrentCompanion.name> made <CurrentCompanion.his_or_her> presence known. As it turned out, <CurrentCompanion.he_or_she> had been following me this whole time and tracked me down to my <Actor.Master_or_Mistress>'s place."
+        CurrentCompanion:: "I knew it ... I've suspected you're submitted to someone as a slave for a while now."
+        "Just as I was expecting <CurrentCompanion.name> to criticize me for my life choices, <CurrentCompanion.he_or_she> shocked me ..."
+        CurrentCompanion:: "You should have just told me ... It's something I've fantasized about for a while now ... It's so hot to feel that a <Actor.Master_or_Mistress> is fully in control of you."
+        CurrentCompanion.moveToPersonStand(Actor, 50)
+        CurrentCompanion:: "<Actor.Master_or_Mistress>, would you accept me as your slave as well. Together with <Player.name>, I swear to obey your every commands. In fact, satisfying all your needs is all that we were born for."
+        If CurrentCompanion.isDating()
+            "I can't believe that my own <CurrentCompanion.husband_or_wife> is now willing to join me in slavery and submit to the same <Actor.Master_or_Mistress> as me."
+        Elseif CurrentCompanion.isRelative()
+            "I can't believe that my own <CurrentCompanion.relationship> is now willing to join me in slavery and submit to the same <Actor.Master_or_Mistress> as me."        
+        Endif
+        "<Actor.name> agreed that just like me, <CurrentCompanion.name> was worthless and should rightfully submit to <Actor.him_or_her> as <Actor.his_or_her> slave."
+        0:: "Beg my <Actor.Master_or_Mistress> to spare <CurrentCompanion.name>"
+        1:: "I'm delighted for <CurrentCompanion.name> to accept <CurrentCompanion.his_or_her> place beside me"
+        
+        If 0
+            Player:: "Please, <Actor.Master_or_Mistress>. <CurrentCompanion.name> isn't ready for this and doesn't really know what <CurrentCompanion.he_or_she>'s getting <CurrentCompanion.himself_or_herself> into."
+            Player:: "It will only ruin your pleasure."
+            Actor:: "Fine, since you've been such a good slave, I'll spare <CurrentCompanion.him_or_her> for now ... But if <CurrentCompanion.name> keeps insisting on becoming my slave next time, I'll have no choice but grant <CurrentCompanion.him_or_her> <CurrentCompanion.his_or_her> wish. I'm generous like that."
+            CurrentCompanion:: "What? How selfish are you? Why could you do it but I couldn't?"
+            CurrentCompanion:rapportwithplayer -= 10
+        Else
+            CurrentCompanion:rapportwithplayer += 20
+            CurrentCompanion.setActorVar(tag_SlaveNpc, 1)
+            CurrentCompanion.strip()
+            CurrentCompanion.dressBondage(Collar)
+            "To show <Actor.his_or_her> newly recognized ownership of <CurrentCompanion.name>, my <Actor.Master_or_Mistress> put a collar around <CurrentCompanion.his_or_her> neck and forbid <CurrentCompanion.him_or_her> from ever removing it."
+            Actor3 = CurrentCompanion
+        Endif
+    Elseif !Actor3.isValid()
+        Actor3 = getPerson(tag_SlaveNpc)
+        If Actor3.isValid()
+            "Another of my <Actor.Master_or_Mistress>'s slaves, <Actor3.name>, was already there as well."
+            Actor3.show()
+            Actor3.dressBondage(Collar)
+        Endif
+    Endif
+    
+    If Random(0, 100) < 25
+        "My <Actor.Master_or_Mistress> demanded that I attend to <Actor.his_or_her> sexual needs right away ..."
+        Player:: "Yes, of course, I'm at your service, <Actor.Master_or_Mistress>."
+        Sex(Actor, Player)
+        
+        If Actor3.isValid()
+            "Of course, I'm not the only slave there and once my <Actor.Master_or_Mistress> was done with me, it's <Actor3.name>'s turn."
+            Sex(Actor, Actor3)
+            
+            If !Actor.isSameGender(Player) || !Actor3.isSameGender(Player)
+                "Finally, our <Actor.Master_or_Mistress> demanded that <Actor3.name> and I attend to <Actor.his_or_her> needs together."
+                Sex(Actor, Player, Actor3)   
+            Else
+                "Finally, our <Actor.Master_or_Mistress> demanded that <Actor3.name> and I put on a show for <Actor.him_or_her> to watch."
+                Sex(Player, Actor3)        
+            Endif
+        Endif
+    Elseif Random(0, 100) < 33
+        Actor2 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2.makeInterested(Player)
+        Actor2.dress()
+        Actor2.show()
+        "My <Actor.Master_or_Mistress> invited over a friend of <Actor.his_or_her> and demanded that I attend to <Actor2.his_or_her> sexual needs right away ..."
+        Player:: "Yes, of course, anything you want, <Actor.Master_or_Mistress>. I'll pleasure <Actor2.Mr_or_Ms> <Actor2.name> as best as I can on your behalf."
+        Sex(Actor2, Player)
+        
+        If Actor3.isValid()
+            "Of course, I'm not the only slave there and once my <Actor.Master_or_Mistress>'s friend was done with me, it's <Actor3.name>'s turn."
+            Sex(Actor2, Actor3)
+            
+            If !Actor2.isSameGender(Player) || !Actor3.isSameGender(Player)
+                "Finally, our <Actor.Master_or_Mistress> demanded that <Actor3.name> and I attend to <Actor.his_or_her> friend's needs together."
+                Sex(Actor2, Player, Actor3)
+            Else
+                "While <Actor.his_or_her> friend was having a go at <Actor3.name>, <Actor.Master_or_Mistress> got turned on as well and demanded that I make myself useful."
+                Sex(Actor, Player)   
+            Endif
+        Endif
+    Elseif Random(0, 100) < 50 && isModEnabled(vin_Bestiality)
+        Actor2 = generateCreatureTemporary()
+        While !Player.isInterestedIn(Actor2)
+            Actor2 = generateCreatureTemporary()
+        Endwhile
+        
+        If Actor2.isCreatureType(Horse)
+            setBackgroundCustom(stable)
+            Actor2.show()
+            "My <Actor.Master_or_Mistress> took me to <Actor.his_or_her> stable and demanded that I attend to <Actor.his_or_her> horse <Actor2.name>'s natural needs right away ..."
+        Else
+            Actor2.show()
+            "My <Actor.Master_or_Mistress> took <Actor.his_or_her> trusty pet dog <Actor2.name> with <Actor.him_or_her> and demanded that I attend to the animal's natural needs right away ..."       
+        Endif
+        
+        Player:: "Yes, of course, anything you want, <Actor.Master_or_Mistress>. I'll pleasure <Actor2.him_or_her> as best as I can on your behalf."
+        Sex(Actor2, Player)
+
+        If Actor3.isValid()
+            "Of course, I'm not the only slave there and once my <Actor.Master_or_Mistress>'s pet was done with me, it's <Actor3.name>'s turn."
+            Sex(Actor2, Actor3)
+            
+            "Finally, our <Actor.Master_or_Mistress> demanded that <Actor3.name> and I relieve <Actor.his_or_her> pet together."
+            Sex(Actor2, Player, Actor3)
+        Endif
+    Else
+        If Random(0, 100) < 14
+            setBackground(street)
+            "My <Actor.Master_or_Mistress> tied me up and left me in a dodgy part of town ..."
+        Elseif Random(0, 100) < 17
+            setBackground(park)
+            "My <Actor.Master_or_Mistress> tied me up and left me in a public park ..."        
+        Elseif Random(0, 100) < 20
+            setBackground(beach)
+            "My <Actor.Master_or_Mistress> tied me up and left me on a public beach ..."        
+        Elseif Random(0, 100) < 25
+            setBackground(forest)
+            "My <Actor.Master_or_Mistress> tied me up and left me in the middle of a forest ..."        
+        Elseif Random(0, 100) < 33
+            setBackground(river)
+            "My <Actor.Master_or_Mistress> tied me up and left me by a popular fishing spot ..."        
+        Elseif Random(0, 100) < 50
+            setBackground(mountain)
+            "My <Actor.Master_or_Mistress> tied me up and left me on a hill popular with hikers ..."
+        Else
+            setBackground(pool)
+            "My <Actor.Master_or_Mistress> tied me up and left me at a popular public swimming pool ..."        
+        Endif
+        Player.dressBondage()
+        Player.dressBondage(Handcuffs)
+        Player.dressBondage(Shincuffs)
+        Player.dressBondage(Thighcuffs)
+        "<Actor.He_or_She> also left a sign next to me that simply said 'Enjoy!'"
+        If Actor3.isValid()
+            Actor3.movetoPersonStand(Player, 50)
+            "Of course, I'm not the only slave there and <Actor.Master_or_Mistress> did the same to <Actor3.name> and leave <Actor3.him_or_her> next to me."
+            Actor3.dressBondage()
+            Actor3.dressBondage(Handcuffs)
+            Actor3.dressBondage(Shincuffs)
+            Actor3.dressBondage(Thighcuffs)            
+        Endif
+        count = 0
+        While count < 4
+            Actor2 = generatePersonTemporary()
+            While !Actor.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+
+            "A stranger passed by and took up the offer."
+            If Actor3.isValid() && Random(0, 100) < 50
+                "Just as I was getting excited, it became clear that it's my fellow slave <Actor3.name> that caught this particular stranger's attention. I can't help but feel a hint of jealousy."
+                Sex(Actor2, Actor3)
+            Else
+                Sex(Actor2, Player)
+            Endif
+            count += 1
+        Endwhile
+        Actor:: "Well done, slave, you've worked hard for your <Actor.Master_or_Mistress> today ..."
+    Endif
+    SceneEnd()
+    timeout(150, master_calls_slave_cms)

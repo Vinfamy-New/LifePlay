@@ -1,0 +1,65 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If Actor.isRace(Orc) && !Actor.isSameGender(Player)
+OTHER: none
+
+    SceneStart()
+    "I'm currently in a relationship with <Actor.name>, an Orc. While <Actor.he_or_she> loves me, it's clear to me sometimes that when it comes to choosing between me and <Actor.his_or_her> tribe, it's <Actor.his_or_her> loyalty to the tribe that wins every time."
+    Actor.dress()
+    Actor.show()
+    Actor:: "Baby, can we talk about something?"
+    "I know that face ... it's something with <Actor.his_or_her> tribe again!"
+    Actor:: "You know one of my tribe's elders is celebrating <Actor.his_or_her> birthday soon ... As a subordinate within the tribe, I'm supposed to give <Actor.him_or_her> something special as a tribute or it will seriously affect my standing within the tribe."
+    Actor:: "I know my <Actor.brothers_or_sisters> are sending their <Player.husbands_or_wives> to pleasure the elder as tribute. A birthday orgy if you like."
+    "I think I know where this is going ..."
+    0:: "Agree to pleasure <Actor.name>'s elder"
+    1:: "No way"
+    
+    If 0
+        Actor:: "Alright ... at least I won't be alone there. Might end up not having to do much pleasuring myself ..."
+        setBackground(fraternity)
+        Actor2 = generatePersonTemporary()
+        While !Actor.isSameGender(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2:age => Random(50, 100)
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        Actor2.blendPreset(Orc)
+        Actor2.dress()
+        Actor2.show()
+        "That must be the Orc elder celebrating <Actor2.his_or_her> birthday ..."
+        
+        Actor3 = generatePersonTemporary()
+        While !Player.isSameGender(Actor3)
+            Actor3 = generatePersonTemporary()
+        Endwhile
+        Actor3:age => Random(18, 30)
+        Actor3.randomizeFace()
+        Actor3.randomizeHairs()
+        Actor3.blendPreset(Orc)  
+        Actor3.show()
+        "That's <Actor3.name>, another Orc <Actor3.man_or_woman> being offered as tribute alongside me ..."
+        
+        Actor4 = generatePersonTemporary()
+        While !Player.isSameGender(Actor4)
+            Actor4 = generatePersonTemporary()
+        Endwhile
+        Actor4:age => Random(18, 30)
+        Actor4.randomizeFace()
+        Actor4.randomizeHairs()
+        Actor4.blendPreset(Orc)  
+        Actor4.show()
+        "And that's <Actor4.name>, another tribute ... Also an Orc"
+        
+        "Soon enough, <Actor3.name>, <Actor4.name> and I were called to come pleasure the Elder together."
+        Sex(Actor2, Actor3, Actor4, Player)
+        
+        Actor:attractiontoplayer += 3
+    Else
+        Player:: "No way! I'm not sleeping with some Orc elder I've never met before just so you can improve your standing within your stupid tribe."
+        Actor:attractiontoplayer -= 3
+    Endif
+    SceneEnd()
+    timeout(500, orc_tribute)

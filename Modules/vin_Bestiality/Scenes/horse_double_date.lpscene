@@ -1,0 +1,135 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCreature(); If Actor.isCreatureType(Horse)
+OTHER:
+
+    // You're part of a Facebook group of horse owners in your city, you see someone interesting making a post wanting to make a new friend but with no comments so far. You may decide to get in touch and have a picnic bring along your respective horses. It may end up innocent enough, you and the other owner may simply hook up, or depending on your and your date's orientation and the horses' genders, may end up in some swinging or threesome action.
+
+    SceneStart()
+    "I'm part of a Facebook group for horse owners in my local area. There's a new post on the group."
+    Actor2 = generatePersonTemporary()
+    Actor2.dress()
+    secondScreen(Actor2)
+    Actor2.show()
+    Actor2:: "Hi fellow horse lovers, I'm <Actor2.name>. I just moved into town and want to make new friends. Anyone interested in a picnic with me and my horse?"
+    "No comments at all so far. Poor <Actor2.guy_or_girl> ... Maybe I should go make a new friend?"
+    0:: "Go on a picnic with <Actor2.name> and <Actor2.his_or_her> horse"
+    1:: "I'm not in the mood"
+    
+    If 0
+        secondScreen()
+        "Why not? Always nice to meet like-minded people."
+        Random
+            setBackground(park)
+            setBackground(river)
+        endRandom
+        "We agreed on a picnic in a nice spot I suggested."
+        Player.animate(picnic)
+        Actor2.animate(picnic)
+        Actor.show()
+        Actor.moveToPersonStand(Player, 50)
+        Actor3 = generateCreatureTemporary(Horse)
+        Actor3.show()
+        Actor3.moveToPersonStand(Actor2, 50)
+        "Of course, we both brought our horses along. <Actor2.name>'s horse is a <Actor2.stallion_or_mare> called <Actor3.name>"
+        "This is nice ... <Actor2.name> and I get along just fine."
+        0:: "Exchange numbers"
+        1:: "No"
+        
+        If 0
+            Actor2.makePermanent()
+            exchangeContact(Actor2)
+        Endif
+        "Since we already connect so well based on our mutual interest, should I push my luck and try to hook up with <Actor2.name>?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "I tried to make out with <Actor2.name>" 
+            If Actor2:attractiontoplayer > 15   
+                "And <Actor2.he_or_she> responded in kind."
+                Sex(Player, Actor2)
+            Else
+                Actor2:: "Sorry, but I think you got the wrong message."
+                Player:: "Sorry, I didn't mean to offend."
+            Endif
+        Endif
+        
+        If Actor.hadSex() && Random(0, 100) < 33
+            "As we're enjoying our time together, my horse <Actor.name> starts getting a bit restless."
+            "Oh no, I recognize these behavior ... <Actor.he_or_she> is getting aroused for some reason and is wanting to fuck me now. It's the worst possible time as I try to impress my new friend."
+            "Last thing I want is to scare <Actor2.name> off with the sexual relationship I'm having with my horse."
+            Actor2:: "I knew it!"
+            Player:: "What do you mean?"
+            Actor2:: "You and your horse ... you've done it, haven't you?"
+            Actor2:: "I could tell the moment I meet you in person that there's something special about the chemistry you have with your horse."
+            
+            Actor2:: "I'm always been curious about sex with a horse, to be honest."
+            Actor2:: "Since your horse obviously has a lot of experience already, would you mind letting me try it with your horse first?"
+            0:: "Sure"
+            1:: "<Actor.name> is mine alone"
+            
+            If 0
+                Sex(Actor, Actor2)
+                If !Actor2.isMale() && !Player.isMale()
+                    Player:: "Here, let me join you and teach you a thing or two."
+                    Sex(Actor, Player, Actor2)
+                Endif
+            Endif
+            
+            Actor2:: "Maybe you can teach my horse how to do it so that we can start a similar relationship like you have with yours?"
+            0:: "Train <Actor2.name>'s horse how to fuck a human"
+            1:: "No"
+            
+            If 0
+                Sex(Actor3, Player)
+                If !Actor2.isMale() && !Player.isMale()
+                    Player:: "Don't just stand there, join us and I'll teach you a thing or two."
+                    Sex(Actor3, Player, Actor2)
+                Endif
+            Endif
+        Elseif Random(0, 100) < 50
+            "As we're enjoying our time together, <Actor2.name>'s horse starts getting a bit restless."
+            Actor2:: "Oops, sorry about that. <Actor3.name> must be getting horny. <Actor3.He_or_She> has a taste for human, you know ..."
+            "I can't believe <Actor2.he_or_she> just said that so openly ... Could it be possible <Actor2.he_or_she> and <Actor2.his_or_her> horse has done things together ..."
+            Actor2:: "Hey, don't look at me like that. I know what you're thinking ... Yes, I have sex with my horse all the time. It's more common among horse lovers than you realize. Don't tell me you've never done it or at least fantasized about it."
+            0:: "Tell <Actor2.him_or_her> you've tried it"
+            1:: "Tell <Actor2.him_or_her> you're curious"
+            2:: "Tell <Actor2.him_or_her> it's disgusting"
+            
+            If 2
+                Actor2:rapportwithplayer -= 10
+                Actor2:: "What a shame. I thought you were an open-minded person." 
+            Else
+                Actor2:: "My horse has a lot of experience, I can let you have a go if you want? Consider it a token of new friendship"
+                0:: "Sure"
+                1:: "Turn <Actor2.him_or_her> down"
+                
+                If 0
+                    Sex(Actor3, Player)
+                    If !Actor2.isMale() && !Player.isMale()
+                        Actor2:: "Here, let me join you and teach you a thing or two."
+                        Sex(Actor3, Player, Actor2)
+                    Endif
+                Else
+                    Actor2:: "Well ... someone has to take care of <Actor3.name>'s needs right now anyway ... so if you excuse me ..."
+                    
+                Endif
+                
+                Actor2:: "Maybe I can teach your horse how to do it so that you can start a similar relationship like I have with mine?"
+                0:: "Let <Actor2.name> train <Actor.name> how to fuck a human"
+                1:: "No"
+                
+                If 0
+                    Sex(Actor, Actor2)
+                    If !Actor2.isMale() && !Player.isMale()
+                        Actor2:: "Don't just stand there, join us and I'll teach you a thing or two. It's your horse after all."
+                        Sex(Actor, Player, Actor2)
+                    Endif
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, horse_double_date)

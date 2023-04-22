@@ -1,0 +1,84 @@
+WHAT: all
+WHERE: all
+WHEN: 17-24
+WHO: Actor = getPerson(true); If !Actor.isDating() && Actor:perversion > 50 && Actor:rapportwithplayer > 30
+OTHER: !isWithCompanion()
+
+    // House party with a game of dare as a consequence of losing some non descript game, the npc can dare the npc to twerk, make moaning sounds, give blowjob to random npc, or decline.
+    
+    SceneStart()
+    secondScreen(Actor)
+    Actor.show()
+    
+    "One of my friends <Actor.name> is inviting me to a house party tonight ... <Actor.He_or_She> is a bit of a free spirit so anything <Actor.he_or_she> hosts tends to turn rather debaucherous"
+    0:: "Come to <Actor.name>'s house party"
+    1:: "Decline"
+    
+    If 0
+        secondScreen()
+        setBackgroundCustom(livingroom)
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isMale()
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor.dress()
+        Actor2.dress()
+        Actor.show()
+        Actor2.show()
+        "The party is alright, but of course <Actor.name> wanted to spice things up with a silly game. If I lose though, I'll have to do some dare."
+        0:: "Play the party game"
+        1:: "Just have some drinks"
+        
+        If 0
+            "And of course, with my rotten luck, it was no surprise that I lost ..."
+            "Now it's time to hear <Actor.name>'s dare ... I'm pretty sure <Actor.he_or_she>'s up to no good."
+            If Random(0, 100) < 25 && isModEnabled(vin_Bestiality) && Player.isInterestedInMen()
+                Actor3 = generateCreatureTemporary(Dog)
+                While !Actor3.isMale()
+                    Actor3 = generateCreatureTemporary(Dog)
+                Endwhile
+                "<Actor.name> is daring me to do something absolutely outrageous ... and potentially illegal: sucking <Actor.his_or_her> dog's penis."
+                "I had to double-check that it wasn't a joke ..."
+                0:: "Alright"
+                1:: "That's too far"
+                
+                If 0
+                    Filter(Blowjob)
+                    Sex(Actor3, Player)
+                    
+                    "To my surprise, what was initially a crazy drunken dare turned out to be something that the dog seemed to enjoy very much."
+                    "The dog is now trying to mount me ..."
+                    "Being a wild spirit that <Actor.he_or_she> is, <Actor.name> is urging me on."
+                    Sex(Actor3, Player)
+                Else
+                    Player:: "Are you crazy? No way!"
+                    Actor:rapportwithplayer -= 3
+                Endif             
+            Elseif Random(0, 100) < 33
+                "<Actor.name> is daring me to twerk ..."
+                Player:: "Alright ..."
+                Player.animate(dance)
+                Player:: "Happy?"
+            Elseif Random(0, 100) < 50
+                "<Actor.name> is daring me to make some moaning sound ..."
+                Player:: "Alright ..."
+                Player(Crying):: "Ahhhhhhhh ....... Ahhhhhhhhh ....."
+                Player(Crying):: "Yes ..... just like that ....... fuck me!"
+            Else
+                "<Actor.name> is daring me to give <Actor.his_or_her> friend <Actor2.name> a blowjob ..."
+                0:: "Alright"
+                1:: "That's too far"
+                
+                If 0
+                    Filter(Blowjob)
+                    Sex(Actor2, Player)
+                Else
+                    Player:: "Are you crazy? No way!"
+                    Actor:rapportwithplayer -= 3
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, house_party_dare_cms)
+

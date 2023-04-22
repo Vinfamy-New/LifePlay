@@ -1,0 +1,22 @@
+WHAT: work
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Boss); If Actor.hadSex() && Random(0, 100) > Actor:intelligence
+OTHER: none
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My boss has been very moody today, the company is seeing a lot of work coming in, which is good for the revenue but I think the stress is getting to <Actor.him_or_her>."
+    0:: "Offer to relieve <Actor.his_or_her> stress with sex"
+    1:: "Maybe not"
+    
+    If 0
+        Sex(Actor, Player)
+        jobperformance += 5
+        "Thanks to my efforts, the boss's mood improved and the company is producing even better results."
+    Else
+        "I'll just let <Actor.him_or_her> deal with the problem. <Actor.He_or_She> is more than well compensated to deal with the stress."
+    Endif
+    SceneEnd()
+    timeout(200, relieve_boss)

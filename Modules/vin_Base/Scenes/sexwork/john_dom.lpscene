@@ -1,0 +1,69 @@
+WHAT: whore_out, whore_out_brothel
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: !Player.isGay()
+
+    // Approached by Johns wanting to roleplay an 'aggressive' or femdom situation
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While Actor.isSameGender(Player)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    Actor.show(2)
+    "Here comes a John ..."
+    "<Actor.He_or_She> is wanting to roleplay a rape fantasy ..."
+    If Random(0, 100) < 50
+        Filter(Aggressive)
+        If Player.isMale()
+            "More precisely, a situation where I'm the one raping <Actor.him_or_her>."
+        Else
+            "More precisely, a situation where <Actor.he_or_she> is the one raping me."
+        Endif
+    Else
+        Filter(AggressiveFM)
+        If Player.isMale()
+            "More precisely, a femdom situation where <Actor.he_or_she> is the one raping me."
+        Else
+            "More precisely, a femdom situation where I'm the one raping <Actor.him_or_her>."
+        Endif
+    Endif
+    
+    Dice = Random(200, 400)
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    
+    "How much should I charge <Actor.him_or_her>?"
+    0:: "Turn <Actor.him_or_her> down"
+    1:: "Rip <Actor.him_or_her> off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give <Actor.him_or_her> a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but I'm not working right now ..."
+    Elseif choice*attractiveness > Actor:intelligence + Actor:interpersonal
+        Actor(Flirty):: "It looks like we have a deal, darling."
+        If WHERE == brothel
+            "Soon enough, I was following <Actor.him_or_her> to one of the brothel's rooms."
+        Else
+            "Soon enough, I was following <Actor.him_or_her> to a nearby motel room."
+            setBackground(home)
+        Endif
+        Sex(Actor, Player)
+        money => money + Dice/choice
+        If Random(5, 30) < Actor:attractiontoplayer
+            "Aside from our agreed fee, the John also gave me a big tip."
+            money += Dice/choice/2
+            "I can't help but notice how smitten this John has become with me after sex ... looks like <Actor.he_or_she> is going to become a regular customer ..."
+            Actor.makePermanent()
+            Actor.setActorVar(tag_john, 1)
+        Endif
+    Else
+        Actor(Angry):: "No way, that's too expensive! You have too high an opinion of yourself, honey. I'll find myself another whore elsewhere."
+    Endif
+    SceneEnd()
+    timeout(150, john_dom)

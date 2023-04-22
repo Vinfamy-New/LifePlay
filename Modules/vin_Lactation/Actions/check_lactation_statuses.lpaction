@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: check_lactation_statuses
+ACTION_NAME: Check lactation statuses
+WHERE: PC, home
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: false
+SCENE_ALWAYS: check_lactation_statuses
+ANIMATION:

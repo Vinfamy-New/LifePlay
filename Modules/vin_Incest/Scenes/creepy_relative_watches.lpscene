@@ -1,0 +1,67 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 20
+WHO: Actor = getRelative(); If Actor.livesWithPlayer() && Actor.isInterestedIn(Player) && Actor:perversion > 60 && !Actor.hadSex() && Actor:rapportwithplayer > 0 && Actor:incest < 30
+OTHER:
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    "I came home only to find my <Actor.relationship> already in the living room seemingly expecting me."
+    Actor:: "Look, I just went and bought this award-winning DVD, let's watch it together. I got this expensive bottle of wine too. Only the best for my <Actor.callplayer>!"
+    "<Actor.He_or_She> has always acted a bit creepily around me though ... so this might not be the best idea"
+    0:: "Sit down and watch the movie with <Actor.him_or_her>"
+    1:: "Find an excuse not to"
+    
+    If 0
+        "... An hour later ..."
+        "Okay, I'm not entirely sure what awards this weird movie that my <Actor.relationship> bought actually won, but wouldn't surprise me in the least if it's for 'Most Nudity' or 'Almost Porn'."
+        "To make it worse, my creepy <Actor.relationship> is at it again, touching me inappropriately all over and making one perverted comment after another."
+        "Grrrr ... why didn't I just come up with some excuse to not have to welcome <Actor.him_or_her> here? I knew what my <Actor.relationship> is like ..."
+        0:: "Bluntly refuse <Actor.his_or_her> advances and storm off back to my room."
+        1:: "Tolerate <Actor.his_or_her> behavior"
+        
+        If 0
+            Player:: "Sorry, but you're acting like a pervert as always. I'll head back to my room now! I have better things to do."
+            Actor:rapportwithplayer -= 5
+            If Random(-100, -30) > Actor:masochist && isModEnabled(vin_NonConsensual)
+                "Before I could storm off though, I suddenly feel light-headed and before I know it, I fell on the floor."
+                Player.animate(fightlost)
+                "What's happening to me? I only had one glass of wine for God's sake. My head is already shaking and I'm feeling ... aroused?"
+                "Wait ... glass of wine ... damn it, from <Actor.his_or_her> expensive bottle ... Oh no, that alcohol was spiked."
+                "I'm losing control of my body - and, where is my <Actor.relationship> leading me to? We're leaving the living room ..."
+                setBackground(home)
+                Player.animate(fightlost)
+                "Oh no, we're now in my bedroom ... I was promptly thrown onto the bed"
+                Actor(Evil):: "You stupid <Actor.callplayer>. That was not the proper way you talk to your <Actor.relationship>. I guess I have to teach you some manners."
+                "Part of my mind still wanted to resist but it's too weak compared to the strong drug in my system."
+                If !Actor.isMale() && Player.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                TalkNonConsensual()
+                SexNoAffair(Actor, Player)                
+            Endif
+        Else
+            "Let's not be rude. <Actor.He_or_She> is my <Actor.relationship> after all."
+            "Unfortunately, my politeness seems to give my <Actor.relationship> the green light to become more aggressive in <Actor.his_or_her> dirty talk and inapropriate touches."
+            Actor:incest += 5
+            Actor:: "Oh my dear <Actor.callplayer>, I can tell you're getting turned on ... I knew you wanted me too ... Let's go back to your bedroom and spend some quality 'family time' together."
+            0:: "Yes"
+            1:: "No way"
+            
+            If 0
+                Actor:incest += 50
+                "Am I going mad? Why am I following my <Actor.relationship>'s lead back to my bedroom. Am I really going to sleep with my creepy <Actor.relationship>?"
+                setBackground(home)
+                Sex(Actor, Player)
+            Else
+                Player:: "Sorry, but this is going too far ..."
+                Actor:: "You're such a tease, I can't guarantee I'll be patient forever you know ..."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, creepy_relative_watches)

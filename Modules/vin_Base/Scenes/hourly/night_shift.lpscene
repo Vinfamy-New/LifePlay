@@ -1,0 +1,30 @@
+WHAT: work_hourly
+WHERE: alcohol, bag, bar, beverages, bicycle, books, chemist, clothes, computer, confectionery, convenience, copyshop, cosmestics, deli, department_store, doityourself, electronics, fast_food, furniture, gift, greengrocer, jewellery, mobile_phone, musical_instrument, newsagent, outdoor, photo, pub, shoes, sports, stationery, supermarket, tea, tobacco, toys, variety_store
+WHEN: 21 - 4
+WHO: Actor = getPersonHere(true)
+OTHER:
+
+    SceneStart()
+    Work = Actor.getBuilding(work)
+    Cur = Actor.getBuilding(current)
+    If Work.isSameBuilding(Cur)
+        "I'm working the night shift today. Thankfully, my workmate <Actor.name> was there to keep me company."
+        Actor:rapportwithplayer += 2
+        Actor:attractiontoplayer += 2
+        If Actor.isInterestedIn(Player) && [Actor:perversion > 50 || Actor:attractiontoplayer > 50 || Actor.hadSex()]
+            Actor:: "This is sooo boring! Let's sneak into the back storage and fuck, what do you say?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                Sex(Player, Actor)
+            Endif
+        Endif
+    Else
+        "I'm working the night shift today. It's boring as hell."
+        mood -= 2
+    Endif
+    SceneEnd()
+    timeout(100, night_shift)
+
+

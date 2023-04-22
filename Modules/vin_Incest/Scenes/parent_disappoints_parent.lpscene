@@ -1,0 +1,74 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(Parent, StepParent); Actor2 = getRelative(Parent, StepParent); If Actor.livesWithPlayer() && Actor:perversion > 65
+OTHER:
+
+    // If you have (step)parents that are still together, you may catch one of them having an affair and use this knowledge to get what you want, money or something else
+    
+    SceneStart()
+    "My parents, <Actor.name> and <Actor2.name>, are still married to each other after so many years."
+    "Things may seem all well and good on the surface. To my <Actor2.relationship>, it may seem that way. But I know that my <Actor.relationship> is hiding a terrible secret ..."
+    Actor3 = generatePersonTemporary()
+    While !Actor.isInterestedIn(Actor3)
+        Actor3 = generatePersonTemporary()
+    Endwhile
+    Actor3:age => age + Random(-2, 2)
+    Actor3:attractiveness => Random(75, 100)
+    Actor3.randomizeFace()
+    Actor3.randomizeHairs()
+    secondScreen(Actor3)
+    Actor3.show()
+    "My <Actor.relationship> is having an affair with a younger <Actor3.man_or_woman> called <Actor3.name>. I learned about the affair from a friend since my <Actor.relationship>'s lover is actually only around my age."
+    "I checked <Actor3.him_or_her> out on social media and couldn't help but wonder what such a young and attractive <Actor3.man_or_woman> would want from someone my <Actor.relationship>'s age."
+    "Maybe age is indeed just a number, or more likely, this <Actor3.name> could just be a gold digger interested only in my <Actor.relationship>'s deep pocket. And honestly, I know that <Actor.his_or_her> pocket isn't all that deep so it would really just be a matter of time before this affair ran its course."
+    secondScreen()
+    "Either way, this would break my <Actor2.relationship>'s heart if <Actor2.he_or_she> ever finds out."
+    0:: "Confront my <Actor.relationship> about the affair"
+    1:: "Let the fling pass and be burried with time"
+    
+    If 0
+        setBackgroundCustom(kitchen)
+        Actor.dress()
+        Actor.show()
+        "We were just having some snacks in the kitchen one day when I decided to confront my <Actor.relationship> about the affair and warn <Actor.him_or_her> that I would tell my <Actor2.relationship> about it."
+        "My <Actor.relationship> panicked."
+        Actor:: "What? How would you know? No ... you can't tell <Actor2.name>."
+        Actor:rapportwithplayer -= 3
+        "Sensing that this was a blackmail, <Actor.name> got annoyed and asked."
+        Actor:: "What do you want?"
+        0:: "Fuck me"
+        1:: "Share your lover you bring home with me"
+        2:: "Bribe me with cash"
+        3:: "Just put an end to your affair at once!"
+        
+        If 0
+            Actor:: "What, but you're my <Actor.callplayer>! How could we do that?"
+            Player:: "Why not? You're already banging a <Actor3.guy_or_girl> my age. It's only fair that I get a taste myself too."
+            Actor:: "I guess you deserve something for keeping a secret ... And there's no way <Actor2.name> can find out about the affair. It would be messy divorce."
+            Sex(Player, Actor)
+            Actor:incest += 50
+        Elseif 1
+            Actor:: "What, why would you want to fuck <Actor3.him_or_her>?"
+            Player:: "Why not? <Actor3.He_or_She> is closer to me in age than you, in fact. It's only fair that I get some action myself too."
+            Actor:: "I guess you deserve something for keeping a secret ... And there's no way <Actor2.name> can find out about the affair. It would be messy divorce."
+            
+            setBackground(home)
+            Actor3.dress()
+            Actor3.show()
+                    
+            "True to <Actor.his_or_her> promise, for their next secret rendez-vous, my <Actor.relationship> brought me along and invited me over to have a threesome. My <Actor.relationship>'s young lover didn't seem to mind that much. Maybe <Actor.he_or_she> preferred me to the old <Actor.man_or_woman> anyway."
+            
+            Sex(Player, Actor3, Actor)
+            Actor:incest += 25
+        Elseif 2
+            Actor:: "Fine, can't believe you would extort me like that. I never imagine you to be so greedy and opportunistic."
+            money += 200
+        Else
+            Actor:: "Okay, okay, I'll end it. I still value this marriage. Don't say a word to your <Actor2.relationship>!"
+        Endif
+    Else
+        "As predicted, I didn't have to do anything. The affair eventually ended once the gold digger got the last of my <Actor.relationship>'s money. <Actor.He_or_She> came away from it all with <Actor.his_or_her> tail between <Actor.his_or_her> legs, but my <Actor2.relationship> was none the wiser and their marriage survived."
+    Endif
+    SceneEnd()
+    timeout(500, parent_disappoints_parent)

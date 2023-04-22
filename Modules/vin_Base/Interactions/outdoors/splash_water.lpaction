@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: splash_water
+ACTION_NAME: Splash water
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: splash_water
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && [WHERE == pool || WHERE == beach]

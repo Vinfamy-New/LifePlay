@@ -1,0 +1,80 @@
+WHAT: all
+WHERE: all
+WHEN: 17 - 23
+WHO: Actor = getCompanion(); If Actor:attractiontplayer > 25 && Actor.isInterestedIn(Player) && !Actor.isDating()
+OTHER: isModEnabled(vin_NonConsensual)
+
+    // If the unofficial NC module is also enabled, while hanging out with someone who has a crush on you but already in another relationship, you get invited to a house party. Their SO gets really jealous and takes advantage of your intoxicated state to get their pet to bang you instead to humiliate you. Depending on perversion, this plan may work or the guy / girl who has a crush on you turns out to be into it and becomes even more attracted to you, in which case their SO has no choice but to show that they're as good at it as you.
+    
+    SceneStart()
+    "I was hanging out with my friend <Actor.name>. It was obvious that <Actor.name> had a bit of a crush on me but couldn't really make <Actor.his_or_her> advance due to already being in a relationship."
+    Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+    If !Actor2.isValid()
+        Actor2 = generatePersonTemporary()
+        While !Player.isSameGender(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2:perversion => Random(75, 100)
+        Actor2:masochist => Random(-100, -50)
+    Endif
+    
+    "In fact, I've heard rumour that <Actor.name>'s <Actor2.boyfriend_or_girlfriend> <Actor2.name> is infamous for being jealous and possessive and would do anything to humiliate anyone <Actor2.he_or_she> might take <Actor.name> away from <Actor2.him_or_her>. I must be a bit careful here."
+    
+    "<Actor.name> is inviting to a house party at <Actor.his_or_her> place. Obviously, the jealous <Actor2.boyfriend_or_girlfriend> will be there as well."
+    0:: "Come to the party"
+    1:: "I'd rather not face this psycho <Actor2.boyfriend_or_girlfriend>"
+    
+    If 0
+        Player:: "Of course, I'll come. Sounds like fun."
+        setBackgroundCustom(livingroom)
+        Actor2.dress()
+        Actor2.show()
+        "The party was a particularly awkward experience. There were hardly any other <Player.guys_or_girls> there, no doubt all having heard about <Actor2.name>'s jealous reputation."
+        "And I must say that reputation is well deserved. <Actor2.name> stood there and stared angrily whenever <Actor.name> and I interacted even just a little bit."
+        "From my past experience, the best way to ignore such a weird situation is just to just sit alone, avoid any conversations and drink tons of alcohol instead."
+        0:: "Binge drink"
+        1:: "Stay sober"
+        
+        If 0
+            "I drank a large amount of booze. I didn't mind getting drunk just to make this awkward situation pass faster."
+            "Since I took in so much liquid in such a short span of time, I now needed to pee."
+            "The bathroom must be over there, opposite the bedroom."
+            "Just as I was about to enter the bathroom, <Actor2.name> grabbed my neck and pushed me into the bedroom ..."
+            setBackground(home)
+            Actor.hide()
+            "In my heavily intoxicated state, I simply didn't have the strength to fight against the fury of this psycho <Actor2.boyfriend_or_girlfriend> of <Actor.name>."
+            Actor3 = generateCreatureTemporary(Dog)
+            While !Player.isInterestedIn(Actor3)
+                Actor3 = generateCreatureTemporary(Dog)
+            Endwhile
+            Actor3.show()
+            "I thought <Actor2.name> was going to beat me up, but no, instead <Actor2.he_or_she> held me down, stripped me while guiding their dog to fuck me!"
+            Player.strip()
+            Actor2:: "This is your punishment for seducing my <Actor.boyfriend_or_girlfriend>?"
+            Actor2:: "Let's see if <Actor.he_or_she> can still find you attractive after seeing you fuck a dog."
+            "I couldn't move due to the alcohol and <Actor2.name>'s jealousy-boosted strength ..."
+            SexNoAffair(Actor3, Player)
+            
+            animatePair(Actor3, Player, Penetration)
+            
+            Actor.show()
+            "Soon, <Actor.name> came across the scene and was of course shocked that I was having sex with <Actor.his_or_her> dog."
+            Actor2:: "So, this is the <Player.guy_or_girl> you're crushing on all this time? Look at <Player.him_or_her> now ... Not so classy, right?"
+            If Actor:perversion < 50
+                Actor:: "I had no idea you were this kind of <Player.guy_or_girl>, <Player.name>. I'm disappointed ... To think I harbored secret feelings for you all this time, yet you're just a degenerate <Player.manwhore_or_slut>."
+            Else
+                Actor:: "Oh my God! I had no idea you were so sexually adventurous that you would even try it with a dog, <Player.name>. This just made you 1000 times hotter in my eyes."
+                Actor:: "If you want me, I'm yours. I'll dump my <Actor2.boyfriend_or_girlfriend> ... <Actor2.He_or_She> is such a bore in bed."
+                Actor2:: "What? I'm not a bore in bed ... How could you say that?"
+                Actor2:: "Fine, I'll show you I can be adventurous too. That <Player.soyboy_or_bitch> couldn't hold a candle to me."
+                "<Actor.name>'s crazy <Actor2.boyfriend_or_girlfriend> then pushed me away from the dog and proceeded to prove <Actor2.himself_or_herself>."
+                Sex(Actor3, Actor2)
+            Endif
+        Else
+            "I endured another hour or so of this party and eventually escaped the claws of the jealous <Actor2.boyfriend_or_girlfriend> ..."
+        Endif
+        
+        endDate()
+    Endif
+    SceneEnd()
+    timeout(300, bestiality_jealous)

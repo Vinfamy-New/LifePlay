@@ -1,0 +1,46 @@
+WHAT: all
+WHERE: work
+WHEN: 11 - 14
+WHO: Actor = getSpecific(Colleague); If Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+OTHER:
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I'm currently working on a project together with my colleague <Actor.name>."
+    "Maybe I should invite <Actor.him_or_her> to go out for lunch today?"
+    0:: "Invite <Actor.him_or_her> for lunch"
+    1:: "No"
+    
+    If 0
+        setBackground(restaurant)
+        "I invited <Actor.name> out to a nearby restaurant for lunch."
+        0:: "Stay professional"
+        1:: "Flirt"
+        
+        If 0
+            "Let's only discuss work-related stuff over this lunch."
+            Actor:rapportwithplayer += 3
+        Else
+            "I took this opportunity to flirt with <Actor.name>, who I've always fancied."
+            Actor:attractiontoplayer += 3
+            If Actor:attractiontoplayer > 50 || Actor:perversion > 70
+                Actor:: "Look at you! Taking this opportunity to try to get close to and seduce your colleague? You know it's against company policy"
+                Actor:: "... But I like it"
+                Actor:: "Since you're so into me, why don't we have a bathroom quickie before returning to work. It's only what we both wanted."
+                0:: "Fuck <Actor.name>"
+                1:: "I only wanted to flirt ..."
+                
+                If 0
+                    setBackground(shower)
+                    Sex(Player, Actor)
+                Endif
+            Endif
+        Endif
+        setBackground(work)
+        "Eventually we headed back to the office."
+    Endif
+    timeout(200, colleague_lunch)
+    SceneEnd()
+
+ 

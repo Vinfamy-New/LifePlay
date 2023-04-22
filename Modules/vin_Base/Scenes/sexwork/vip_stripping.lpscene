@@ -1,0 +1,44 @@
+WHAT: strip
+WHERE: stripclub
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(0, 150) < attractiveness + perversion
+
+    // While working at stripclubs, can be asked to go to a VIP room for a private dance and even propositioned further
+    SceneStart()
+    "I just finished one of my performances when I was approached by one of the VIP clients."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    Actor:: "That was very hot, why don't you join me in the VIP room for a private dance?"
+    0:: "Okay"
+    1:: "I don't do that ..."
+    
+    If 0
+        setBackground(brothel)
+        "As soon as we're in the private VIP room, I started a striptease."
+        Player.animate(dance)
+        count = 0
+        While !Player.isNaked() && count < 10
+            Player.stripOne()
+            "Off this goes ..."
+            count += 1
+        Endwhile
+        money += 100
+        Actor:: "Oh ... you got me all horny, baby. Would you mind getting physical? We're in a private room after all so no such thing as 'No Touching' policy in here ..."
+        Actor:: "I'll be very generous if you do ..."
+        0:: "Have sex with <Actor.name>"
+        1:: "I don't do that ..."
+        
+        If 0
+            Sex(Actor, Player)
+            money += 300
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, vip_stripping)

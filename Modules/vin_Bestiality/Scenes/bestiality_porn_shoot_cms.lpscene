@@ -1,0 +1,69 @@
+WHAT: all
+WHERE: all, -work
+WHEN: 8 - 18
+WHO: none
+OTHER: pornfame < 20 && pornfame > 0
+
+    // Bestiality mod scene for porn worker: with low porn fame, a scene that triggers when looking for a shoot where the director offers an animal sex scene at low pay because of the low fame score, saying that the player has to show a willingness to do anything to make it in the industry.  But after accepting the job, there is then a strong chance that you will be black-listed from all modeling photo shoots and non-animal porn shoots. If player perversion stat is below 60, it reduces the mood stat to 0 (and if possible, nerfs the recovery rate of mood for 3 days)
+
+    SceneStart()
+    Actor = generateCreatureTemporary()
+    Actor.show(2)
+    "A porn director wants to book me for a bestiality scene ... Highly illegal to shoot porn with an animal and to make matters worse, the pay is very low. Due to me not having much fame yet as a pornstar, the director says that I have to show a willingness to do anything to make it in the industry"
+    "Shooting bestiality porn can be a risky move, because even if I don't get caught by the cops right away, other porn directors may find out about me being involved in such videos and the more vanilla or glamcore directors may be put off by my image and refuse to shoot me afterwards." 
+    0:: "Turn down the offer"
+    1:: "Accept the offer"
+    
+    If 0
+        Player(Sad):: "Sorry, but I'm not interested in that sort of thing ..."
+    Elseif 1
+        "The porn director was glad that I knew my place in the industry and soon enough we were meeting at the shoot location that we agreed on. They had people keeping an eye out of the cops the whole time."
+        Random
+            setBackground(home)
+            setBackground(bar)
+            setBackground(hairdresser)
+            setBackground(cafe)
+            setBackground(clothes)
+            setBackground(dentist)
+            setBackground(doctor)
+            setBackground(hotel)
+            setBackground(laundry)
+            setBackground(marketplace)
+            setBackground(musical_instrument)
+            setBackground(nightclub)
+            setBackground(work)
+            setBackground(place_of_worship)
+            setBackground(police)
+            setBackground(prison)
+            setBackground(pub)
+            setBackground(restaurant)
+            setBackground(shoes)
+            setBackground(sports_centre)
+            setBackground(supermarket)
+            setBackground(theatre)
+            setBackground(toilets)
+        endRandom
+        If Random(0, 100) < 60 || Actor.isCreatureType(Horse)
+            Sex(Actor, Player)
+        Else
+            Actor3 = generatePersonTemporary()
+            While Actor3.isMale()
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Sex(Actor, Player, Actor3)        
+        Endif
+        money += Random(100, 400)
+        pornfame += 1
+        perversion += 0.5
+        
+        If perversion < 60
+            "The fact that I just had people film me having sex with an animal just for a little bit of money and fame is extremely depressing."
+            "What have I become? Am I really this desperate?"
+            mood => 0
+        Endif
+        
+        Player.setActorVar(tag_beastporn, 1)
+    Endif
+    
+    SceneEnd()
+    timeout(150, bestiality_porn_shoot_cms)

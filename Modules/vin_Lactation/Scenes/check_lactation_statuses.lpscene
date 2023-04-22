@@ -1,0 +1,72 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // At home, you can "Check lactation statuses". This allows you to check either the female PC's or a female contact's current lactatation status and duration (converted into in-game days already taking into account the Pregnancy Duration Multiplier and Child Growth Speed above). Here, you can also make your PC or another female NPC instantly start lactating (even without any pregnancies) and give them a specific number of days to continue doing so.
+    
+    SceneStart()
+    "Whose lactation status should I check?"
+    0:: !Player.isMale():: "Myself"
+    1:: "A contact"
+    
+    If 0
+        Actor = Player
+    Else
+        selectNpc()
+        Actor = getSelectedNpc()
+       
+        If Actor.isMale()
+            "The selected contact is male! Can't lactate."
+            Actor.delete()
+        Endif
+    Endif
+    
+    If Actor.isValid()
+        "Checking lactation status for <Actor.name> ..."
+        Start = Actor.getActorVar(LactStart)
+        End = Actor.getActorVar(LactEnd)
+        Current = HoursElapsed - 1
+        
+        If End < HoursElapsed
+            "Not currently lactating and no upcoming lactation period"
+        Elseif Start > HoursElapsed
+            DaysLeft = 1*[Start - HoursElapsed]/24
+            "Will start lactating in <DaysLeft> in-game days."
+            Duration = 1*[End - Start]/24
+            "After which, will continue to lactate for <Duration> in-game days."
+        Else
+            "Currently lactating"
+            DaysLeft = 1*[End - HoursElapsed]/24
+            "Will continue to lactate for <DaysLeft> more in-game days."
+        Endif
+        
+        "Should any changes be made to this?"
+        0:: "No change"
+        1:: "Remove all current and upcoming lactation periods"
+        2:: "Start lactating now for 10 days"
+        3:: "Start lactating now for 100 days"
+        4:: "Start lactating now for 1000 days"
+        
+        If 0
+            "No changes were made."
+        Elseif 1
+            Actor.setActorVar(LactStart, 0)
+            Actor.setActorVar(LactEnd, 0)
+            "All current and future lactation periods removed."
+        Elseif 2
+            Actor.setActorVar(LactStart, Current)
+            NewEnd = HoursElapsed + 240
+            Actor.setActorVar(LactEnd, NewEnd)
+        Elseif 3
+            Actor.setActorVar(LactStart, Current)
+            NewEnd = HoursElapsed + 2400
+            Actor.setActorVar(LactEnd, NewEnd)
+        Else
+            Actor.setActorVar(LactStart, Current)
+            NewEnd = HoursElapsed + 24000
+            Actor.setActorVar(LactEnd, NewEnd)            
+        Endif
+    Endif
+    SceneEnd()

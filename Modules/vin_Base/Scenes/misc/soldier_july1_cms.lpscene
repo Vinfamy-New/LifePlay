@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getPerson(true); If Actor:rapportwithplayer > 50 && !Actor.isDating() && Actor.isInterestedIn(Player) && Actor:attractiveness < 75 && !Actor.isVirgin() && Actor:perversion > 65
+OTHER:
+
+
+    SceneStart()
+    Actor.dress()
+    secondScreen(Actor)
+    Actor.show()
+    "One of my good friends, <Actor.name>, texts me and tells me how much of a bad day <Actor.he_or_she> is having and asks if <Actor.he_or_she> can come over to hang a little"
+    0:: "Agree"
+    1:: "Decline"
+    
+    If 0
+        Actor:rapportwithplayer += 3
+        secondScreen()
+        setBackgroundCustom(livingroom)
+        Actor.show()
+        "After hanging out for a couple of hours, <Actor.name> suddenly came up with a rather bold request."
+        Actor:: "You know, some oral sex right now would make my day feel a lot better"
+        Actor:: "Come on ... don't look at me like that. It's not really sex, is it just things that friends do for one another."
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Actor:rapportwithplayer += 10
+            Filter(Oral)
+            Sex(Actor, Player)
+            Actor:: "You have no idea how much you helped me out today ... You're a true friend!"
+        Else
+            Actor:: "Okay, sorry for asking then."
+            Actor:rapportwithplayer -= 10
+        Endif
+    Else
+        Actor:rapportwithplayer -= 3
+    Endif
+
+    SceneEnd()
+    timeout(200, soldier_july1_cms)

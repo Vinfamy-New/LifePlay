@@ -1,0 +1,53 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor2 = getSpecific(Dating); If Actor2.isRace(Vampire)
+OTHER: none
+
+    SceneStart()
+    "I'm in a relationship with a vampire, which sounds like every teenagers' dream but in the real world it does come with some potential risks."
+    "The door bell rang"
+    setBackgroundCustom(livingroom)
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    "Oh no, a vampire hunting vigilante showed up at our door and was adamant that <Actor.he_or_she> sensed a vampire here."
+    0:: "Convince <Actor.him_or_her> otherwise"
+    1:: "Seduce <Actor.him_or_her>"
+    2:: "Panic and freeze"
+    
+    If 0 && Random(0, 100) < interpersonal
+        "I managed to bullshit my way to convince the vampire hunter to leave, having been reassured that no vampires were to be found in my home."
+        interpersonal += 1
+    Elseif 1 && Actor.isInterestedIn(Player) && Random(0, 100) < attractiveness
+        Player:: "Trust me, this is the last place you would be able to find a vampire."
+        Player:: "In fact, I can't help but feel incredibly attracted to a brave vigilante like yourself."
+        Player:: "Why don't you let me show you my appreciation ..."
+        Sex(Actor, Player)
+        "I fucked the vampire hunter so good that <Actor.he_or_she> forgot what <Actor.he_or_she> came here for."
+        perversion += 1
+    Else
+        "The vampire hunter walked right past me and went straight for <Actor2.name>"
+        setBackground(home)
+        Actor2.dress()
+        Actor2.show()
+        Actor:: "Hah! I knew it. There's the vampire!"
+        "Just as the vampire hunter was about to attack <Actor2.name> ... something strange happened."
+        "<Actor2.name> hypnotized <Actor.him_or_her> just in time ..."
+        Actor2:: "Phew, that was close, baby. Now, what should we do about our zealous vampire hunter?"
+        Actor2:: "Should we have some fun together?"
+        0:: "Have a threesome with our new toy"
+        1:: "I'd rather watch"
+        2:: "Let's not take any risk and send <Actor.him_or_her> on <Actor.his_or_her> way"
+        
+        If 0
+            Sex(Player, Actor, Actor2)
+        Elseif 1
+            Sex(Actor2, Actor)
+        Else
+            Actor2:: "You're right. It's best to erase <Actor.his_or_her> memory about our home and send <Actor.him_or_her> far away before the hypnosis loses effect."
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(150, vampire_hunter)

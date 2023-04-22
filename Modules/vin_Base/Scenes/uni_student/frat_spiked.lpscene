@@ -1,0 +1,131 @@
+WHAT: all, -sleep, -nap
+WHERE: fraternity
+WHEN: 18-24
+WHO: Actor = getSpecific(Fraternity); If Actor:perversion > 50 && Actor:masochist < 0 && !Actor.isAsexual()
+OTHER: none
+
+
+    sceneStart()
+    Actor.dress()
+    Actor.show()
+    "I'm currently at yet another party thrown by my <Player.fraternity_or_sorority>. As expected, drinks are flowing and there's hardly anyone still sober left."
+    Actor2 = getSpecific(Student)
+    While !Actor.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+        Actor2:age => Random(18, 22)
+        Actor2.randomizeHairs()
+        Actor2.randomizeFace()
+    endWhile
+    
+    If Actor2.isTemporary()
+        Actor2.makePermanent()
+        Actor2.setDifferentMajor()
+    endIf
+    
+    Actor2.dress()
+    Actor2.show()
+    Actor.moveToPersonStand(Actor2, 50)
+    "One of my <Player.fraternity_or_sorority> <Player.brothers_or_sisters> <Actor.name> has been hitting on this <Actor2.guy_or_girl> studying <Actor2.major> all night but <Actor2.he_or_she> was having none of it. I wonder how long it would take for <Actor.name> to get the message and leave the poor <Actor2.guy_or_girl> alone."
+    Actor2.hide()
+    "Looks like <Actor.he_or_she> gave up now ... oh no, <Actor.he_or_she>'s just heading to the bar to make another drink. Drinking down the sorrow of being rejected, I suppose."
+    "Wait, <Actor.he_or_she>'s taking out a white powder package and pouring some of it into the drink ... The drink must be intended for the <Actor2.guy_or_girl> <Actor.he_or_she> is trying to get with, no doubt ..."
+    0:: "Convince <Actor.name> to stop"
+    1:: "Watch what's going to happen"
+    
+    If 0
+        Player.moveToPersonStand(Actor, 50)
+        Player:: "<Actor.name>, I saw you pouring that into the drink. Don't even think about it, <Actor.buddy_or_girl>! Think about the consequences!"
+        If Random(0, 100) < interpersonal
+            Ahead = false
+            Actor:: "You're right. I almost did something I would regret for the rest of my life ..."
+        Else
+            Ahead = true
+            Actor:: "Huh? You saw me pouring what into what drink? I have no idea what you're talking about."
+        Endif
+    Else
+        Ahead = true
+    Endif
+    
+    If Ahead
+        Actor2.show()
+        Actor.moveToPersonStand(Actor2, 50)
+        "As expected, <Actor.name> proceeded to offer the spiked drink to the <Actor2.guy_or_girl> <Actor.he_or_she> was hitting on earlier."
+        "It's pretty much now or never for me to put an end to this."
+        0:: "Warn the <Actor2.guy_or_girl>"
+        1:: "Let's not cause a scene"
+        
+        If 0
+            karma += 5
+            Ahead = false
+            "I can't just stand by and watch a terrible crime being committed."
+            Player.moveToPersonStand(Actor2, 50)
+            Player:: "Wait! Please don't drink that! I saw some white powder being poured into it."
+            Actor2:: "What? Oh my God!"
+            Actor.hide()
+            "Of course, <Actor.name> already escaped the scene as fast as <Actor.he_or_she> could as soon as I opened my mouth."
+            Actor2:: "That <Actor.bastard_or_bitch>! I was getting creepy vibes from <Actor.him_or_her> all night."
+            Actor2:: "You saved me! Thank you so much!"
+            0:: !Actor2.isContactExchanged():: "Exchange numbers with <Actor2.him_or_her>"
+            1:: "Try to seduce <Actor2.him_or_her> this very night"
+            2:: "It's only the right thing to do"
+            
+            If 0
+                "We got talking a bit before exchanging numbers to get to know each other better in the future."
+                exchangeContact(Actor2)
+            Elseif 1
+                If Actor2.isInterestedIn(Player) && Random(50, 125) < Actor2:perversion + Actor2:attractiontoplayer
+                    "We got talking a bit but with the adrenaline of <Actor2.him_or_her> just escaping a potential date rape and me being the hero, the conversation soon turned quite flirtatous."
+                    setBackground(home)
+                    "And soon, we ended up in bed together"
+                    Sex(Player, Actor2)
+                    "Yes, <Actor.name>, that's how it's done. It pays to be a <Player.gentleman_or_lady>, not a creepy date rapist."
+                Else
+                    "We got talking a bit but unfortunately, as much as I try to flirt, <Actor2.he_or_she> wasn't having anymore of it than <Actor2.he_or_she> did for <Actor.name> earlier. I guess the date rape threat earlier probably killed off <Actor2.his_or_her> mood for tonight."
+                Endif
+            Endif
+        Else
+            karma -= 2
+            If isModEnabled(vin_NonConsensual)
+                Ahead = true
+            Else
+                Ahead = false
+                "Even without my warning, this <Actor2.major> student has enough wits about <Actor2.him_or_her> to not accept the drink. After all, date rape at a <Player.fraternity_or_sorority> party is hardly unheard of, and it's normal to get suspicious when a <Actor.guy_or_girl> you just rejected come back with a drink."
+            Endif
+        Endif
+        
+        If Ahead
+            "Not aware of the threat contained in that drink, the poor <Actor2.guy_or_girl> drink it without hesitation."
+            "Soon enough, the drug visibly took its effects on the victim and <Actor2.he_or_she> was guided into a bedroom by <Actor.name>."
+            Actor2.hide()
+            Actor.hide()
+            "What should I do now?"
+            0:: "Peep on them"
+            1:: "None of my business"
+            
+            If 0
+                setBackground(home)
+                Actor2.show()
+                Actor.show()
+                "I decided to follow them to the bedroom and watch the whole thing unfold ..."
+                TalkNonConsensual()
+                If Actor2.isMale() && !Actor.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                Sex(Actor, Actor2)
+                "I can't believe I just stood there and watched my <Actor.fraternity_or_sorority> date-raping a fellow student. Since I'm basically an accomplice now by not putting a stop to it, might as well get some rewards for it?"
+                0:: "Let's rape <Actor2.him_or_her> together, <Actor.bro_or_sis>."
+                1:: "I'm not that low"
+                
+                If 0
+                    Actor:: "Sure, it's not like <Actor2.he_or_she> could say no now ... I gave <Actor2.him_or_her> a rather high dose, you know."
+                    TalkNonConsensual()
+                    Sex(Player, Actor, Actor2)
+                Endif
+            Endif
+        Endif
+    Endif
+    
+    sceneEnd()
+    timeout(200, frat_spiked)

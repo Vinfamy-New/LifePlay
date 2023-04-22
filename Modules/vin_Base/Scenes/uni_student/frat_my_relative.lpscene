@@ -1,0 +1,47 @@
+WHAT: all, -sleep, -nap
+WHERE: fraternity
+WHEN: 8-21
+WHO: Actor2 = getSpecific(Fraternity); Actor = getRelative(); If Actor:rapportwithplayer > 10
+OTHER: none
+
+    // Similarly, one of your relatives is visiting you and gets some interest from a frat bro / sorority sis you're living with.
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor2.dress()
+    Actor2.show()
+    "I was just chilling with my <Actor2.fraternity_or_sorority> <Actor2.brother_or_sister> <Actor2.name> in the common area, watching TV."
+    "Suddenly someone opened the already unlocked front door and walked in."    
+    Actor.dress()
+    Actor.show()
+    Actor.moveToPersonStand(Player, 100)
+    "Oh for God's sake, it's my <Actor.relationship> ... anywhere but here, this is too embarassing in front of my <Actor2.fraternity_or_sorority> <Actor2.brother_or_sister>"
+    
+    Player:: "Oh no, <Actor.relationship>, I told you not to visit me here. I'm in a <Actor2.fraternity_or_sorority>, it's not exactly family-friendly. It's embarassing to have a family member visit me in front of my <Actor2.brothers_or_sisters>. Why didn't you call me in advance? We could have met in a restaurant downtown or something."
+    Actor:: "Sorry, I thought you wanted to give you a nice surprise."
+    Player:: "Anyway, <Actor2.name>, this is my <Actor.relationship>."
+    Actor2:: "Nice to meet you too ..."
+    Actor2:: "It's okay, most of the other <Actor2.brothers_or_sisters> are out anyway. It's just the two of us here and it's not like we're in a middle of a party or anything. I don't mind at all. Why doesn't your <Actor.relationship> just join us for some TV?"
+    Actor.moveToPerson(Player)
+    "My <Actor.relationship> decided to sit down with us to watch TV together ... A little bit awkward this ..."
+    If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && Random(50, 150) < Actor2:perversion + Actor:attractiveness
+        "I can't help but notice that my <Actor2.fraternity_or_sorority> <Actor2.brother_or_sister> is paying a lot more attention to my <Actor.relationship> than needed out of politeness to a friend's family member."
+        "And I could swear my <Actor.relationship> is checking <Actor2.him_or_her> out too"
+        0:: "Leave them alone"
+        1:: "No way!"
+        
+        If 0
+            Player:: "<Player.name>, I hope you don't mind if I leave you in my <Actor.relationship>'s company for half an hour or so? I need to run your errand quickly."
+            Actor2:: "No problem ..."
+            Player.hide()
+            Actor2:: "So ... now that we're alone ... do you always eye-bang all of your <Actor.callplayer>'s friends that you see?"
+            Actor:: "Sorry ... I didn't mean to make you feel uncomfortable ... I just couldn't help myself ... you're such a sexy thing ..."
+            Actor2:: "Don't worry ... I didn't say I was uncomfortable ... quite the contrary in fact ... Here, let me show you ..."
+            Sex(Actor2, Actor)
+            Player.show()
+        Endif
+    Else
+        "Thankfully, it ended up just being a nice chill time watching TV. Surprisingly wholesome for a <Actor2.fraternity_or_sorority>, I must say."
+    Endif
+    SceneEnd()
+    timeout(200, frat_my_relative)

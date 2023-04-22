@@ -1,0 +1,93 @@
+WHAT: all
+WHERE: home
+WHEN: 21 - 3
+WHO: Actor = getSpecific(Dating); If !Actor.isSameEthnic(Player) && Player.isInterestedInRace(Actor) && [Actor:masochist > 0 || OpenRelationship()] && Random(50, 100) < Actor:perversion && Actor:attractiontoplayer > 20
+OTHER:
+
+    // If you're dating or married to someone of a different race (a race you have a fetish for) who has high perversion and at least a bit masochist (or you've already agreed to a open relationship), while messing around one night, they have a pleasant surprise for you as they invite some friends they grew up with to all share you.
+    
+    SceneStart()
+    Actor.show()
+    Actorr = Actor.RaceToString()
+    "It's date night tonight. <Actor.name> seems a bit mischievous. I wonder if <Actor.he_or_she>'s been up to anything naughty."
+    0:: "Fuck my <Actor.boyfriend_or_girlfriend>"
+    1:: "Actually, I'm not in the mood"
+    
+    If 
+        "I'm too horny to care anyway ... I hope it's a pleasant surprise and not some stupid prank."
+        Sex(Player, Actor)
+        
+        Actor.animate(browse)
+        "That was nice ... <Actor.he_or_she> seems to be thinking about something else the entire time for some reason."
+        "And now as soon as it finishes, <Actor.he_or_she> is on <Actor.his_or_her> phone texting someone. Normally we would be getting ready for Round 2 by now ..."
+        "Suddenly, I hear the front door opening and lots of eager footsteps ..."
+        Player:: "Who's that?"
+        Actor:: "It's alright baby ... don't worry ... I have everything under control ..."
+        Actor:: "Come in, <Actor.guys_or_girls>!"
+        "As our bedroom door opens, three other <Actorr> <Actor.guys_or_girls> around the same age as <Actor.name> walked in naked!"
+        Actor:: "These are my <Actor.homies_or_homegirls> I grew up with. We were very close back in our days in the neighbourhood ..."
+        
+        setRaceGenerated(Actor, true)
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Actor)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2:age => Actor:age
+        Actor2:age += Random(-2, 2)
+        
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        
+        Actor2.show()
+        
+        Actor:: "First of all, <Actor2.name>"
+        
+        Actor3 = generatePersonTemporary()
+        While !Actor3.isSameGender(Actor)
+            Actor3 = generatePersonTemporary()
+        endWhile
+        Actor3:age => Actor:age
+        Actor3:age += Random(-2, 2)
+        
+        Actor3.randomizeFace()
+        Actor3.randomizeHairs()
+        
+        Actor3.show()
+        
+        Actor:: "Next is <Actor3.name>"
+
+        Actor4 = generatePersonTemporary()
+        While !Actor4.isSameGender(Actor)
+            Actor4 = generatePersonTemporary()
+        endWhile
+        Actor4:age => Actor:age
+        Actor4:age += Random(-2, 2)
+        
+        Actor4.randomizeFace()
+        Actor4.randomizeHairs()
+        
+        Actor4.show()
+        
+        Actor:: "Last but not least, <Actor4.name>"
+        
+        "Well, considering their complete lack of clothing, it's pretty obvious what the pleasant surprise my <Actor.boyfriend_or_girlfriend> has in store for me tonight."
+        0:: "Get gangbanged by <Actor.name> and <Actor.his_or_her> <Actorr> <Actor.homies_or_homegirls>"
+        1:: "Too extreme for me"
+        
+        If 0
+            Actor:attractiontoplayer += 3
+            Actor:masochist += 2
+            Actor:perversion += 2
+            perversion += 1
+            Sex(Actor, Actor2, Actor3, Actor4, Player)
+        Else
+            Player:: "Baby, I appreciate the gesture, but I don't think I could go this far."
+            Actor:attractiontoplayer -= 2
+        Endif
+    Else
+        Actor:: "Damn, I had nice surprise planned for you. Another night then."
+        Actor:attractiontoplayer -= 2
+    Endif
+    
+    timeout(500, gangbang_ir_passive)
+    SceneEnd()

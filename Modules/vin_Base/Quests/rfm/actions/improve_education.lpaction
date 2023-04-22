@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: improve_education
+ACTION_NAME: Work on education
+WHERE: community_centre:mayor
+WHEN: 0 - 24
+MINUTES: 120 - 240
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: improve_education
+ANIMATION:

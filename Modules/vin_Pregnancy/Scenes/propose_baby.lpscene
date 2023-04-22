@@ -1,0 +1,81 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Fail = false
+    If !Actor.isMale() && [Player.isMale() || Player.isTrans()]
+        Player:: "Baby, maybe it's time we should start trying for a baby together."
+        If Actor:attractiontoplayer > 40
+            Actor:: "Oh baby, I've been thinking the same thing ... Yes, let's have a baby together."
+        Else
+            Actor:: "We're still so young, isn't it a bit too soon for that? I'm not sure I'm ready for the reponsibility right now."
+            Fail = true
+        Endif
+        Actor.setWantsBabies()
+    Elseif !Player.isMale() && [Actor.isMale() || Actor.isTrans()]
+        Player:: "Baby, maybe it's time we should start trying for a baby together."
+        If Actor:attractiontoplayer > 40
+            Actor:: "Oh baby, I've been thinking the same thing ... Yes, let's have a baby together."
+        Else
+            Actor:: "We're still so young, isn't it a bit too soon for that? I'm not sure I'm ready for the reponsibility right now."
+            Fail = true
+        Endif
+        Player.setWantsBabies()    
+    Else
+        "Lack of dick or pussy to have a baby ..."
+    Endif
+    
+    If Fail
+        // If you suggest to your SO to start trying for a child and fail, a few days later, you may get approached by your SO's brother or sister who has found out about your desire for a child and offers an alternative.
+        
+        Actor.hide()
+        setBackgroundCustom(livingroom)
+        
+        "I failed to convince <Actor.name> to start trying for a baby for now. I haven't given up though and was planning to try again later."
+        "However, something unexpected then happened."
+        Actor2 = Actor.getRelatedPerson(Siblings)
+        While Actor2.isValid() && !Actor2.isSameGender(Actor)
+            Actor2 = Actor.getRelatedPerson(Siblings)
+        endwhile
+        
+        If !Actor2.isValid()
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2:age => Random(18, 40)
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            Actor2.makePermanent()
+            addNpcRelationship(Siblings, Actor, Actor2)
+        Endif
+        Actor2.setWantsBabies()
+        Actor2.dress()
+        Actor2.show()
+        
+        "I was over at <Actor.name>'s place one evening when <Actor.he_or_she> was suddenly called into work."
+        "<Actor.name>'s <Actor2.brother_or_sister> <Actor2.name> then started chatting to me while <Actor.name> was away. I thought <Actor2.he_or_she> was just trying to be friendly and polite and wanted to keep me company."
+        Actor2:: "So ... you're looking to become a <Player.father_or_mother>, I've heard?"
+        Player:: "What? How could you possibly know that?"
+        Actor2:: "My <Actor.brother_or_sister> told me about it ..."
+        Actor2:: "I'm sorry to tell you but my immature <Actor.brother_or_sister> will never feel ready for that kind of responsibility ..."
+        Actor2:: "I, on the other hand, have wanted a child for a long time now ... Maybe it's not my <Actor.brother_or_sister> who's really meant to be with you, you know ..."
+        0:: "Make a baby with <Actor.name>'s <Actor2.brother_or_sister> instead"
+        1:: "Reject <Actor2.him_or_her>"
+        
+        If
+            Player:: "You're right ... Deep inside, I know it too that my immature <Actor.boyfriend_or_girlfriend> will never be ready for <Actor.fatherhood_or_motherhood>."
+            Player:: "So I might as well seek another alternative to reach the goal I desire ..."
+            Actor2:: "Yup, same genes and everything too ..."
+            Sex(Actor2, Player)
+            If Actor2.isFemale()
+                Actor2.impregnate(Player)
+            Else
+                Player.impregnate(Actor2)
+            Endif
+        Endif
+    Endif
+    SceneEnd()

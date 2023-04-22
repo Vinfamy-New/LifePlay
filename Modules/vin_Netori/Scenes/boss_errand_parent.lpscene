@@ -1,0 +1,73 @@
+WHAT: all
+WHERE: work
+WHEN: 8 - 20 
+WHO: Actor = getSpecific(Boss); If Actor:age > age + 15 + likes_older*0.5 && Actor:age < age + 35 + likes_older*0.5
+OTHER: isModEnabled(vin_OldYoung)
+
+    SceneStart()
+    Actor.hide()
+    If jobexperience < 50
+        "My boss sent me on an errand to deliver some documents to <Actor.his_or_her> private home. I couldn't really turn it down but to be honest, it's a pain in the ass ... I'm not paid to be someone's personal delivery <Player.boy_or_girl>."
+    Else
+        "My boss asked me to deliver some top confidential documents to <Actor.his_or_her> private home. Usually, this would be done by an intern or something, but these documents are highly sensitive and the boss only trusts me to get the job done."  
+    Endif
+    setBackground(street)
+    Actor1 = Actor.getRelatedPerson(ParentChild)
+    While Actor1:age < Actor:age && Actor1.isValid()
+        Actor1 = Actor.getRelatedPerson(ParentChild)
+    Endwhile
+    
+    If !Actor1.isValid()
+        Actor1 = ACtor.generatePersonTemporaryMatchRace()
+        While !Player.isInterestedIn(Actor1)
+            Actor1 = generatePersonTemporary()
+        Endwhile
+        Actor1.makeInterested(Player)
+        
+        Actor1:age => Actor:age + Random(20, 30)
+        Actor1.randomizeFace()
+        Actor1.randomizeHairs()
+        Actor1:likes_older => 2*[age - Actor:age]
+        Actor1:attractiontoplayer += Random(25, 50)
+        
+        Actor1.makePermanent()
+        addNpcRelationship(ParentChild, Actor1, Actor)
+    Endif
+    
+    Actor1.dress()
+    Actor1.show()
+    
+    Actor1(Happy):: "You're delivering something for my <Actor.son_or_daughter>? Come right in!"
+    "It's my boss's <Actor1.dad_or_mom> that opens the door."
+    setBackground(home)
+    "I delivered the documents as required. I probably should start heading back to the office."
+    0:: "Head back"
+    1:: "Make a move on my boss's <Actor1.dad_or_mom>"
+    
+    If 1
+        "My boss's <Actor1.dad_or_mom> seemed quite receptive to my advances. I may be onto something here ..."
+        Actor1(Flirty):: "You know, it's been a while since <Actor.name>'s <Actor1.mother_or_father> passed away ... I couldn't help but feel a bit lonely."
+        Actor1(Flirty):: "Maybe my <Actor.son_or_daughter> sent you here deliberately ... to satisfy my needs. <Actor.He_or_She> is always such a fillial <Actor.son_or_daughter> ..."
+        0:: "Go for it"
+        1:: "No way"
+        
+        If 0
+            "I'm banging my boss's <Actor1.dad_or_mom>!"
+            If jobexperience < 50
+                "Serves <Actor.him_or_her> right for sending me on pointless errands."
+            Endif
+            Sex(Player, Actor1)
+            perversion += Random(0, 2)
+            masochist -= Random(0, 2)
+            Actor1:attractiontoplayer += Random(0, 10)
+            If !Actor1.isContactExchanged()
+                exchangeContact(Actor1)
+            Endif
+        Else
+            "On second thought, I value my job too much to take this risk. Let's just get the hell out of here before the boss suspects me."
+            Actor1:attractiontoplayer -= Random(0, 10)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(1000, boss_errand_parent)

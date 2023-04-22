@@ -1,0 +1,32 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: Player.isMale()
+
+    // Summery - gf/wife decides to ask you on a beach resort date. No sexual activity happens just a cute date.
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Actor: "Hey <Player.name>, would you happen to be up for going on a vacation with me?"
+    0:: "Of course love!"
+    1:: "Sorry work has me swamped. Won't be able to take a vacation for a while, sorry love."
+
+    If 0
+        setBackground(street)
+        "You and your <Actor.boyfriend_or_girlfriend> go to the local airport. She bought tickets for the two of you already. You both fly out to a nearby island for some fun in the sun."
+        Player:: "Thank you for this. It really relaxed me."
+        Actor:: "Anytime dear! I'm happy to spend time with you and I knew you've been wanting to go to the beach for awhile." 
+        Player:: "You're the best!" 
+        animatePair(Player, Actor, Kissing)
+        "We kiss and enjoy a few days at the beach resort before heading back to the city."
+        Player:: "That was an amazing vacation, I cannot wait for us to go on another vaction together!"
+        Actor:: "Me too love!"
+        mood += 50
+        Actor:rapportwithplayer += 5
+        Actor:attractiontoplayer += 5
+    Endif
+
+    SceneEnd()
+    timeout(400, sr_fso_cutedate_cms)

@@ -1,0 +1,98 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Actor = getCompanion()
+    If !Actor.isValid() || !Actor.isDating()
+        Actor = getSpecific(Dating)
+    Endif
+    Actor.dress()
+    Actor.show(2)
+    If isTimingOut(propose_sex_dating_home)
+        "I'd better not ask for sex again so soon after last time! <Actor.name> is my <Actor.boyfriend_or_girlfriend>, not my personal sex slave."
+    Else
+        Actor2 = getSpecific(Dating)
+        "The best thing about being in a steady relationship is that sex is much easier to come by ... Should I propose making love with <Actor.name> now?"
+        0:: "Yes"
+        1:: "No"
+        2:: Actor2.isValid():: "<Actor.name> is not my only lover ..."
+        
+        If 0
+            If Random(0, 50) < Actor:attractiontoplayer + interpersonal + Actor:perversion
+                Actor(Flirty):: "My <Player.handsome_or_beautiful> <Player.boyfriend_or_girlfriend> is in need? Well, then I have no choice but fulfil my duty then ..."
+                Sex(Actor, Player)
+                karma += 1
+                perversion += Random(0, 0.05)
+                
+                If isModEnabled(vin_Bestiality)
+                    Actor2 = getCreature()
+                    If Actor2.isValid() && Actor2.isMale() && Random(10, 100) < Actor2:perversion
+                        Actor.show(2)
+                        Actor2.show(3)
+                        Actor2:: "Wuff! Wuff! Wuff!"
+                        "We were deep in passion when our intimate moment was interrupted by the sound of my dog barking. Was <Actor2.he_or_she> watching us the whole time?"
+                        "And is that an erection that <Actor2.name> is sporting!?"
+                        0:: !Player.isMale():: "Fuck <Actor2.name> myself"
+                        1:: !Actor.isMale():: "Convince <Actor.name> to fuck <Actor2.name>"
+                        2:: "Tell the dog off"
+                        
+                        If 0
+                            Sex(Actor2, Player)
+                            perversion += Random(0, 2)
+                        Elseif 1
+                            If Random(0, 100) < Actor:perversion + Actor:attractiontoplayer
+                                Actor(Flirty):: "Well, I've always been curious about these forbidden desires. Fine, just for you, baby!"
+                                Sex(Actor2, Actor)
+                                perversion += Random(0, 3)
+                                masochist += Random(0, 2)
+                            Else
+                                Actor(Shocked):: "What? You want me to fuck a dog? Are you crazy? No way!"
+                                Actor:attractiontoplayer -= Random(0, 5)
+                            Endif
+                        Else
+                            Player(Angry):: "Bad doggy! Get out this instant!"
+                        Endif
+                    Endif
+                Endif
+            Else
+                Actor(Sad):: "Sorry baby, but I'm not in the mood right now ..."
+            Endif
+            timeout(12, propose_sex_dating_home)
+        Elseif 2
+            Actor3 = getSpecific(Dating)
+            Actor2.dress()
+            Actor2.show(3)
+            "Luckily for me, <Actor2.name> is also around. Being polyamorous is the best thing ever!"
+            0:: "Have a threesome"
+            1:: Actor3.isValid():: "I still have more lovers!"
+            
+            If 0
+                Sex(Player, Actor, Actor2)
+                perversion += Random(0, 0.075)
+            Else
+                Actor4 = getSpecific(Dating)
+                Actor3.dress()
+                Actor3.show(4)
+                "Luckily for me, <Actor3.name> is also around. Being polyamorous is the best thing ever!"
+                0:: "Have a foursome"
+                1:: Actor4.isValid():: "I still have more lovers!"
+                
+                If 0
+                    Sex(Player, Actor, Actor2, Actor3)
+                    perversion += Random(0, 0.075)
+                Else
+                    Actor4.dress()
+                    Actor4.show(5)
+                    "Luckily for me, <Actor4.name> is also around. Being polyamorous is the best thing ever!"
+                    Sex(Player, Actor, Actor2, Actor3, Actor4)
+                    perversion += Random(0, 0.075)               
+                Endif           
+            Endif
+            karma += 1
+        Endif
+    Endif
+    
+    SceneEnd()

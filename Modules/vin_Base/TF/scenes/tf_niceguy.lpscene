@@ -1,0 +1,68 @@
+WHAT: all
+WHERE: home
+WHEN: 8-22
+WHO: none
+OTHER: TfGame() && !Player.isMale() && Player.isInterestedInMen()
+
+    // As a man, you had a friend who you know to always be the friendzoned / 'nice guys finish last' type to girls. Previously, you could only empathize with him, now as female yourself though, you could finally give him what he deserves.
+    
+    SceneStart()
+    "I was scrolling through my Facebook feed when I came across something that got me thinking."
+    Actor = generatePersonTemporary()
+    While !Actor.isMale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    Actor:attractiontoplayer += 80
+    Actor:rapportwithplayer += 80
+    Actor:perversion => Random(0, 40)
+    Actor:interpersonal => Random(0, 40)
+    secondScreen(Actor)
+    Actor.show()
+    Actor:: "Nice guys finish last ..."
+    "<Actor.name>'s Facebook status update needs no further explanations. He's one of my good friends, who is always gentle and nice but has terrible luck with girls."
+    "It certainly doesn't help that he keeps chasing after hot girls with a clear thing for bad boys. At the same time, these girls are more than happy to give him false hope and string him along in the friendzone for all the gifts and attention he gives them without expecting anything in return."
+    "And once they're done enjoying his attention, they leave him heartbroken and devoid of confidence."
+    "As a guy, I always felt sorry for <Actor.name> ..."
+    "But now that I'm in a female body, maybe I could give him a lot more than just sympathy ..."
+    0:: "Bang <Actor.name> to give him some confidence"
+    1:: "Just let him continue finishing last"
+    
+    If 0
+        karma += 5
+        "As a guy in my previous life, I try to put myself in his shoes and I know how much confidence this would give him."
+        secondScreen()
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        Actor.dress()
+        Actor.show()
+        "I called <Actor.name> making up an excuse that I need a light bulb replaced and asked him to come over to help. Being a nice guy incapable of telling a girl to do it herself, <Actor.name> showed up within half an hour."
+        "He must be used to doing menial labour for girls and get fuck-all rewards at this point, but I have a surprise for him this time."
+        animatePair(Actor, Player, Kissing)
+        "As soon as the poor guy realizes my light bulb is perfectly fine, he's ambushed by my lips ..."
+        Actor:: "<Player.name>, what are you doing? You don't have to do this ... I wouldn't think of asking for anything from you for such a simple favour."
+        Player:: "You're right ... I don't have to, but I want to ..."
+        Sex(Actor, Player)
+        "<Actor.name> was pretty terrible in bed to be honest, must have been a while since he's been with a girl. Or maybe he was a virgin even?"
+        "It's a bit weird to have sex with my friend, but I feel good about myself - I'm stuck in this female body for now, might as well use it to do some good for the world. Preventing nice guys from turning into incels seems like a good cause!"
+        "Of course, the thing about nice guys with little experience like <Actor.name> is that they are no expert in casual hookups and get overly attached very quickly ... Something I probably should have thought about before going ahead with my plans."
+        Actor:: "<Player.name>, I love you ... I've never known any girl as kind, smart and beautiful as you are."
+        "Dafuq dude! That's a bit much surely! One lousy fuck and I'm already the best thing since sliced bread ..."
+        Actor:: "Please, be my girlfriend ... I'll treat you right, I'll do anything for you ..."
+        0:: "Agree to be <Actor.name>'s girlfriend"
+        1:: "Reject <Actor.him_or_her>"
+        
+        If 0
+            "On second thought, having a boyfriend that treats me like a princess and does anything for me doesn't sound half bad ... The other girls are just missing out."
+            "I agreed to be <Actor.name>'s girlfriend. That wasn't the original plan, I can't believe I ended up dating one of my guy friends, one that I even felt sorry for previously."
+            Actor.setDating()
+        Else
+            "No, that wasn't part of the plans. All I wanted to do was to give my friend some confidence."
+            "I decided to reject him in the nicest way possible as to not to break the poor guy's heart again."
+        Endif
+    Else
+        "Oh well, the guy needs to learn the hard way to not let himself get taken advantage of by girls anymore ..."
+    Endif
+
+    SceneEnd()
+    timeout(200, tf_niceguy)

@@ -1,0 +1,83 @@
+SCLPropagatingHead
+Head Width
+Face Length
+Face Depth
+CTRLFaceAngle
+Face Upper Widen
+Face Upper Depth
+Face Lower Widen
+Face Lower Depth
+
+ForeHead Width
+RSM Forehead Heights
+RFMC_Forehead Heights
+ForeHead Depth
+RSM Forehead Slope
+RFMC_Forehead Slope
+
+PHMCheeksSize
+PHMCheeksDepth
+CTRLCheekbonesSize
+PHMCheeksSink
+Cheeks Bones Height
+RFMC_Dimples 02
+
+Chin Scale
+PHMChinWidth
+Chin Length
+RSM Chin Depth 01
+RFMC_Chin Depth (Alt)
+Chin Cleft
+
+PHMJawSize
+Jaw Width
+PHMJawHeight
+Jaw Depth
+PHMJawAngle
+PHMJawCurve
+PHMJawCornerWidth
+PHMJawlineDepth
+
+RSM Brow Thinner
+RFMC_Brows Weaker
+PHMBrowWidth
+Brows Depth
+Brows Distance
+Brows Height
+Brows Arch
+RSM Brow Rotate 02
+RFMC_Brows Rotates
+
+PHMEyesSize
+PHMEyesWidth
+PHMEyesDepth
+Eyes Distance
+PHMEyesHeight
+PHMEyesAngled
+
+PHMNoseSize
+PHMNoseWidth
+PHMNoseHeight
+PHMNoseDepth
+PHMNoseSide-Side
+PHMNoseFleshSize
+PHMNoseTipHeight
+
+PHMMouthSize
+PHMMouthWidth
+PHMLipsThin
+PHMLipUpperSize
+PHMLipLowerSize
+PHMMouthDepth
+PHMLipDepthUpper
+PHMLipDepthLower
+PHMMouthHeight
+PHMMouthCurves
+Mouth Corners Vertical Adjust
+
+Ears Scale
+PHMEarsSize
+Ears Width
+PHMEarsDepth
+PHMEarsHeight
+Ears Rotate

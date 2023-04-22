@@ -1,0 +1,81 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If Actor:perversion > 50
+OTHER:
+
+    SceneStart()
+    "<Actor.name> was in the bathroom when a notification showed up on <Actor.his_or_her> phone."
+    "I was very near to <Actor.his_or_her> phone so curiousity got the better of it and I tapped to see what it was."
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isSameGender(Player)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makeInterested(Actor)
+    secondScreen(Actor2)
+    Actor2.show()
+    "Some random <Actor2.guy_or_girl> I don't know just sent a nude pic to <Actor.name> on Tinder ..."
+    "In fact, they have been sexting constantly for the last few days ..."
+    "Since they first matched actually ... which means they probably haven't met yet. I can probably put a stop to this before it's too late ... or maybe not."
+    Actor.dress()
+    Actor.show()
+    "Moments later, <Actor.name> came back from the bathroom ..."
+    secondScreen()
+    Actor:: "Baby, was that a notification on my phone?"
+    0:: "Get mad with <Actor.him_or_her> for sexting another <Player.guy_or_girl>"
+    1:: "Encourage <Actor.him_or_her> to meet up with the <Player.guy_or_girl>"
+    2:: "Pretend I saw nothing"
+    
+    If 0
+        "I accused <Actor.him_or_her> of 'micro-cheating' by sexting another <Player.guy_or_girl> while in a relationship."
+        "<Actor.name> apologized and promised it would never happen again ... but I can't help but feel our relationship is damaged a bit by this incident."
+        masochist -= 1
+        Actor:perversion -= 2        
+        Actor:attractiontoplayer -= 3
+    Elseif 1
+        "I told <Actor.name> that I saw the sext, but to <Actor.his_or_her> surprise, I didn't get angry at all. Instead, I encouraged my <Actor.boyfriend_or_girlfriend> to meet up with this stranger in real life and have some fun since there was clear mutual attraction there."
+
+        masochist += 1
+        Actor:masochist -= 1
+        Actor:perversion += 1
+
+        "<Actor.He_or_She> appreciated my generousity, but said <Actor.he_or_she> didn't intend for this to be anything more than online flirtation, because <Actor.he_or_she> wouldn't feel safe meeting a stranger from dating app like this who could turn out to be a serial killer in the worst case scenario!"
+        0:: "Fair enough"
+        1:: "Invite <Actor2.him_or_her> here instead, I'll cook!"
+        
+        If 1
+            masochist += 1
+            Actor:masochist -= 1
+            Actor:perversion += 1
+            Actor:attractiontoplayer += 3
+            Actor:: "Wow, you're the most gentle and caring <Player.boyfriend_or_girlfriend> in the world, honestly! What have I done to deserve you?"
+            Actor:: "Okay then, since you're willing to make such an effort to make this happen, there's no reason for me to hesitate any further."
+            setBackgroundCustom(kitchen)
+            Actor2.dress()
+            Actor2.show()
+            Player.movetoPersonStand(Actor, 200)
+            "The next evening, <Actor.name> invited her online admirer <Actor2.name> for dinner at our place."
+            "When <Actor2.he_or_she> first saw me there, <Actor2.he_or_she> got visibly nervous at first probably thinking it was a trap for me to beat <Actor2.him_or_her> up or something. However, <Actor2.name> calmed down when <Actor.name> reassured <Actor2.him_or_her> that I was the one who insisted on this romantic evening for the two of them and I was just there as the chef for the evening."
+            "And I performed my duty admirably, serving up a nice three-course dinner worthy of a decent restaurant's Valentines menu."
+            "Of course, the fourth course was to be served in the bedroom I usually share with my <Actor.boyfriend_or_girlfriend>, but I wasn't supposed to be involved this time."
+            0:: "Peep on them"
+            1:: "Stay in the kitchen and eat the leftover"
+            
+            If 0
+                Player.hide()
+                setBackground(home)
+                Actor2:: "Wow, are you sure your <Player.boyfriend_or_girlfriend> is okay with us messing around in here? <Player.He_or_She> is literally a few steps away in the kitchen."
+                Actor:: "<Player.He_or_She> is, tonight wouldn't have happened at all without <Player.his_or_her> effort ..."
+                Actor:: "Now, it's up to us to make sure that <Player.his_or_her> effort was worth it."
+                Sex(Actor2, Actor)
+                masochist += 1
+                Actor:masochist -= 1
+                Actor:perversion += 1
+                Player.show()
+                "While having sex with <Actor.his_or_her> Tinder lover, my <Actor.boyfriend_or_girlfriend> caught me peeping. <Actor.He_or_She> mouthed 'Thank you dear ...' to me and blew me kisses."
+                "Nothing turns me on more than watching my <Actor.boyfriend_or_girlfriend> with another <Actor2.man_or_woman>, especially if it's me who has done everything in my power to make it happen!" 
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, tinder_dinner)

@@ -1,0 +1,52 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); If !CurrentCompanion.isPregnant() && !Player.isPregnant() && !CurrentCompanion.isMale() && !Player.isMale() && CurrentCompanion.wantsBabies() && !CurrentCompanion.isDating() && CurrentCompanion:rapportwithplayer > 40
+OTHER:
+
+    // Your friend or family asks you to follow them to a breeding party, saying they want to have a baby, but don’t want to go alone. 
+    SceneStart()
+    "<CurrentCompanion.name> is trying to get pregnant and has heard about a breeding party being organized tonight."
+    "<CurrentCompanion.He_or_She> is too scared to go alone and has asked me to come with <CurrentCompanion.him_or_her>."
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        setBackground(nightclub)
+        "So here's the party. So many fertile dicks ready to impregnate."
+        count = 0
+        While count < 3
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            count += 1
+            Actor2.show()
+            Actor2:fertility_npc => 50
+            Actor2:likes_vaginal => 100
+            "The next guy trying to breed <CurrentCompanion.name> is called <Actor2.name>. Will <Actor2.he_or_she> manage to become the baby daddy?"
+            Sex(Actor2, CurrentCompanion)
+        Endwhile
+        "Watching <Actor2.name> getting bred by so many guys has turned me on quite a bit"
+        0:: "Join in the fun"
+        1:: "Watching was enough"
+        
+        If 0
+            "I can't help but want some part of this fun orgy, as risky as it was."
+            count = 0
+            While count < 3
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isMale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                count += 1
+                Actor2.show()
+                Actor2:fertility_npc => 50
+                Actor2:likes_vaginal => 100
+                "The next guy interested in me is called <Actor2.name>."
+                Sex(Actor2, Player)
+            Endwhile        
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, double_breeding)

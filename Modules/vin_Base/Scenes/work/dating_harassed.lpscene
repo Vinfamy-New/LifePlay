@@ -1,0 +1,91 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Boss); If Actor.isColleague() && Actor2.isInterestedIn(Actor) && Actor2:perversion > 75 & Actor:perversion < 40
+OTHER: !OpenRelationship()
+
+    // If your SO works with you and have low perversion, they may get unwelcome advances from the boss and asks for your opinion before going to HR. There's only a small chance you get a new boss if you encourage them, much higher chance your job performance suffers (which in turns affects your promotion / getting fired chances). However, if you keep telling your SO to not 'rock the boat', your relationship will suffer and they may quit or if NTR is on, they'll eventually sleep with the boss.
+    
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    Actor.moveToPersonStand(Player, 50)
+    Actor:: "Baby, I need to tell you about something."
+    Player:: "What's the problem, babe?"
+    Actor:: "Our boss, <Actor2.name>, has been sexually harassing, touching me inappropriately and saying sleazy things to me."
+    Actor:: "We should report to HR"
+    0:: "Don't"
+    1:: "Let's do it"
+    
+    If 0
+        Player:: "It's pointless ... HR won't listen. It will just be the case of he said she said."
+        Player:: "Besides, it may harm our careers"
+        Actor:: "How could you? I thought you would show a bit more concern to your <Actor.boyfriend_or_girlfriend> getting harassed by your own boss than worrying about your own career!"
+        Actor:attractiontoplayer -= 2
+        If Actor:attractiontoplayer < 0
+            If isModEnabled(vin_NTR)
+                Actor2.dress()
+                Actor2.show()
+                Actor:: "Fine, as you wish, I asked for this?"
+                Player:: "Huh? I asked for what? What are you doing, <Actor.name>? Where are you going?"
+                Actor.moveToPersonStand(Actor2, 50)
+                "I watched in horror as <Actor.name> willingly rushed into my boss's office. I swiftly followed."
+                Player.moveToPersonStand(Actor, 100)
+                Actor:: "You want me? Then don't be a creepy coward and just fuck me."
+                Actor:: "Since my <Player.boyfriend_or_girlfriend> is more worried about <Player.his_or_her> career than about any <Actor2.guy_or_girl> fucking <Player.his_or_her> <Actor.boyfriend_or_girlfriend> anyway ..."
+                Actor2:: "Really? Well, that's <Player.his_or_her> loss and my gain then ... The lucky <Player.bastard_or_bitch> dates the hottest <Actor.guy_or_girl> in the office and chooses <Player.his_or_her> career over <Actor.him_or_her>."
+                Actor2:: "Don't worry, <Player.name>. Once I'm done with your <Actor.boyfriend_or_girlfriend>, maybe I'll consider give you a 1% pay rise to soften the blow ..."
+                Sex(Actor2, Actor)
+            Else
+                Actor:: "But no matter what you think, I cannot continue working here like this. I'm going to quit. Good luck with your 'career' here under such a terrible human being as your boss."
+                Actor:: "I'll find somewhere else to work ... and I'm seriously considering finding someone else to date as well after seeing how selfish and cowardly you are."
+                Actor.removeColleague()
+            Endif
+        Else
+            "Without my support, <Actor.name> decided not to go ahead with reporting the harassment. Still, our relationship suffered as a result."
+        Endif
+    Else
+        Player:: "Yeah, we should do that. I can't let my <Actor.boyfriend_or_girlfriend> get harassed right in front of me."
+        Actor:: "Thank you for sticking up for me."
+        Actor:attractiontoplayer += 2
+        If Random(0, 200) < Actor:interpersonal - Actor2:interpersonal
+            "Thankfully, HR believed <Actor.name>'s accussation, having also received similar reports from other employees about our perverse boss <Actor2.name>."
+            Actor2:rapportwithplayer -= 100
+            
+            Boss = generatePerson()
+
+            If Random (0,1) < 0.7
+                Random
+                    Boss.blendPreset(workaholic)
+                    Boss.blendPreset(workhard_playhard)
+                endRandom
+            endif
+
+            If Random(0,1) < 0.95
+                Random
+                    Boss.blendPreset(fourties)
+                    Boss.blendPreset(fifties)
+                    Boss.blendPreset(sixties)        
+                endRandom
+            endif
+                
+            Boss.randomizeFace()
+            Boss.randomizeHairs()
+            
+            Boss.setBoss()
+            
+            Boss.dress()
+            Boss.show()
+            
+            "Eventually, <Actor2.name> was fired and replaced with another very experienced leader, <Boss.name>, having been headhunted from a competing company."
+            "Only time will tell but hopefully <Boss.name> isn't also a pervert."
+        Else
+            "Unfortunately, the HR ignored our sexual harassment report and even disclosed our identity to the boss."
+            "My job will be a lot harder now for sure. Have we killed off any chance of promotion as well?"
+            Actor2:rapportwithplayer -= 10
+            jobperformance -= 20
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, dating_harassed)

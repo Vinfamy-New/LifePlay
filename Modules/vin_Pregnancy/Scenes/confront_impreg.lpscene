@@ -1,0 +1,80 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isFemale() && !Actor.hadSex() && !Actor.isVirgin() && !Actor.hasRelationship(Spouses, Dating) && Random(20, 100) < Actor:perversion
+OTHER: Player.isFemale() && !Player.isPregnant()
+
+    // If a female player is hanging out with a female friend or relative, this companion admits to you they just found out they got impregnated by a guy who's now refusing to take reponsibility. You can convince her to get an abortion or offer to go talk to the guy yourself. You may then either succeed in pressuring the guy into dating your friend/ relative ... or end up seduced by his charm and get impregnated yourself ...
+    
+    SceneStart()
+    "I was spending some time with <Actor.name> when she suddenly started crying and admitted something to me."
+    Actor:: "<Player.name>, I'm pregnant ... What should I do now?"
+    Player:: "What!? Who's the father?"
+    If !Actor2.isValid()
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isMale()
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2:age => Random(18, 40)
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+        Actor2.makePermanent()
+    Endif
+    Actor2.setWantsBabies()
+    Actor2.dress()
+    secondScreen(Actor2)
+    Actor2.show()
+    Actor:: "It's this random hot guy I met one night at a nighclub ... I was drunk and careless ..."
+    Actor:: "I did take his number thankfully but when I called him again to tell him I was pregnant, he wanted nothing to do with me and the baby ... He just wanted to fuck me once and done."
+    secondScreen()
+    "What advice should I give <Actor.him_or_her>?"
+    0:: "Have an abortion"
+    1:: "Be a single mom"
+    2:: "I'll go talk to the guy"
+    
+    If 0
+        Actor:: "I guess that's the only choice I have left ..."
+    Elseif 1
+        Player:: "Tons of people do great as single moms these days. There's nothing to fear. I don't need an irresponsible asshole like that in your and your child's life anyway."
+        Actor:: "You're right ... I must be stay strong ..."
+        Actor.impregnate(Actor2)
+    Else
+        Actor.impregnate(Actor2)
+        Player:: "Give me his number and where he lives, I'll go talk to him. Maybe he was just panicking and will accept responsibility with more convincing."
+        Actor:: "Okay, hopefully, you'll have better luck than me ..."
+        Actor.hide()
+        setBackgroundCustom(livingroom)
+        Actor2.show()
+        "I managed to track the guy down to where he lives and stormed in his living room and demanded he took responsibility for <Actor.name> and the baby."
+        If Actor2:perversion < 50
+            "Thankfully, <Actor2.name> wasn't actually a bad guy and as I had hoped, he was just panicking earlier at the news. Now that he had calmed down, he accepted that it was his responsibility and agreed to get into a committed relationship with <Actor.name> for the sake of the child."
+            Actor:rapportwithplayer += 50
+            "<Actor.name> was forever grateful to me for saving her the fate of being a single mom."
+            addNpcRelationship(Dating, Actor2, Actor)
+        Else
+            Actor2:: "I know it's my responsibility ... but you know ... I'm just too young to settle down ... I can't help but feel regret."
+            Player:: "Too late now ... you impregnated her ... you can't just turn your back on her and the child."
+            Actor2:: "I know .. I know ... how about this? I'll date her seriously I promise ... but how about one last fling before settling down without regrets?"
+            Actor2:: "From tomorrow onwards, it's just one pussy for the rest of my life ..."
+            "Of course, the cheek of the guy to make flirtatous eye contact with me while saying that ... It's clear who he wants this last fling to be ..."
+            0:: "Fine, I'll fuck you if you promise with be with <Actor.name>"
+            1:: "<Actor.name> would be better off without this asshole honestly!"
+            
+            If 0
+                Player:: "Fine ... But this deal must stay a secret forever between us ..."
+                Sex(Actor2, Player)
+                If Random(0, 100) < Actor2:perversion
+                    "In the heat of the moment, <Actor2.name> cummed inside me ... Oh my god, how could I be so careless after what happened to <Actor.name>? Was this all a ploy to make the pregnant as well."
+                    "Is <Actor2.name> some sick bastard who takes pleasure out of impregnating as many women as possible?"
+                    Player.impregnate(Actor2)
+                Endif 
+                Actor:rapportwithplayer += 50
+                "<Actor.name> was forever grateful to me for saving her the fate of being a single mom."
+                addNpcRelationship(Dating, Actor2, Actor)
+            Else
+                Player:: "Dream on! Now that I've seen what a horrible person you are ... <Actor.name> would be better off as a single mom actually."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, confront_impreg)

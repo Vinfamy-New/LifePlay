@@ -1,0 +1,45 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(Sibling, StepSibling, Cousin, ParentSibling, Child, StepChild); Actor2 = Actor.getRelatedPerson(Dating, Spouses); If Actor2.isRelative() && Actor.livesWithPlayer()
+OTHER: isAtHome()
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "What's that sound? If it is what I think it is, then my <Actor.relationship> is getting very intimate with a lover. They are moaning very loudly."
+    0:: "Ignore"
+    1:: "Peep"
+
+    If 0
+        "Good for <Actor.him_or_her> I guess. I can't ban my <Actor.relationship> from sex!"
+    Else
+        perversion += Random(0, 0.5)
+        Actor:incest += Random(0, 3)
+        Actor2:incest += Random(0, 3)
+        "My curiosity got the better of me and I just had to see this ..."
+        "Hmm, the door wasn't locked at all. Could it be that my <Actor.relationship> was inviting me to watch this?"
+        setBackground(home)
+        Player.hide()
+        Sex(Actor, Actor2)
+        arousal += Random(0, 30)
+        "God, my <Actor.relationship> <Actor.name>'s lover is no one other than my <Actor2.relationship> <Actor2.name> ... I'm aware of this incestuous relationship the two of them have been having but I could never imagine they would be so bold and so loud about it." 
+        Actor.show(2)
+        Actor2.show(3)
+        "It looks like they're already ready for another round ..."
+        0:: "Offer to join them"
+        1:: "Enough"
+        
+        If 0
+            Player.show()
+            Player(Flirty):: "Looks like you guys are having some fun there? Mind if I join you?"
+            Actor(Flirty):: "Of course, we're all family after all"
+            Sex(Actor, Player, Actor2)
+            Actor:incest += Random(0, 50)
+            Actor2:incest += Random(0, 50)
+        Else
+            "I should get out of here before I get caught."
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(100, relrel_peep)

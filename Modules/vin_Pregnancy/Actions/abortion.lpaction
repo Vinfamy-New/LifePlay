@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: abortion
+ACTION_NAME: Have an abortion
+WHERE: hospital, doctor
+WHEN: 0 - 24
+MINUTES: 1 - 2
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS: false (IS_MALE)
+MOVE_FIRST: true
+SCENE_ALWAYS: abortion
+ANIMATION:   

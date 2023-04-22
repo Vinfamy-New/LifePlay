@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: assault_dog
+ACTION_NAME: Assault with dog
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 20
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: assault_dog
+ANIMATION:
+WHO: Actor = getTarget(); Actor2 = getCompanionCreature(); If !Actor.isCreature() && Actor2.isCreatureType(Dog) && isModEnabled(vin_NonConsensual)

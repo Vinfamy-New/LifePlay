@@ -1,0 +1,74 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    endDate()
+    "I have decided to bring everyone in our polyamorous arrangements together and taken them out to hang out in public."
+    Actor = getSpecific(Dating)
+    While Actor.isValid()
+        Actor.dress()
+        Actor:attractiontoplayer += Random(1, 5)
+        Actor.show()
+        Backup = Actor
+        Actor = getSpecific(Dating)
+    Endwhile
+    "A 'family' bonding time if you like."
+    
+    If Random(0, 100) < 25 // Come across someone you know, who gains or loses rapport
+        Actor3 = getPerson(true)
+        Actor3.dress()
+        Actor3.show()
+        "By chance, I came across someone I know, <Actor3.name>, who immediately recognized me but seemed a bit confused by our whole group's dynamics"
+        0:: "Be upfront about the polyamorous arrangement"
+        1:: "Say you're just hanging out with a group of friends"
+        
+        If 0
+            If Actor3:perversion > 35
+                Actor3:: "That's so cool! As long as you're all happy, all the more power to you!"
+                Actor3:rapportwithplayer += 2
+            Else
+                Actor3:: "That's kinda weird, if I'm being honest. But, whatever rocks your boat, I suppose."
+                Actor3:rapportwithplayer -= 2
+            Endif
+        Endif
+    Elseif Random(0, 100) < 33 // Two of your lovers getting particularly intimate with each other
+        "I can't help but notice in these recent outings that two of my poly lovers getting particularly close to each other, intimate even, with or without me around"
+        0:: "Try to stop this from progressing"
+        1:: "Encourage their relationship to blossom"
+        
+        If 1
+            "A few weeks later ..."
+            followUp(interpoly)
+        Endif
+    Elseif Random(0, 100) < 50 // A stranger being drawn to your arrangement and expressing a desire to join
+        Actor2 = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2.makeInterested(Player)
+        Actor2:attractiontoplayer => Random(30, 100)
+        Actor2.dress()
+        Actor2.show()
+        "By chance, our group came across someone new called <Actor2.name>, who was clearly intrigued by our whole arrangement ..."
+        "Should I suggest that <Actor2.name> joins in hanging out with us?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0    
+            "<Actor2.name> joined our group and immediately started to bond with everyone."
+            Actor2.makePermanent()
+            exchangeContact(Actor2)
+            "We kept in touch with <Actor2.name> and asked <Actor2.him_or_her> to continue hanging out with us a few times when we all went out."
+            "A few weeks later ..."
+            Actor2.startDate()
+            followUp(npc_joins_poly)
+        Endif
+    Else // Another poly group suggesting a fun party
+        "By chance, we were approached by another group of people who declare themselves to also be in a polyamorous arrangement like us."
+        "Everyone just sort of clicked extremely well and before long, the leader of the other group suggested to me that we should organize a swingers' orgy to get to know each other better."
+        followUp(organize_poly_party)
+    Endif
+    SceneEnd()

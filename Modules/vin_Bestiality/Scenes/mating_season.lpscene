@@ -1,0 +1,60 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getCreature(); If Actor.isOnPeriod()
+OTHER:
+
+    SceneStart()
+    Actor.show()
+    "If my calculation is correct, <Actor.name> is supposed to be in the middle of <Actor.his_or_her> mating season."
+    neutered = Actor.getActorVar(neutered)
+    If neutered == 1
+        "Thankfully, I already had <Actor.him_or_her> neutered, so there are no issues."
+    Else
+        Actor2 = getSpecific(Dating)
+        "I can't help but notice that <Actor.name> has been a lot more aggressive, horny and no doubt fertile lately. After all, it's only <Actor.his_or_her> instinct."
+        "Should I do something about it?"
+        0:: "Sexually relieve <Actor.name> myself"
+        1:: Actor2.isValid():: "Ask my <Actor2.boyfriend_or_girlfriend> <Actor2.name> to relieve <Actor.name>"
+        2:: "Have <Actor.name> permanently neutered"
+        3:: "Do nothing"
+        
+        If 0
+            "It's only part of a pet owner's duties."
+            Sex(Actor, Player)
+        Elseif 1
+            Actor2.dress()
+            Actor2.show()
+            If Actor2:perversion > 70 || Actor2:attractiontoplayer > 70
+                Actor2:: "Okay, I guess it's only fair for me to help you take care of our pet."
+                Sex(Actor, Actor2)
+            Else
+                Actor2:: "Are you crazy? No way!"
+                attractiontoplayer -= 2
+            Endif
+        Elseif 2
+            Actor:rapportwithplayer -= 50
+            Actor:prone_to_orgasm => 0
+            Actor:likes_vaginal => -60
+            Actor:likes_anal => -60
+            Actor:likes_oral => -60
+            Actor.setActorVar(neutered, 1)
+            "The procedure was near torture for <Actor.name> who now would have an impossible time reaching orgasm. I hope <Actor.name> doesn't hold grudges, it's for <Actor.his_or_her> own good."
+        Else
+            Actor:rapportwithplayer -= 2
+            If isModEnabled(vin_NonConsensual) && Actor:rapportwithplayer < 0 && Random(-100, -20) > Actor:masochist
+                If Player.isInterestedIn(Actor)
+                    "Frustrated and driven by instinct, <Actor.name> jumped on me and raped me"
+                    Sex(Actor, Player)
+                Elseif isModEnabled(vin_NTR) && Actor2.isValid() && Actor2.isInterestedIn(Actor)
+                    Actor2.dress()
+                    Actor2.show()
+                    Actor2:: "Ahhhhhhhhhh."
+                    "Frustrated and driven by instinct, <Actor.name> jumped on <Actor2.name> and raped my <Actor2.boyfriend_or_girlfriend>"
+                    Sex(Actor, Actor2)                    
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeoutPrecise(48, mating_season)

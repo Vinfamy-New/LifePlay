@@ -1,0 +1,88 @@
+WHAT: all
+WHERE: all, -home, -prison
+WHEN: 0-24
+WHO: none
+OTHER: !Player.isFemale() && Player.isInterestedInWomen()
+    
+    SceneStart()
+    "I was going about my day when a young and attractive woman approached me out of nowhere."
+    Actor = generatePersonTemporary()
+    While !Actor.isFemale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor:age => Random(18, 29)
+    Actor:attractiveness => Random(90, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.setMorphValue(Genesis8Female__PBMPregnant, 0.2)
+    Actor.dress()
+    Actor.show()
+    Actor:: "Oh my god, you're the most handsome man I've ever met ..."
+    Actor:: "I've never been this forward or easy to any other guys, but I find you absolutely irresistible honestly ..."
+    Actor:: "Fuck me ... please."
+    0:: "Fuck <Actor.him_or_her>"
+    1:: "This must be a trap"
+    
+    If 0
+        "Hell yeah! It must be my lucky day."
+        setBackground(home)
+        "Soon enough, we ended up in her bedroom. The fact that I haven't been ambushed and killed in a dark alley so far is quite incredible. This might actually be happening."
+        Actor:: "Please, fuck me bare, and cum inside!"
+        Actor:fertility += 0.5
+        If !Player.isVirgin()
+            blockPregnancy()
+        Endif
+        Sex(Player, Actor)
+        "Wow, I still can't believe a hot girl just straight up approached me and asked me to fuck her. Not only that, she practically begged me to cum inside her."
+        Actor:: "<Player.name>, do you believe in love at first sight? Because I think I've fallen in love with you."
+        Actor:: "I want us to be together. We'll make some beautiful babies together."
+        "Wow ... this is going way too fast. The fact that she already mentioned babies is super strange though. I also noticed during sex that her belly is a bit bigger than would be proportionate with the rest of her body."
+        "I'm starting to become suspicious."
+        0:: "Hot girlfriend? Heck yeah!"
+        1:: "Interogate her some more"
+        
+        If 0
+            "Thinking with my dick and my pride, I couldn't turn down dating such a hot girl, despite my suspicions."
+            Actor.makeInterested(Player)
+            Actor.makePermanent()
+            Actor.setDating()
+            exchangeContact(Actor)
+            Actor.impregnate(Player)
+            "And just like that, <Actor.name> became my girlfriend, mere hours after meeting me."
+        Else
+            "I expressed my suspicion at how fast things are unfolding ..."
+            "After a while, <Actor.name> broke down crying ..."
+            "She became overwhelmed with guilt and confessed she just found out she was pregnant by a long-gone ex and didn't want to be a single mom and was trying to 'trap' me."
+            0:: "Run for the hills"
+            1:: "Decide to be with her anyway"
+            
+            If 0
+                "I knew something was wrong ..."
+                "I got the fuck out of there before getting involved any further ..."
+            Else
+                "Even after finding out the truth, I couldn't turn down dating such a hot girl. Besides, I kinda feel sorry for her and emphasize with her fears of becoming a single mom."
+                Actor.makeInterested(Player)
+                Actor.makePermanent()
+                exchangeContact(Actor)
+                Actor.setDating()
+                "And just like that, <Actor.name> became my girlfriend, mere hours after meeting me."
+                "There's something else to decide though: whether to accept this child as mine or not."
+                0:: "Accept the baby as mine"
+                1:: "Not my baby"
+                
+                If 0
+                    "It's not the baby's fault. DNA doesn't matter, I'll be happy to accept the child as mine and this secret will forever be buried."
+                    Actor.impregnate(Player)
+                    karma += 10
+                    Actor:attractiontoplayer += 20
+                Else
+                    "I'm happy to be in a relationship with her and give the child some kind of a steady home, but the child shall never be my responsibility legally."
+                    Actor.impregnate()
+                Endif
+            Endif
+        Endif
+    Else
+        "Life isn't this easy ... this must be some sort of trap. I don't want to end up mugged or murdered ..."
+    Endif
+    SceneEnd()
+    timeout(1000, pregnant_trap)

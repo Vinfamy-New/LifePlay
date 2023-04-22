@@ -1,0 +1,105 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getCreature(); If Random(30, 80) < Actor:perversion && Actor.isMale()
+OTHER: isAtHome()
+
+    SceneStart()
+    If Actor.isCreatureType(Horse)
+        setBackgroundCustom(stable)
+    Endif
+    Actor2 = getSpecific(Dating)
+    "<Actor.name> has sported an erection all day, which is getting quite worrying. <Actor.He_or_She> is clearly in some discomfort. They always say 'If your erection doesn't go away, go see a doctor'. This must apply to animals also."
+    0:: "Take <Actor.him_or_her> to the vet"
+    1:: perversion > 50:: "Take care of the erection the 'traditional' way"
+    2:: Actor2.isValid() && Actor2:perversion > 50:: "Ask my <Actor2.boyfriend_or_girlfriend> to do it instead"
+    3:: "Hire a specialist prostitute to do it"
+    
+    If 0
+        setBackground(veterinary)
+        Actor.show(2)
+        "The vet took care of <Actor.name>'s uncomfortable issue. Maybe some medicine did the trick ... or maybe the vet just jerked him off. I don't wanna know."
+    Elseif 1
+        Sex(Actor, Player)
+        perversion += Random(0, 2)
+        Actor:attractiontoplayer += Random(0, 2)
+        
+        If !Player.isMale()
+            If Actor.isCreatureType(Dog)
+                Actor3 = getCreature()
+                While Actor3.isValid() && [!Actor3.isCreatureType(Dog) || Actor3.isSameAs(Actor)]
+                    Actor3 = getCreature()
+                Endwhile
+            Elseif Actor.isCreatureType(Horse)
+                Actor3 = getCreature()
+                While Actor3.isValid() && [!Actor3.isCreatureType(Horse) || Actor3.isSameAs(Actor)]
+                    Actor3 = getCreature()
+                Endwhile        
+            Endif
+        Endif
+        
+        If Actor3.isValid()
+            "Suddenly, <Actor3.name> saw what's happening and decided to join in the fun."
+            Sex(Actor3, Actor, Player)
+        Endif
+    Elseif 2
+        Sex(Actor, Actor2)
+        Actor2:perversion += Random(0, 2)
+        Actor2:attractiontoplayer += Random(0, 2)
+
+        If !Actor2.isMale()
+            If Actor.isCreatureType(Dog)
+                Actor3 = getCreature()
+                While Actor3.isValid() && [!Actor3.isCreatureType(Dog) || Actor3.isSameAs(Actor)]
+                    Actor3 = getCreature()
+                Endwhile
+            Elseif Actor.isCreatureType(Horse)
+                Actor3 = getCreature()
+                While Actor3.isValid() && [!Actor3.isCreatureType(Horse) || Actor3.isSameAs(Actor)]
+                    Actor3 = getCreature()
+                Endwhile        
+            Endif
+        Endif
+        
+        If Actor3.isValid()
+            "Suddenly, <Actor3.name> saw what's happening and decided to join in the fun."
+            Sex(Actor3, Actor, Actor2)
+        Endif
+    Else
+        "I did some online searches and just as I suspected, there was indeed bestiality service being offered by some prostitutes. The cost is significantly higher than your usual prostitutes though."
+        Actor2 = generatePersonTemporary()
+        While !Actor.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2:attractiveness => Random(50, 100)
+        Actor2:age => Random(18, 35)
+        Actor2.dressUniform(sexwork)
+        Actor2.show()
+        money -= 200
+        "The prostitute eventually showed up. Not even slightly nervous, <Actor2.he_or_she> attended to <Actor.name>'s needs right away. <Actor2.He_or_She> must have done this hundreds of times. What an opportunity to watch the bestiality master at work."
+        Sex(Actor, Actor2)
+        Actor2:perversion += Random(0, 2)
+        Actor2:attractiontoplayer += Random(0, 2)
+
+        If !Actor2.isMale()
+            If Actor.isCreatureType(Dog)
+                Actor3 = getCreature()
+                While Actor3.isValid() && [!Actor3.isCreatureType(Dog) || Actor3.isSameAs(Actor)]
+                    Actor3 = getCreature()
+                Endwhile
+            Elseif Actor.isCreatureType(Horse)
+                Actor3 = getCreature()
+                While Actor3.isValid() && [!Actor3.isCreatureType(Horse) || Actor3.isSameAs(Actor)]
+                    Actor3 = getCreature()
+                Endwhile        
+            Endif
+        Endif
+        
+        If Actor3.isValid()
+            "Suddenly, <Actor3.name> saw what's happening and decided to join in the fun."
+            Sex(Actor3, Actor, Actor2)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(100, bestiality_boner)

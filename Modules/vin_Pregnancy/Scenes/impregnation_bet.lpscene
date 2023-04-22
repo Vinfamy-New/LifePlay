@@ -1,0 +1,57 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // New 'Impregnation Bet' interaction: A male PC can make a bet with another male friend/ relative to take turns on the same girl and see who can impregnate her
+    SceneStart()
+    "<Actor.name> and I made a bet to take turns on the same girl and see who can impregnate her."
+    If Actor:rapportwithplayer > 40
+        "Which girl should be the target of this bet?"
+        selectNPC()
+        Actor2 = getSelectedNPC()
+        If Actor2.isValid() && !Actor2.isPregnant() && !Actor2.isMale()
+            If Actor2.hadSex() || Actor2:perversion > 70
+                "<Actor2.name> accepted our invitation to participate in this bet"
+                Actor2.setWantsBabies(true)
+                Player.setWantsBabies(true)
+                Actor.setWantsBabies(true)
+                setBackground(home)
+                Actor2.dress()
+                Actor2.show()
+                "It's my turn first."
+                Sex(Player, Actor2)
+                Victory = 0
+                If Actor2.isPregnant()
+                    Victory = 1
+                Endif
+                "Next it's <Actor.name>'s turn."
+                Sex(Actor, Actor2)
+                If Victory == 0 && Actor2.isPregnant()
+                    Victory = 2
+                Endif
+                
+                If Victory == 0
+                    "Unfortunately for both of us, neither <Actor.name> nor I was able to impregnate <Actor2.name>."
+                Elseif Victory == 1
+                    "A month later, <Actor2.name> found out that <Actor2.he_or_she> was pregnant with my child. I won the bet!"
+                    "<Actor.name> lost so had to give me some cash for my win."
+                    money += 500
+                Else
+                    "A month later, <Actor2.name> found out that <Actor2.he_or_she> was pregnant with <Actor.name>'s child. <Actor.name> won the bet!"
+                    "I lost so had to give <Actor.name> some cash for <Actor.his_or_her> win."
+                    money -= 500                
+                Endif
+            Else
+                "<Actor2.name> turned down our invitation"
+            Endif
+        Else
+            "Need to be a woman who is not already pregnant"
+        Endif
+    Else
+        "I'm not close enough to <Actor.name> to suggest this kind of things."
+        "(Rapport must be more than 40)"        
+    Endif
+    
+    SceneEnd()

@@ -1,0 +1,136 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Random(50, 200) < Actor:attractiveness || [isModEnabled(vin_NTR) && Random(0, 50) < masochist]
+OTHER: none
+
+    SceneStart()
+    If [OpenRelationship() && random(0,100) > 70] || Actor:perversion > 75 || Actor:masochist < -50 || masochist > 50
+        Ignored = true
+    Else
+        Ignored = false
+    Endif
+    Actor2 = generatePersonTemporary()
+    Actor2.dress()
+    Actor2.show(2)
+    Actor2.makeInterested(Actor)
+    Actor2.movetoPersonStand(Actor, 100)
+    Actor2(Flirty):: "Aren't you an eye-candy? What's your name? I'm <Actor2.name>. Let's go out some time."
+    "What a <Actor2.sleazy_or_slutty> <Actor2.asshole_or_bitch>! Trying to pick up <Actor.name> just like that while completely ignoring me. As if I wasn't even there!"
+    0:: "Shut <Actor2.name> down"
+    1:: "Let <Actor2.him_or_her> continue flirting with <Actor.name>"
+    
+    If 0 && !Ignored
+        Player(Angry):: "Fuck off! <Actor.He_or_She>'s taken!"
+        Actor:attractiontoplayer += Random(0, 2)
+        masochist -= Random(0, 1)
+    Else
+        If Ignored || !OpenRelationship()
+            masochist += 1
+            Actor:masochist -= 1
+        Endif
+        Actor:perversion += 1
+        If 0
+            "Both <Actor.name> and this stranger completely ignored my objection ..."            
+        Else
+            "No point making a big deal of this ... <Actor.name> is the type of <Actor.guy_or_girl> that gets a lot of attention anyway."
+        Endif
+        Actor:attractiontoplayer -= Random(0, 2)
+        If Actor.isInterestedIn(Actor2) && isModEnabled(vin_NTR) && [Random(35, 65) < Actor:perversion || Ignored]
+            "<Actor.name> doesn't seem a tiny bit put off by my presence there and also doesn't mind the aggressive flirting from <Actor2.name>."
+            "They continue to flirt as if I wasn't there!"
+            Actor2:: "Let's get out of here, darling? I can't wait to get to know you more ... "
+            "<Actor2.He_or_She> can't be serious in inviting <Actor.name> to come with <Actor2.him_or_her> right in front of me ... have I turned invisible or something?"
+            If masochist > Actor:masochist + 20
+                "For some reason, my tongue seems to be all tied up and I can't mutter a word of disapproval."
+                "<Actor2.name> took my silence as submission and didn't have to think twice about stealing my date away right in front of me."
+                Actor:: "Don't wait up on me, I'm gonna go play with my new friend"
+                Went = true
+            Else
+                "Maybe I should stop this before it's too late. I'm not THAT much of a pushover, am I?"
+                0:: "Put an end to it"
+                1:: "Let them go"
+                
+                If 0 && !Ignored
+                    Player:: "Excuse me, but <Actor.he_or_she> is with me."
+                    Went = false
+                    "<Actor2.name> got the message and left us alone."
+                Else
+                    If 0
+                        "Both of them proceeded to ignore me. It was as if I turned mute and invisible."
+                    Else
+                        "I stayed silent and just like that the stranger took my date with <Actor2.him_or_her>"
+                    Endif
+                    Actor:: "Don't worry. We're just going to hang out a bit and check out this club that <Actor2.name> just told me about."
+                    Went = true
+                    masochist += 1
+                    Actor:masochist -= 1
+                    Actor:perversion += 1
+                Endif
+            Endif
+           
+            If Went
+                "<Actor2.name> and <Actor.name> is about to leave together. Should I leave them alone or secretly follow them?"
+                0:: "Let them be"
+                1:: "Follow them secretly"
+                2:: "Go the extra mile, book them a hotel and drive them there"
+                
+                If 1
+                    setBackground(hotel)
+                    "I knew it ... The cheeky <Actor2.guy_or_girl> took <Actor.name> straight to the nearest hotel ..."
+                    0:: "Peep on them"
+                    1:: "It's humiliating enough already"
+                    
+                    If 0
+                        Player.hide()
+                        "I couldn't have imagined when I first invited <Actor.name> to hang out that tonight would end with me watching <Actor.him_or_her> fucking some random <Actor2.guy_or_girl> <Actor.he_or_she>'s just met."
+                        setBackground(home)
+                        Sex(Actor2, Actor)
+                        masochist += Random(0, 3)
+                    Endif
+                Elseif 2
+                    masochist += 1
+                    Actor:masochist -= 1
+                    Actor:perversion += 1
+                    "I told the two of them to stop pretending and to their pleasant surprise, I offered to pay for a nice hotel room for them and drive them there."
+                    "They had to double-check that I wasn't being sarcastic and passive-aggressive."
+                    "What a gentle and caring date I am ..."
+                    Actor2:: "Wow, I knew you were a pushover when I decided to approach your date, but I could never imagine you would take cuckoldry to the next level like this."
+                    money -= 100
+                    setBackground(hotel)
+                    "So I booked them a nice hotel nearby and drove them there ..."
+                    0:: "Beg them to let me watch"
+                    1:: "I've degraded myself enough already"
+                    
+                    If 0
+                        masochist += 1
+                        Actor:masochist -= 1
+                        Actor:perversion += 1
+                        Actor2:: "Fine, I guess this is an apt reward for paying for the hotel room and driving us all the way here."
+                        "It's a well-deserved reward indeed for such a caring and generous cuckold like me ..."
+                        setBackground(home)
+                        Sex(Actor2, Actor)
+                    Endif                    
+                Endif
+                endDate()
+                Player.show()
+            Endif
+        Else
+            If Actor.isDating()
+                Actor:: "Can't you see I'm already here with my <Player.boyfriend_or_girlfriend>?"
+            Elseif Actor.isRelative()
+                Actor:: "Can't you see I'm already here with my <Actor.callplayer>?"
+            Else
+                Actor:: "Can't you see I'm already here with someone?"
+            Endif
+            Actor:: "Please leave me alone!"
+            "<Actor.name> firmly rejected the advances from the stranger."
+        Endif
+    Endif
+    SceneEnd()
+    
+    If isModEnabled(vin_NTR)
+        timeout(12, date_hit_on)    
+    Else
+        timeout(48, date_hit_on)
+    Endif

@@ -1,0 +1,27 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(Parent, StepParent); Actor2 = getRelative(Parent, StepParent); If Actor.isSameGender(Player) && !Actor2.isSameGender(Player) && Player.isInterestedIn(Actor2)
+OTHER: isModEnabled(vin_Incest)
+
+    // If you have the 'paul Ince..." module enabled, your two 'lifegivers' have been having problems as one with the same gender as you is no longer as vigorous in 'battle' as they used to. You can ignore it or offer yourself to fulfill this duty on their behalf from now on. 
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    "My parents have been having some marital issues. My <Actor.relationship> finally admitted to me that <Actor.he_or_she> is no longer as vigorous in bed at <Actor.his_or_her> age as <Actor.he_or_she> used to in <Actor.his_or_her> youth, while <Actor2.name> still has high sex urges. This has caused some insecurities and embarrassments for both."
+    0:: "Offer to enlist myself to 'battle' on my <Actor.relationship>'s behalf"
+    1:: "Nothing I can do"
+    
+    If 0
+        "Just like Mulan, it's only the duty of a <Actor.callplayer> to answer the call the arms when <Player.his_or_her> <Actor.relationship> is too old to fight."
+        "I somehow managed to talk both my parents into believing it's an acceptable thing to do and the right solution for their problems."
+        "And soon enough, I was fucking my <Actor2.relationship> while my <Actor.relationship> watches."
+        Sex(Player, Actor2)
+    Else
+        "I suppose every couple living together for that long will start having issues with different needs at different ages."
+    Endif
+    SceneEnd()
+    timeout(500, bull_parent)

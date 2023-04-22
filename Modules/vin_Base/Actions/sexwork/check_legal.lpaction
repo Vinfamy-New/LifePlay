@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: check_legal
+ACTION_NAME: Check prostitution's legal status
+WHERE: brothel
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: false
+SCENE_ALWAYS: check_legal
+ANIMATION:   

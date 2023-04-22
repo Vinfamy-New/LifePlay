@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: ask_for_raise
+ACTION_NAME: Ask for a salary raise
+WHERE: work
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: ask_for_raise
+ANIMATION:

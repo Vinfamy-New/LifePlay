@@ -1,0 +1,54 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "Breeding animals is a big business and having been domesticated for so long, many animals are losing their reproductive instinct making breeding them harder and harder."
+    "I heard there were some shady business people who would pay for someone to have bestiality sex with their animal."
+    "The idea is to basically use such interspecies intercourse as 'practice' for the animal so that when it comes to actual mating with their fellow kind, they won't be so shy anymore."
+    "Is this something I would want to make money from?"
+    0:: "Explore offers"
+    1:: "There are better ways to make money"
+    
+    If 0
+        setBackground(home)
+        Actor = generatePersonTemporary()
+        Actor.dress()
+        Actor.show()
+        Actor2 = generateCreatureTemporary()
+        Actor2.show()
+        "<Actor.name> is offering me some cash for me to fuck <Actor.his_or_her> animal <Actor2.name> and get <Actor2.him_or_her> ready for actual breeding."
+        0:: "Deal!"
+        1:: "No"
+        
+        If 0
+            money += Random(100, 300)
+            Sex(Actor2, Player)
+            
+            If !Player.isMale() && Random(0, 100) < 50
+                If Random(0, 100) < 50 && Actor.isCreatureType(Dog)
+                    Actor:: "That looks like fun actually. Maybe I should join you and get some practice. Might save the money and do it myself next time."
+                    Sex(Actor2, Actor, Player)
+                Else
+                    Actor:: "You fucked like a pro. I have a similar animal also in need of priming for breeding. Can you do both at the same time for some extra cash?"
+                    0:: "Yes"
+                    1:: "No"
+                    
+                    If 0
+                        If Actor2.isCreatureType(Dog)
+                            Actor3 = generateCreatureTemporary(Dog)
+                        Elseif Actor2.isCreatureType(Horse)
+                            Actor3 = generateCreatureTemporary(Horse)
+                        Endif
+                        Actor3.show()
+                        Player:: "Double the money? Sign me up!"
+                        Sex(Actor2, Actor3, Player)
+                        money += Random(100, 300)
+                    Endif
+                Endif
+            Endif        
+        Endif
+    Endif
+    SceneEnd()

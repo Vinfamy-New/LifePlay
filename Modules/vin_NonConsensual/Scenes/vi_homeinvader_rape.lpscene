@@ -1,0 +1,46 @@
+WHAT: sleep, nap
+WHERE: home
+WHEN: 22 - 4
+WHO: none
+OTHER: !isWithCompanion() && [[Random(60, 500) < attractiveness && intelligence < Random(0, 100)*Random(0, 1)] || isModEnabled(vin_Bestiality)] && Random(0, 100)*Random(0, 1) > energy - intoxication
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dressUniform(Crime)
+    Actor.show(2)
+    Actor(Evil):: "Wake up, whore. And prepare to get fucked!"
+    "What's going on? Oh no, my bedroom has been invaded by a rapist. <Actor.He_or_She> chose a day when there's no-one else in the apartment too ..."
+    Actor2 = getCreature()
+    If Actor2.isValid() && Actor2.isCreatureType(Dog)
+        Actor2.show()
+        "Before things get further out of control, my trusty guard dog <Actor2.name> came to my rescue."
+        "<Actor2.name> aggressively attacked the home invader. After a few painful bites, the thug panicked and fled."
+        Actor.hide()
+        Player:: "Oh my God, <Actor2.name>, you saved me!"
+        If isModEnabled(vin_Bestiality) && Player.isInterestedIn(Actor2)
+            "I can't help but notice that the fight with the home invader seemed to have brought out the animalistic instinct in <Actor2.name>. <Actor2.He_or_She> seems 'excited'."
+            0:: "Reward my hero dog with sex"
+            1:: "Some dog treats are good enough rewards"
+            
+            If 0
+                "A hero saving the damsel in distress deserves to get laid. That hero not being human shouldn't matter."
+                Sex(Actor2, Player)
+            Endif
+        Endif
+    Elseif Actor:martial - Actor:intoxication < martial - intoxication
+        Player(Angry):: "Thug, take this!"
+        Actor(Pain):: "Ah!"
+        "Thankfully, I managed to react well to the situation and overpower the thug eventually. I then called the cops, who promptly arrested the wannabe rapist." 
+    Else
+        Player(Crying):: "No, please stop ... Somebody help!"
+        "Unfortunately, the element of surprise was too much and my struggles against the home invader were futile. I have no choice now but to endure giving this vile creature pleasure against my will ..."
+        Filter(Aggressive)
+        TalkNonConsensual()
+        SexNoAffair(Actor, Player)
+        Actor.setActorVar(tag_Rapist, 1)
+    Endif
+    SceneEnd()
+    timeout(750, vi_homeinvader_rape)

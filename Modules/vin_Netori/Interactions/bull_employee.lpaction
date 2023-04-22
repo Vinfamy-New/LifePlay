@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: bull_employee
+ACTION_NAME: Turn employee into a cuck
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: bull_employee
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && Actor.hasRelationship(Spouses, Dating) && Actor.isEmployee()

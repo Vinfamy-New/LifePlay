@@ -1,0 +1,51 @@
+WHAT: all, -sleep, -nap
+WHERE: all
+WHEN: 7 - 23
+WHO: Actor = getRelative(); If !Actor.livesWithPlayer() && [Actor:incest > 90 || [Actor.hadSex() && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)]]
+OTHER:
+
+    // Rela not living with you can now call you over to their place if you've already crossed the line. There, you aso get offered the option to favorite their place on the map for more frequent future visits.
+    
+    SceneStart()
+    secondScreen(Actor)
+    Actor.show()
+    "My <Actor.relationship> and I are lovers now. We couldn't resist messing around with each other all the time even though we live in different homes."
+    secondScreen()
+    "In fact, my <Actor.relationship> is calling me over to <Actor.his_or_her> place for another forbidden rendezvous tonight."
+    0:: "Visit my <Actor.relationship>"
+    1:: "Nottoday"
+    
+    If 0
+        Loc = Actor.getBuilding(home)
+        moveTo(Loc)
+        setBackground(home)
+        Actor.show()
+        
+        "I couldn't get there quick enough and my <Actor.relationship> is already naked waiting for <Actor.his_or_her> naughty <Actor.callplayer>."
+        Actor(Flirty):: "Come here, you ..."
+        Sex(Player, Actor)
+        perversion += Random(0, 0.25)
+        Actor:incest += Random(0, 10)
+        
+        "I could imagine myself visiting my <Actor.relationship> more and more often ..."
+        
+        Favorited = Actor.getActorVar(tag_Favorited)
+        If Favorited == 0
+            "Might as well save <Actor.his_or_her> home address on my GPS for easy access in the future?"
+            0:: "Add <Actor.his_or_her> address to my favorites"
+            1:: "Not now"
+            
+            If 0
+                Actor.favoriteHome()
+                Actor.setActorVar(tag_Favorited, 1)
+            Endif
+        Endif
+    Else
+        If isQuestCompleted(legalized)
+            "Even though incest has been legalized, that doesn't mean we need to fuck ALL the time."
+        Else
+            "We shouldn't be so blatant and risk getting caught by others."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, family_repeat_incest_away)

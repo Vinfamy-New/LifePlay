@@ -1,0 +1,86 @@
+WHAT: all
+WHERE: university:school
+WHEN: 0-24
+WHO: Actor = getSpecific(Lecturer); Actor2 = getSpecific(Coursemate); If !Actor.isDating() && !Actor2.isDating() && Actor2.isInterestedIn(Actor) && Actor.isInterestedIn(Actor2) && Actor2:perversion > 50
+OTHER: Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+
+    SceneStart()
+    Actor2.dress()
+    Actor2.show()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+
+    "I was sitting next to my classmate <Actor2.name> during Dr <Actor.name> <Actor.name_last>'s <Actor.major> class when <Actor2.he_or_she> whispers something into my ear."
+    Actor2:: "To be honest, I hate this subject. I'm only here to admire the Dr <Actor.name_last>'s hotness."
+    0:: "Yeah, <Actor.he_or_she>'s pretty hot for a university lecturer"
+    1:: "Not my type"
+    
+    If 0
+        Player:: "Dr <Actor.name_last> is definitely easy on the eye."
+        Actor2:: "How about a friendly bet of who can take <Actor.him_or_her> to bed first?"
+        0:: "Bet"
+        1:: "You're crazy!"
+        
+        If 0
+            Player:: "Sure, but only if I get the first shot."
+            Actor2:: "Deal!"
+            money -= 50
+            
+            Actor2.hide()
+            
+            Player.moveToPersonStand(Actor, 50)
+            
+            "I decided to come up to Dr <Actor.name_last>'s office after class and showed my interest in more advanced reading materials about the subject matter."
+            Actor(Happy):: "I think these book recommendations should keep you occupied for a while. If you have any questions or fail to understand anything while reading these, you can come see me during my office hours and I'll be happy to help."
+            0:: "Seduce <Actor.him_or_her>"
+            1:: "Chicken out"
+            
+            If 0
+                If Actor.hadSex() || Actor:attractiontoplayer + Actor:perversion > Random(50, 150)
+                    Actor:: "I know what you want! I'm strictly prohibited from having a sexual relationship with students but I can't resist this temptation anymore ..."
+                    Sex(Player, Actor)
+                    Ahead = false
+                    Actor.hide()
+                    
+                    Actor2.show()
+                    Player:: "So, how about that? You accept defeat yet?"
+                    Actor2:: "Fair play, you got to fuck <Actor.him_or_her> first. But I won't be far behind, I can assure you."
+                    Player:: "Yeah, maybe, but that's not the bet. Now pay up!"
+                    money += 100
+                Else
+                    Ahead = true
+                    Actor:: "Excuse me, but your behavior is totally inappropriate. Please leave my office at once!"
+                    Actor.hide()
+                    Actor2.show()
+                    Player:: "<Actor.He_or_She> is very serious and professional, you won't stand a chance either."
+                    Actor2:: "Watch and learn!"
+                Endif
+            Else
+                Ahead = true
+                Actor.hide()
+            Endif     
+        Else
+            Player:: "Sorry, not my type of competition. You go ahead."
+            Ahead = true
+        Endif
+        
+        If Ahead
+            Player.hide()
+            Actor2.show()
+            Actor.show()
+            "Having been given a go-ahead, <Actor2.name> decided to come up to Dr <Actor.name_last>'s office after class and tried to seduce <Actor.him_or_her>."
+            If Actor2:attractiveness + Actor:perversion > Random(50, 150)
+                Actor:: "I know what you want! I'm strictly prohibited from having a sexual relationship with students but I can't resist this temptation anymore ..."
+                Sex(Actor2, Actor)
+            Else
+                Actor:: "Excuse me, but your behavior is totally inappropriate. Please leave my office at once!"
+            Endif
+            Player.show()
+        Endif
+    Else
+        Player:: "I don't really see it myself, but I guess to each their own."
+    Endif
+    
+    SceneEnd()
+    timeout(300, coursemate_bet)

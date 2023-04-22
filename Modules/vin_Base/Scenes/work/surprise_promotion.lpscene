@@ -1,0 +1,88 @@
+WHAT: all
+WHERE: work
+WHEN: 12 - 20
+WHO: Actor = getSpecific(Boss); Actor2 = getSpecific(Dating); If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && Actor:perversion > 50 && Actor:masochist < 0 && [Actor2:perversion > 50 || OpenRelationship()]
+OTHER: jobexperience < 80 && isModEnabled(vin_NTR)
+
+    // If the Netorare module is enabled, you get a pleasant surprise of a big promotion one day, only to come home and see your boss banging your SO, who has taken upon themselves to help out your career. If you put a stop to it, your boss may fire you in the next performance review. If you let the arrangement continue, you'll find your boss coming over your place periodically to bang your SO but your job performance will always be seen as perfect and you may get another promotion before long. Be careful and make sure you keep your SO's attraction to you high though, as your SO may skip the middle man one day and leave you for your boss otherwise.
+    
+    SceneStart()
+    Arranged = Actor.getActorVar(tag_BossFuckingSO)
+    
+    If Arranged == 0
+        "I'm a bit hungover today as it's the day after a plus one office party. I brought my <Actor2.boyfriend_or_girlfriend> <Actor2.name> along and we stayed a bit too late. <Actor2.name> even chatted with the boss for a long time for some reason."
+        "The boss must feel tired as well as <Actor.he_or_she> already left the office early after lunch. Well ... <Actor.he_or_she>'s the boss ... who's going to stop <Actor.him_or_her> from going home early."
+        "Just as I was taking it easy for the day, I got an e-mail from HR ... Just great ... These usually lead to tedious things to do."
+        "Oh wait ..."
+        "'Congratulations on your promotion. Please find enclosed your revised contract.'"
+        "Wait, what? The next performance review is still a long way to go and I haven't been performing that well recently. How the hell did the boss give me a promotion? Maybe <Actor.he_or_she> will explain tomorrow morning."
+        Player:: "I guess it's my lucky day!"
+        "I took no time at all to sign the new contract with the new position and a nice new salary to go with it."
+        Salary = getSalary()
+        Salary *= Random(1.3, 1.5)
+        Salary.setSalary()
+        jobexperience += 20
+        timeoutPrecise(1440, ask_for_promotion)    
+        
+        "Having had a lazy day coupled with a pleasant surprise, I couldn't wait to get home to tell my <Actor2.boyfriend_or_girlfriend> about my new promotion. Maybe bringing <Actor2.him_or_her> along to the office party last night was the lucky charm."
+        moveTo(home)
+        setBackgroundCustom(livingroom)
+        Player:: "Baby, you won't believe what happened in the office today! I got a ..."
+        Actor.show()
+        Actor2.show()
+        Player:: "What the fuck!"
+        Sex(Actor, Actor2)
+        Actor:: "Don't act so shocked! You didn't really think you deserved that promotion for your average performances on the job, did you?"
+        Actor:: "You see, your <Actor2.boyfriend_or_girlfriend> was so concerned about your lack of career progression and approached me at the office party last night and gave me a deal I couldn't really turn down."
+        Actor:: "I would promote you and keep you in the job as long as I'm allowed to come over and fuck <Actor2.him_or_her> any time I see fit."
+        Actor2:: "Don't be angry, honey. It's for the best of our future together."
+        0:: "Consent to the arrangement"
+        1:: "Put an end to it"
+        
+        If 0
+            Player:: "Okay ... I guess I have no choice ... The new compesation package to come with the promotion is truly very generous and since <Actor2.name> already went through with it anyway ..."
+            masochist += 10
+            Actor.setActorVar(tag_BossFuckingSO, 1)
+        Else
+            Player:: "Get the fuck out of my place! And you, we need to talk."
+            masochist -= 5
+            Actor.hide()
+            "I angrily kicked my boss out and had a big argument with my <Actor2.boyfriend_or_girlfriend> who still insisted <Actor2.he_or_she> only did it to help me."
+            "Thankfully, I already signed the new contract today and my boss couldn't really tell HR that <Actor.he_or_she> changed <Actor.his_or_her> mind so swiftly, so I kept the promotion ... for now. I have a sneaky feeling that my boss will probably fire me in the next performance review."
+            jobperformance => 0
+            Actor2:attractiontoplayer -= 20
+        Endif
+    Else
+        Actor.dress()
+        Actor.show()
+        "The boss is about to leave the office shortly after lunch again, giving me a wink before <Actor.he_or_she> left. No doubt <Actor.he_or_she>'s heading straight to my place to fuck my <Actor2.boyfriend_or_girlfriend> as we arranged."
+        0:: "Let <Actor.him_or_her>"
+        1:: "Put an end to the arrangement"
+        
+        If 0
+            Actor2:attractiontoplayer -= 2
+            "I know I don't really deserve my current position and is only kept here due to this arrangement. Let's just rock the boat."
+            setBackgroundCustom(livingroom)
+            Player.hide()
+            Actor2.show()
+            jobperformance => 100
+            "Meanwhile at my place, my dedicated <Actor2.boyfriend_or_girlfriend> was already waiting for my boss naked."
+            Sex(Actor, Actor2)
+            
+            If Actor2:attractiontoplayer < 0
+                "I really should have seen it coming ... But after a few encounters between my <Actor2.boyfriend_or_girlfriend> and my boss, our relationship was no longer the same and eventually <Actor2.name> figured <Actor2.he_or_she> might as well skip the middle man in me and just go and be with my boss permanently instead ..."
+                Actor2.setDatingId()
+                loseDating()
+                addNpcRelationship(Dating, Actor, Actor2)
+            Endif
+        Else
+            Actor.setActorVar(tag_BossFuckingSO, 0)
+            "This has gone on long enough and to be honest, I think I merit my current position now. There's no need to exchange it for my <Actor2.boyfriend_or_girlfriend> any longer."
+            "I told the boss that the arrangement is over and if <Actor.he_or_she> decides to take revenge in the next performance review, I'll face the consequences."
+            masochist -= 5
+            jobperformance => 0
+        Endif
+        
+    Endif
+    SceneEnd()
+    timeout(200, surprise_promotion)

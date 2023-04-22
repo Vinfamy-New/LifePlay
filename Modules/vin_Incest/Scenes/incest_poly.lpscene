@@ -1,0 +1,43 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getRelative(); Actor2 = getRelative(); If Actor.hadSex() && Actor2.hadSex() && Actor.livesWithPlayer() && Actor2.livesWithPlayer() && Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor)
+OTHER:
+
+    // If you've done forbidden things with two people that are interested in each other's genders, you can encourage them to enjoy each other's 'company'. Afterwards, you may find them occasionally going at it at home.
+    
+    SceneStart()
+    allow = Actor.getActorVar(incest_poly)
+    allow2 = Actor2.getActorVar(incest_poly)
+    If allow + allow2 == 2
+        Actor.show()
+        Actor2.show()
+        animatePair(Actor, Actor2, Kissing)
+        "I come home only to find my <Actor.relationship> <Actor.name> and my <Actor2.relationship> <Actor2.name> in bed with each other. Of course, we all live with each other and I'm sleeping with both of them and have given the green light for them both to fuck each other, so it's hardly a surprise."
+        Sex(Actor, Actor2)
+        "What should I do?"
+        0:: "Join them"
+        1:: "Not in the mood myself"
+        2:: "Tell them to stop doing it without me"
+        
+        If 0
+            Sex(Player, Actor, Actor2)
+        Elseif 2
+            Actor.setActorVar(incest_poly, 0)
+            Actor2.setActorVar(incest_poly, 0)
+        Endif        
+    Else
+        "I've tasted the forbidden fruit with both my <Actor.relationship> <Actor.name> and my <Actor2.relationship> <Actor2.name>. I don't always have the energy to satisfy both all the time though and I think there's some sexual tension between them too."
+        "Perhaps I should encourage them to fuck each other once in a while when I'm not around?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Actor.setActorVar(incest_poly, 1)
+            Actor2.setActorVar(incest_poly, 1)
+            "I've given them both the green light to enjoy each other's bodies even when I'm not around. Maybe I'll come home to some nice scenes in the near future."
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, incest_poly)

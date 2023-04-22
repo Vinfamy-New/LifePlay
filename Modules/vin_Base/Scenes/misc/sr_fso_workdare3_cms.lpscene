@@ -1,0 +1,53 @@
+WHAT: all
+WHERE: work
+WHEN: 14 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Boss); If !Actor.isMale() && Actor.isColleague() && Actor2.isMale()
+OTHER: Player.isMale() && Random(50, 100) < perversion && isTimingOut(sr_fso_work_dare1_cms) && isModEnabled(vin_NTR)
+
+    //Summery the player or boss can give the player's gf/wife another dare. Requires having made the deal from SR_fso_work_dare1_cms.
+    
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    
+    Actor2.dress()
+    Actor2.show()
+    Flash = Actor.getActorVar(tag_sr_fso_work_flash)
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> works in the same office as me."
+    If Flash >= 1
+        "Should I give my lovely SO a dare today?"
+        0:: "Yes, of course!"
+        1:: "No, I should focus on work today."
+
+        If 0
+            "Now who should give the dare?"
+            0:: "Me obviously." 
+            1:: "My boss who we made the deal with."
+
+            If 0 
+                Actor.stripOne()
+                "I tell <Actor.name> to flash the boss. Considering our past history, things escalate fast."
+                Sex(Actor2, Player, Actor)
+            Else
+                Actor.stripOne()
+                "<Actor.name> flashes one of the employees who was let in on the deal by the boss."
+                
+                Actor3 = getSpecific(Colleague)
+                While Actor3.isValid() && [!Actor3.isInterestedIn(Actor) || Actor3:perversion < 50]
+                    Actor3 = getSpecific(Colleague)
+                Endwhile
+                Actor3.dress()
+                Actor3.show()
+                "the employee paid the boss to be let in."
+                Sex(Actor3, Actor)
+            Endif
+        Endif
+    Else
+        "This is certainly a morale booster, having someone so dear near me for the whole work day."
+        "As a result, my stress level reduces ..."
+        mood += 10    
+    Endif
+
+    SceneEnd()
+    timeout(160, sr_fso_workdare3_cms)

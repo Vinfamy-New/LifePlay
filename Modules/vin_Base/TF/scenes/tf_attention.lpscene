@@ -1,0 +1,67 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: TfGame() && Player.isInterestedInMen()
+
+    // You find out how much attention you now get on dating apps as a woman compared to when you're a man and that boosts your confidence (i.e. interpersonal & mood) and also perversion if you decide to flirt back and maybe hook up. Too many casual hook-ups though and you start getting addicted, which makes you lose mood whenever you decide to resist the temptation.
+    
+    SceneStart()
+    Addict = Actor.getActorVar(tag_Addict)
+    
+    If Addict < 10
+        "It's undeniable how much more attention I now get as a woman compared to when I was a man."
+        "The admiring looks on the streets is one thing, but the most noticeable is no doubt the constant messages I keep receiving from desperate guys on dating apps."
+        "It sounds a bit shallow but I can't help but feel my confidence boosted because of this."
+        mood += 20
+        interpersonal += 0.5
+    Else
+        "I think in my new female form, I've become addicted to men's attention ... and sex with them."
+        "I have real difficulty ignoring the constant messages I keep receiving from desperate guys on dating apps."
+        "And once the flirting starts, there's usually no way back as I struggle to turn down the guy's request to meet. And soon enough, he would be balls deep inside me."
+    Endif
+    Actor = generatePersonTemporary()
+    While !Actor.isMale()
+        Actor = generatePersonTemporary()
+    endWhile
+    secondScreen(Actor)
+    Actor.show()
+    "One guy who has been messaging me constantly on a dating app is called <Actor.name>."
+    0:: "Flirt back"
+    1:: "Reject <Actor.him_or_her>"
+    
+    If 0
+        "I decided to flirt back and exchange some nudes with <Actor.name>."
+        perversion += 0.5
+        masochist += 0.5
+        "Of course, with me being so receptive to <Actor.his_or_her> advances, it wasn't long before he was suggesting that we meet. It's quite obvious what he wants from me."
+        0:: "Hook up with <Actor.name>"
+        1:: "Resist the temptation"
+        
+        If 0
+            secondScreen()
+            setBackground(home)
+            Actor.show()
+            Sex(Player, Actor)
+            perversion += 0.5
+            masochist += 0.5
+            Addict += 1
+        Else
+            If Addict > 10
+                "I managed to find in me the strength to reject a dick, only to feel quite down due to my sex addiction."
+                mood -= 50
+            Endif
+            Addict -= 1        
+        Endif
+    Else
+        If Addict > 10
+            "I managed to find in me the strength to reject a dick, only to feel quite down due to my sex addiction."
+            mood -= 50
+        Endif
+        Addict -= 1
+    Endif
+    
+    Actor.setActorVar(tag_Addict, Addict)
+    
+    SceneEnd()
+    timeout(48, tf_attention)

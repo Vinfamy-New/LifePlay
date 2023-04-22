@@ -1,0 +1,28 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); Actor2 = Actor.getRelatedPerson(Spouses, Dating); If !Actor.isPregnant() && [Actor:perversion > 70 || Actor2:masochist > 50] && !Actor.isMale() && Actor2.isMale() && Actor.hadSex() && Actor:attractiontoplayer > 30 && Actor:rapportwithplayer > 30
+OTHER: isModEnabled(vin_Netori) && Player.isMale()
+
+    SceneStart()
+    "<Actor.name> just gave me a pretty unusual and perverted proposal. She desperately wants a child but has so far found her <Actor2.boyfriend_or_girlfriend> <Actor2.name> unfit as a mate."
+    "Instead, she decided that she would rather have her child look like me and inherit some of my positive traits. Since we had sex before anyway, she's asking me to go ahead and make her pregnant."
+    0:: "Impregnate <Actor.name>"
+    1:: "Maybe not"
+    
+    If 0
+        masochist -= 2
+        perversion += 2
+        Actor:perversion += 2
+        setBackground(home)
+        Actor.setWantsBabies(true)
+        "I accepted the proposal and soon enough we ended up in a hotel room together for some extra-marital breeding."
+        Sex(Player, Actor)
+        If !Actor.isPregnant()
+            Actor.impregnate(Player)
+        Endif
+        "With <Actor.name> full of my cum, I have a funny feeling a baby was made tonight. I wonder how <Actor2.name> would react if he ever finds out the truth about the child's parentage."
+    Endif
+    
+    SceneEnd()
+    timeout(300, look_like_you_cms)

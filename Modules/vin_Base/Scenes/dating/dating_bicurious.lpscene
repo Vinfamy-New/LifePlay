@@ -1,0 +1,59 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If Actor.isFemale() && !Actor.isInterestedInWomen()
+OTHER: Player.isMale()
+
+    // Your straight SO confesses she's always been curious what it'd be like to be with a woman. If followed through, there's a chance she becomes bi from then on.
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.boyfriend_or_girlfriend> recently admitted to me that since her teenage years, she had always been curious about what it's like to be with a woman, but never had had the guts to go through with it."
+    0:: "Pick a lesbian lover with <Actor.name>"
+    1:: "Some fantasies should remain fantasies"
+    
+    If 0
+        "I told her that not only did I not mind her bi-curiousity, but I was more than happy to find her an experienced woman for her to experiment with."
+        "Who should it be? Must be openly into women and either good rapport, high perversion or had past sexual experience with me." 
+        selectNpc()
+        Actor2 = getSelectedNpc()
+        
+        If Actor2.isFemale()
+            "<Actor2.name> might be a good candidate .."
+            If Actor2.isInterestedIn(Actor) && [Actor2:rapportwithplayer > 35 || Actor2:perversion > 65 || Actor2.hadSex()]
+                "Fortunately, <Actor2.name> was delighted to accept our invitation. After all, why would she say no? I'm literally inviting her to fuck my <Actor.boyfriend_or_girlfriend>!"
+                Actor2.dress()
+                Actor2.show()
+                "A few days later, <Actor2.name> came to our place with a single purpose: to fulfill <Actor.name>'s lesbian curiousities."
+                Sex(Actor2, Actor)
+                
+                Actor2.hide()
+                Player:: "Baby, did you enjoy it?"
+                Actor:: "Thank you for arranging everything, baby. You're the best <Player.boyfriend_or_girlfriend> in the world, honestly!"
+                Actor:attractiontoplayer += Random(0, 5)
+                If Random(0, 100) < Actor2:perversion
+                    "I loved it, baby. Every moment of it. The orgasms were intense. I think I might actually be bisexual."
+                    Actor.makeInterested(Actor2)
+                Else
+                    "I kinda liked it, but it was quite awkward at times. I definitely prefer you as a lover, baby. Maybe I'm not that into girls after all."
+                Endif
+                "Afterwards, we ended the night with good old heterosexual couple intercourse. Of course this time we were much more into it, having just either watched or experienced some hot lesbian sex as a foreplay."
+                Sex(Player, Actor)
+                
+                If Actor.isInterestedIn(Actor2) && OpenRelationship() && isModEnabled(vin_Polyamorous) && !Actor2.hasRelationship(Spouses, Dating)
+                    "Since we're in an open and polyamourous relationship, <Actor.name> stayed in touch wih <Actor2.name> and eventually started dating her as well in addition to me"
+                    addNpcRelationship(Dating, Actor, Actor2)
+                Endif
+            Else
+                "Unfortunately though, <Actor2.name> declined my offer."
+            Endif
+        Else
+            "I coudn't think of any lesbians or bisexual women who would be a good candidate."
+            "Let's think about this some other time."
+        Endif
+    Else
+        Player:: "Some fantasies should just remain fantasies, honey."
+    Endif
+    SceneEnd()
+    timeout(200, dating_bicurious)

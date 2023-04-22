@@ -1,0 +1,42 @@
+WHAT: all
+WHERE: home
+WHEN: 16-20
+WHO: Actor = getSpecific(Dating); Actor2 = Actor.getRelatedPerson(Poly)
+OTHER:
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    Actor:: "Baby, don't wait up on me tonight. I'm going on a date with <Actor2.name> and will probably end up at <Actor2.his_or_her> place for the night."
+    "<Actor2.name> is <Actor.name>'s other <Actor2.boyfriend_or_girlfriend> that I allow <Actor.him_or_her> to have." 
+    0:: "Okay"
+    1:: "Record the sex live for me!"
+    2:: "I didn't want to hear about that"
+    
+    If 0
+        Actor:attractiontoplayer += 2
+        Actor.hide()
+        "Soon enough, <Actor2.name> came over to pick <Actor.name> up and they were soon on their way."
+        "The whole night, my mind fantasizes about what kind of fun the two of them are having on their date ..."
+    Elseif 1
+        masochist += 2
+        Actor:attractiontoplayer += 3
+        Actor:: "How naughty of you! Okay, you can watch everything!"
+        Actor.hide()
+        "Soon enough, <Actor2.name> came over to pick <Actor.name> up and they were soon on their way."
+        "A few hours later, <Actor.name> texts me to say they've just arrived back at <Actor2.name>'s place. A live video soon follows ..."
+        setBackground(home)
+        Player.hide()
+        Actor2.dress()
+        Sex(Actor2, Actor)
+    Else
+        Player(Angry):: "Just because I agreed that you could have your own <Actor2.boyfriend_or_girlfriend> doesn't mean you need to rub it in my face everytime you go on your own date! Next time, do it discreetly - I don't need or want to know."
+        Actor:attractiontoplayer -= 3
+        Actor2:attractiontoplayer -= 3
+        masochist -= 2
+        timeout(600, poly_poly_date)        
+    Endif
+
+    SceneEnd()
+    timeout(300, poly_poly_date)

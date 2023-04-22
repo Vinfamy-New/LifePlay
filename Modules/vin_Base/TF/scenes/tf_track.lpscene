@@ -1,0 +1,48 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER: TfGame() && perversion + masochist < 200
+
+    SceneStart()
+    
+    Player.strip()
+    
+    "It's been another week living as a woman."
+    Feminine = perversion + masochist
+    LastFeminine = Player.getActorVar(LastFeminine)
+    
+    If Feminine - LastFeminine > 3
+        "This week, I feel that I have really embraced my new female body and have become a lot more feminine."     
+    Elseif Feminine - LastFeminine > 1
+        "This week, I feel that I have become significantly more feminine."    
+    Elseif Femine - LastFeminine > 0
+        "This week, I feel that I have become a little more feminine."    
+    Else
+        "This week, I feel that I actually have resisted the feminizing process quite well."
+    Endif
+
+    Change = 0.005*[Feminine - LastFeminine]
+    BreastsGone = Player.getMorphValue(Genesis8Female__PBMBreastsGone)
+    FitnessDetail = Player.getMorphValue(Genesis8Female__FBMFitnessDetails)
+    
+    BreastsGone -= Change
+    FitnessDetail -= Change
+    If BreastsGone > 1
+        BreastsGone => 1
+    Elseif BreastsGone < 0
+        BreastsGone => 0
+    Endif
+    
+    If FitnessDetail > 1
+        FitnessDetail => 1
+    Elseif FitnessDetail < 0
+        FitnessDetail => 0
+    Endif
+    
+    Player.setMorphValue(Genesis8Female__PBMBreastsGone, BreastsGone)
+    Player.setMorphValue(Genesis8Female__FBMFitnessDetails, FitnessDetail)
+    
+    Player.setActorVar(LastFeminine, Feminine)
+    SceneEnd()
+    timeoutPrecise(168, tf_track)

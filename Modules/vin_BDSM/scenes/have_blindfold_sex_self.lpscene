@@ -1,0 +1,60 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If Random(20, 100) < Actor:likes_bondage && Actor:perversion > 30
+OTHER: !Player.isMale()
+
+
+    // Your significant other convinces you to put on a blindfold and some other BDSM clothes, only to invite someone else to have fun with you instead
+
+    SceneStart()
+    "While in the middle of an intimate moment with my <Actor.boyfriend_or_girlfriend> <Actor.name>, <Actor.he_or_she> shows me some bondage clothing that <Actor.he_or_she> has just bought and asks to try them on me."
+    "<Actor.He_or_She> in particular seems convinced that I would enjoying being blindfolded while having sex since with sight taken away as a sense, the other sensations would be heightened."
+    0:: "Agree to be blindfolded and bondaged"
+    1:: "Turn <Actor.him_or_her> down"
+    
+    If 0
+        likes_bondage += 1
+        Player.dressBondage()
+        Player.dressBondage(Blindfold)
+        "I accepted <Actor.name>'s request and <Actor.he_or_she> put on some BDSM pieces on me, including a blindfold that prevented me from seeing anything."
+        "Let's hope <Actor.he_or_she>'s right about it improving orgasm."
+        If OpenRelationship() || Random(50, 100) < Actor:perversion || Actor:attractiontoplayer < 10
+            If isModEnabled(vin_Bestiality)
+                Actor2 = getCreature()
+                While Actor2.isValid() && [!Actor2.isCreatureType(Dog) || !Actor2.isSameGender(Actor)]
+                    Actor2 = getCreature()
+                Endwhile            
+            Endif
+            
+            If !Actor2.isValid()
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isSameGender(Actor)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.makeInterested(Player)
+            Endif
+
+            Actor2.show()
+            
+            If Actor2.isCreature()
+                "Unbeknown to me, my <Actor.boyfriend_or_girlfriend> brought our pet dog <Actor2.name> into the room and managed to keep the animal quiet enough for me to not notice."
+                "<Actor.name> then guides the dog to fuck me"
+            Else
+                "Unbeknown to me, my <Actor.boyfriend_or_girlfriend> brought some other <Actor.guy_or_girl> into the room and whispered to <Actor.him_or_her> ..."
+                Actor:: "Enjoy ..."
+                "The stranger whispered back to <Actor.name>, careful not for me to hear anything."
+                Actor2:: "You're the best friend ever. Don't worry, I'll take good care of your <Player.boyfriend_or_girlfriend>."
+                Actor:: "Just be careful and try not to say anything or <Player.he_or_she>'ll notice something unusual ..."
+                Actor2:: "Don't worry, I'll be careful."
+            Endif
+            Sex(Actor2, Player)
+            Actor2.hide()
+        Else
+            Sex(Actor, Player)
+        Endif
+        Player.clearBondage()
+        Player:: "Wow, baby, that was incredible. You were right, having sight taken away completely as a sense really did heighten the other sensations ..."
+    Endif
+    SceneEnd()
+    timeout(200, have_blindfold_sex_self)

@@ -1,0 +1,23 @@
+WHAT: all
+WHERE: all, -home, -fraternity, -bathroom, -prison
+WHEN: 0 - 24
+WHO: none
+OTHER: Player.isNaked() && !Player.isAsexual()
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    Actor.show()
+    Actor:perversion => Random(70, 100)
+    Actor:: "I see you like to walk around naked. You must be a <Player.fuckboy_or_slut>. Let's smash?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Sex(Actor, Player)
+    Endif
+    SceneEnd()
+    timeout(100, nudity_matters_cms)

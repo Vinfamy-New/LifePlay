@@ -1,0 +1,47 @@
+WHAT: all
+WHERE: all, -home, -work, -prison
+WHEN: 0 - 24
+WHO: none
+OTHER: Player.isRace(Vampire)
+
+    SceneStart()
+    "I was going about my day when I was stopped by an adoring stranger."
+    Actor = generatePersonTemporary()
+    While !Actor.isInterestedIn(Player) || !Actor.isRace(Human) || Actor:age > Random(25, 45)
+        Actor = generatePersonTemporary()
+    endWhile
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.dress()
+    Actor.show()
+    Actor:: "You're a vampire, right?"
+    "I was slightly worried at first, but the stranger didn't look like a vampire hunter at all."
+    Actor:: "I've always wanted to become a vampire. I'm obsessed. I've read so vampire novels!"
+    Actor:: "Please, grant me your gift!"
+    0:: "Suck <Actor.his_or_her> blood and infect <Actor.him_or_her>"
+    1:: "No"
+    
+    If 0
+        setBackground(home)
+        "We decided to go back to <Actor.his_or_her> place for privacy to go through our 'procedure'."
+        animatePair(Player, Actor, Kissing)
+        Actor:fitness -= 1
+        Actor:attractiveness -= 1
+        "That's some yummy blood, enough to keep my energy level up for a while. I also made sure to suck long enough to infect <Actor.name> and turn <Actor.him_or_her>."
+        energy => energy + 50
+
+        Actor.blendPreset(Vampire)
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        
+        "After a while, <Actor.name> started showing physical signs of a vampire. <Actor.He_or_She> was delighted. It was a life-long dream fulfilled for <Actor.him_or_her>."
+        0:: "Celebrate with sex"
+        1:: "No need"
+        
+        If 0
+            "Since we're now both vampires, we should celebrate."
+            Sex(Actor, Player)
+        Endif
+    Endif
+        
+    SceneEnd()

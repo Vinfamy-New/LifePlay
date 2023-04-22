@@ -1,0 +1,80 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+
+    // You can click on and convince your SO / someone else you've hooked up with in the past to put on a blindfold, only to invite someone else to have fun with them instead
+
+    SceneStart()
+    "I'm thinking about convincing <Actor.name> to try putting on a blindfold while having sex. Is that what I really have in mind? Or am I thinking about something even more perverted?"
+    0:: "Convince <Actor.name> to have sex with me blindfolded"
+    1:: "Secretly invite someone else to fuck <Actor.name> while <Actor.he_or_she> is blindfolded"
+    2:: isModEnabled(vin_Bestiality):: "Secretly get my dog to fuck <Actor.name> while <Actor.he_or_she> is blindfolded"
+    3:: "On second thought, I'm not into blindfolds ..."
+    
+    If 3
+        "Actually, this whole blindfold thing is a bit of a gimmick, not much of a turn-on for me."
+    Else
+        If 1
+            "Who do I have in mind to fuck <Actor.name>, unbeknown to <Actor.him_or_her>?"
+            selectNpc()
+            Actor2 = getSelectedNpc()
+            
+            If Actor2.isValid() && Actor2.isInterestedIn(Actor) && [Actor2:perversion > 50 || Actor2.hadSex()]
+                "<Actor2.name> agreed to be part of my devious plan."
+                Actor2:rapportwithplayer += 2
+            Else
+                "I couldn't convince <Actor2.name> to be part of my plan."
+                Actor2.delete()
+            Endif
+        Elseif 2
+            Actor2 = getCreature()
+            While Actor2.isValid() && [!Actor2.isCreatureType(Dog) || !Actor.isInterestedIn(Actor2)]
+                Actor2 = getCreature()
+            Endwhile
+            
+            If Actor2.isValid() && Actor2.isCreatureType(Dog)                           
+                "Perhaps my dog <Actor2.name> would be a good candidate for my slave to fuck?"
+                0:: "Yes"
+                1:: "No"
+                
+                If 1
+                    Actor2.delete()
+                Endif
+            Else
+                "I can't think of any dogs I own that would be appropriate for this."
+            Endif        
+        Endif
+        
+        moveTo(home)
+        setBackground(home)
+        Actor.show()
+        "While in the middle of an intimate moment with <Actor.name>, I easily convinced <Actor.him_or_her> to put on a blindfold by claiming how sensational an experience it would be for <Actor.him_or_her> as taking away sight as a sense would heighten <Actor.his_or_her> sensitivity to each of my touches."
+        Actor.dressBondage(Blindfold)
+        Actor.animate(na_sleep)
+        "I put a blindfold on <Actor.name> and helped <Actor.him_or_her> lie down in bed."
+        Actor:likes_bondage += 1
+        If Actor2.isValid()
+            If Actor2.isCreature()
+                "Of course, unbeknown to <Actor.name>, my dog <Actor2.name> was waiting just outside the bedroom."
+                Actor2.show()
+                "I quietly brought <Actor2.him_or_her> in and tried to keep the animal from making any noise and risking <Actor.name> finding out that it wasn't me anymore, <Actor2.he_or_she> started having <Actor2.his_or_her> way with <Actor.name> ..."
+                Sex(Actor2, Actor)
+                Actor2.hide()            
+            Else
+                "Of course, unbeknown to <Actor.name>, <Actor2.name> was waiting just outside the bedroom."
+                Actor2.show()
+                "I quietly invited <Actor2.him_or_her> in, and while trying <Actor2.his_or_her> best to not say anything and risk <Actor.name> finding out that it wasn't me anymore, <Actor2.he_or_she> started having <Actor2.his_or_her> way with <Actor.name> ..."
+                Sex(Actor2, Actor)
+                Actor2.hide()
+            Endif
+        Else
+            "I then proceeded to have some good old blindfold sex with <Actor.him_or_her> ... Let's see if it would actually heighten the sensation for <Actor.him_or_her> ..."
+            Sex(Player, Actor)
+        Endif
+        Actor.clearBondage()
+        Actor:: "Wow, baby, that was incredible. You were right, having sight taken away completely as a sense really did heighten the other sensations ..."
+    Endif
+    SceneEnd()

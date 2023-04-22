@@ -1,0 +1,88 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion()
+OTHER: TfGame() && perversion + masochist < Random(-100, 200)
+
+    // While hanging out / on a date with someone, you may make a mistake in acting feminine or saying something that just doesn't make sense for someone born female. This raises a new hidden stat each NPC now has called "Suspicion", the speed it's raised depends on their intelligence.
+    - Once suspicion reaches 100, they will be convinced you were a transwoman (obviously they didn't know about the magical transformation, they just assumed hormonal treatment and reassignment surgery), and depending on their perversion, dominance and orientation, they either lose all attraction, or actually get more turned on. In some cases, they make threats instead. If they've already slept with you but is actually transphobic, things could get really messy.
+
+    SceneStart()
+    Sus = Actor.getActorVar(Tf_Sus)
+    "When hanging out with <Actor.name>, I slipped up and made a mistake in acting feminine by saying something that just makes no sense to come from a ciswoman."
+    If Sus > 100
+        "Of course, it's nothing to worry about since <Actor.name> already knew that I wasn't born female and decided to accept me for who I am."
+    Else
+        "I should do something quick or my secret may get exposed."
+        0:: "Make an excuse"
+        1:: "Divert to another topic"
+        
+        If 0
+            If Random(0, 100) < interpersonal
+                "Thankfully, I managed to convince <Actor.name> that <Actor.he_or_she> had simply misheard me."
+            Else
+                "<Actor.name> wasn't having any of my excuses and has become even more suspicious as the result."
+                Sus += Actor:intelligence*0.2
+                Actor.setActorVar(Tf_Sus, Sus)
+            Endif
+        Else
+            "<Actor.name> was happy to talk about something else but it's clear from <Actor.his_or_her> facial expression that <Actor.he_or_she>'s become a bit more suspicious about me."
+            Sus += Actor:intelligence*0.1
+            Actor.setActorVar(Tf_Sus, Sus)
+        Endif
+        
+        If Sus > 100
+            Actor:: "Okay, I've been suspicious for a while, but that confirmed it."
+            Actor:: "You're a transwoman, aren't you? You were born male and took hormones and underwent surgeries?"
+            "Oh no, <Actor.he_or_she> found out ... I don't think I could make <Actor.him_or_her> believe in my magical transformation either."
+            
+            If Actor:perversion + Actor:masochist + Actor:rapportwithplayer + Actor:attractiontoplayer > 150 || Actor.isInterestedInTrans() || Actor.isInterestedInMen()
+                Actor:: "You shouldn't have hidden the truth from me. Did you think I was going to judge you?"
+                Actor:: "No, I'm open-minded about LGBTQ issues. Whatever makes you happy."
+                If Actor.isInterestedInTrans() && Actor.isInterestedIn(Player)
+                    Actor:: "In fact, this only makes you more attractive in my eyes. I always have a strong desire for transwomen."
+                    Actor:attractiontoplayer += 40
+                Endif
+                "Thankfully, <Actor.name> was completely understanding. I really expected the worst there for a second."
+            Else
+                Actor:: "You're crazy and disgusting."
+                If Actor.isDating()
+                    Actor.setDatingId()
+                    loseDating()
+                Endif
+                If Actor.hadSex() && Actor.isInterestedIn(Player)
+                    Actor:: "I can't believe I actually had sex with you. You tricked me!"
+                    Actor:: "Eww, how could you? You ruined me."
+                    If Actor:masochist < -75
+                        Actor.animate(martialart)
+                        Actor:: "Die, disgusting pig!"
+                        
+                        "Suddenly, out of shock and anger, <Actor.name> attacked me. I have no choice but attack back"
+                        Player.animate(martialart)
+                        If martial < Actor:martial
+                            "Unfortunately, a furious <Actor.name> was too strong for me and continued beating me brutally."
+                            followUp(death)
+                        Else
+                            "Thankfully, I managed to struggle free of my attacker and escaped to seek the help of the police."
+                        Endif
+                    Else
+                        Actor:: "Consider yourself lucky that I spare your life. I really should have killed you to erase this shame"
+                    Endif
+                    
+                    Actor:rapportwithplayer -= 80
+                    Actor:attractiontoplayer -= 80
+                    
+                    endDate()
+                    blockContact(Actor)
+                Else
+                    Actor:rapportwithplayer -= 80
+                    Actor:attractiontoplayer -= 80
+                    Actor:: "I don't think I want to spend anymore time with you. I can't accept someone like you in my life. Goodbye."
+                    endDate()
+                    blockContact(Actor)
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(48, tf_slipup)

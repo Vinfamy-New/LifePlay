@@ -1,0 +1,49 @@
+WHAT: all
+WHERE: all
+WHEN: 9-22
+WHO: Actor = getRelative(); Actor2 = getSpecific(Dating); If Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && [Actor:attractiontoplayer > 30 || Actor:incest > 30 || Actor.hadSex()] && Actor2:perversion > 50 && [Actor2:masochist > 30 || !Actor2.isSameGender(Actor)]
+OTHER: isQuestCompleted(legalized)
+
+    SceneStart()
+    Actor2.dress()
+    Actor2.show()
+    "My <Actor2.boyfriend_or_girlfriend> seemed very excited today for some reason. Knowing <Actor2.him_or_her>, <Actor2.he_or_she> is probably pleased with <Actor2.himself_or_herself> for coming up with yet another perverted idea to 'spice things up'"
+    Actor2:: "Baby, have you heard that they legalized incest?"
+    Player:: "Yes ... so? Don't tell me you took a DNA test and found out that we're actually blood related?"
+    Actor2:: "Nah, it's nothing like that ... you know your <Actor.relationship> <Actor.name>?"
+    Player:: "Yeah ... what about my <Actor.relationship>?"
+    Actor2:: "I caught <Actor.him_or_her> looking at you rather intensely last time we met, I think <Actor.he_or_she> secretly wants to fuck you. <Actor.His_or_Her> desire must be exploding these days with so many incest couples 'coming out' since the new law."
+    Actor2:: "And you know what ... I wouldn't mind watching <Actor.him_or_her> fuck you. You know how much I love incest porn. Now that it's legal to have it happening in front of my eyes, I can't pass on this opportunity ..."
+    0:: "Yes"
+    1:: "No way"
+    
+    If 0
+        Player:: "Okay then, you pervert! It's all legal now after all."
+        Actor2:attractiontoplayer += 2
+        "Together we managed to convince my <Actor.relationship> to take part in our little experiment to spice up our love life. As we already suspected, <Actor.he_or_she> didn't need much convincing."
+        moveTo(home)
+        setBackground(home)       
+        Actor.dress()
+        Actor.show()
+        "Tonight is the big night!"
+        AnimatePair(Actor, Player, Kissing)
+        Actor2:: "I can't believe this is finally happening! You two have no idea how long I've wanted to watch this."
+        Actor:: "Shut up and watch! Maybe you'll learn a thing or two about how to please my <Actor.callplayer>."
+        Sex(Actor, Player)
+        Actor:incest => 100
+        "<Actor2.name> seems to enjoy the show very much, but maybe <Actor2.he_or_she> should now do more than watching."
+        0:: "Ask <Actor2.name> to join us"
+        1:: "Just go at it again with my <Actor.relationship>"
+        
+        If 0
+            Sex(Actor2, Player, Actor)
+        Else
+            Sex(Player, Actor)
+        Endif
+    Else
+        Player:: "Yeah, you sure love incest porn. Maybe a little too much that you've lost touch with reality."
+        Player:: "Forget it! I'm not fucking my own <Actor.relationship> just so that you can watch!"
+        Actor2:attractiontoplayer -= 2
+    Endif
+    SceneEnd()
+    timeout(500, legalized_watched)

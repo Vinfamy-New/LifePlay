@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: sunbathe
+ACTION_NAME: Sunbathe
+WHERE: pool, beach
+WHEN: 6 - 18
+MINUTES: 30 - 60
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: attractiveness +0.05 (DURATION), mood +2 (END)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: sunbathe
+ANIMATION: sunbathe

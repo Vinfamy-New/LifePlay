@@ -1,0 +1,91 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "What should I do?"
+    0:: "Call a friend with benefits"
+    1:: "Start a new FWB arrangement"
+    2:: "End an existing FWB arrangement"
+
+    If 0
+        picked = false
+        While !picked
+            Actor = getPerson(tag_fwb)
+            If Actor.isValid()
+                secondScreen(Actor)
+                Actor.show()
+                "Should I call my friend with benefits <Actor.name> over to fuck?"
+                0:: "Yes"
+                1:: "Not <Actor.him_or_her>"
+                
+                If 0
+                    secondScreen()
+                    picked = true
+                    Actor.dress()
+                    Actor.show()
+                    "Soon enough, <Actor.name> came over and we got down to business right away."
+                    Sex(Player, Actor)
+                Else
+                    secondScreen()
+                    Actor.hide()
+                Endif
+            Else
+                "No other friend with benefits to call ..."
+                picked = true
+            Endif
+        Endwhile
+    Elseif 1
+        "Who should I approach and convince to become my friend with benefits?"
+        selectNPC()
+        Actor = getSelectedNpc()
+        If Actor.isValid() && !Actor.isCreature() && !Actor.isRelative() && Actor.isInterestedIn(Player)
+            existing = Actor.getActorVar(tag_fwb)
+            If existing > 0
+                "This person is already a friend with benefits!"
+            Else
+                Actor.dress()
+                Actor.show()
+                "I invited <Actor.name> over to discuss a possible FWW arrangement."
+                If Actor:perversion > 60 && Actor:rapportwithplayer > 20 && [Actor.hadSex() || Actor:attractiontoplayer > 40] && [Actor.hasRelationship(Poly) || !Actor.hasRelationship(Dating, Spouses)]
+                    "<Actor.name> accepted my request and we celebrated our new special 'friendship' with some casual fun."
+                    Actor.setActorVar(tag_fwb, 1)
+                    Sex(Player, Actor)
+                Else
+                    "<Actor.name> isn't comfortable with the idea and turned me down."
+                    Actor:rapportwithplayer -= 3
+                Endif
+            Endif
+        Else
+            "You didn't select a valid person ..."
+        Endif
+    Else
+        picked = false
+        While !picked
+            Actor = getPerson(tag_fwb)
+            If Actor.isValid()
+                secondScreen(Actor)
+                Actor.show()
+                "Should I stop being friends with benefits with <Actor.name>?"
+                0:: "Yes"
+                1:: "Not <Actor.him_or_her>"
+                
+                If 0
+                    "I told <Actor.name> that our arrangement was over ..."
+                    Actor.setActorVar(tag_fwb, 0)
+                    Actor:attractiontoplayer -= 10
+                    secondScreen()
+                    picked = true
+                Else
+                    secondScreen()
+                    Actor.hide()
+                Endif
+            Else
+                "No other friend with benefits ..."
+                picked = true
+            Endif
+        Endwhile   
+    Endif
+    SceneEnd()

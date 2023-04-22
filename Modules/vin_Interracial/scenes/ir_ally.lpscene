@@ -1,0 +1,301 @@
+WHAT: all
+WHERE: alcohol, beverages, supermarket, variety_store, marketplace, department_store, convenience
+WHEN: 16 - 22
+WHO: none
+OTHER:
+
+    // While at any stores that sell alcohol, you come across someone (whose race you have a fetish for) being a victim of a racist tirade from someone your own race. If you decide to stand up for them, they praise you as an 'ally' to their community and invite you to the neighbourhood party they're shopping for, obviously full of people their own race. Of course, you'll be a kid in a candy shop there and may end up with quite a few number exchanges or even some group fun.
+    
+    SceneStart()
+    "Sounds like there's some sort of confrontation going on between customers queuing at the check-out counter."
+    setRaceGenerated(Player, true)
+    Racist = generatePersonTemporary()
+    setRaceGenerated(Player, false)
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    
+    If Actor.isEthnic(black) && Actor.isMale() && !isTimingOut(strt_black_m)
+        Actor.blendPreset(strt_black_m)
+        
+    Elseif Actor.isEthnic(black) && !Actor.isMale() && !isTimingOut(strt_black_f)
+        Actor.blendPreset(strt_black_f)
+
+    Elseif Actor.isEthnic(indian) && Actor.isMale() && !isTimingOut(strt_indian_m)
+        Actor.blendPreset(strt_indian_m)
+        
+    Elseif Actor.isEthnic(indian) && !Actor.isMale() && !isTimingOut(strt_indian_f)
+        Actor.blendPreset(strt_indian_f)
+        
+    Elseif Actor.isEthnic(arab) && Actor.isMale() && !isTimingOut(strt_arab_m)
+        Actor.blendPreset(strt_arab_m)
+        
+    Elseif Actor.isEthnic(arab) && !Actor.isMale() && !isTimingOut(strt_arab_f)
+        Actor.blendPreset(strt_arab_f)
+
+
+    Elseif Actor.isEthnic(latin) && Actor.isMale() && !isTimingOut(strt_latin_m)
+        Actor.blendPreset(strt_latin_m)
+        
+    Elseif Actor.isEthnic(latin) && !Actor.isMale() && !isTimingOut(strt_latin_f)
+        Actor.blendPreset(strt_latin_f)
+
+        
+    Elseif Actor.isEthnic(asian) && Actor.isMale() && !isTimingOut(strt_asian_m)
+        Actor.blendPreset(strt_asian_m)
+        
+    Elseif Actor.isEthnic(asian) && !Actor.isMale() && !isTimingOut(strt_asian_f)
+        Actor.blendPreset(strt_asian_f)
+
+
+    Elseif Actor.isEthnic(white) && Actor.isMale() && !isTimingOut(strt_white_m)
+        Actor.blendPreset(strt_white_m)
+        
+    Elseif Actor.isEthnic(white) && !Actor.isMale() && !isTimingOut(strt_white_f)
+        Actor.blendPreset(strt_white_f)
+    Endif
+    
+    Actor.dress()
+    Actor.show()
+    
+    Racist.dress()
+    Racist.show()
+    FaceEachOther(Racist, Actor)
+    Racist:: "Go back to where you come from and claim your benefits there to buy your booze, you illegal immigrant that comes to this country and takes advantage of our stupid government to be lazy and just party all day!"
+    
+    Actor:: "What are you talking about? I'm here legally. I have a job. This is just for a small neighborhood party among friends!"
+    Actorr = Actor.RaceToString()
+    "This poor <Actorr> <Actor.guy_or_girl> is being a victim of a racist tirade from someone local. The insults are all pretty ridiculous."
+    0:: "Stand up for the immigrant"
+    1:: "Stay quiet"
+    
+    If 0
+        Player:: "Hey, leave this <Actor.man_or_woman> alone, you miserable racist!"
+        Racist:: "Fine ... you're a traitor to your own race ... Oh, I get it ... I bet you're trying to play <Player.hero_or_heroine> to have a taste of that <Actorr> <Actor.cock_or_pussy> later on, aren't you? Pathetic!"
+        Racist.hide()
+        "And after that final insult, the racist stormed out and let us be."
+        Actor:: "Thank you for standing up for immigrants like me. It's very noble of you."
+        Player:: "Only doing what I feel was right. I couldn't just stand by and let you receive all those abuses just because of your skin color."
+        Actor:: "You're truly an ally to the immigrant community. I'm actually doing the shopping for a party in our neighbourhood tonight, full of people from the same country as me. Why don't you come along? Trust me, we have the best food!"
+        0:: "Go to the neighborhood party"
+        1:: "Maybe another time"
+        
+        If 0
+            setBackground(park)
+            "It was a long drive to a rather rough looking neighbourhood if I'm being completely honest. But let's not judge the book by its cover. Soon, we arrive at this party, a BBQ party at the community park full of people from the same country as <Actor.name>."
+            Player.animate(bbq)
+            Actor.animate(bbq)
+            
+            Actor2 = generatePersonTemporary()
+            While !Actor.isSameGender(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            
+            If Actor2.isEthnic(black) && Actor2.isMale() && !isTimingOut(strt_black_m)
+                Actor2.blendPreset(strt_black_m)
+                
+            Elseif Actor2.isEthnic(black) && !Actor2.isMale() && !isTimingOut(strt_black_f)
+                Actor2.blendPreset(strt_black_f)
+
+            Elseif Actor2.isEthnic(indian) && Actor2.isMale() && !isTimingOut(strt_indian_m)
+                Actor2.blendPreset(strt_indian_m)
+                
+            Elseif Actor2.isEthnic(indian) && !Actor2.isMale() && !isTimingOut(strt_indian_f)
+                Actor2.blendPreset(strt_indian_f)
+                
+            Elseif Actor2.isEthnic(arab) && Actor2.isMale() && !isTimingOut(strt_arab_m)
+                Actor2.blendPreset(strt_arab_m)
+                
+            Elseif Actor2.isEthnic(arab) && !Actor2.isMale() && !isTimingOut(strt_arab_f)
+                Actor2.blendPreset(strt_arab_f)
+
+
+            Elseif Actor2.isEthnic(latin) && Actor2.isMale() && !isTimingOut(strt_latin_m)
+                Actor2.blendPreset(strt_latin_m)
+                
+            Elseif Actor2.isEthnic(latin) && !Actor2.isMale() && !isTimingOut(strt_latin_f)
+                Actor2.blendPreset(strt_latin_f)
+
+                
+            Elseif Actor2.isEthnic(asian) && Actor2.isMale() && !isTimingOut(strt_asian_m)
+                Actor2.blendPreset(strt_asian_m)
+                
+            Elseif Actor2.isEthnic(asian) && !Actor2.isMale() && !isTimingOut(strt_asian_f)
+                Actor2.blendPreset(strt_asian_f)
+
+
+            Elseif Actor2.isEthnic(white) && Actor2.isMale() && !isTimingOut(strt_white_m)
+                Actor2.blendPreset(strt_white_m)
+                
+            Elseif Actor2.isEthnic(white) && !Actor2.isMale() && !isTimingOut(strt_white_f)
+                Actor2.blendPreset(strt_white_f)
+            Endif
+            
+            Actor2.dress()
+            Actor2.show()
+            
+            Actor2.animate(bbq)
+            
+            Actor:: "This is <Actor2.name>."
+            
+            
+            Actor3 = generatePersonTemporary()
+            While !Actor.isSameGender(Actor3)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            
+            If Actor3.isEthnic(black) && Actor3.isMale() && !isTimingOut(strt_black_m)
+                Actor3.blendPreset(strt_black_m)
+                
+            Elseif Actor3.isEthnic(black) && !Actor3.isMale() && !isTimingOut(strt_black_f)
+                Actor3.blendPreset(strt_black_f)
+
+            Elseif Actor3.isEthnic(indian) && Actor3.isMale() && !isTimingOut(strt_indian_m)
+                Actor3.blendPreset(strt_indian_m)
+                
+            Elseif Actor3.isEthnic(indian) && !Actor3.isMale() && !isTimingOut(strt_indian_f)
+                Actor3.blendPreset(strt_indian_f)
+                
+            Elseif Actor3.isEthnic(arab) && Actor3.isMale() && !isTimingOut(strt_arab_m)
+                Actor3.blendPreset(strt_arab_m)
+                
+            Elseif Actor3.isEthnic(arab) && !Actor3.isMale() && !isTimingOut(strt_arab_f)
+                Actor3.blendPreset(strt_arab_f)
+
+
+            Elseif Actor3.isEthnic(latin) && Actor3.isMale() && !isTimingOut(strt_latin_m)
+                Actor3.blendPreset(strt_latin_m)
+                
+            Elseif Actor3.isEthnic(latin) && !Actor3.isMale() && !isTimingOut(strt_latin_f)
+                Actor3.blendPreset(strt_latin_f)
+
+                
+            Elseif Actor3.isEthnic(asian) && Actor3.isMale() && !isTimingOut(strt_asian_m)
+                Actor3.blendPreset(strt_asian_m)
+                
+            Elseif Actor3.isEthnic(asian) && !Actor3.isMale() && !isTimingOut(strt_asian_f)
+                Actor3.blendPreset(strt_asian_f)
+
+
+            Elseif Actor3.isEthnic(white) && Actor3.isMale() && !isTimingOut(strt_white_m)
+                Actor3.blendPreset(strt_white_m)
+                
+            Elseif Actor3.isEthnic(white) && !Actor3.isMale() && !isTimingOut(strt_white_f)
+                Actor3.blendPreset(strt_white_f)
+            Endif
+            
+            Actor3.dress()
+            Actor3.show()
+            
+            Actor3.animate(bbq)
+            
+            Actor:: "Let me introduce you to <Actor3.name>."
+            
+            
+            
+            Actor4 = generatePersonTemporary()
+            While Actor.isSameGender(Actor4)
+                Actor4 = generatePersonTemporary()
+            Endwhile
+            
+            If Actor4.isEthnic(black) && Actor4.isMale() && !isTimingOut(strt_black_m)
+                Actor4.blendPreset(strt_black_m)
+                
+            Elseif Actor4.isEthnic(black) && !Actor4.isMale() && !isTimingOut(strt_black_f)
+                Actor4.blendPreset(strt_black_f)
+
+            Elseif Actor4.isEthnic(indian) && Actor4.isMale() && !isTimingOut(strt_indian_m)
+                Actor4.blendPreset(strt_indian_m)
+                
+            Elseif Actor4.isEthnic(indian) && !Actor4.isMale() && !isTimingOut(strt_indian_f)
+                Actor4.blendPreset(strt_indian_f)
+                
+            Elseif Actor4.isEthnic(arab) && Actor4.isMale() && !isTimingOut(strt_arab_m)
+                Actor4.blendPreset(strt_arab_m)
+                
+            Elseif Actor4.isEthnic(arab) && !Actor4.isMale() && !isTimingOut(strt_arab_f)
+                Actor4.blendPreset(strt_arab_f)
+
+
+            Elseif Actor4.isEthnic(latin) && Actor4.isMale() && !isTimingOut(strt_latin_m)
+                Actor4.blendPreset(strt_latin_m)
+                
+            Elseif Actor4.isEthnic(latin) && !Actor4.isMale() && !isTimingOut(strt_latin_f)
+                Actor4.blendPreset(strt_latin_f)
+
+                
+            Elseif Actor4.isEthnic(asian) && Actor4.isMale() && !isTimingOut(strt_asian_m)
+                Actor4.blendPreset(strt_asian_m)
+                
+            Elseif Actor4.isEthnic(asian) && !Actor4.isMale() && !isTimingOut(strt_asian_f)
+                Actor4.blendPreset(strt_asian_f)
+
+
+            Elseif Actor4.isEthnic(white) && Actor4.isMale() && !isTimingOut(strt_white_m)
+                Actor4.blendPreset(strt_white_m)
+                
+            Elseif Actor4.isEthnic(white) && !Actor4.isMale() && !isTimingOut(strt_white_f)
+                Actor4.blendPreset(strt_white_f)
+            Endif
+            
+            Actor4.dress()
+            Actor4.show()
+            
+            Actor4.animate(bbq)
+            
+            Actor:: "Finally, <Actor4.name>."
+            
+            Actor.makeInterested(Player)
+            Actor2.makeInterested(Player)
+            Actor3.makeInterested(Player)
+            Actor4.makeInterested(Actor3)
+            
+            "There were plenty more guests at the start, but they were mostly families that couldn't stay the whole night. It's just the five of us partying into the night, getting pretty drunk." 
+            
+            "<Actor.name> told <Actor.his_or_her> friends about me standing up for <Actor.him_or_her> in front of the racist earlier and they all showed their gratitude. They must have suffered a lot of abuse since arriving in this country."
+            
+            "They all seem like very nice work-hard play-hard people. Maybe I should exchange contacts with them to hang out more in future? Now would be the time to do it, because anymore alcohol down our throats we would barely be able to hold our phones"
+            0:: "Exchange numbers with them all"
+            1:: "Maybe not"
+            
+            If 0
+                Actor.makePermanent()
+                exchangeContact(Actor)
+                
+                Actor2.makePermanent()
+                exchangeContact(Actor2)
+                
+                Actor3.makePermanent()
+                exchangeContact(Actor3)
+                
+                Actor4.makePermanent()
+                exchangeContact(Actor4)
+            Endif
+            
+            "Soon enough, all five of us were completely drunk and so that's when the intellectual race relations debate ended and the horny flirting started."
+            animatePair(Actor3, Actor4, Kissing)
+            "<Actor3.name> was the first to make a move on <Actor4.name>. Apparently they've been protecting the whole journey immigrating here and now living next door to each other so a lot of pent-up sexual tension."
+            "Being drunk myself, I was too busy cheering on <Actor3.name> and <Actor4.name>'s makeout that I didn't notice someone moving very close towards me."
+            animatePair(Actor, Player, Kissing)
+            "It's <Actor.name> drunkenly kissing me. And then ..."
+            animatePair(Actor2, Player, Kissing)
+            "Not wanting to be the odd one out, <Actor2.name> also grabbed me from the other side and made out with me."
+            "Meanwhile, things escalated between <Actor3.name> and <Actor4.name>."
+            Sex(Actor3, Actor4)
+            "That was hot ... but I was in a steamy situation myself ... with double the <Actor.guys_or_girls>!"
+            Sex(Actor, Actor2, Player)
+            "Soon, our drunken party turned into a full-blown orgy!"
+            Sex(Actor3, Player, Actor4)
+            Sex(Actor, Actor2, Actor3, Actor4)
+            Sex(Actor, Actor2, Actor3, Player)
+            Player:perversion += 5
+        Else
+            Player:: "Thanks for the offer, but I have other plans tonight."
+        Endif
+    Else
+        "It's none of my business. I'm in no mood to get involved in racial confrontations today."
+    Endif
+    
+    SceneEnd()
+    timeout(500, ir_ally)

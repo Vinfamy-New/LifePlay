@@ -1,0 +1,15 @@
+Actor.isVirgin()
+
+USE:
+Check if this actor is still a virgin
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Virginity
+COMPARE: isDeflowered, isDeflowerer
+
+EXAMPLE:
+    If Dating.isVirgin()
+        "My GF is waiting till marriage."
+    Endif 
+

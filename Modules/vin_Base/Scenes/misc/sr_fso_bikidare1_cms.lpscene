@@ -1,0 +1,80 @@
+WHAT: all
+WHERE: pool, river, beach
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Actor.isMale() && Actor.isDating() && Actor:perversion > 45
+OTHER: Player.isMale() && Random(35, 100) < perversion && isModEnabled(vin_NTR)
+
+    //Event Start Summery - This can trigger if the player and their girlfriend/wife is currently with them and at the above locations. 
+    //Summery - In this beachdare the player can dare their wife or girlfriend to expose herself to varying degrees at the pool/beach/river with a few possible endings.
+
+    SceneStart()
+    Actor.strip()
+    Actor.dress()
+    "Before me and <Actor.name> went to the beach today I began thinking, maybe I should give her a exciting dare while there?"
+    0:: "Yeah, a good dare. I'm sure she would enjoy doing something lewd for me."
+    1:: "Well actually. Never mind, something this public could easily go astray." 
+
+    If 0
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isMale()
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.dress()
+        Actor2.show()
+        "What sort of dare should I request?"
+        0:: "I'll ask her to make sure her bikini has a cameltoe and for her to show it off while we enjoyed the day." 
+        1:: "I'll ask her to "accidently" loose her bikini top."
+        2:: "Riskiest idea but most fun, I'll have her slip her bikini bottom to the side showing off her slit."
+        
+        If 0
+            "<Actor.name> smirked and agreed to my idea."
+            "She fixed her swimsuit to give her an obvious cameltoe and proceeded to swim around like that and even walk around."
+            "While we were walking around I noticed someone staring at her cameltoe." 
+            0:: "I should point it out to her I'm sure she will get a thrill out of it."
+            1:: "I'll stay silent and just enjoy knowing my girl is too sexy for them to not watch."
+
+            If 0 
+                "Her admirer approached us and emboldened by by lack of jealous action, he asked for our number to hang out another day ... perhaps thinking we're in some sort of open relationships."
+                Actor2.makePermanent()
+                exchangeContact(Actor2)
+            Else
+                "After walking around for awhile I had her pose for a picture to remember how this day went."
+                Actor:perversion += 1
+                perversion += 1
+                Actor:attractiontoplayer +=1
+            Endif
+        Elseif 1
+            Actor.stripOne()
+            "<Actor.name> decided to play along with my dare. When we got into the water she went down under it and loosened her top."
+            "When <Actor.name> came back up her bikini top had 'mysteriously' vanished. I was holding onto it after she placed it into my hands of course."
+            "But it was still quite the sight to see. She even managed to turn the heads of a few people here."
+            Actor:perversion += 2
+            perversion += 2
+            Actor:attractiontoplayer +=1
+        Else
+            Actor.stripOne()
+            "I convinced <Actor.name> to go into the water and slip her bikini bottoms over revealing her slit to anyone who happened to look."
+            "She came out of the water and kissed me while in this exposed state making sure to show herself off some by spreading her legs ever so slightly."
+            If Random(0, 100) < 25
+                "A stranger, seeing our behavior towards each other in public, assumed we were in an open relationship and asked for threesome between us all"
+                0:: "Sure"
+                1:: "No"
+                
+                If 0
+                    Sex(Player, Actor, Actor2)
+                Endif
+            Elseif Random(0, 100) < 33
+                "A stranger caught <Actor.name> in the indecent act and threatened to report to the cops. He blackmails us both into letting him or her film my girlfriend playing with herself solo."
+                Filter(Solo)
+                Sex(Actor)
+            Else
+                "Nothing crazy happened afterwards but it was a fun experience nevertheless."
+                Actor:perversion += 3
+                perversion += 3
+                Actor:attractiontoplayer +=1            
+            Endif
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(150, sr_fso_bikinidare1_cms)

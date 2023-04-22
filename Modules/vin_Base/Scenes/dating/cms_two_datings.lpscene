@@ -1,0 +1,19 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor)
+OTHER: isModEnabled(vin_Polyamorous)
+
+    SceneStart()
+    "I was going about my business when I was interrupted by hearing my name moaned from <Actor.name>'s room. So I went investigate."
+    Sex(Actor, Actor2)
+    "My two lovers are having some fun without me. I'm sure they wouldn't mind if I join them though."
+    0:: "Join them"
+    1:: "No"
+    
+    If 0
+        "It's part of the fun of a polyamorous relationship."
+        Sex(Player, Actor, Actor2)
+    Endif 
+    SceneEnd()
+    timeout(200, cms_two_datings)

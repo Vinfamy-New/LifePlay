@@ -1,0 +1,73 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    // Suggest one poly partner have a baby with another. Suggest one partner do the deed with another, so that you can watch. If applicable, you can sabotage the birth control, leading to one partner impregnating another.
+    
+    SceneStart()
+    "Out of the rest of my polyamorous lovers, who do I think <Actor.name> should fuck?"
+    Actor2 = Player
+    Chosen = false
+    While Actor2.isValid() && !Chosen
+        Actor2 = getSpecific(Dating)
+        If !Actor2.isSameAs(Actor) && Actor2.isValid()
+            secondScreen(Actor2)
+            Actor2.show()
+            "Suggest that <Actor.name> fucks <Actor2.name>?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                Chosen = true
+                If !Actor.isMale() && !Actor.isPregnant() && !Actor2.isFemale()
+                    Impregnated = Actor
+                    Impregnator = Actor2
+                Elseif !Actor2.isMale() && !Actor2.isPregnant() && !Actor.isFemale()
+                    Impregnated = Actor2
+                    Impregnator = Actor            
+                Endif
+                secondScreen()
+                Actor2.dress()
+                Actor2.show()
+                "Now that I have both of them in the same room, what should I say to them about the reason I want them to fuck?"
+                0:: Impregnated.isValid():: "Suggest that <Impregnated.name> gets impregnated by <Impregnator.name>"
+                1:: "I just wanted to watch"
+                
+                If 0
+                    Impregnating = true
+                    Impregnated:: "Of course, I'll love to carry <Impregnator.name>'s baby."
+                Else
+                    Actor:: "Of course, honey, if that's what you want ..."
+                    
+                    If Impregnated.isValid()
+                        "The question is: was I being honest in that I just wanted to watch?"
+                        "Maybe I'm trying to get <Impregnated.name> pregnant with <Impregnator.name>'s child ..."
+                        0:: "Sabotage the birth control"
+                        1:: "I honestly just wanted to watch"
+                        
+                        If 0
+                            Impregnating = true
+                        Else
+                            Impregnating = false
+                        Endif
+                    Endif
+                Endif
+                
+                If Impregnating
+                    Impregnated.impregnate(Impregnator)
+                Endif
+                Sex(Actor, Actor2)
+                "That was hot. Maybe I should join them for round 2?"
+                0:: "Have a threesome"
+                1:: "Watching was enough for me"
+                
+                If 0
+                    Sex(Player, Actor, Actor2)
+                Endif
+            Endif
+        Endif
+    Endwhile
+    SceneEnd()
+    

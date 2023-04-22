@@ -1,0 +1,58 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor2 = getRelative()
+OTHER: PercentageElves > 0 && Player.isRace(Human)
+
+
+    SceneStart()
+    setBackground(hospital)
+    "My <Actor2.relationship> <Actor2.name> just collapsed out of nowhere and had to be taken to the hospital in an ambulance."
+    "The doctors were all baffled by my <Actor2.relationship>'s condition and it was clear as day they had no idea how to cure it."
+    "It seemed they were going with the trial and error approach and throwing everything at the wall to see if it stuck."
+    "I couldn't just stand there and do nothing so I decided to do some research on the internet."
+    "Someone mentioned a magical potion from an elven settlement. Seemed far-fetched but I was desperate."
+    "I followed the guide and indeed I arrived at an inn ran by elves."
+    setBackground(pub)
+    
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.blendPreset(Elf)
+    Actor.randomizeRace()
+    Actor.dress()
+    Actor.show()
+    Actor:: "We do have the potion you're looking for. But usually we don't offer it to outsiders."
+    Actor:: "However, an exception can be made since if you make a big contribution to the elven community, you could hardly be considered as an outsider anymore ..."
+    Actor:: "You see ... the elven population is in crisis and dwindling over the last centuries. If it keeps going, we'll go extinct."
+    "I think I know where this is going ..."
+    0:: "Breed with <Actor.name>"
+    1:: "Bribe the elf with a lot of money"
+    2:: "Give up"
+    
+    If 0
+        Player:: "I guess that would be a fair exchange."
+        Sex(Player, Actor)
+        
+        Actor.hide()
+        setBackground(hospital)
+        "The potion worked a treat and my <Actor2.relationship> recovered instantly. The doctors were all baffled."
+    Elseif 1
+        "Everybody has a price and I'm willing to pay big money for my <Actor2.relationship>'s health."
+        money -= 1000
+        
+        Actor.hide()
+        setBackground(hospital)
+        "The potion worked a treat and my <Actor2.relationship> recovered instantly. The doctors were all baffled."
+    Else
+        Player:: "Sorry, I can't do that ..."
+        
+        Actor.hide()
+        setBackground(hospital)
+        "Thankfully, even without the elven potion, the doctors finally came up with a cure and saved my <Actor2.relationship>'s life. Still, <Actor2.his_or_her> long-term fitness suffered as a result."
+        Actor2:fitness -= 10
+    Endif
+
+    SceneEnd()
+    timeout(500, elf_potion)

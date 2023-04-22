@@ -1,0 +1,103 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Actor = Rival.getActorAlias()
+    "I came up with an idea: I can approach an ex of my rival <Actor.name> and convince them to leak a sensitive video of their past flame onto the internet. A sex scandal could lose <Actor.him_or_her> some voters!"
+    0:: "Good idea"
+    1:: "Entrap my rival with a seductive intern instead"
+    2:: "Let's think of something else"
+    
+    If 0        
+        Filmed = Actor
+        Ex = generatePersonTemporary()
+        While !Filmed.isAsexual() && !Filmed.isInterestedIn(Ex)
+            Ex = generatePersonTemporary()
+        Endwhile
+        "I found a <Ex.man_or_woman> from <Filmed.name>'s past called <Ex.name>. I invited <Ex.him_or_her> for a coffee to discuss things."
+        Ex.dress()
+        Ex.show(2)
+        Accepted = false
+        Ex(Shocked):: "Let me get this straight: You want me to leak online an intimate video of us together? Why the hell would I want to do that when <Actor.he_or_she> is in the middle of a mayoral campaign?"
+        0:: "Convince <Ex.him_or_her>"
+        1:: "Offer sexual favors"
+        2:: "Offer money"
+
+        If 0 && Random(0, 100) < interpersonal
+            Accepted = true
+        Elseif 1 && Random(0, 50) < Ex:attractiontoplayer
+            Accepted = true
+            Ex(Flirty):: "How can I say no to an eye candy like you? Let's go to my apartment!"
+            setBackground(home)
+            Sex(Ex, Player)
+            Ex.show(2)
+            Player.show(0)
+        Elseif 2 && Random(0, 100) < 75
+            Accepted = true
+            money -= 1000
+        Else
+            Ex(Evil):: "Haha. You must think I'm some sort of sucker that can be used so easily. Forget it!"
+            Ex.hide()
+        Endif
+        
+        If Accepted   
+            Ex(Evil):: "Haha, you convinced me. Now, let me search on my old laptop to see if I still keep any intimate videos with <Filmed.name> ..."
+            setBackground(home)
+            "An hour went by as I waited in <Ex.name>'s apartment ..."
+            Ex(Evil):: "There it is ... I knew I had it somewhere!"
+            Ex(Evil):: "Watch this ... is this good enough for you?"
+            Ex.strip()
+            Sex(Ex, Filmed)
+            Ex.hide()
+            Filmed.hide()
+            Player.show(0)
+            Player(Evil):: "That's just perfect! Now, upload it to all the major porn sites, making sure all <Actor.his_or_her> supporters see it or at least hear about a sex scandal. That would put them off"
+            
+            If Actor:politics > 0
+                "My dirty trick worked! Having previously portrayed <Actor.himself_or_herself> as a moral person who places family values highly, my rival lost quite a few endorsements especially from important religious and conservative influencers."
+                Actor:interpersonal -= Actor:politics*0.1
+            Else
+                "My dirty trick backfired! My rival's somewhat liberal base immediately noted how this whole 'sex scandal' is no fault of <Actor.his_or_hers> and it's the vengeful ex to blame for this illegal revenge porn. Instead of losing supporters, my rival actually got sympathy especially from anti sexual harassment groups and won a few hearts with <Actor.his_or_her> handling of the scandal."
+                Actor:interpersonal -= Actor:politics*0.1
+            Endif
+        Endif
+    Elseif 1
+        "Sexual harassment and abusing power for sexual favours is a big no-no nowadays for aspiring politicians. All I need to do is to convince someone attractive to go undercover as an intern in my rival's campaign and film having sex with the boss ..."
+        "Do I have someone in mind?"
+        selectNpc()
+        Ex = getSelectedNpc()
+        
+        Filmed = Actor
+        If Ex.isValid() && Ex:rapportwithplayer > 35 && [Filmed.isInterestedIn(Ex) || Filmed.isAsexual()]
+            "<Ex.name> agrees to be honeytrap and proceeds to apply for an Intern position on my rival's campaign."
+            "A few weeks later, <Ex.he_or_she> excitedly calls me over to meet in secret."
+            
+            setBackground(home)
+            Ex.dress()
+            Ex.show()
+            Ex(Evil):: "Haha, I finally managed to seduce <Actor.name> into bed."
+            Ex(Evil):: "There it is ... I had the whole encounter filmed with a secret camera"
+            Ex(Evil):: "Watch this ... is this good enough for you?"
+            Ex.strip()
+            Sex(Ex, Filmed)
+            Ex.hide()
+            Filmed.hide()
+            Player.show(0)
+            Player(Evil):: "That's just perfect! Now, upload it to all the major porn sites, making sure all <Actor.his_or_her> supporters see it or at least hear about a sex scandal. That would put them off"
+            
+            If Actor:politics < 0
+                "My dirty trick worked! Having previously portrayed <Actor.himself_or_herself> as a proper leader who would provide a safe and comfortable working environment for everyone, my rival lost quite a few endorsements especially from celebrities and anti sexual harassment groups."
+                Actor:interpersonal += Actor:politics*0.1
+            Else
+                "My dirty trick backfired a bit! My rival's somewhat conservative base immediately suspected the intern as a seductive spy entrapping a political candidate. They also stressed that the whole encounter was clearly consensual. My rival handled the scandal well and even got some sympathy from poeple outraged at other recent high-profile false accusations of rape and sexual harassment."
+                Actor:interpersonal += Actor:politics*0.1
+            Endif           
+        Else
+            "This person isn't loyal enough to me to be trusted for such a mission. Or, <Filmed.name> wouldn't be interested in this person."            
+        Endif
+    Endif
+    SceneEnd()
+    

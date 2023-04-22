@@ -1,0 +1,111 @@
+WHAT: all
+WHERE: nightclub, bar
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Actor.isFemale()
+OTHER:
+
+    SceneStart()
+    "I was hanging out with <Actor.name> when another girl approached us. I could tell straight away that there was something different about her."
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isFemale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.dress()
+    Actor2.show(2)
+    Actor2.makeInterested(Actor)
+    Actor2.movetoPersonStand(Actor, 100)
+    Actor2:: "You're so beautiful. I'm <Actor2.name>. I'm sorry if I'm being too forward but I can't help but wonder if you're also into girls ..."
+    "Oh, so <Actor2.name> is a lesbian. She was certainly straight to the point."
+    If Actor.isInterestedIn(Actor2)
+        Actor:: "Actually, I am. But I'm here with someone right now."
+    Else
+        Actor:: "Sorry, but I'm straight ... I think ... Anyway, I'm here with someone right now."
+    Endif
+    "It was obvious that <Actor.name> found herself being somewhat attracted to her lesbian admirer, but she seemed reluctant with me being there."
+    0:: "Kill off their conversation"
+    1:: "Encourage <Actor.name> and allow her some time with <Actor2.name>"
+    
+    If 0
+        Player:: "Yeah, she's with me. Now, if you excuse us ..."
+    Else
+        Player:: "It's okay, <Actor.name>. I'll leave you two to it."
+        Player.hide()
+        faceEachOther(Actor, Actor2)
+        Actor.animate(drinkglass)
+        Actor2.animate(drinkglass)
+        "I decided to give the two girls some space. They chat, had some drinks and soon moved to the dance floor."
+        Actor.animate(dance)
+        Actor2.animate(dance)
+        "I kept an eye on them and it was clear that they were hitting off with each other very well."
+        animatePair(Actor, Actor2, Kissing)
+        "Eventually, they even made out right there on the dance floor."
+        If !Actor.isInterestedIn(Actor2)
+            "So much for <Actor.name> claiming to be straight ..."
+        Endif
+        "Things are getting very heated."
+        Player.show()
+        Actor:: "<Player.name>, <Actor2.name> invited me to have some more drinks at her place. I'll see you tomorrow, okay?"
+        "It was clear from the way things are escalating that <Actor.name>'s new lesbian admirer had a lot more in mind than drinks once there."
+        0:: "Scare <Actor.name> off the idea"
+        1:: "Leave them be"
+        2:: "Offer to drive them there"
+        
+        If 0
+            Player:: "<Actor.name>, don't forget you only met this girl an hour ago. You shouldn't trust her enough to go alone with her somewhere already. What if she is some kind of kidnapper?"
+            Actor:: "You're right. I was getting too carried away."
+        Elseif 1
+            Player:: "It's okay. Don't wory. Have fun!"
+            Actor.hide()
+            Actor2.hide()
+            "And just like that, we bid farewell and they went home together."
+            "I could only imagine what kind of girl-girl action they enjoyed that night."
+            endDate()
+        Else
+            Player:: "Actually, I could drive you two there."
+            Actor2:: "That'll be great. Thank you, <Player.name>."
+            "I'm surprised that <Actor2.name> seemed unconcerned by my apparent cockblocking, or in this case, clam jam, attempt."
+            setBackground(street)
+            Actor2:: "That's my apartment here. Come inside, you two."
+            
+            setBackgroundCustom(livingroom)
+            Actor.animate(drinkglass)
+            Actor2.animate(drinkglass)
+            Player.animate(drinkglass)
+            "Once inside, we had some more drinks."
+            animatePair(Actor, Actor2, Kissing)
+            "Soon enough, things started getting heated between the two girls again."
+            "And they didn't seem to be too bothered by the fact that I was there. I've never seen <Actor.name> getting carried away quite this much."
+            Sex(Actor2, Actor)
+            If !Actor.isInterestedIn(Actor2) && Random(0, 200) < Actor:perversion + Actor2:perversion
+                Actor.makeInterested(Actor2)
+            Endif
+            "I can't believe I just froze and watched the whole thing. This is now either the most awkward situation or a big opportunity ..."
+            0:: "Leave and let them spend the night with each other"
+            1:: "Try to join them"
+            
+            If 0
+                endDate()
+                "I decided to quietly sneak away and leave the two lesbian lovers to it."
+            Else
+                Player.stripOne()
+                "I started undressing, fantasizing about a hot threesome."
+                If Player.isFemale()
+                    Actor2:: "I knew you had a lesbian side in you too, I bet you only drove us because you were fantasizing about a threesome, didn't you?"
+                    Actor2:: "Oh well, lucky for you, the more the merrier!"
+                    Sex(Player, Actor, Actor2)                    
+                Elseif Actor2.isInterestedIn(Player)
+                    Actor2:: "Guys like you are so predictable, I bet you only drove us because you were fantasizing about a threesome, didn't you?"
+                    Actor2:: "Oh well, lucky for you, I never said I didn't like dicks at all, just not as much as pussies. I'm greedy like that."
+                    Sex(Player, Actor, Actor2)
+                Else
+                    Actor2:: "Guys like you are so predictable, I bet you only drove us because you were fantasizing about a threesome, didn't you?"
+                    Actor2:: "Sorry, but no cocks are allowed here ... I'm a hardcore lesbian."
+                    endDate()
+                    "I had no choice but go home and leave the two lesbian lovers to it."                    
+                Endif
+            Endif
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(100, date_hit_on_lesbian)

@@ -1,0 +1,20 @@
+Actor.blendAppearanceFrom(Actor1, Actor2)
+
+USE: 
+Used after generatePersonMatchRace() etc to make a child share facial features with two parents
+
+TYPE: Command, Ref
+RETURNS: none
+THEME: Actor Creation
+COMPARE: generatePersonMatchRace
+
+EXAMPLE:
+        Actor.setActorVar(tag_Pregnant, 0)
+        Actor2 = Actor.generatePersonMatchRace()
+        Actor2:age => 0
+        Actor2.randomizeFace()
+        Actor2.randomizeHairs()
+
+        If BioDaddy.isValid() && !BioDaddy.isCreature()
+            Actor2.blendAppearanceFrom(BioDaddy, Actor)
+        Endif    

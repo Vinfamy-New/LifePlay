@@ -1,0 +1,38 @@
+WHAT: all
+WHERE: sports_centre
+WHEN: 8-17
+WHO: Actor = getSpecific(Dating); If !Actor.isMale() && Actor:perversion > 45
+OTHER: Player.isMale() && Player:perversion > 45 && isModEnabled(vin_NTR)
+
+    // Summery: You and your girlfriend/wife go to the gym together. At the shower you notice a strange hole connected to the shower next to you. Accidental sexy begins.
+    
+    SceneStart()
+    
+    Actor.dress()
+    Actor.show()
+
+    "While you and your <Actor.boyfriend_or_girlfriend> are cleaning off at the gym showers you notice a hole in the wall connecting the shower you are in to the one next door."
+    0:: "You decide to dare your <Actor.boyfriend_or_girlfriend> to put their butt against the hole."
+    1:: "You ignored the hole and decided to fool around with <Actor.boyfriend_or_girlfriend> instead."
+
+    If 0
+        "The <Actor.boyfriend_or_girlfriend> pushes herself against the hole aligning her own hole with it. Then while she is pressed against it suddenly she is pentrated by a dick through it. She begins to push herself off the wall ..."
+        0:: "You tell her that is hot and to keep going."
+        1:: "You help her move away."
+        
+        If 0
+            Actor.strip()
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Player)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.show()
+            Sex(Actor2, Actor)
+            Sex(Player, Actor2, Actor)
+        Endif
+    Else
+        Sex(Player, Actor)
+    Endif
+    
+    SceneEnd()
+    timeout(180, sr_fso_gym_showerdare1_cms)

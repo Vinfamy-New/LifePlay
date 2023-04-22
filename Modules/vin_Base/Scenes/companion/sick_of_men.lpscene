@@ -1,0 +1,46 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Actor.isFemale() && Actor.isInterestedInMen() && !Actor.isDating() && Actor:rapportwithplayer > 20 && !Actor.isVirgin() && !Actor.hasRelationship(Spouses, Dating)
+OTHER: Player.isFemale() && Player.isInterestedInWomen()
+
+    // As a woman while hanging out with another woman who have good rapport with you, she may admit that she's had bad luck with guys recently and just don't want to bother with them anymore. 
+
+    SceneStart()
+    "I've been hanging out with my friend <Actor.name>, who seems a bit moody lately."
+    Actor:: "So that was how my last relationship ended. The guy straight up disappeared from my life once he found someone else."
+    Player:: "What an asshole!"
+    Actor:: "That's number 10 now! 10! Could you believe it? 10 boyfriends who cheated on me."
+    Player:: "Yeah, you've had seriously bad luck ..."
+    Actor:: "I think I've had enough honestly! I really don't want to bother with men anymore. I'm sick to death of them. Assholes, the lot of them."
+    "As she's ranting about the men in her life, she chucked down one drink after another. This could be a good opportunity."
+    0:: "Simply cheer her up"
+    1:: "Flirt with her"
+    
+    If 0
+        Player:: "Hey, keep your chin up! Don't let those assholes bring you down."
+        Player:: "Being single for a while isn't a bad thing at all. No need to rush into another relationship. Just enjoy the freedom for now."
+    Else
+        Player:: "You're right. None of those immature men deserve you."
+        Player:: "How about a woman? Maybe only us women can truly stick together and comfort each other."
+        Player:: "You know, maybe we could have some fun of our own, no need for those dicks, literally."
+        Actor:: "That sounds good to me. Fuck it, let's do it."
+        "No doubt alcohol played a part, but I've always suspected <Actor.name> to be bi-curious."
+        Player:: "Let's go back to my place. I'll show you what you've been missing."
+        moveTo(home)
+        setBackground(home)
+        Sex(Player, Actor)
+        
+        Player:: "Did you enjoy it?"
+        Actor:: "Thank you for comforting me in my time of need. You're a good friend"
+        Actor:rapportwithplayer += 10
+        Actor:attractiontoplayer += Random(0, 5)
+        If Random(0, 100) < perversion || Actor.isInterestedIn(Player)
+            "I loved it. Every moment of it. The orgasms were intense. I think I might actually be bisexual."
+            Actor.makeInterested(Player)
+        Else
+            "I kinda liked it, but it was quite awkward at times. Maybe I'm not that into girls after all."
+        Endif      
+    Endif
+    SceneEnd()
+    timeout(200, sick_of_men)

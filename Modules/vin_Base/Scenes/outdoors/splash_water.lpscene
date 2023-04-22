@@ -1,0 +1,93 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    // If decent rapport, it increases further. If decent attraction or high perversion, the target may get turned on. Otherwise, you just annoy them.
+    
+    "I jokingly splashed some water onto <Actor.name>."
+    If Actor:rapportwithplayer > 10
+        Actor:rapportwithplayer += 2
+        "<Actor.name> responded in kind and splashed some water back at me. A real battle is happening here!"
+        
+        If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer && Player.isInterestedIn(Actor)
+            "All the adrenaline from our water 'battle' seemed to have got <Actor.name> quite hot and bothered. I'm sure right now it's not just <Actor.his_or_her> clothes that are wet."
+            0:: "Bang <Actor.him_or_her>"
+            1:: "Maybe not"
+            
+            If 0
+                animatePair(Player, Actor, Kissing)
+                "Sensing the growing chemistry and a golden opportunity to strike, I grabbed <Actor.name> and started making out with <Actor.him_or_her>, both of us still soaking wet."
+                Actor:: "Let's go somewhere private ..."
+                0:: "There must be some hidden spot around here"
+                1:: "Let's find a hotel room nearby"
+                
+                If 1
+                    setBackground(home)
+                Endif
+                Sex(Actor, Player)
+            Elseif Actor.isTemporary()
+                Actor.makePermanent()
+                exchangeContact(Actor)
+                "I didn't want to go too far but we did have a lot of innocent fun, so we decided to exchange numbers afterwards."
+            Endif
+        Else
+            // A stranger is caught in the crossfire and either scold you both or join in.
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show()
+            "As we were splashing water on each other without mercy, a passerby was caught in the crossfire and got <Actor2.his_or_her> clothes wet as well."
+            If Actor2:rapportwithplayer > 10
+                Actor2:rapportwithplayer += 2
+                "This random stranger rose up to the challenge and splashed some water back at us. This fierce battle is now a threeway!"
+                
+                If Random(50, 100) < Actor2:perversion + Actor2:attractiontoplayer && Player.isInterestedIn(Actor2) && Random(50, 100) < Actor:perversion + Actor:attractiontoplayer && Player.isInterestedIn(Actor)
+                    "All the adrenaline from our water 'battle' seemed to have got everyone very hot and bothered. I'm sure right now it's not just their clothes that are wet."
+                    0:: "Have a threesome"
+                    1:: "Maybe not"
+                    
+                    If 0
+                        animatePair(Player, Actor, Kissing)
+                        "Sensing the growing chemistry and a golden opportunity to strike, I grabbed <Actor.name> and started making out with <Actor.him_or_her>, both of us still soaking wet."
+                        animatePair(Player, Actor2, Kissing)
+                        "Then I grabbed <Actor2.name>, a complete stranger I just met minutes ago by accidentally splashing water on."
+                        Actor:: "Let's go somewhere private ..."
+                        0:: "There must be some hidden spot around here"
+                        1:: "Let's find a hotel room nearby"
+                        
+                        If 1
+                            setBackground(home)
+                        Endif
+                        Sex(Actor, Actor2, Player)
+                    Else
+                        Actor2.makePermanent()
+                        exchangeContact(Actor2)
+                        "I didn't want to go too far but we did have a lot of innocent fun, so we decided to exchange numbers afterwards."
+                        If Actor.isTemporary()
+                            Actor.makePermanent()
+                            exchangeContact(Actor)                            
+                        Endif
+                    Endif
+                Else
+                    Actor2.makePermanent()
+                    exchangeContact(Actor2)
+                    If Actor.isTemporary()
+                        Actor.makePermanent()
+                        exchangeContact(Actor)                            
+                    Endif
+                    "We had a lot of childlike fun, so we decided to exchange numbers afterwards."
+                Endif
+            Else
+                "<Actor2.name> got angry and scolded us for acting like children and ruining another person's day. What a Karen!"
+                mood -= 2
+            Endif            
+        Endif
+    Else
+        "I must have misread the situation. <Actor.name> looked annoyed."
+        Actor:rapportwithplayer -= 2
+    Endif
+    
+    SceneEnd()

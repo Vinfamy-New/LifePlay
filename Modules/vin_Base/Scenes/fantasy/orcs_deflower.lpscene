@@ -1,0 +1,88 @@
+WHAT: sleep
+WHERE: home
+WHEN: 0 - 24
+WHO: none
+OTHER: Player.isVirgin() && Player.isFemale() && PercentageOrcs > 0 && isModEnabled(vin_NonConsensual) && Random(0, 100) < 20
+
+
+    SceneStart()
+    setBackground(street)
+    "What the hell?"
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.blendPreset(orc)
+    "Where am I?"
+    Actor3 = generatePersonTemporary()
+    While !Actor3.isMale()
+        Actor3 = generatePersonTemporary()
+    Endwhile
+    Actor3.blendPreset(orc)
+    Actor2.dress()
+    Actor3.dress()
+    Actor2.show()
+    Actor3.show()
+    Actor2:: "Sleep well?"
+    "Oh no, I was kidnapped by a gang of orcs to an empty shack somewhere ..."   
+    Actor2:: "Let me explain why we kidnapped you here so that you don't just think we're some common thugs."
+    Actor2:: "I'm the new elder of our orc tribe. Our tribe used to be the most powerful tribe among all the orcs. Yet, we have been defeated again and again in recent years by our rivals due to the weakness of the last elder."
+    Actor2:: "You see our last elder became weak because he deviates from our most ancient ritual."
+    Actor2:: "Each time an orc warrior deflowers a virgin woman, he becomes more powerful in battle."
+    Actor2:: "That's where you come in ..."
+    0:: "Accept my fate ..."
+    1:: "Try to bluff them into letting you go"
+    2:: "Fight back"
+    
+    If 0
+        Rape = true
+        "Well, I was going to save it for someone special, but being raped by an elder of an orc tribe to give him more magical powerful is pretty special, I suppose."
+    Elseif 1
+        "Orcs are known to be stupid, I might be able to talk my way out of this."
+        Player:: "There must be a mistake. I'm no virgin. Trust me, I've been sleeping with hundreds of men. If anything, fucking me probably will lessen your power."
+        If Random(0, 100) < interpersonal
+            Actor2:: "What? My damn scout reported you were a virgin. I should have him executed, must be a spy from our rival."
+            Actor2:: "Fine, get out of here, you slut!"
+            Rape = false
+        Else
+            Actor2:: "I trust my scouts, they've been following you for months. You dare to try lying to me, then don't blame me for being rough even if it's your first time!"
+            Rape = true
+        Endif
+    Else
+        Player:: "You orc savages! You think your dumb muscles would scare me? Take this!"
+        Player.animate(martialart) 
+        faceEachOther(Actor2, Player)
+        Actor2.animate(martialart)        
+        Actor2(Furious):: "You dare sucker-punch me? I'll teach you a lesson. The martial prowess of the orc tribes cannot be matched!"
+        "A fierce fight ensued ..."
+        Player.animate()
+        Actor2.animate()
+        If martial > Actor2:martial
+            Rape = false
+            Actor2.animate(fightlost)
+            Actor2(Pain):: "Ah!"
+            Player(Angry):: "That should teach these dumb orcs to never kidnap innocent people anymore."
+        Else
+            money -= Random(30, 300)
+            Rape = true
+            Player.animate(fightlost)
+            Player(Pain):: "Ah!"
+            Actor2(Evil):: "Ha! You really thought you could match an orc in a fight? I have to say - this just makes me want to fuck you even rougher even if it's your first time!"            
+        Endif
+    Endif
+    
+    If Rape
+        Player.animate(fightlost)
+        "Soon, the orc was ripping my clothes off and proceeded to force <Actor2.himself_or_herself> upon me."
+        Player.animate(fightlost)
+        Player(Crying):: "No! Please stop ... I beg you ... Somebody help ..."
+        "My cries for help went unheard in the empty shack and I had no choice but endure it all at the hand of this vile orc, giving up my virginity for the sake of some stupid orc ritual."
+        Filter(Aggressive)
+        TalkNonConsensual()
+        SexNoAffair(Actor2, Player)
+        Actor2.hide()
+        mood => 0
+    Endif
+    
+    SceneEnd()
+    timeout(2000, orcs_deflower)

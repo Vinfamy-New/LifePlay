@@ -1,0 +1,405 @@
+
+round: 0.5: 0.25
+oval: 0.75: 0.4
+square: 0.25: 0.75
+oblong: 0.25: 0.5
+feminine: -1: 0.25
+teen: 0.8: 0.6
+twenties: 1: 1
+thirties: 0.5: 0.8
+fourties: 0.3: 0.5
+fifties: 0.2: 0.4
+sixties: 0.1: 0.2
+elderly: 0: 0.1
+white: 0.5: 0.5
+asian: 0.5: 0.5
+latin: 0.5: 0.5
+arab: 0.5: 0.5
+indian: 0.5: 0.5
+black: 0.5: 0.5
+FBMEmaciated: 0.7: 0.1
+FBMThin: 1: 0.2
+FBMStephanie8: 0.6: -1
+FBMVoluptuous: 0.7: -1
+CTRLFitness: 0.6: 1
+FBMFitnessSize: 0.5: 0.9
+CTRLBodybuilder: 0.3: 0.8
+FBMBodybuilderSize: 0.2: 0.7
+FBMPearFigure: 0.2: -1
+FBMBodySize: 0.3: 0.5
+FBMHeavy: 0.0: 0.1
+CTRLWeight: 0.0: 0.1
+FBMLithe: -1: 0.2
+FBMStocky: -1: 0.6
+FBMPortly: -1: 0.3
+CTRLSYFENiamhFace: 0: -1
+CTRLSYFERanveigFace: 0.2: -1
+CTRLSYFESofyaFace: 0.4: -1
+Erin: 0.4: -1
+Nessa: 0.6: -1
+Orlagh: 0.6: -1
+Preset 001: 0.4: -1
+Preset 007: 0.2: -1
+Preset 019: 0.4: -1
+Preset 022: 0.2: -1
+Aine: 0.4: -1
+Aisling: 0.4: -1
+Alana: 0.6: -1
+Aoife: 0.8: -1
+Bannon: 0.8: -1
+Bevan: 0.6: -1
+Branda: 0.4: -1
+Bronagh: 0.6: -1
+Cahira: 0.4: -1
+Caitlin: 0.6: -1
+Cara: 0.8: -1
+Cassidy: 0.4: -1
+Catriona: 0.8: -1
+Colleen: 0.8: -1
+CTRLSYFEAlbinaFace: 0.6: -1
+CTRLSYFEYanaFace: 0.6: -1
+Edana: 0.2: -1
+Eimear: 0.4: -1
+EJEthnicsWhiteHead: 0.4: -1
+Elisha: 0.6: -1
+Estell Head: 0.8: -1
+Freya: 0.8: -1
+Gael: 0.4: -1
+Imogen: 0.81: -1
+Inis: 0.8: -1
+Isolda: 0.8: -1
+Julia Head: 0.6: -1
+Kaitleen: 0.4: -1
+Kennedy: 0.6: -1
+Maranda: 0.4: -1
+Myrna: 0.2: -1
+Natalie Head: 0.2: -1
+Norah: 0.2: -1
+OOF Chloe: 0.2: -1
+OOF Elyse: 0: -1
+OOF Emma: 0.2: -1
+OOF Regine: 0: -1
+OOF Shelby: 0: -1
+OOF Vilma: 0.2: -1
+OOF Yolanda: 0: -1
+OOF Zora: 0: -1
+Philomena: 0.2: -1
+Preset 005: 0.6: -1
+Preset 006: 0.8: -1
+Preset 008: 0.8: -1
+Preset 012: 0.6: -1
+Preset 013: 0.4: -1
+Preset 016: 0.4: -1
+Preset 017: 0.6: -1
+Preset 020: 0.6: -1
+Raegan: 0.8: -1
+Saoirse: 0.6: -1
+Shauna: 0.6: -1
+Shea: 0.4: -1
+Shona: 0.2: -1
+Sorcha: 0.6: -1
+Summer G8: 0.6: -1
+Ailene: 0.6: -1
+Anya Head: 0.6: -1
+Cliona: 0.8: -1
+Clodagh: 0.6: -1
+CTRLSYFECarinaFace: 0.4: -1
+CTRLSYFECarysFace: 0.4: -1
+CTRLSYFECharlotteFace: 0.41: -1
+CTRLSYFEGiuliaFace: 0.2: -1
+CTRLSYFEJaneFace: 0.4: -1
+CTRLSYFEJetteFace: 0.6: -1
+CTRLSYFEKyriakiFace: 0.4: -1
+CTRLSYFELucianaFace: 0.2: -1
+CTRLSYFELudovicaFace: 0.41: -1
+CTRLSYFEManonFace: 0.6: -1
+CTRLSYFEMargitFace: 0.6: -1
+CTRLSYFEMiaFace: 0.4: -1
+CTRLSYFENastjaFace: 0.4: -1
+CTRLSYFEOddveigFace: 0.6: -1
+CTRLSYFEVigdisFace: 0.4: -1
+Cynthia Head: 0.2: -1
+Diane Head: 0.2: -1
+Hibernia: 0.2: -1
+Jennifer Head: 0.6: -1
+Olga Head: 0.4: -1
+OOF Alexis: 0.4: -1
+OOF Brianna: 0.2: -1
+OOF Camille: 0.4: -1
+OOF Erin: 0.2: -1
+OOF Freida: 0.6: -1
+OOF Grace: 0.2: -1
+OOF Haley: 0.6: -1
+OOF Hazel: 0.4: -1
+OOF Joy: 0.6: -1
+OOF Lilith: 0.4: -1
+OOF Madison: 0.2: -1
+OOF Rona: 0.4: -1
+OOF Sylvia: 0.2: -1
+OOF Udele: 0.2: -1
+OOF Wendy: 0.2: -1
+Preset 009: 0.4: -1
+Preset 011: 0.6: -1
+Preset 015: 0.6: -1
+Preset 018: 0.4: -1
+Preset 021: 0.6: -1
+Preset 024: 0.2: -1
+Preset 025: 0.2: -1
+Rossa: 0.4: -1
+Sarah: 0.6: -1
+Shannon: 0.2: -1
+Sheelagh: 0.2: -1
+Sheenagh: 0.8: -1
+Unforgettable Face 01: 0.8: -1
+Unforgettable Face 03: 0.6: -1
+Unforgettable Face 04: 0: -1
+Unforgettable Face 07: 0: -1
+Unforgettable Face 10: 0: -1
+CTRLSYFEIreneFace: 0.2: -1
+CTRLSYFEMaryFace: 0.2: -1
+CTRLSYFEMiraFace: 0.6: -1
+CTRLSYFENadezhdaFace: 0.8: -1
+CTRLSYFEOliviaFace: 0.8: -1
+Dania G8: 0.2: -1
+Delaney: 0.8: -1
+Fianna: 0.4: -1
+Fionula: 0.6: -1
+Kerry: 0.6: -1
+Leanna: 0.2: -1
+OOF Ava: 0.2: -1
+OOF Baylee: 0.2: -1
+OOF Daphne: 0.2: -1
+OOF Destiny: 0.4: -1
+OOF Felyn: 0.4: -1
+OOF Fiona: 0.2: -1
+OOF Georgia: 0.6: -1
+OOF Inita: 0.4: -1
+OOF Ivy: 0.6: -1
+OOF Judy: 0.2: -1
+OOF Katy: 0.2: -1
+OOF Kendra: 0.4: -1
+OOF Leah: 0.2: -1
+OOF Melody: 0.6: -1
+OOF Nadia: 0.6: -1
+OOF Neve: 0.2: -1
+OOF Orlena: 0.2: -1
+OOF Pearle: 0.4: -1
+OOF Peony: 0.4: -1
+OOF Tessa: 0.4: -1
+OOF Thalia: 0.6: -1
+Preset 002: 0.6: -1
+Preset 003: 0.81: -1
+Preset 004: 0.6: -1
+Preset 010: 0.4: -1
+Preset 023: 0.4: -1
+Unforgettable Face 02: 0.2: -1
+Unforgettable Face 05: 0.2: -1
+Unforgettable Face 06: 0.2: -1
+Unforgettable Face 08: 0.2: -1
+Unforgettable Face 09: 0.2: -1
+CTRLSYFAAusanatFace: 0.6: -1
+CTRLSYFADuanFace: 0.4: -1
+CTRLSYFAEunJeongFace: 0.8: -1
+CTRLSYFAHarunaFace: 0.6: -1
+CTRLSYFAJingFace: 0.6: -1
+CTRLSYFAJiYeongFace: 0.8: -1
+CTRLSYFAKanyaFace: 0.8: -1
+CTRLSYFALiFace: 0.6: -1
+Shu Head: 0.4: -1
+CTRLSYFAAoiFace: 0.6: -1
+CTRLSYFAChiyoFace: 0.6: -1
+CTRLSYFAGuiyingFace: 0.4: -1
+CTRLSYFAItsumiFace: 0.6: -1
+CTRLSYFAJuanFace: 0.4: -1
+CTRLSYFALamaiFace: 0.4: -1
+CTRLSYFAMaeKhaoFace: 0.6: -1
+CTRLSYFASeoYeonFace: 0.8: -1
+CTRLSYFAYeunSeoFace: 0.4: -1
+EJEthnicsAsianHead: 0.2: -1
+EJEthnicsPolinesiaHead: 0.2: -1
+Kumiko Head: 0.6: -1
+Nhung Head: 0.4: -1
+Unsun G8: 0.2: -1
+CTRLSYFAKazueFace: 0.4: -1
+CTRLSYFASuJinFace: 0.4: -1
+CTRLSYFAXiulanFace: 0.4: -1
+Hui ying G8: 0.2: -1
+OOF Vera: 0.4: -1
+EJEthnicsLatinaHead: 0.6: -1
+Zanna G8: 0.6: -1
+EJEthnicComancheHead: 0.6: -1
+OOF Claire: 0.4: -1
+Maia G8: 0.4: -1
+Nuria Head: 0.6: -1
+Reena G8: 0.6: -1
+Preset 014: 0.8: -1
+SYFAFFarahNorthAfricanFace: 0.6: -1
+SYFAFHabibahNorthAfricanFace: 0.6: -1
+SYFAFSihamNorthAfricanFace: 0.6: -1
+SYFAFSoumayaNorthAfricanFace: 0.8: -1
+SYFAFKhalidaNorthAfricanFace: 0.4: -1
+Kareena Head: 0.4: -1
+CTRLSYFAHarshitaFace: 0.8: -1
+CTRLSYFASaloniFace: 0.6: -1
+CTRLSYFATejalFace: 0.4: -1
+EJEthnicsIndianHead: 0.4: -1
+CTRLSYFANehaFace: 0.8: -1
+CTRLSYFASatyanaFace: 0.6: -1
+Faiza Head: 0.4: -1
+Rameesha Head: 0.4: -1
+Sabina Head: 0.4: -1
+SYFAFAthiamboEastAfricanFace: 0.4: -1
+SYFAFFatimataWestAfricanFace: 0.4: -1
+SYFAFMadinaWestAfricanFace: 0.6: -1
+SYFAFMaryCentralAfricanFace: 0.41: -1
+SYFAFMaximeCentralAfricanFace: 0.4: -1
+SYFAFOuedraogoWestAfricanFace: 0.6: -1
+SYFAFSaalingeSouthernAfricanFace: 0.6: -1
+SYFAFSadioWestAfricanFace: 0.4: -1
+SYFAFSebleEastAfricanFace: 0.4: -1
+SYFAFTulinagweEastAfricanFace: 0.6: -1
+SYFAFZolaSouthernAfricanFace: 0.41: -1
+SYFAFJetaCentralAfricanFace: 0.6: -1
+SYFAFKanoniEastAfricanFace: 0.8: -1
+SYFAFNasicheCentralAfricanFace: 0.8: -1
+SYFAFPatriciaEastAfricanFace: 0.6: -1
+SYFAFTendaiSouthernAfricanFace: 0.6: -1
+SYFAFVandeCentralAfricanFace: 0.4: -1
+SYFAFXiluvaSouthernAfricanFace: 0.6: -1
+EJEthnicsBlackHead: 0.4: -1
+Kennya G8: 0.2: -1
+OOF Anetha: 0.6: -1
+OOF Desiree: 0.6: -1
+OOF Olivia: 0.4: -1
+Leezah G8: 0.2: -1
+SYFAFKadiWestAfricanFace: 0.6: -1
+SYFAFSamanyaSouthernAfricanFace: 0.6: -1
+CTRLSYFEJamesFace: -1: 0.4
+CTRLSYFERayanFace: -1: 0.6
+Preset 09: -1: 0.6
+CTRLSYFEDmitryFace: -1: 0.6
+CTRLSYFEGlynFace: -1: 0.4
+CTRLSYFEIanFace: -1: 0.4
+CTRLSYFEKirillFace: -1: 0.4
+CTRLSYFEMajFace: -1: 0.6
+CTRLSYFEMatheoFace: -1: 0.8
+Damien: -1: 0.8
+David: -1: 0.4
+EJEthnicsMale_Caucassian_Head: -1: 0.81
+Preset 03: -1: 0.4
+Preset 06: -1: 0.6
+Preset 07: -1: 0.4
+Preset 20: -1: 0.61
+Preset 23: -1: 0.6
+Christopher: -1: 0.8
+CTRLSYFEAntoniFace: -1: 0.8
+CTRLSYFEBaptisteFace: -1: 0.8
+CTRLSYFECesareFace: -1: 0.6
+CTRLSYFEConorFace: -1: 0.4
+CTRLSYFEEnzoFace: -1: 0.6
+CTRLSYFEErikFace: -1: 0.6
+CTRLSYFELucaFace: -1: 0.6
+CTRLSYFEMagnusFace: -1: 0.81
+CTRLSYFENikolaFace: -1: 0.4
+CTRLSYFEOlleFace: -1: 0.4
+CTRLSYFEOnniFace: -1: 0.4
+CTRLSYFESanderFace: -1: 0.6
+CTRLSYFETasosFace: -1: 0.6
+CTRLSYFEVilhoFace: -1: 0.4
+CTRLSYFEWilliamFace: -1: 0.4
+Matt: -1: 0.59
+Mike: -1: 0.61
+Preset 02: -1: 0.6
+Preset 04: -1: 0.8
+Preset 13: -1: 0.6
+Preset 14: -1: 0.4
+Preset 16: -1: 0.6
+Preset 17: -1: 0.6
+Preset 18: -1: 0.4
+Preset 19: -1: 0.4
+Preset 21: -1: 0.2
+Preset 24: -1: 0.4
+Preset 25: -1: 0.6
+Brian: -1: 0.6
+CTRLSYFEOliverFace: -1: 0.4
+CTRLSYFERobertoFace: -1: 0.8
+Preset 01: -1: 0.6
+Preset 05: -1: 0.4
+Preset 08: -1: 0.8
+Preset 10: -1: 0.4
+Preset 12: -1: 0.6
+Preset 15: -1: 0.6
+CTRLSYFAChanarongFace: -1: 0.2
+CTRLSYFADawFace: -1: 0.2
+CTRLSYFADohyunFace: -1: 0.6
+CTRLSYFAEnlaiFace: -1: 0.6
+CTRLSYFASunanFace: -1: 0.6
+CTRLSYFAViroteFace: -1: 0.6
+EJEthnicsMale_Polin_Head: -1: 0.4
+Jin: -1: 0.8
+CTRLSYFACheungFace: -1: 0.6
+CTRLSYFADaisukeFace: -1: 0.8
+CTRLSYFAFenggeFace: -1: 0.6
+CTRLSYFAJianyuFace: -1: 0.81
+CTRLSYFAJunFace: -1: 0.8
+CTRLSYFAJunseoFace: -1: 0.6
+CTRLSYFAMasamiFace: -1: 0.6
+CTRLSYFAMongkutFace: -1: 0.8
+CTRLSYFAReijiFace: -1: 0.6
+CTRLSYFAToshioFace: -1: 0.8
+CTRLSYFAYejunFace: -1: 0.4
+EJEthnicsMale_Asian_Head: -1: 0.4
+Ryu: -1: 0.6
+CTRLSYFAWoojinFace: -1: 0.6
+CTRLSYFAMinjunFace: -1: 0.6
+CTRLSYFAWeiFace: -1: 0.8
+Preset 22: -1: 0.4
+EJEthnicsMale_Native_Head: -1: 0.6
+EJEthnicsMale_Latin_Head: -1: 0.8
+SYFAFAbdelatifNorthAfricanFace: -1: 0.6
+SYFAFMinyarNorthAfricanFace: -1: 0.8
+SYFAFTawfiqNorthAfricanFace: -1: 0.6
+SYFAFZoubeirNorthAfricanFace: -1: 0.4
+CTRLSYFAYajnaFace: -1: 0.2
+CTRLSYFABharatFace: -1: 0.6
+EJEthnicsMale_Indian_Head: -1: 0.6
+Preset 11: -1: 0.6
+CTRLSYFALayakFace: -1: 0.6
+CTRLSYFARavindraFace: -1: 0.6
+CTRLSYFAVrateshFace: -1: 0.6
+Raj: -1: 0.4
+SYFAFAcylCentralAfricanFace: -1: 0.6
+SYFAFAlphaWestAfricanFace: -1: 0.4
+SYFAFAndimbaSouthernAfricanFace: -1: 0.6
+SYFAFDahabEastAfricanFace: -1: 0.4
+SYFAFIssaCentralAfricanFace: -1: 0.6
+SYFAFMatarrCentralAfricanFace: -1: 0.4
+SYFAFMustaphaWestAfricanFace: -1: 0.6
+SYFAFSundayWestAfricanFace: -1: 0.6
+SYFAFWambuaEastAfricanFace: -1: 0.4
+EJEthnicsMale_African_Head: -1: 0.4
+Ray: -1: 0.6
+SYFAFHichamNorthAfricanFace: -1: 0.6
+SYFAFKengoCentralAfricanFace: -1: 0.6
+SYFAFKetumileSouthernAfricanFace: -1: 0.6
+SYFAFLuthuliSouthernAfricanFace: -1: 0.4
+SYFAFNdiayeWestAfricanFace: -1: 0.4
+SYFAFOgukeyeWestAfricanFace: -1: 0.6
+SYFAFPatriceEastAfricanFace: -1: 0.6
+SYFAFSemereEastAfricanFace: -1: 0.6
+SYFAFTabanEastAfricanFace: -1: 0.8
+SYFAFTauSouthernAfricanFace: -1: 0.4
+SYFAFMarienCentralAfricanFace: -1: 0.6
+SYFAFSotchaSouthernAfricanFace: -1: 0.6
+Trey: -1: 0.4
+Tyler: -1: 0.4
+Face Femine 02: -1: 0.4
+Face Femine 09: -1: 0.4
+Face Femine 01: -1: 0.6
+Face Femine 03: -1: 0.8
+Face Femine 04: -1: 0.6
+Face Femine 06: -1: 0.6
+Face Femine 07: -1: 0.4
+Face Femine 08: -1: 0.6
+Face Femine 10: -1: 0.4
+Face Femine 05: -1: 0.6

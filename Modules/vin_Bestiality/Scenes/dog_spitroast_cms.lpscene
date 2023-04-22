@@ -1,0 +1,18 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24 
+WHO: Actor = getCreature(); Actor2 = getCreature(); If Actor.isCreatureType(Dog) && Actor2.isCreatureType(Dog) && Actor.isMale() && Actor2.isMale() && [Actor.hadSex() || Actor2.hadSex()]
+OTHER: !Player.isMale()
+
+    SceneStart()
+    Actor.show()
+    Actor2.show()
+    "I have already tasted the forbidden pleasure with dogs. Since I have more than one male dog, should I try to get them to spit roast me?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Sex(Actor, Actor2, Player)
+    Endif
+    SceneEnd()
+    timeout(300, dog_spitroast_cms)

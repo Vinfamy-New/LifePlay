@@ -1,0 +1,34 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCompanion(); Actor2 = Actor.getRelatedPerson(Spouses, Dating); If !Actor.isDating() && Actor:rapportwithplayer > 50 && [Actor:fitness < 25 || Actor:prone_to_orgasm > 90] && Player.isInterestedIn(Actor2) && Actor2.isInterestedIn(Player)
+OTHER: none
+
+    SceneStart()
+    "I was hanging out with my friend <Actor.name> when the conversation took a strange turn ..."
+    Actor:: "I have never shared this with anyone but I have a rather embarassing secret ..."
+    Actor:: "You know I've been with my <Actor2.boyfriend_or_girlfriend> <Actor2.name> for some time and I'm totally in love with <Actor2.him_or_her>."
+    Actor:: "But I can't help but see the obvious that I'm so weak in bed that I haven't been able to satisfy <Actor2.him_or_her> at all."
+    Actor:: "Our relationship is otherwise strong but I'm afraid it's only a matter of time before <Actor2.he_or_she> leaves me due to <Actor2.his_or_her> sexual frustration ..."
+    Actor:: "I thought since we're good friends, maybe you can help ..."
+    0:: "Agree to sexually satisfy <Actor2.name> on <Actor.name>'s behalf."
+    1:: "Decline"
+    
+    If 0
+        Actor:: "Great! You're such a good friend to me. This could save our relationship for sure."
+        Actor:: "Let me arrange you two a night together."
+        Actor.hide()
+        setBackground(home)
+        Actor2.dress()
+        Actor2.show()
+        "<Actor.name> stayed true to <Actor.his_or_her> words and arranged for me and <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> to meet up in a nice hotel later on ..."
+        Sex(Player, Actor2)
+        Actor.show()
+        "Of course, I caught <Actor.name> watching us the whole time. This friend of mine is a true cuck after all."
+        Actor.setActorVar(tag_NTRCuck, 1)
+        Actor:rapportwithplayer += 5
+    Else
+        Actor:rapportwithplayer -= 5
+    Endif
+    SceneEnd()
+    timeout(100, bull_weak_friend)

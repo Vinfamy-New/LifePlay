@@ -1,0 +1,34 @@
+WHAT: all 
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getCreature(); Actor2 = getSpecific(Dating); If Actor.isMale() && Actor2.isInterestedInMen() && Actor.isCreatureType(Dog)
+OTHER:
+
+    // Your SO is doing housework and gets mounted, you can either help push the pet away or wait and see what happens. 
+    SceneStart()
+    Actor2.dress()
+    Actor2.show()
+    Actor.show()
+    Actor2.animate(sweep)
+    "My <Actor2.boyfriend_or_girlfriend> was just doing some housework. <Actor2.He_or_She> needed to bend over to grab something that <Actor2.he_or_she> dropped by accident."
+    animatePair(Actor, Actor2, Doggy)
+    "Just as <Actor2.he_or_she> was trying to stand back up, <Actor.name> tried to mount <Actor2.name> from behind and started dry-humping."
+    Actor2:: "<Player.name>, help me!"
+    0:: "Help push the dog away"
+    1:: "Wait and see what happens"
+    
+    If 0
+        "I pushed our horny dog away and rescue my <Actor2.boyfriend_or_girlfriend>."
+    Else
+        "My dog is visibly becoming even more excited, I could see his dick getting harder and poking around <Actor2.name>'s hole."
+        0:: "Let the dog fuck my <Actor2.boyfriend_or_girlfriend>"
+        1:: "Put an end to this before it's too late"
+        
+        If 0
+            Sex(Actor, Actor2)
+        Else
+            "I pushed our horny dog away and rescue my <Actor2.boyfriend_or_girlfriend>."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, bestiality_housework_ntr)

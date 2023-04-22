@@ -1,0 +1,61 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCreature(); Actor2 = getCompanion(); If !Actor.hadSex() && Actor2:rapportwithplayer > 50 && !Actor2.isVirgin() && Actor2.isInterestedIn(Actor) && Actor2:perversion > 50
+OTHER:
+
+    SceneStart()
+    "You are enjoying hanging out with <Actor2.name> when <Actor2.he_or_she> leans forward and whispers in your ear."
+    Actor2:: "Look, I've never told this to anyone before, but when I was younger, I once had sex with a dog!"
+    Player:: "Oh my God! I don't know what to make of that! But... why are you telling me this?"
+    Actor2:: "Well... I know you have a pet dog... and I was wondering... if I could take a trip down memory lane? You could watch if you want to... or even join in... what do you say?"
+    0:: "Refuse"
+    1:: "Accept"
+    
+    If 0
+        Player:: "I'm sorry, but that's just not my cup of tea"
+        "You then carry on, but you can't help thinking about <Actor2.name> having sex with a dog. If they ask again, perhaps you will make a different decision."
+    Else
+        Player:: "Oh... well... I must admit that I am curious. Very curious in fact... ok... lets go back to my place and let nature take it's course!"
+        setBackground(home)
+        Actor.show()
+        "You then hurry home as quickly as you can. Once inside your home, <Actor2.name> gets to know your dog and you watch intently as things start to get very steamy..."
+        Sex(Actor, Actor2)
+        Player:: "Holly shit, that was SO HOT! I can't believe that you just let <Actor.name> fuck you! You look as though you enjoyed yourself... was it as enjoyable as it looked?"
+        Actor2:: "It was... but why don't you give it a try yourself... it's the only way to know for sure..."
+        0:: "Refuse"
+        1:: "Accept"
+        
+        If 0
+            "No thanks... I've enjoyed watching you but that's as far as I want things to go!"
+            Actor2:: "Ok, no problem, it's not for everyone. But if you change your mind then just give me a call!" 
+            "You then part ways with your companion but you can't help thinking about <Actor2.name> having sex with a dog. If they ask again, perhaps you will make a different decision."
+        Else
+            Player:: "Oh my God... I can hardly believe I'm about to say this... but... ok! I want <Actor.name> to fuck me!"
+            Actor2:: "A wise decision! Ok... get together with him and just go with the flow!"
+            Sex(Actor, Player)
+            Player:: "Jesus Christ! That was AMAZING!! I actually had sex with <Actor.name> and I loved it! Thank you, <Actor2.name> for broadening my mind so much!"
+            Actor2:: "It doesn't have to end right now if we don't want to... I've always fantasised about having a threesome with a dog... now might be the perfect opportunity... what do you say to that?"
+            0:: "Refuse"
+            1:: "Accept"
+            
+            If 0
+                "No thanks... I've enjoyed watching you, and I enjoyed taking my turn, but that's as far as I want things to go!"
+                Actor:: "Ok, no problem, a bestiality threesome isn't for everyone. But if you change your mind then just give me a call!"
+                "You then part ways with your companion but you can't help thinking about having sex with a dog. If they ask again, perhaps you will make a different decision."
+            Else
+                Player:: "Well... we've come this far... so why the fuck not!"
+                Actor2:: "Another wise decision! Ok... lets both get together with him and just go with the flow!" 
+                Sex(Actor, Actor2, Player)
+                Player:: "What a day! Not only have I watched you having sex with a dog, I did it as well and then we had a threesome! AWESOME!!"
+                Actor2::  "Yes, it's been a brilliant day... thank you both for letting me take that walk down memory lane!"
+                "You then part ways with your companion but you can't help thinking about what you, <Actor2.name> and <Actor.name> have done together. You're sure that this won't be the last time you'll do this."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, companion_confession_cms)
+
+ 
+
+

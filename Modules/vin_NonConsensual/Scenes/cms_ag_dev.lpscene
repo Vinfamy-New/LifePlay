@@ -1,0 +1,33 @@
+WHAT: all
+WHERE: all, -home, -prison
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(0, 10000) < 1
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    Actor.show()
+    "By chance, I met some <Actor.guy_or_girl> who introduced <Actor.himself_or_herself> as an adult game developer. <Actor.He_or_She> then went on and on about the success <Actor.he_or_she> has been having on forums and such ... Pretty obnoxious ..."
+    0:: "Leave"
+    1:: "Beat <Actor.him_or_her> up and rape <Actor.him_or_her>"
+    
+    If 1
+        "I don't know why I'm doing this. I'm not even against adult game developers. Maybe <Actor.guy_or_girl> just has a punchable face and a fuckable ass."
+        Player.animate(martialart)
+        Actor.animate(fightlost)
+        Actor:: "Ahhhh ... that hurts ..."
+        If Actor.isMale() && !Player.isMale()
+            Filter(AggressiveFM)
+        Else
+            Filter(Aggressive)
+        Endif
+        TalkNonConsensual()
+        Sex(Player, Actor)
+        Actor.setActorVar(tag_Raped, 1)
+    Endif
+    SceneEnd()
+    timeout(200000, cms_ag_dev)

@@ -1,0 +1,171 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If Actor.isSameEthnic(Player) && [Random(50, 200) < Actor:perversion || [Random(25, 100) < Actor:perversion && !Actor.isInterestedInRace(Player)]]
+OTHER: isModEnabled(vin_NTR)
+
+    // If the Netorare module is enabled and you're dating or married to someone of the same race, you may eventually discover their por n collection full of interracial stuff with a particular race. If you ask your SO about this, they will confess their long-held racial fetish but insist they've never cheated on you. You can then offer to pick someone of this race from your contacts or pay a big sum to hire your SO's favorite pornsta r earlier to fulfill this huge fantasy of theirs. If your SO is female and happens to be trying for a child, they may also make the ultimate request to not use any protection and try to get impregnated with a mixed child. 
+    
+    SceneStart()
+    "While borrowing my <Actor.boyfriend_or_girlfriend>'s laptop to do some online shopping, I accidentally came across <Actor.his_or_her> porn collection."
+    "Pretty normal to be fair, I have my own porn collection too - we all have our fantasies that can't just all be 'unleashed' on our partner."
+    0:: "Check it out"
+    1:: "Respect <Actor.name>'s privacy"
+    
+    If 0
+        "My curiousity got the better of me though and just had to click on one video to see what kind of things <Actor.name> is secretly into."
+        Player.hide()
+        setRaceGenerated(Actor, true)
+        Actor3 = generatePersonTemporary()
+        While !Actor3.isSameGender(Actor)
+            Actor3 = generatePersonTemporary()
+        endWhile
+        
+        "It's an interracial scene. The first <Actor3.actor_or_actress> I'm very familiar with, as <Actor3.he_or_she>'s also one of my favorites because <Actor3.he_or_she> is pretty much <Actor.name>'s closest pornstar lookalike. I remembered masturbating to this <Actor3.actor_or_actress> while fantasizing about <Actor.name> when <Actor.he_or_she> was just my crush."
+        
+        Actor3.show()
+        "The pornstar's name is <Actor3.name> if I recall correctly. It's rather interesting that <Actor.name> would want to watch a pornstar that looks just like <Actor.him_or_her> getting fucked on camera though ... Maybe <Actor.he_or_she>'s imagining <Actor.himself_or_herself> in <Actor3.name>'s place."
+        "Which begs the question, who is <Actor3.name>'s on-screen partner that my <Actor.boyfriend_or_girlfriend> has been fantasizing about fucking despite already in a committed relationship with me?"
+        
+        setRaceGenerated(Actor, false)
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Player)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        
+        Actor2r = Actor2.RaceToString()
+        Playerr = Player.RaceToString()
+        
+        If Actor2.isEthnic(black) && Actor2.isMale() && !isTimingOut(strt_black_m)
+            Actor2.blendPreset(strt_black_m)
+            
+        Elseif Actor2.isEthnic(black) && !Actor2.isMale() && !isTimingOut(strt_black_f)
+            Actor2.blendPreset(strt_black_f)
+
+        Elseif Actor2.isEthnic(indian) && Actor2.isMale() && !isTimingOut(strt_indian_m)
+            Actor2.blendPreset(strt_indian_m)
+            
+        Elseif Actor2.isEthnic(indian) && !Actor2.isMale() && !isTimingOut(strt_indian_f)
+            Actor2.blendPreset(strt_indian_f)
+            
+        Elseif Actor2.isEthnic(arab) && Actor2.isMale() && !isTimingOut(strt_arab_m)
+            Actor2.blendPreset(strt_arab_m)
+            
+        Elseif Actor2.isEthnic(arab) && !Actor2.isMale() && !isTimingOut(strt_arab_f)
+            Actor2.blendPreset(strt_arab_f)
+
+
+        Elseif Actor2.isEthnic(latin) && Actor2.isMale() && !isTimingOut(strt_latin_m)
+            Actor2.blendPreset(strt_latin_m)
+            
+        Elseif Actor2.isEthnic(latin) && !Actor2.isMale() && !isTimingOut(strt_latin_f)
+            Actor2.blendPreset(strt_latin_f)
+
+            
+        Elseif Actor2.isEthnic(asian) && Actor2.isMale() && !isTimingOut(strt_asian_m)
+            Actor2.blendPreset(strt_asian_m)
+            
+        Elseif Actor2.isEthnic(asian) && !Actor2.isMale() && !isTimingOut(strt_asian_f)
+            Actor2.blendPreset(strt_asian_f)
+
+
+        Elseif Actor2.isEthnic(white) && Actor2.isMale() && !isTimingOut(strt_white_m)
+            Actor2.blendPreset(strt_white_m)
+            
+        Elseif Actor2.isEthnic(white) && !Actor2.isMale() && !isTimingOut(strt_white_f)
+            Actor2.blendPreset(strt_white_f)
+        Endif
+        
+        Actor2.show()
+        Actor2.makeInterested(Actor)
+        
+        "It's a <Actor2r> pornstar I'm not too familiar with. <Actor2.His_or_Her> stage name is <Actor2.name> <Actor2.name_last>."
+        Actor2:perversion => 100
+        
+        "The video itself has finally finished its cliche interracial plot intro and let the action begin."
+        Sex(Actor2, Actor3)
+        Actor2.hide()
+        Actor3.hide()
+        Player.show()
+        "Wow, that <Actor2.name> <Actor2.guy_or_girl> could fuck. No wonder <Actor2.he_or_she>'s clearly my <Actor.boyfriend_or_girlfriend>'s favorite pornstar as roughly half of the videos on <Actor.his_or_her> laptop has <Actor2.him_or_her> in it."
+        "Even the ones that don't have this pornstar specifically has another <Actor2r> pornstar fucking a co-star that bears at least some resemblance to my <Actor.boyfriend_or_girlfriend>. <Actor.name>'s fantasy couldn't be any clearer here ... Interracial sex with a hot <Actor2r> <Actor2.man_or_woman>, something I could never fulfill myself being of <Playerr> descent."
+        0:: "'Confront' my <Actor.boyfriend_or_girlfriend> about this"
+        1:: "Stay quiet"
+        
+        If 0
+            Actor.dress()
+            Actor.show()
+            Actor:: "Oh no ... you found out ..."
+            Actor:: "Baby, you have to trust me ... it's only a fantasy ... I've never cheated on you."
+            Player:: "It's okay, honey. Of course I trust you ..."
+            0:: "In fact, I'd love to watch you with a hot <Actor2r> <Actor2.man_or_woman>."
+            1:: "Fantasies are fine as long as they're not acted upon"
+            
+            If 0
+                masochist += 2
+                Actor:: "You have no idea how glad I am to hear that from you."
+                Actor:: "Maybe you already have someone in mind"
+                0:: "Yeah, I know someone"
+                1:: "That pornstar <Actor2.name> <Actor2.name_last> might escort. Most do."
+                
+                If 0
+                    "Which <Actor2r> <Actor2.man_or_woman> do I have in mind?"
+                    selectNpc()
+                    Bull = getSelectedNpc()
+                    
+                    If Bull.isSameGender(Player) && Bull.isSameEthnic(Actor2) && Bull.isInterestedIn(Actor)
+                        "<Bull.name> would be a perfect candidate."
+                        "<Actor.name> was also quite happy with my choice."
+                        Actor:attractiontoplayer += 5
+                    Else
+                        "Not the right gender, orientation or race. Maybe I should think about this some other time."
+                        Bull.delete()
+                    Endif
+                Else
+                    Actor:: "Oh my God, that would be a dream come true. I'm such a huge fan of <Actor2.him_or_her>."
+                    "Just as I expected, I soon discovered that like most pornstars, <Actor.name>'s favorite pornstar does escorting to make the bulk of <Actor2.his_or_her> income."
+                    "That premium <Actor2r> <Actor2.cock_or_pussy> cost quite a bit, but anything for my love ..."
+                    Bull = Actor2
+                    Actor:attractiontoplayer += 10
+                Endif
+                
+                If Bull.isValid()
+                    If Actor.wantsBabies() && Actor.isFemale() && Bull.isMale() && !Actor.isPregnant()
+                        "As everything else is arranged, <Actor.name> worked up the courage to make a final bold request, probably fully expecting me to refuse."
+                        "We've been trying in vain for a baby. <Actor.He_or_She> suggests that <Actor.he_or_she> goes without protection for this interracial experience and try to get herself pregnant with a half-<Actor2r> baby."
+                        0:: "Let <Actor.name> try to get impregnated by <Bull.name>"
+                        1:: "No way!"
+                        
+                        If 0
+                            masochist += 5
+                            If Random(0, 100) < 33
+                                If Bull.isTemporary()
+                                    Bull.makePermanent()
+                                Endif
+                                
+                                Actor.impregnate(Bull)
+                            Endif
+                        Else
+                            Player:: "Sorry baby, but that's too far ..."
+                            Actor:: "Yeah, I thought you would say so ... worth asking just in case."
+                        Endif
+                    Endif
+                    
+                    "The important day is here ..."
+                    Bull.dress()
+                    Bull.show()
+                    
+                    "Our <Actor2r> bull showed up and soon got down to business with my <Playerr> <Actor.boyfriend_or_girlfriend>, who was almost starstruck by finally fulfilling <Actor.his_or_her> fantasy."
+                    Sex(Bull, Actor)
+                    "That was so hot for both of us. The experience has only made our relationship stronger. Being a cuck isn't so bad. And the racial aspect just adds that little bit more spice to the sensation."
+                Endif
+            Else
+                Actor:: "Of course, I know that ..."
+            Endif
+        Else
+            "I already violated <Actor.his_or_her> privacy. Let's not make a big deal of this."
+        Endif
+    Endif
+
+    timeout(300, cuckold_ir_passive)
+    SceneEnd()

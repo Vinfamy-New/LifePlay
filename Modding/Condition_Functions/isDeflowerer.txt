@@ -1,0 +1,15 @@
+Actor.isDeflowerer()
+
+USE:
+Check if this actor took the player character's virginity
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Virginity
+COMPARE: isDeflowered
+
+EXAMPLE:
+    If Dating.isDeflowerer()
+        "My BF was my first."
+    Endif 
+

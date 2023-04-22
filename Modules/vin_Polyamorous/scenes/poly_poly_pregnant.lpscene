@@ -1,0 +1,57 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = Actor.getRelatedPerson(Poly); Actor3 = getSpecific(Dating); If !Actor.isPregnant() && !Actor2.isPregnant() && [Actor.isFemale() || Actor2.isFemale()] && [Actor.isMale() || Actor2.isMale()]
+OTHER: isModEnabled(vin_Pregnancy)
+
+    // - Your poly partner reveals they're trying for a baby with their other partner. You can encourage them, or put an end to it and suggest that they or their partner (depending on who can actually get pregnant) gets impregnated by you or another poly partner of yours instead.
+
+    SceneStart()
+    Actor.dress()
+    "<Actor.name> just admitted to me that <Actor.he_or_she> and <Actor.his_or_her> other <Actor2.boyfriend_or_girlfriend> <Actor2.name> has been trying for a baby."
+    0:: "Encourage them"
+    1:: [Actor.isFemale() || Player.isFemale()] && [Actor.isMale() || Player.isMale()]:: "You and I should try for a baby instead"
+    2:: [Actor2.isFemale() || Player.isFemale()] && [Actor2.isMale() || Player.isMale()]:: "<Actor2.name> and I should try for a baby instead"
+    3:: [Actor.isFemale() || Actor3.isFemale()] && [Actor.isMale() || Actor3.isMale()]:: "You and <Actor3.name> should try for a baby instead"
+    4:: [Actor2.isFemale() || Actor3.isFemale()] && [Actor2.isMale() || Actor3.isMale()]:: "<Actor2.name> and <Actor3.name> should try for a baby instead"
+    5:: "Discourage them altogether"
+    
+    If 5
+        Player:: "Trust me, having a child is a lot of work. You two aren't ready for it."
+    Else
+        "We all agreed that would be the best arrangement both for our current situation and the child's future."
+        If 0
+            A1 = Actor
+            A2 = Actor2
+        Elseif 1
+            A1 = Actor
+            A2 = Player        
+        Elseif 2
+            A1 = Actor2
+            A2 = Player        
+        Elseif 3
+            A1 = Actor
+            A2 = Actor3        
+        Else
+            A1 = Actor2
+            A2 = Actor3        
+        Endif
+        
+        If A1.isFemale()
+            Preg = A1
+            Impreg = A2
+        Else
+            Preg = A2
+            Impreg = A1        
+        Endif
+        
+        Preg.setWantsBabies(true)
+        Preg.show()
+        Impreg.show()
+        Sex(Impreg, Preg)
+        Preg.impregnate(Impreg)
+        "I have a funny feeling a baby was conceived that night"
+    Endif
+    
+    SceneEnd()
+    timeout(500, poly_poly_pregnant)

@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 20
+WHO: Actor = getSpecific(Dating)
+OTHER: isModEnabled(vin_NTR) && Random(0, 1000) < 1
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+
+    dressFormal()
+    Actor3 = generatePersonTemporary()
+    Actor4 = generatePersonTemporary()
+    Actor3.dress()
+    Actor4.dress()
+    Actor3.show()
+    Actor4.show()
+    "I was hanging out with my <Actor.boyfriend_or_girlfriend> when I receive a knock on your door from 2 police officers."    
+    Actor3:: "There has been a rise in crime within the local area and they are conducting an informal questioning."
+    Actor4:: "Is anywhere in the house that is private?"
+    Player:: "The bedrooom I suppose ..."
+    "One officer took me to the bedroom, while the other remained with <Actor.name> in the living room."
+    If Random(0, 100) < 25
+        "Thankfully, after all the questioning, the officers deemed us both innocent so just left."
+    Elseif Random(0, 100) < 33
+        "The officer ends up blackmailing <Actor.name> into having sex with <Actor4.him_or_her>."
+        Player.hide()
+        Actor3.hide()
+        Sex(Actor, Actor4)
+        setBackground(home)
+        "The other officer ends up blackmailing me into having sex with <Actor3.him_or_her>."
+        Actor.hide()
+        Actor4.hide()
+        Sex(Player, Actor3)
+    Elseif Random(0, 100) < 50
+        "The officer ends up blackmailing <Actor.name> into having sex with <Actor4.him_or_her>."
+        Player.hide()
+        Actor3.hide()
+        Sex(Actor, Actor4)
+    Else
+        setBackground(home)
+        "The officer ends up blackmailing me into having sex with <Actor3.him_or_her>."
+        Actor.hide()
+        Actor4.hide()
+        Sex(Player, Actor3)    
+    Endif
+    
+    SceneEnd()
+    timeout(500, cms_ica_sep03)

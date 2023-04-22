@@ -1,0 +1,57 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: none
+OTHER: PercentageOrcs > 0 && PercentageElves > 0
+
+    SceneStart()
+    "I heard an eager knock on my door"
+    setBackgroundCustom(livingroom)
+    Actor2 = generatePersonTemporary()
+    Actor2.blendPreset(Orc)
+    
+    Actor2.dress()
+    Actor2.show()
+    
+    
+    Actor = generatePersonTemporary()
+    Actor.blendPreset(Elf)
+    Actor.randomizeRace()
+    
+    Actor.dress()
+    Actor.show()
+    
+    Actor.makeInterested(Actor2)
+    Actor2.makeInterested(Actor)
+    
+    
+    "An Elf-Orc couple shows up at your door one night, being chased by their angry families after eloping, looking for a place to hide. A real Romeo and Juliet situation considering the historical hatred between orcs and elves."
+    0:: "Let them stay for the night"
+    1:: "Kick them out"
+    
+    If 0
+        karma += 10
+        setBackground(home)
+        "Having probably been on the run for weeks, the couple got a bit too excited later that night and I could hear them having sex right in my home ..."
+        0:: "Peek on them"
+        1:: "Leave them be"
+        
+        If 0
+            Sex(Actor, Actor2)
+            "Watching an orc and an elf going at it is kinda hot I must admit."
+            0:: "Ask to join for a threesome"
+            1:: "Go back to my room"
+            
+            If 0
+                Actor:: "Of course, you're our savior after all."
+                Actor2:: "It's the least we can do"
+                Sex(Player, Actor, Actor2)
+            Endif
+        Else
+            "It's understandable, they're in love and have been in danger."
+        Endif
+    Else
+        "Their families might catch up to them and put me in danger as well. It's not worth the risk to help some strangers."
+    Endif
+    SceneEnd()
+    timeout(200, elf_elope)

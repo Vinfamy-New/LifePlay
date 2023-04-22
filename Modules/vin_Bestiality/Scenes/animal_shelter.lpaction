@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: animal_shelter
+ACTION_NAME: Volunteer at an animal shelter
+WHERE: pet, community_centre, veterinary
+WHEN: 0 - 24
+MINUTES: 180 - 300
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: animal_shelter
+ANIMATION:

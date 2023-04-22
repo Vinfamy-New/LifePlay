@@ -1,0 +1,258 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If isWithCompanion()
+        endDate()
+    Endif
+    stage = rgb_stage.getGlobal()
+    Actor = GBoss.getActorAlias()
+    Actor2 = GHus.getActorAlias()
+
+    If stage == 1 // RENT
+        rgb_stage.setGlobal(2)
+        setBackground(street)
+        
+        Actor.dress()
+        Actor.show()
+        Actor2.dress()
+        Actor2.show()
+        "While I was driving them back to their hotel from the airport, <Actor2.name>'s mood didn't seem to get any better and <Actor.name> has certainly noticed her husband's gloom."
+        Actor:: "Come on, honey, cheer up. It's only our first day here. You promise me you'll give it a chance. It's a great opportunity for us."
+        Actor2:: "For us? You mean for you? I had to quit my job to move to this concrete jungle of a city. Our home country has so much more nature and character. I had it good there: my career, my family, my friends."
+        Actor:: "We'll make new friends here soon enough baby. The city is a bit modern and crowded but we'll have a good life here. Our future children will have better education and healthcare in this country too."
+        Actor2:: "Children? That reminds me? When will you finally give me some children? We've been married for 10 years! My parents want grandchildren and I need a son to inherit! That's the whole purpose my upper class family bought you from your broke-ass family to be my wife at 18 for, not play-acting as some sort of feminist icon for women in business."
+        Actor:: "You know full well we've been trying hard for a baby. God just hasn't granted our wish yet."
+        Actor2:: "Or maybe it's not God, it's you being useless at what actuall matters as a woman."
+        Actor:: "How would you know it's my problem? Maybe something's wrong with you ..."
+        Actor2:: "How dare you talk back to your husband like that, you whore?"
+        "<Actor2.name> slapped <Actor.name> real hard ..."
+        Actor2:: "Is all the girl power getting to your head now? I bet you're loving it now, aren't you? Making me quit my job to move this country 
+        so that you can be the one with all the power!"
+        Actor:: "I didn't mean it like that. You're imagining things ..."
+        "Well, that was an awkward drive back to their hotel. Who would have thought such an impressive young woman who's been profiled in many business magazines as an inspiration to many would still suffer from domestic abuse from her husband?"
+        Actor2.hide()
+        "As soon as we arrive at the hotel, <Actor2.name> stormed out of the car and went for a smoke to calm down, leaving two women to take care of all the luggage. What a true gentleman!"
+        Actor:: "Sorry you had to hear all of that. My husband is in a difficult place at the moment."
+        Player:: "It's okay ..."
+        Actor:: "I'll see you tomorrow for the house viewing?"
+        Player:: "See you tomorrow."
+        
+        setBackground(home)
+        "The morning after, I meet up with <Actor.name> again at the luxury apartment building the company's looking to rent for their new country head and her family."
+        "I was expecting to see the couple there but only <Actor.name> showed up with her husband nowhere to be seen. It was also clear that she has been crying a lot yesterday. They must have continued their argument after I left the hotel."
+        
+        Landlord = generatePersonTemporary()
+        While !Landlord.isMale()
+            Landlord = generatePersonTemporary()
+        endWhile
+        Landlord:age => Random(40, 70)
+        Landlord.randomizeFace()
+        Landlord.randomizeHairs()
+        Landlord.makePermanent()
+        GLand.setActorAlias(Landlord)
+        Landlord.dress()
+        Landlord.show()
+        "The landlord <Landlord.name> was also there to greet us and show us around the apartment."
+        Actor:: "Wow, this is an amazing apartment. This wil really lift my husband's mood to see the kind of accommodation the company can give us here."
+        Landlord:: "Actually, about that, I think there has been some misunderstanding on your company's part. I did previously have a contract with your company for a fixed rent rate for the apartment."
+        Landlord:: "However, that contract expired 2 years ago. The property market has been booming recently and I have no choice but charge the market rate now."
+        Landlord:: "Which is 30% higher than the previously contracted rent rate."
+        Actor:: "Oh no, that won't do then. My first act as country head for the company cannot be to go over budget for my personal expenses."
+        Actor:: "Thank you for your time. I guess we'll just have to find somewhere else to fit the budget."
+        Player:: "Hang on, boss. I've got this. Let me negotiate with the landlord here to stay to the original rent, you just keep on looking around the apartment."
+        Actor.hide()
+        Landlord:: "Well, I know you're probably trying hard to impress your new boss but you're a bit overconfident if you think you can convince me to drop the rent by that much."
+        Player:: "I wouldn't have been so confident if I didn't hear some rumours about you as a landlord. In fact, I've heard you've dropped the rent by far more than that for some of your other female tenants."
+        Landlord:: "That's true ... I assume you already know what these other women had to do for the rent discount?"
+        Player:: "You're hardly the first sleazy landlord to come up with sex for rent. Don't be so proud of yourself!"
+        Landlord:: "But your new boss here is no easy target. She's certainly hot and exotic. But I've done my research on social media on her last night."
+        Landlord:: "Been married to the same guy for a decade. Very religious country and family. Career woman with many interviews in business magazines. No way she would be open to something like that."
+        Player:: "Maybe not now, but in time. I bet you her marriage won't last the year in this new country and you'll get your chance to comfort a young divorcee who has been supressed all her life by her culture."
+        Landlord:: "That does sound promising ... I'd love some exotic high-flying pussy."
+        Landlord:: "But I'm afraid I can't sign such a cheap contract on a promise."
+        Player:: "How about me as guarantee? You can fuck me now and each month she doesn't end up fucking you, I'll fuck you instead"
+        Landlord:: "We have a deal!"
+        Sex(Landlord, Player)
+        Landlord.hide()
+        
+        Actor.show()
+        Player:: "Boss, good news. I managed to negotiate with the landlord. He agreed to stick to the original rent contracted with the company from 2 years ago. You and your husband can have this apartment, it's not over budget anymore."
+        Actor:: "Thank you, <Player.name> ... but you really shouldn't have gone to that extent to secure me a good deal ... I walked into you in bed with the landlord a bit earlier ... How could you let that man sully and degrade you just for a discount?"
+        "Thankfully, she only caught the end of it and not my whole dirty conversation with the landlord about her."
+        Player:: "Nah, it's fine. It was just a bit of fun. I was in control of the situation and He was a surprisingly good fuck so I hit two birds with one stone actually. Nothing degrading about it ... definitely less degrading than having a husband who thinks your whole purpose in life is to give him children."
+        Actor:: "Don't say that about him. He's not a bad guy ... It's just a cultural difference between us I suppose."
+        Actor:: "Talking about culture, now that we have a place to stay, could you help us find a nearby church for our faith that we can frequent from now on? Faith is important to me and hopefully church would be where we can meet more like-minded people, maybe even people of the same heritage as us. Maybe that will lift my husband's mood a bit."
+        Player:: "Of course. I'll do my research and take you both there."
+        
+    Elseif stage == 2 // CHURCH
+        rgb_stage.setGlobal(3)
+        "<Actor.name> and her husband <Actor2.name> took a few days to settle into their new dream apartment, which of course was only within budget thanks to my 'creative negotiations' with the landlord."
+        "As promised to my new girl boss, I did my research and found a church of their faith within driving distance from their apartment. Of course, for their first visit, I offered to drive them there."
+        setBackground(place_of_worship)
+        Actor.dress()
+        Actor.show()
+        "Once again, <Actor2.name> refused to accompany <Actor.name> even to church. It seemed that their marriage hasn't been improving since moving into the new apartment."
+        Actor:: "He's been spending all his time on his phone recently for some reason."
+        Actor:: "I guess it's best to leave him alone at home for now until he cools down."
+        "Poor <Actor.name> actually thought going to church would have made her husband less homesick."
+        
+        setBackground(restaurant)
+        
+        "Still, <Actor.name> seems at peace to be in church and among people of the same faith again."
+        Actor3 = generatePersonTemporary()
+        While !Actor3.isMale()
+            Actor3 = generatePersonTemporary()
+        endWhile
+        Actor3.dress()
+        Actor3.show()
+        "In fact, she seems to instantly make friends with another couple also attending church. They introduced themselves as <Actor3.name> ..."
+        Actor4 = generatePersonTemporary()
+        While !Actor4.isFemale()
+            Actor4 = generatePersonTemporary()
+        endWhile
+        Actor4.dress()
+        Actor4.show()
+        "... and <Actor4.name>."
+        "They invite us over to their place for some food after church. Since <Actor.name> probably isn't over-eager to return home to her grumpy husband right away, she accepted their invitation. I decided to come along, hoping there wasn't going to be too much scripture talk."
+        
+        setBackground(kitchen)
+        Actor:: "So did you two grow up together in the same community or did you meet in church?"
+        Actor3:: "Oh no, it's nothing like that ... We matched on Tinder."
+        Actor:: "Ah ... I suppose that's the modern way to meet. I guess it must be hard to find fellow believers looking for a traditional marriage on there with so many people nowadays being so ... casual."
+        Actor4:: "Haha, no. I was also on there for some dicks ..."
+        Actor4:: "And <Actor3.name> gave me such a good dicking that we became a couple."
+        Actor:: "Oh ..."
+        "I can tell <Actor.name> has misjudged the couple completely, just because they go to church, it doesn't mean they're traditional ..."
+        Actor3:: "And trust me, our marriage is anything but traditional."
+        Actor3:: "We're all open. I'm allowed to sleep with other women ... and other men sometimes. She's allowed to sleep with other men ... and other women sometimes."
+        "<Actor.name> seems lost for words and probably already regretting following the couple home."
+        Actor:: "But don't you believe in God? That marriage is sacred and homosexual is wrong."
+        Actor3:: "We do, we just don't always let the hypocrites that control the church to tell us how to live our life."
+        Actor4:: "If God wants me to be a one-man woman, why did he make me enjoy other dicks and pussies so much?"
+        Actor:: "I guess the attitude to our religion in this country is a bit different from mine."
+        Actor4:: "Let me guess: You were a virgin till marriage and haven't been with anyone else? How old were you when your parents sent to an arranged marriage? 14?"
+        Actor:: "18 actually. Don't believe everything you read about our country. We do follow the law."
+        "<Actor.name> seems quite defensive now ..."
+        Actor3:: "That's still way too young, darling. You didn't have time to experience anything yet."
+        Actor4:: "But it's still not too late. Have your husband and you ever considered opening up your marriage and sleeping with other people? We'll be happy to swing with you and teach you a thing or two about open marriages."
+        Actor:: "No never ..."
+        Actor3:: "We're just offering. We'll never force anyone who's not comfortable."
+        Actor3:: "We have too many options for that. In fact, there's a guy from your home country coming over to share my wife with me in a few hours. She's been chatting with him over Tinder. He also came to this country recently, maybe you know him."
+        Actor:: "I doubt it. We haven't met anyone here from our homeland."
+        Actor4:: "Here's his photo"
+        secondScreen(Actor2)
+        Actor2.show()
+        Actor:: "What?"
+        Player:: "Oh dear ..."
+        "It's <Actor.name>'s husband <Actor2.name>. So that's why he's been on the phone all the time recently and why he refused to go to church with <Actor.name> earlier."
+        Actor:: "That's my husband ... You're lying. He's a very traditional man who ranks family values very highly. No way he would be on a dating app."
+        secondScreen()
+        Actor:: "And he is too honourable to come and sleep with another man's wife. And he definitely wouldn't share any woman with any other man. That's homosexual by proxy and against the teachings of God."
+        Actor4:: "Well, I'm sorry to inform you that you married a hypocrite, honey, because your husband will definitely be DP'ing me alongide my husband in a few hours."
+        Actor:: "No way ... I don't believe you."
+        Actor4:: "Why don't you two hide in the closet and see with your own eyes whether it's your husband."
+        Actor:: "Fine. I have nothing to fear. I trust my husband completely."
+        Actor.hide()
+        Player.hide()
+        setBackground(home)
+        "A few hours later ..."
+        Actor2.dress()
+        Actor2.show()
+        "Unfortunately for <Actor.name>, her husband did indeed show up to share <Actor4.name> with her husband <Actor3.name>. He seemed very excited about the whole experience actually."
+        Sex(Actor2, Actor3, Actor4)
+        "<Actor.name> stayed in the closet and had to watch the whole thing. She didn't have the courage to confront her cheating husband but at least she now sees another side of him."
+        Actor2:: "Wow, that was amazing. Your wife is a true freak in bed unlike my boring wife."
+        "Ouch that must have hurt."
+        "Suddenly, I thought of a good idea to show <Actor.name> the truth even more."
+        "I opened the door on my side of the closet and made my presence known while being careful not to expose <Actor.name> as well."
+        Player.show()
+        Actor2:: "What? You're the girl from my wife's company. You took her to church this morning. Where is she?"
+        Player:: "Calm down, she's not here. But she suspects you're cheating with how much time you've been spending on your phone."
+        Player:: "She asked me to follow you secretly and find out what you've been up to."
+        Actor2:: "So, you caught me ... What do you want to keep quiet?"
+        Player:: "I would have said money but I know you have none and your wife is the breadwinner."
+        Actor2:: "How dare you!? I only quit my job because of her moving here."
+        Player:: "It was just a joke. Don't be so sensitive."
+        Player:: "You see I just saw you sharing a guy's wife with him but I can't help but notice your dick got harder whenever it rubbed against the guy's dick."
+        Player:: "He also didn't mind too much so why don't you two boys put on a show for us ladies to watch?"
+        Actor4:: "Haha, sounds like a fantastic show. Baby, you've got to do it. And <Actor2.name>, I knew you were a closet bi the moment I saw you on Tinder."
+        Actor2:: "Fine ... as long as you don't tell my wife."
+        Player:: "Surprisingly little resistance there ... Someone's been fantasizing about gay sex I see ..."
+        Actor2:: "Shut up ..."
+        0:: "Watch gay sex scene"
+        1:: "Don't watch"
+        
+        If 0
+            Sex(Actor3, Actor2)
+        Endif
+        Actor2.makeInterested(Actor3)
+        
+        "While the men were having their fun, <Actor4.name> decided to keep me company with some girl-on-girl action as well."
+        Sex(Actor4, Player)
+        
+        Actor2.hide()
+        "After <Actor2.name> left, <Actor.name> finally got out of the closet, in tears."
+        Actor.show()
+        Actor:: "How could you? Weren't it bad enough I had to watch my husband fuck another woman? Why did you make him fuck another man as well?"
+        Player:: "I didn't really make him. He could have stayed firm and refused. He jumped quite eagerly at the chance"
+        Actor3:: "True, your husband was very enthusiastic fucking another man that's for sure."
+        Player:: "I just wanted to show you what a hypocrite your husband is, expecting you to fulfill the traditional wife role in the marriage while going out there and enjoying all the pleasures himself."
+        Player:: "We're just lucky today that we ran into <Actor3.name> and <Actor4.name>. Who knows how many girls and married women he's been matching on Tinder and fucking?"
+        Actor:: "You're wrong. He's just made a horrible mistake today and was forced into committing a sinful homosexual act because he didn't want to harm our marriage."
+        Actor:: "Now that he's caught by you, he'll never ever think of doing it again and will do anything to make up to me."
+        Player:: "We'll see, shall we?"
+
+    Elseif stage == 3 // IGNORED
+        rgb_stage.setGlobal(4)
+        "It's been two weeeks without hearing from <Actor.name> and her husband. Maybe I was wrong and her husband did stop going on dating apps and has been trying harder to make their marriage work."
+        "That would be concerning because <Actor.name> might hold a grudge against me for luring her husband into the gay sex. She's replacing my boss soon, don't want her first act is to fire me."
+        "Just as I was getting worried, <Actor.name> called and asked me to come over her place to chat."
+        setBackgroundCustom(livingroom)
+        Actor.dress()
+        Actor.show()
+        "Her husband as nowhere to be seen again ..."
+        Actor:: "You were right ..."
+        Player:: "About what?"
+        Actor:: "About my husband ... after that incident, he's just been ignoring me more and more. He's always away at suspicious hours ... even when he's home, he's always on the phone, no doubt using all these dating apps."
+        Actor:: "Gay dating apps ... as I found out yesterday."
+        Player:: "Opps, I guess I accidentally unleashed some closeted feelings inside your husband."
+        Player:: "So what are you going to do about it? Two can play this game, right?"
+        Actor:: "What do you mean?"
+        Player:: "Your husband is having gay sex ... surely you can enjoy some lesbian action as well."
+        Player:: "I saw me with the other woman the other day. Did you enjoy the show?"
+        Actor:: "Not really at that moment because I was so angry at my husband ... but I did think about it later on and got a bit curious."
+        Player:: "Then what are we waiting for? Consider this my apology for setting your husband off on the gay path."
+        "<Actor.name> was reluctant but I gambled and went for it."
+        Actor.makeInterested(Player)
+        Sex(Player, Actor)
+        Player:: "Ah, that reminds me ... You have unfinished business with your landlord ..."
+        Actor:: "Me? I thought you already fucked him to negotiate the rent down. What's that got to do with me?"
+        Player:: "Don't be so naive, boss. Men aren't that easy. He didn't just agree to the rent because I fucked him once."
+        Player:: "I convinced him of your 'future potential'. Regressed career woman from a traditional marriage, bound to be unleashed sooner or later, especially with such a hypocrite as your husband."
+        Actor:: "Damn you ... but I guess you weren't far wrong ..."
+        Player:: "So ... should I call the landlord to join us now to fulfil your end of the bargain?"
+        Actor:: "Oh ... what the hell ... My husband abandons me and is now gay so I'm basically divorced anyway ... Might as well have a man to keep me warm ... The landlord might just be ... convenient."
+        Player:: "Listen to you now ... can you feel how empowering that is to treat a man as nothing more than a object of pleasure? No more having to worry about earning more than your insecure husband. No more pressure to give him a son to inherit his unemployed ass."
+        Landlord = GLand.getActorAlias()
+        Landlord.dress()
+        Landlord.show()
+        "I called the landlord and he was there in no time."
+        Landlord:: "You surely delivered. I did trust you and even in my wildest dream, I couldn't believe you could have turned your new boss to the dark side in less than a month."
+        Player:: "Well, I can't take all the credit. Her hypocrite of a husband certainly helps speed things up."
+        Sex(Landlord, Actor)
+        Landlord:: "I'll come back every week, pretty tenant. I'm fucking half the building, but certainly none as exotic and successful as you."
+        Landlord.hide()
+        Player:: "Just let him enjoy his little conquest when in fact us women are just using him as a sex toy."
+        Actor:: "Now that we've gone this far, now that I'm becoming your boss soon, you should come back often and show me an adventure or two ..."
+        Player:: "Deal! I knew the most repressed always turns out to be the freakiest."
+        Actor:perversion += 20
+        exchangeContact(Actor)
+        "(Your new girl boss has now cheated once with another man and had one lesbian encounter with you, setting her onto the path of corruption. She's still relatively low in perversion. You can increase her perversion further with the quest 'Innocence Lost')"
+        Actor.setBoss()
+        questEnd()
+    Endif      
+    SceneEnd()

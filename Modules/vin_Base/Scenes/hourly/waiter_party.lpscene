@@ -1,0 +1,29 @@
+WHAT: work_hourly
+WHERE: restaurant, cafe, biergarten, pub
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "My place I work at offers catering services for parties at private homes too. I've been asked to serve at one today ... Not my favorite part of the job, but it must be done."
+    setBackgroundCustom(fraternity)
+    Actor = generatePersonTemporary()
+    If Random(0, 100) < Actor:perversion
+        Actor.dress()
+        Actor.show()
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer => 30
+        "One of the party goer has been checking out the whole time during the party. Already quite intoxicated, <Actor.he_or_she> is now heading for the bathroom, winking at me before <Actor.he_or_she> leaves."
+        0:: "Follow and fuck the customer"
+        1:: "Stay professional"
+        
+        If 0
+            setBackground(shower)
+            Sex(Player, Actor)
+        Endif
+    Else
+        "In the end, the party went without incidents and I even received some tips."
+        money += 20
+    Endif
+    SceneEnd()
+    timeout(100, waiter_party)

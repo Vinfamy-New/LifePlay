@@ -1,0 +1,100 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 20
+WHO: Actor = getSpecific(Dating); If Actor.isPregnant()
+OTHER:
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "Now that <Actor.name>'s pregnant, she attends these prenatal classes quite often, which apparently will help her prepare herself physically and mentally for the pregnancy, delivery and motherhood."
+    "Today she's asking me to drive her there."
+    0:: "Yes"
+    1:: "No"
+    
+    If 1
+        "I don't have time for this today. She's not so heavily pregnant that she can't go anywhere by herself, surely?"
+    Else
+        "Okay, it's the least I could do for my pregnant <Actor.boyfriend_or_girlfriend>."
+        Dest = findNearbyBuilding(community_centre)
+        moveTo(Dest)
+        setBackground(community_centre)
+        If Random(0, 100) < 50   // instructor
+            Actor2 = generatePersonTemporary()
+            While Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+            "The instructor for today's class is <Actor2.name>. She's very knowledgeable and helpful."
+            Actor2.makeInterested(Player)
+            "I couldn't help but notice that the instructor was eyeing me up quite flirtatously though."
+            "Is this what prenatal instuctors do? Trying to sleep with all their pregnant students' spouses?"
+            0:: "Just go home"
+            1:: "Ask <Actor.name> if we could invite the instructor for a threesome"
+            2:: "Ask for her number discreetly"
+            
+            If 1   
+                If OpenRelationship() || Actor:perversion + Actor:attractiontoplayer > 100
+                    Actor(Flirty):: "I suppose this is a good reward for you, having been a supportive enough partner to drive me to these prenatal classes"
+                    "The instructor was at first taken aback by my invitation, but quickly warmed up to the idea and followed us home. After all, it was her that wasn't so subtle in showing an interest in me after all."
+                    moveTo(home)
+                    setBackground(home)
+                    If OpenRelationship()
+                        "After all, we're in an open relationship, so these spontaneous threesomes should be part of the experience really ..."
+                    Endif
+                    SexNoAffair(Actor, Actor2, Player)
+                Else    
+                    Actor(Angry):: "Have you lost your mind, asking me for something like that? I didn't ask you to take me here for you to try to sleep with my instructor!"
+                    Actor:attractiontoplayer -= 2
+                Endif
+            Else 2
+                "I don't think <Actor.name> noticed me and the instructor eyebanging each other just yet. So I discreetly got her number, for a future rendezvous when my pregnant <Actor.boyfriend_or_girlfriend> is not around."
+                Actor2.makePermanent()
+                Actor2:attractiontoplayer => 40
+                Actor2:perversion => 80
+                exchangeContact(Actor2)
+            Endif
+        Else  // another couple
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor3 = generatePersonTemporary()
+            While Actor3.isMale()
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor3.setMorphValue(Genesis8Female__PBMPregnant, 0.5)
+            Actor2.dress()
+            Actor3.dress()
+            Actor2.show()
+            Actor3.show()
+            "The class itself wasn't anything special, but we met up with an interesting couple, <Actor2.name> and <Actor3.name>."
+            "They weren't shy to admit that <Actor3.name>'s baby isn't <Actor2.name>'s, but a result of a wild swinger's orgy ..."
+            "And <Actor2.name> is cool with that because that's part of their open relationship agreement."
+            If OpenRelationship()
+                "We're in an open relationship ourselves so this sort of thing isn't anything too strange for us."
+            Else    
+                "What a strange lifestyle, I wonder if I would have been able to be as open-minded?"
+            Endif
+            "After the class finishes, the couple asks me and <Actor.name> if we would want to swing with them." 
+            0:: "Not for us"
+            1:: "Why not?"
+            
+            If 1
+                "Since neither <Actor.name> nor <Actor3.name> can get pregnant again from this .. what's the harm?"
+                blockPregnancy()
+                moveTo(home)
+                setBackground(home)
+                If OpenRelationship()
+                    "After all, we're in an open relationship ourselves, we're no stranger to swinging ourselves."
+                Endif
+                "First, <Actor.name> and <Actor2.name> got it on."
+                SexNoAffair(Actor, Actor2)
+                "Then it was my and <Actor3.name>'s turn."
+                SexNoAffair(Actor3, Player)
+            Endif          
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, prenatal_drive)

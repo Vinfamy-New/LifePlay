@@ -1,0 +1,19 @@
+GlobalVariable.setGlobalString(String)
+
+USE:
+Set (add if it doesn't already exist) a global variable to a certain string.
+
+TYPE: Command, non-Ref (ref-like syntax)
+RETURNS: /
+THEME: Variables
+COMPARE: getGlobal, clearGlobal, getID
+
+EXAMPLE:
+    0:: "cherry pie is my favorite!"
+    1:: "I really love warm apple pie!"
+
+    If 0
+        pieString.setGlobalString("cherry pie")
+    else
+        pieString.setGlobalString("apple pie")
+    endif

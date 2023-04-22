@@ -1,0 +1,14 @@
+Actor.isEmployee()
+
+USE:
+Check if the actor is one of the employees in a player-owned business.
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Job
+COMPARE: isColleague
+
+EXAMPLE:
+    If John.isEmployee()
+        John(Happy):: "Please boss give me a raise"
+    Endif

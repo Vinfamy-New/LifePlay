@@ -1,0 +1,32 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "Where should I go?"
+    0:: "To the nearest swimming pool"
+    1:: "To the nearest riverbed"
+    2:: "To the nearest beach"
+    3:: "To the nearest park"
+    4:: "To the nearest forest"
+    5:: "To the nearest mountain"
+    6:: "Stay here"
+    
+    If 0
+        OverwriteCurrentLocation(pool)
+    Elseif 1
+        OverwriteCurrentLocation(river)    
+    Elseif 2
+        OverwriteCurrentLocation(beach)    
+    Elseif 3
+        OverwriteCurrentLocation(park)
+    Elseif 4
+        OverwriteCurrentLocation(forest)    
+    Elseif 5
+        OverwriteCurrentLocation(mountain)     
+    Endif
+    "Here I am ..."
+    
+    SceneEnd()

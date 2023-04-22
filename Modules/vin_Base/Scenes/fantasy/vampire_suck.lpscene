@@ -1,0 +1,88 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Actor.isTemporary()
+        "This is a complete stranger ... a perfect victim. Should I stalk <Actor.him_or_her> to somewhere quiet and suck some of <Actor.his_or_her> blood?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            setBackground(street)
+            "My target is all alone. Here's my chance. Let's just suck out some blood quickly then disappear. Stealth is the key."
+            sneak += 0.5
+            SneakGame()
+            If Random(0, 100) < sneak
+                animatePair(Player, Actor, Kissing)
+                "That's some yummy blood, enough to keep my energy level up for a while."
+                energy => energy + 50
+                "Let's disappear now ..."
+            Else
+                Actor:: "Vampire! Vampire attack! Help me!"
+                "Oh no, my target was alerted and ran off."
+            Endif
+        Endif
+    Else
+        "Should I 'ask' <Actor.name> to let me suck some blood? Asking with a healthy dose of hypnosis of course."
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            animatePair(Player, Actor, Kissing)
+            Actor:fitness -= 1
+            Actor:attractiveness -= 1
+            "That's some yummy blood, enough to keep my energy level up for a while."
+            energy => energy + 50
+            "How kind of <Actor.name> to let me do that ... Did I give <Actor.him_or_her> much of a choice though? <Actor.He_or_She> seems quite weakened after me having a little meal just then, this might just have an effect on <Actor.his_or_her> long-term health and attractiveness."
+            0:: "Reward <Actor.him_or_her> with sex"
+            1:: "No need"
+            
+            If 0
+                "I swear <Actor.he_or_she> really wants this little compensation for <Actor.his_or_her> blood. I didn't use hypnosis again, or did I?"
+                Sex(Actor, Player)
+            Endif
+        Endif
+    Endif
+    
+    If energy < 25
+        "My energy level is still dangerously low ... The blood thrist is killing me. There's one last resort though ..."
+        0:: "Steal from a hospital's blood bank"
+        1:: "Let's endure a bit more"
+        
+        If 0
+            setBackground(hospital)
+            Actor.hide()
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show()
+            "Here it is, the area of the hospital where all the donated blood is stored is guarded by just one security guard."
+            0:: "Seduce <Actor2.him_or_her>"
+            1:: "Sneak past <Actor2.him_or_her>"
+            
+            If 0
+                Success = true
+                "With my charm and the power of hypnosis, it was an easy seduction."
+                Sex(Actor2, Player)
+            Else
+                SneakGame()
+                If Random(0, 100) < sneak
+                    "I managed to sneak past <Actor2.him_or_her> quietly."
+                    Success = true
+                Else
+                    Actor2:: "What are you doing? Thief! Alert! Alert!"
+                    "Oh no, the guard spotted me and sounded the alarm."
+                    Success = false
+                Endif
+            Endif
+            
+            If Success
+                "Oh wow, so much delicious blood in here ... This will keep my energy up for a long time."
+                energy => 100
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()

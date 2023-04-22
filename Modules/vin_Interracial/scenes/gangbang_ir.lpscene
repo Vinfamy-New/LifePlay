@@ -1,0 +1,904 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "I've always been turned on by the fantasy of an interracial gangbang."
+    Dating = getSpecific(Dating)
+    "Who should be the center of this gangbang?"
+    0:: "Me"
+    1:: Dating.isValid():: "My <Dating.boyfriend_or_girlfriend> <Dating.name>"
+    2:: "On second thought, this is a bad idea"
+    
+    If 2
+        "Some fantasies should remain fantasies."
+    Else
+        If 0
+            Dating = Player
+            GoingAhead = true
+        Else
+            "Not only do I enjoy watching my <Dating.boyfriend_or_girlfriend> with another <Player.guy_or_girl>, the thought of <Dating.him_or_her> being with multiple interracial lovers at the same time excites me even more."
+            0:: "Suggest that <Dating.name> experience an interracial gangbang"
+            1:: "Maybe not"
+            
+            If 0
+                masochist += 1
+                Dating:masochist -= 1
+                Dating:perversion += 1        
+                If OpenRelationship() || Dating:perversion > 50 || Dating:masochist < -25 || masochist > 25 || Dating:attractiontoplayer > 35
+                    "<Dating.name> seemed turned on by the idea and agreed to let me go ahead and make all the arrangements for my <Dating.boyfriend_or_girlfriend>'s group sex party."
+                    GoingAhead = true
+                    "I now need to decide who get to fuck my <Dating.boyfriend_or_girlfriend> and share <Dating.him_or_her> between them while I watch."
+                Else
+                    "Unfortunately, <Dating.name> didn't feel comfortable with the idea."
+                    GoingAhead = false
+                Endif
+            Else
+                GoingAhead = false
+            Endif
+        Endif
+        
+        If GoingAhead            
+            While !Actor.isValid() && GoingAhead
+                "Who is the first person to invite?"
+                0:: "Someone I know"
+                1:: "Random stranger on Craiglist"
+                2:: "Forget this whole group sex party idea!"
+                
+                If 0
+                    "Pick someone with high perversion or I've done sexual things with previously."
+                    selectNPC()
+                    Actor = getSelectedNPC()
+                    
+                    If Actor.hadSex() || Actor:perversion > 50
+                        "<Actor.name> accepted my invitation."
+                    Else
+                        "Unfortunately, <Actor.name> turned down my invitation."
+                        Actor.delete()
+                    Endif
+                    
+                Elseif 1
+                    "Should I state a preference for a particular ethnicity?"
+                    0:: "Black"
+                    1:: "South Asian"
+                    2:: "Arab"
+                    3:: "Latin"
+                    4:: "East Asian"
+                    5:: "White"
+                    
+                    If 0
+                        setRaceGenerated(black)
+                    Elseif 1
+                        setRaceGenerated(indian)    
+                    Elseif 2
+                        setRaceGenerated(arab)        
+                    Elseif 3
+                        setRaceGenerated(latin)    
+                    Elseif 4
+                        setRaceGenerated(asian)    
+                    Else
+                        setRaceGenerated(white)    
+                    Endif
+                    
+                    "What gender should I specifically look for in the Craiglist ad?"
+                    0:: "Male"
+                    1:: "Female"
+                    2:: "Trans"
+                    
+                    Actor = generatePersonTemporary()
+                    While [!Actor.isMale() && choice == 0] || [!Actor.isFemale() && choice == 1] || [!Actor.isTrans() && choice == 2]
+                        Actor = generatePersonTemporary()
+                    Endwhile
+                    // STEREOTYPE BLOCK START
+                    If Actor.isValid()
+                        If Dating.isSameAs(Player)
+                            If Actor.isEthnic(black) && Actor.isMale() && !isTimingOut(strt_black_m)
+                                Actor.blendPreset(strt_black_m)
+                                "I can't help but fantasize about black men and their big black cocks and how they will really stretch my poor little <Player.race> body to its limits."
+                                
+                            Elseif Actor.isEthnic(black) && !Actor.isMale() && !isTimingOut(strt_black_f)
+                                Actor.blendPreset(strt_black_f)
+                                "I can't help but fantasize about those strong black women and their voluptuous curves. Personally, I've always preferred thicker women to the skinny fashion model types."
+
+
+                            Elseif Actor.isEthnic(indian) && Actor.isMale() && !isTimingOut(strt_indian_m)
+                                Actor.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about these exotic South Asian men with their dark skin matched by thick black body hair."
+                                
+                            Elseif Actor.isEthnic(indian) && !Actor.isMale() && !isTimingOut(strt_indian_f)
+                                Actor.blendPreset(strt_indian_f)
+                                "There are just something about exotic yet sexually repressed South Asian women that really attract me to them. I also don't mind my ladies being a bit on a hairier side."
+
+                                
+                            Elseif Actor.isEthnic(arab) && Actor.isMale() && !isTimingOut(strt_arab_m)
+                                Actor.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about these exotic Arab men with their manly black beard and hairy chest."
+                                If Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more dominant attitude towards women somewhat arousing too."
+                                Endif
+                                
+                            Elseif Actor.isEthnic(arab) && !Actor.isMale() && !isTimingOut(strt_arab_f)
+                                Actor.blendPreset(strt_arab_f)
+                                "There are just something about exotic yet sexually repressed Arab women that really attract me to them."
+                                If !Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more traditional attitude towards the role of the woman in a relationship somewhat arousing too."
+                                Endif
+
+
+                            Elseif Actor.isEthnic(latin) && Actor.isMale() && !isTimingOut(strt_latin_m)
+                                Actor.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about these passionate Latino men with their tanned skin and dark handsome features. It's so sexy when they talk dirty in their mother tongue."
+                                
+                            Elseif Actor.isEthnic(latin) && !Actor.isMale() && !isTimingOut(strt_latin_f)
+                                Actor.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about those sexy Latinas with their voluptuous curves and fiery passion. I'd love nothing more but to dance with them all night."
+
+                                
+                            Elseif Actor.isEthnic(asian) && Actor.isMale() && !isTimingOut(strt_asian_m)
+                                Actor.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about these cute youthful-looking East Asian men. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair."
+                                "I also find their intelligence and more gentle and shy demeanor absolutely irresistible."
+                                
+                            Elseif Actor.isEthnic(asian) && !Actor.isMale() && !isTimingOut(strt_asian_f)
+                                Actor.blendPreset(strt_asian_f)
+                                "There are just something about smart but shy youthful-looking East Asian women that really attract me to them. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair. I also don't mind my ladies being all natural down there."
+                                "I find their somewhat more submissive behavior in a relationship quite arousing too."
+
+
+                            Elseif Actor.isEthnic(white) && Actor.isMale() && !isTimingOut(strt_white_m)
+                                Actor.blendPreset(strt_white_m)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white men to <Player.race> men. Subconsciously, maybe I enjoy a little bit having a partner with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people, but most importantly, I just find white men the most attractive and get turned on by the contrast between skin tones when we make love."
+                                Endif
+                                
+                            Elseif Actor.isEthnic(white) && !Actor.isMale() && !isTimingOut(strt_white_f)
+                                Actor.blendPreset(strt_white_f)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white women to <Player.race> women. Subconsciously, maybe I enjoy that little victorious feeling of being able to 'score' with a white girl and get that look of admiration and jealousy from my fellow <Player.race> friends, but most importantly, I just find white women the most attractive and want to show her what's it like to be with a <Player.race> <Player.man_or_woman>."
+                                Endif
+                            Endif
+                        Else
+                            If Actor.isEthnic(black) && Actor.isMale() && !isTimingOut(strt_black_m)
+                                Actor.blendPreset(strt_black_m)
+                                "I can't help but fantasize about watching <Dating.name>'s poor little <Dating.race> body being stretched to its limit by a big black cock."
+                                
+                            Elseif Actor.isEthnic(black) && !Actor.isMale() && !isTimingOut(strt_black_f)
+                                Actor.blendPreset(strt_black_f)
+                                "I can't help but fantasize about watching <Dating.name> with a strong black woman and her voluptuous curves."
+
+
+                            Elseif Actor.isEthnic(indian) && Actor.isMale() && !isTimingOut(strt_indian_m)
+                                Actor.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about watching <Dating.name> being pounded by an exotic South Asian man with his dark skin matched by thick black body hair."
+                                
+                            Elseif Actor.isEthnic(indian) && !Actor.isMale() && !isTimingOut(strt_indian_f)
+                                Actor.blendPreset(strt_indian_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed South Asian woman, especially if she's a bit on the hairier side."
+
+                                
+                            Elseif Actor.isEthnic(arab) && Actor.isMale() && !isTimingOut(strt_arab_m)
+                                Actor.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about watching <Dating.name> being fucked by an exotic Middle Eastern man with his manly beard and hairy chest."
+                                If Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in his culture makes it even more exciting."
+                                Else
+                                    "I want to watch first-hand how he would treat my woman with a more dominant attitude."
+                                Endif
+                                
+                            Elseif Actor.isEthnic(arab) && !Actor.isMale() && !isTimingOut(strt_arab_f)
+                                Actor.blendPreset(strt_arab_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed Middle Eastern woman."
+                                If !Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in her culture makes it even more exciting."
+                                Endif
+
+
+                            Elseif Actor.isEthnic(latin) && Actor.isMale() && !isTimingOut(strt_latin_m)
+                                Actor.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about watching <Dating.name> making passionate love with a dark and handsome Latino man, who could bring <Dating.him_or_her> to orgasm just with his sexy voice."
+                                
+                            Elseif Actor.isEthnic(latin) && !Actor.isMale() && !isTimingOut(strt_latin_f)
+                                Actor.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about watching <Dating.name> dance all night in bed with a sexy Latina with her voluptuous curves and fiery passion."
+
+                                
+                            Elseif Actor.isEthnic(asian) && Actor.isMale() && !isTimingOut(strt_asian_m)
+                                Actor.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about watching <Dating.name> making love with a cute and gentle East Asian guy. I know <Dating.he_or_she> would enjoy being with someone intelligent."
+                                
+                            Elseif Actor.isEthnic(asian) && !Actor.isMale() && !isTimingOut(strt_asian_f)
+                                Actor.blendPreset(strt_asian_f)
+                                "I'd love to watch <Dating.name> open up an smart yet shy & submissive East Asian woman. I'm curious to see whether <Dating.name> would be willing to eat the pussy of a lady who's all natural down there."
+
+
+                            Elseif Actor.isEthnic(white) && Actor.isMale() && !isTimingOut(strt_white_m)
+                                Actor.blendPreset(strt_white_m)
+                                "I can't help but fantasize about <Dating.name> being fucked by a white man. Subconsciously, maybe I enjoy a little bit being belittled by someone with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people. Besides, I get turned on just thinking about the contrast between his pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                                
+                            Elseif Actor.isEthnic(white) && !Actor.isMale() && !isTimingOut(strt_white_f)
+                                Actor.blendPreset(strt_white_f)
+                                "I can't help but fantasize about <Dating.name> being with a white woman. Subconsciously, maybe I enjoy a little bit feel inferior to someone whose race historically was in a position of authority over my own <Player.race> people and even now still considered by some as the standard for beauty. Besides, I get turned on just thinking about the contrast between her pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                            Endif
+                        Endif
+                    Endif
+                    // STEREOTYPE BLOCK END
+                    secondScreen(Actor)
+                    Actor.show()
+                    "<Actor.name> responded to my ad and sent over a photo of <Actor.him_or_her> as requested."
+                    0:: "Invite <Actor.name>"
+                    1:: "Look for someone else"
+                    
+                    If 1
+                        Actor.delete()
+                    Endif
+                    secondScreen()
+                    Actor.hide()
+                Else
+                    GoingAhead = false
+                Endif
+            Endwhile
+            
+            While !Actor2.isValid() && GoingAhead
+                "Who is the second person to invite?"
+                0:: "Someone I know"
+                1:: "Random stranger on Craiglist"
+                2:: "Forget this whole group sex party idea!"
+                
+                If 0
+                    "Pick someone with high perversion or I've done sexual things with previously."
+                    selectNPC()
+                    Actor2 = getSelectedNPC()
+                    
+                    If Actor2.hadSex() || Actor2:perversion > 50
+                        "<Actor2.name> accepted my invitation."
+                    Else
+                        "Unfortunately, <Actor2.name> turned down my invitation."
+                        Actor2.delete()
+                    Endif
+                    
+                Elseif 1
+                    "Should I state a preference for a particular ethnicity?"
+                    0:: "Black"
+                    1:: "South Asian"
+                    2:: "Arab"
+                    3:: "Latin"
+                    4:: "East Asian"
+                    5:: "White"
+                    
+                    If 0
+                        setRaceGenerated(black)
+                    Elseif 1
+                        setRaceGenerated(indian)    
+                    Elseif 2
+                        setRaceGenerated(arab)        
+                    Elseif 3
+                        setRaceGenerated(latin)    
+                    Elseif 4
+                        setRaceGenerated(asian)    
+                    Else
+                        setRaceGenerated(white)    
+                    Endif
+                    
+                    "What gender should I specifically look for in the Craiglist ad?"
+                    0:: "Male"
+                    1:: "Female"
+                    2:: "Trans"
+                    
+                    Actor2 = generatePersonTemporary()
+                    While [!Actor2.isMale() && choice == 0] || [!Actor2.isFemale() && choice == 1] || [!Actor2.isTrans() && choice == 2]
+                        Actor2 = generatePersonTemporary()
+                    Endwhile
+                    // STEREOTYPE BLOCK START
+                    If Actor2.isValid()
+                        If Dating.isSameAs(Player)
+                            If Actor2.isEthnic(black) && Actor2.isMale() && !isTimingOut(strt_black_m)
+                                Actor2.blendPreset(strt_black_m)
+                                "I can't help but fantasize about black men and their big black cocks and how they will really stretch my poor little <Player.race> body to its limits."
+                                
+                            Elseif Actor2.isEthnic(black) && !Actor2.isMale() && !isTimingOut(strt_black_f)
+                                Actor2.blendPreset(strt_black_f)
+                                "I can't help but fantasize about those strong black women and their voluptuous curves. Personally, I've always preferred thicker women to the skinny fashion model types."
+
+
+                            Elseif Actor2.isEthnic(indian) && Actor2.isMale() && !isTimingOut(strt_indian_m)
+                                Actor2.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about these exotic South Asian men with their dark skin matched by thick black body hair."
+                                
+                            Elseif Actor2.isEthnic(indian) && !Actor2.isMale() && !isTimingOut(strt_indian_f)
+                                Actor2.blendPreset(strt_indian_f)
+                                "There are just something about exotic yet sexually repressed South Asian women that really attract me to them. I also don't mind my ladies being a bit on a hairier side."
+
+                                
+                            Elseif Actor2.isEthnic(arab) && Actor2.isMale() && !isTimingOut(strt_arab_m)
+                                Actor2.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about these exotic Arab men with their manly black beard and hairy chest."
+                                If Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more dominant attitude towards women somewhat arousing too."
+                                Endif
+                                
+                            Elseif Actor2.isEthnic(arab) && !Actor2.isMale() && !isTimingOut(strt_arab_f)
+                                Actor2.blendPreset(strt_arab_f)
+                                "There are just something about exotic yet sexually repressed Arab women that really attract me to them."
+                                If !Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more traditional attitude towards the role of the woman in a relationship somewhat arousing too."
+                                Endif
+
+
+                            Elseif Actor2.isEthnic(latin) && Actor2.isMale() && !isTimingOut(strt_latin_m)
+                                Actor2.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about these passionate Latino men with their tanned skin and dark handsome features. It's so sexy when they talk dirty in their mother tongue."
+                                
+                            Elseif Actor2.isEthnic(latin) && !Actor2.isMale() && !isTimingOut(strt_latin_f)
+                                Actor2.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about those sexy Latinas with their voluptuous curves and fiery passion. I'd love nothing more but to dance with them all night."
+
+                                
+                            Elseif Actor2.isEthnic(asian) && Actor2.isMale() && !isTimingOut(strt_asian_m)
+                                Actor2.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about these cute youthful-looking East Asian men. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair."
+                                "I also find their intelligence and more gentle and shy demeanor absolutely irresistible."
+                                
+                            Elseif Actor2.isEthnic(asian) && !Actor2.isMale() && !isTimingOut(strt_asian_f)
+                                Actor2.blendPreset(strt_asian_f)
+                                "There are just something about smart but shy youthful-looking East Asian women that really attract me to them. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair. I also don't mind my ladies being all natural down there."
+                                "I find their somewhat more submissive behavior in a relationship quite arousing too."
+
+
+                            Elseif Actor2.isEthnic(white) && Actor2.isMale() && !isTimingOut(strt_white_m)
+                                Actor2.blendPreset(strt_white_m)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white men to <Player.race> men. Subconsciously, maybe I enjoy a little bit having a partner with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people, but most importantly, I just find white men the most attractive and get turned on by the contrast between skin tones when we make love."
+                                Endif
+                                
+                            Elseif Actor2.isEthnic(white) && !Actor2.isMale() && !isTimingOut(strt_white_f)
+                                Actor2.blendPreset(strt_white_f)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white women to <Player.race> women. Subconsciously, maybe I enjoy that little victorious feeling of being able to 'score' with a white girl and get that look of admiration and jealousy from my fellow <Player.race> friends, but most importantly, I just find white women the most attractive and want to show her what's it like to be with a <Player.race> <Player.man_or_woman>."
+                                Endif
+                            Endif
+                        Else
+                            If Actor2.isEthnic(black) && Actor2.isMale() && !isTimingOut(strt_black_m)
+                                Actor2.blendPreset(strt_black_m)
+                                "I can't help but fantasize about watching <Dating.name>'s poor little <Dating.race> body being stretched to its limit by a big black cock."
+                                
+                            Elseif Actor2.isEthnic(black) && !Actor2.isMale() && !isTimingOut(strt_black_f)
+                                Actor2.blendPreset(strt_black_f)
+                                "I can't help but fantasize about watching <Dating.name> with a strong black woman and her voluptuous curves."
+
+
+                            Elseif Actor2.isEthnic(indian) && Actor2.isMale() && !isTimingOut(strt_indian_m)
+                                Actor2.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about watching <Dating.name> being pounded by an exotic South Asian man with his dark skin matched by thick black body hair."
+                                
+                            Elseif Actor2.isEthnic(indian) && !Actor2.isMale() && !isTimingOut(strt_indian_f)
+                                Actor2.blendPreset(strt_indian_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed South Asian woman, especially if she's a bit on the hairier side."
+
+                                
+                            Elseif Actor2.isEthnic(arab) && Actor2.isMale() && !isTimingOut(strt_arab_m)
+                                Actor2.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about watching <Dating.name> being fucked by an exotic Middle Eastern man with his manly beard and hairy chest."
+                                If Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in his culture makes it even more exciting."
+                                Else
+                                    "I want to watch first-hand how he would treat my woman with a more dominant attitude."
+                                Endif
+                                
+                            Elseif Actor2.isEthnic(arab) && !Actor2.isMale() && !isTimingOut(strt_arab_f)
+                                Actor2.blendPreset(strt_arab_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed Middle Eastern woman."
+                                If !Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in her culture makes it even more exciting."
+                                Endif
+
+
+                            Elseif Actor2.isEthnic(latin) && Actor2.isMale() && !isTimingOut(strt_latin_m)
+                                Actor2.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about watching <Dating.name> making passionate love with a dark and handsome Latino man, who could bring <Dating.him_or_her> to orgasm just with his sexy voice."
+                                
+                            Elseif Actor2.isEthnic(latin) && !Actor2.isMale() && !isTimingOut(strt_latin_f)
+                                Actor2.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about watching <Dating.name> dance all night in bed with a sexy Latina with her voluptuous curves and fiery passion."
+
+                                
+                            Elseif Actor2.isEthnic(asian) && Actor2.isMale() && !isTimingOut(strt_asian_m)
+                                Actor2.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about watching <Dating.name> making love with a cute and gentle East Asian guy. I know <Dating.he_or_she> would enjoy being with someone intelligent."
+                                
+                            Elseif Actor2.isEthnic(asian) && !Actor2.isMale() && !isTimingOut(strt_asian_f)
+                                Actor2.blendPreset(strt_asian_f)
+                                "I'd love to watch <Dating.name> open up an smart yet shy & submissive East Asian woman. I'm curious to see whether <Dating.name> would be willing to eat the pussy of a lady who's all natural down there."
+
+
+                            Elseif Actor2.isEthnic(white) && Actor2.isMale() && !isTimingOut(strt_white_m)
+                                Actor2.blendPreset(strt_white_m)
+                                "I can't help but fantasize about <Dating.name> being fucked by a white man. Subconsciously, maybe I enjoy a little bit being belittled by someone with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people. Besides, I get turned on just thinking about the contrast between his pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                                
+                            Elseif Actor2.isEthnic(white) && !Actor2.isMale() && !isTimingOut(strt_white_f)
+                                Actor2.blendPreset(strt_white_f)
+                                "I can't help but fantasize about <Dating.name> being with a white woman. Subconsciously, maybe I enjoy a little bit feel inferior to someone whose race historically was in a position of authority over my own <Player.race> people and even now still considered by some as the standard for beauty. Besides, I get turned on just thinking about the contrast between her pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                            Endif
+                        Endif
+                    Endif
+                    // STEREOTYPE BLOCK END
+                    secondScreen(Actor2)
+                    Actor2.show()
+                    "<Actor2.name> responded to my ad and sent over a photo of <Actor2.him_or_her> as requested."
+                    0:: "Invite <Actor2.name>"
+                    1:: "Look for someone else"
+                    
+                    If 1
+                        Actor2.delete()
+                    Endif
+                    secondScreen()
+                    Actor2.hide()
+                    
+                Else
+                    GoingAhead = false
+                Endif
+            Endwhile
+            
+            While !Actor3.isValid() && GoingAhead
+                "Who is the third person to invite?"
+                0:: "Someone I know"
+                1:: "Random stranger on Craiglist"
+                2:: "Two guests are enough. Let's go ahead with the party."
+                
+                If 0
+                    "Pick someone with high perversion or I've done sexual things with previously."
+                    selectNPC()
+                    Actor3 = getSelectedNPC()
+                    
+                    If Actor3.hadSex() || Actor3:perversion > 50
+                        "<Actor3.name> accepted my invitation."
+                    Else
+                        "Unfortunately, <Actor3.name> turned down my invitation."
+                        Actor3.delete()
+                    Endif
+                    
+                Elseif 1
+                    "Should I state a preference for a particular ethnicity?"
+                    0:: "Black"
+                    1:: "South Asian"
+                    2:: "Arab"
+                    3:: "Latin"
+                    4:: "East Asian"
+                    5:: "White"
+                    
+                    If 0
+                        setRaceGenerated(black)
+                    Elseif 1
+                        setRaceGenerated(indian)    
+                    Elseif 2
+                        setRaceGenerated(arab)        
+                    Elseif 3
+                        setRaceGenerated(latin)    
+                    Elseif 4
+                        setRaceGenerated(asian)    
+                    Else
+                        setRaceGenerated(white)    
+                    Endif
+                    
+                    "What gender should I specifically look for in the Craiglist ad?"
+                    0:: "Male"
+                    1:: "Female"
+                    2:: "Trans"
+                    
+                    Actor3 = generatePersonTemporary()
+                    While [!Actor3.isMale() && choice == 0] || [!Actor3.isFemale() && choice == 1] || [!Actor3.isTrans() && choice == 2]
+                        Actor3 = generatePersonTemporary()
+                    Endwhile
+                    // STEREOTYPE BLOCK START
+                    If Actor3.isValid()
+                        If Dating.isSameAs(Player)
+                            If Actor3.isEthnic(black) && Actor3.isMale() && !isTimingOut(strt_black_m)
+                                Actor3.blendPreset(strt_black_m)
+                                "I can't help but fantasize about black men and their big black cocks and how they will really stretch my poor little <Player.race> body to its limits."
+                                
+                            Elseif Actor3.isEthnic(black) && !Actor3.isMale() && !isTimingOut(strt_black_f)
+                                Actor3.blendPreset(strt_black_f)
+                                "I can't help but fantasize about those strong black women and their voluptuous curves. Personally, I've always preferred thicker women to the skinny fashion model types."
+
+
+                            Elseif Actor3.isEthnic(indian) && Actor3.isMale() && !isTimingOut(strt_indian_m)
+                                Actor3.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about these exotic South Asian men with their dark skin matched by thick black body hair."
+                                
+                            Elseif Actor3.isEthnic(indian) && !Actor3.isMale() && !isTimingOut(strt_indian_f)
+                                Actor3.blendPreset(strt_indian_f)
+                                "There are just something about exotic yet sexually repressed South Asian women that really attract me to them. I also don't mind my ladies being a bit on a hairier side."
+
+                                
+                            Elseif Actor3.isEthnic(arab) && Actor3.isMale() && !isTimingOut(strt_arab_m)
+                                Actor3.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about these exotic Arab men with their manly black beard and hairy chest."
+                                If Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more dominant attitude towards women somewhat arousing too."
+                                Endif
+                                
+                            Elseif Actor3.isEthnic(arab) && !Actor3.isMale() && !isTimingOut(strt_arab_f)
+                                Actor3.blendPreset(strt_arab_f)
+                                "There are just something about exotic yet sexually repressed Arab women that really attract me to them."
+                                If !Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more traditional attitude towards the role of the woman in a relationship somewhat arousing too."
+                                Endif
+
+
+                            Elseif Actor3.isEthnic(latin) && Actor3.isMale() && !isTimingOut(strt_latin_m)
+                                Actor3.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about these passionate Latino men with their tanned skin and dark handsome features. It's so sexy when they talk dirty in their mother tongue."
+                                
+                            Elseif Actor3.isEthnic(latin) && !Actor3.isMale() && !isTimingOut(strt_latin_f)
+                                Actor3.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about those sexy Latinas with their voluptuous curves and fiery passion. I'd love nothing more but to dance with them all night."
+
+                                
+                            Elseif Actor3.isEthnic(asian) && Actor3.isMale() && !isTimingOut(strt_asian_m)
+                                Actor3.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about these cute youthful-looking East Asian men. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair."
+                                "I also find their intelligence and more gentle and shy demeanor absolutely irresistible."
+                                
+                            Elseif Actor3.isEthnic(asian) && !Actor3.isMale() && !isTimingOut(strt_asian_f)
+                                Actor3.blendPreset(strt_asian_f)
+                                "There are just something about smart but shy youthful-looking East Asian women that really attract me to them. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair. I also don't mind my ladies being all natural down there."
+                                "I find their somewhat more submissive behavior in a relationship quite arousing too."
+
+
+                            Elseif Actor3.isEthnic(white) && Actor3.isMale() && !isTimingOut(strt_white_m)
+                                Actor3.blendPreset(strt_white_m)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white men to <Player.race> men. Subconsciously, maybe I enjoy a little bit having a partner with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people, but most importantly, I just find white men the most attractive and get turned on by the contrast between skin tones when we make love."
+                                Endif
+                                
+                            Elseif Actor3.isEthnic(white) && !Actor3.isMale() && !isTimingOut(strt_white_f)
+                                Actor3.blendPreset(strt_white_f)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white women to <Player.race> women. Subconsciously, maybe I enjoy that little victorious feeling of being able to 'score' with a white girl and get that look of admiration and jealousy from my fellow <Player.race> friends, but most importantly, I just find white women the most attractive and want to show her what's it like to be with a <Player.race> <Player.man_or_woman>."
+                                Endif
+                            Endif
+                        Else
+                            If Actor3.isEthnic(black) && Actor3.isMale() && !isTimingOut(strt_black_m)
+                                Actor3.blendPreset(strt_black_m)
+                                "I can't help but fantasize about watching <Dating.name>'s poor little <Dating.race> body being stretched to its limit by a big black cock."
+                                
+                            Elseif Actor3.isEthnic(black) && !Actor3.isMale() && !isTimingOut(strt_black_f)
+                                Actor3.blendPreset(strt_black_f)
+                                "I can't help but fantasize about watching <Dating.name> with a strong black woman and her voluptuous curves."
+
+
+                            Elseif Actor3.isEthnic(indian) && Actor3.isMale() && !isTimingOut(strt_indian_m)
+                                Actor3.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about watching <Dating.name> being pounded by an exotic South Asian man with his dark skin matched by thick black body hair."
+                                
+                            Elseif Actor3.isEthnic(indian) && !Actor3.isMale() && !isTimingOut(strt_indian_f)
+                                Actor3.blendPreset(strt_indian_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed South Asian woman, especially if she's a bit on the hairier side."
+
+                                
+                            Elseif Actor3.isEthnic(arab) && Actor3.isMale() && !isTimingOut(strt_arab_m)
+                                Actor3.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about watching <Dating.name> being fucked by an exotic Middle Eastern man with his manly beard and hairy chest."
+                                If Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in his culture makes it even more exciting."
+                                Else
+                                    "I want to watch first-hand how he would treat my woman with a more dominant attitude."
+                                Endif
+                                
+                            Elseif Actor3.isEthnic(arab) && !Actor3.isMale() && !isTimingOut(strt_arab_f)
+                                Actor3.blendPreset(strt_arab_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed Middle Eastern woman."
+                                If !Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in her culture makes it even more exciting."
+                                Endif
+
+
+                            Elseif Actor3.isEthnic(latin) && Actor3.isMale() && !isTimingOut(strt_latin_m)
+                                Actor3.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about watching <Dating.name> making passionate love with a dark and handsome Latino man, who could bring <Dating.him_or_her> to orgasm just with his sexy voice."
+                                
+                            Elseif Actor3.isEthnic(latin) && !Actor3.isMale() && !isTimingOut(strt_latin_f)
+                                Actor3.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about watching <Dating.name> dance all night in bed with a sexy Latina with her voluptuous curves and fiery passion."
+
+                                
+                            Elseif Actor3.isEthnic(asian) && Actor3.isMale() && !isTimingOut(strt_asian_m)
+                                Actor3.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about watching <Dating.name> making love with a cute and gentle East Asian guy. I know <Dating.he_or_she> would enjoy being with someone intelligent."
+                                
+                            Elseif Actor3.isEthnic(asian) && !Actor3.isMale() && !isTimingOut(strt_asian_f)
+                                Actor3.blendPreset(strt_asian_f)
+                                "I'd love to watch <Dating.name> open up an smart yet shy & submissive East Asian woman. I'm curious to see whether <Dating.name> would be willing to eat the pussy of a lady who's all natural down there."
+
+
+                            Elseif Actor3.isEthnic(white) && Actor3.isMale() && !isTimingOut(strt_white_m)
+                                Actor3.blendPreset(strt_white_m)
+                                "I can't help but fantasize about <Dating.name> being fucked by a white man. Subconsciously, maybe I enjoy a little bit being belittled by someone with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people. Besides, I get turned on just thinking about the contrast between his pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                                
+                            Elseif Actor3.isEthnic(white) && !Actor3.isMale() && !isTimingOut(strt_white_f)
+                                Actor3.blendPreset(strt_white_f)
+                                "I can't help but fantasize about <Dating.name> being with a white woman. Subconsciously, maybe I enjoy a little bit feel inferior to someone whose race historically was in a position of authority over my own <Player.race> people and even now still considered by some as the standard for beauty. Besides, I get turned on just thinking about the contrast between her pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                            Endif
+                        Endif
+                    Endif
+                    // STEREOTYPE BLOCK END
+                    secondScreen(Actor3)
+                    Actor3.show()
+                    "<Actor3.name> responded to my ad and sent over a photo of <Actor3.him_or_her> as requested."
+                    0:: "Invite <Actor3.name>"
+                    1:: "Look for someone else"
+                    
+                    If 1
+                        Actor3.delete()
+                    Endif
+                    secondScreen()
+                    Actor3.hide()
+
+                Else
+                    GoingAhead = false
+                    setBackgroundCustom(livingroom)
+                    
+                    Actor.dress()
+                    Actor.show()
+                    
+                    Actor2.dress()
+                    Actor2.show()
+                    
+                    "My guests showed up to the party and after a little bit of mingle, everyone got down to business."
+                    Sex(Dating, Actor, Actor2)
+                Endif
+            Endwhile
+            
+            While !Actor4.isValid() && GoingAhead
+                "Who is the fourth person to invite?"
+                0:: "Someone I know"
+                1:: "Random stranger on Craiglist"
+                2:: "Three guests are enough. Let's go ahead with the party."
+                
+                If 0
+                    "Pick someone with high perversion or I've done sexual things with previously."
+                    selectNPC()
+                    Actor4 = getSelectedNPC()
+                    
+                    If Actor4.hadSex() || Actor4:perversion > 50
+                        "<Actor4.name> accepted my invitation."
+                    Else
+                        "Unfortunately, <Actor4.name> turned down my invitation."
+                        Actor4.delete()
+                    Endif
+                    
+                Elseif 1
+                    "Should I state a preference for a particular ethnicity?"
+                    0:: "Black"
+                    1:: "South Asian"
+                    2:: "Arab"
+                    3:: "Latin"
+                    4:: "East Asian"
+                    5:: "White"
+                    
+                    If 0
+                        setRaceGenerated(black)
+                    Elseif 1
+                        setRaceGenerated(indian)    
+                    Elseif 2
+                        setRaceGenerated(arab)        
+                    Elseif 3
+                        setRaceGenerated(latin)    
+                    Elseif 4
+                        setRaceGenerated(asian)    
+                    Else
+                        setRaceGenerated(white)    
+                    Endif
+                    
+                    "What gender should I specifically look for in the Craiglist ad?"
+                    0:: "Male"
+                    1:: "Female"
+                    2:: "Trans"
+                    
+                    Actor4 = generatePersonTemporary()
+                    While [!Actor4.isMale() && choice == 0] || [!Actor4.isFemale() && choice == 1] || [!Actor4.isTrans() && choice == 2]
+                        Actor4 = generatePersonTemporary()
+                    Endwhile
+                    
+                    // STEREOTYPE BLOCK START
+                    If Actor4.isValid()
+                        If Dating.isSameAs(Player)
+                            If Actor4.isEthnic(black) && Actor4.isMale() && !isTimingOut(strt_black_m)
+                                Actor4.blendPreset(strt_black_m)
+                                "I can't help but fantasize about black men and their big black cocks and how they will really stretch my poor little <Player.race> body to its limits."
+                                
+                            Elseif Actor4.isEthnic(black) && !Actor4.isMale() && !isTimingOut(strt_black_f)
+                                Actor4.blendPreset(strt_black_f)
+                                "I can't help but fantasize about those strong black women and their voluptuous curves. Personally, I've always preferred thicker women to the skinny fashion model types."
+
+
+                            Elseif Actor4.isEthnic(indian) && Actor4.isMale() && !isTimingOut(strt_indian_m)
+                                Actor4.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about these exotic South Asian men with their dark skin matched by thick black body hair."
+                                
+                            Elseif Actor4.isEthnic(indian) && !Actor4.isMale() && !isTimingOut(strt_indian_f)
+                                Actor4.blendPreset(strt_indian_f)
+                                "There are just something about exotic yet sexually repressed South Asian women that really attract me to them. I also don't mind my ladies being a bit on a hairier side."
+
+                                
+                            Elseif Actor4.isEthnic(arab) && Actor4.isMale() && !isTimingOut(strt_arab_m)
+                                Actor4.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about these exotic Arab men with their manly black beard and hairy chest."
+                                If Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more dominant attitude towards women somewhat arousing too."
+                                Endif
+                                
+                            Elseif Actor4.isEthnic(arab) && !Actor4.isMale() && !isTimingOut(strt_arab_f)
+                                Actor4.blendPreset(strt_arab_f)
+                                "There are just something about exotic yet sexually repressed Arab women that really attract me to them."
+                                If !Player.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+                                Else
+                                    "I find their more traditional attitude towards the role of the woman in a relationship somewhat arousing too."
+                                Endif
+
+
+                            Elseif Actor4.isEthnic(latin) && Actor4.isMale() && !isTimingOut(strt_latin_m)
+                                Actor4.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about these passionate Latino men with their tanned skin and dark handsome features. It's so sexy when they talk dirty in their mother tongue."
+                                
+                            Elseif Actor4.isEthnic(latin) && !Actor4.isMale() && !isTimingOut(strt_latin_f)
+                                Actor4.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about those sexy Latinas with their voluptuous curves and fiery passion. I'd love nothing more but to dance with them all night."
+
+                                
+                            Elseif Actor4.isEthnic(asian) && Actor4.isMale() && !isTimingOut(strt_asian_m)
+                                Actor4.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about these cute youthful-looking East Asian men. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair."
+                                "I also find their intelligence and more gentle and shy demeanor absolutely irresistible."
+                                
+                            Elseif Actor4.isEthnic(asian) && !Actor4.isMale() && !isTimingOut(strt_asian_f)
+                                Actor4.blendPreset(strt_asian_f)
+                                "There are just something about smart but shy youthful-looking East Asian women that really attract me to them. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair. I also don't mind my ladies being all natural down there."
+                                "I find their somewhat more submissive behavior in a relationship quite arousing too."
+
+
+                            Elseif Actor4.isEthnic(white) && Actor4.isMale() && !isTimingOut(strt_white_m)
+                                Actor4.blendPreset(strt_white_m)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white men to <Player.race> men. Subconsciously, maybe I enjoy a little bit having a partner with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people, but most importantly, I just find white men the most attractive and get turned on by the contrast between skin tones when we make love."
+                                Endif
+                                
+                            Elseif Actor4.isEthnic(white) && !Actor4.isMale() && !isTimingOut(strt_white_f)
+                                Actor4.blendPreset(strt_white_f)
+                                If !Player.isEthnic(white)
+                                    "I can't help but admit I've always preferred white women to <Player.race> women. Subconsciously, maybe I enjoy that little victorious feeling of being able to 'score' with a white girl and get that look of admiration and jealousy from my fellow <Player.race> friends, but most importantly, I just find white women the most attractive and want to show her what's it like to be with a <Player.race> <Player.man_or_woman>."
+                                Endif
+                            Endif
+                        Else
+                            If Actor4.isEthnic(black) && Actor4.isMale() && !isTimingOut(strt_black_m)
+                                Actor4.blendPreset(strt_black_m)
+                                "I can't help but fantasize about watching <Dating.name>'s poor little <Dating.race> body being stretched to its limit by a big black cock."
+                                
+                            Elseif Actor4.isEthnic(black) && !Actor4.isMale() && !isTimingOut(strt_black_f)
+                                Actor4.blendPreset(strt_black_f)
+                                "I can't help but fantasize about watching <Dating.name> with a strong black woman and her voluptuous curves."
+
+
+                            Elseif Actor4.isEthnic(indian) && Actor4.isMale() && !isTimingOut(strt_indian_m)
+                                Actor4.blendPreset(strt_indian_m)
+                                "I can't help but fantasize about watching <Dating.name> being pounded by an exotic South Asian man with his dark skin matched by thick black body hair."
+                                
+                            Elseif Actor4.isEthnic(indian) && !Actor4.isMale() && !isTimingOut(strt_indian_f)
+                                Actor4.blendPreset(strt_indian_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed South Asian woman, especially if she's a bit on the hairier side."
+
+                                
+                            Elseif Actor4.isEthnic(arab) && Actor4.isMale() && !isTimingOut(strt_arab_m)
+                                Actor4.blendPreset(strt_arab_m)
+                                "I can't help but fantasize about watching <Dating.name> being fucked by an exotic Middle Eastern man with his manly beard and hairy chest."
+                                If Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in his culture makes it even more exciting."
+                                Else
+                                    "I want to watch first-hand how he would treat my woman with a more dominant attitude."
+                                Endif
+                                
+                            Elseif Actor4.isEthnic(arab) && !Actor4.isMale() && !isTimingOut(strt_arab_f)
+                                Actor4.blendPreset(strt_arab_f)
+                                "I'd love to watch <Dating.name> open up an exotic yet sexually repressed Middle Eastern woman."
+                                If !Dating.isMale()
+                                    "The fact that homosexuality is a forbidden fruit in her culture makes it even more exciting."
+                                Endif
+
+
+                            Elseif Actor4.isEthnic(latin) && Actor4.isMale() && !isTimingOut(strt_latin_m)
+                                Actor4.blendPreset(strt_latin_m)
+                                "I can't help but fantasize about watching <Dating.name> making passionate love with a dark and handsome Latino man, who could bring <Dating.him_or_her> to orgasm just with his sexy voice."
+                                
+                            Elseif Actor4.isEthnic(latin) && !Actor4.isMale() && !isTimingOut(strt_latin_f)
+                                Actor4.blendPreset(strt_latin_f)
+                                "I can't help but fantasize about watching <Dating.name> dance all night in bed with a sexy Latina with her voluptuous curves and fiery passion."
+
+                                
+                            Elseif Actor4.isEthnic(asian) && Actor4.isMale() && !isTimingOut(strt_asian_m)
+                                Actor4.blendPreset(strt_asian_m)
+                                "I can't help but fantasize about watching <Dating.name> making love with a cute and gentle East Asian guy. I know <Dating.he_or_she> would enjoy being with someone intelligent."
+                                
+                            Elseif Actor4.isEthnic(asian) && !Actor4.isMale() && !isTimingOut(strt_asian_f)
+                                Actor4.blendPreset(strt_asian_f)
+                                "I'd love to watch <Dating.name> open up an smart yet shy & submissive East Asian woman. I'm curious to see whether <Dating.name> would be willing to eat the pussy of a lady who's all natural down there."
+
+
+                            Elseif Actor4.isEthnic(white) && Actor4.isMale() && !isTimingOut(strt_white_m)
+                                Actor4.blendPreset(strt_white_m)
+                                "I can't help but fantasize about <Dating.name> being fucked by a white man. Subconsciously, maybe I enjoy a little bit being belittled by someone with a more dominant perceived social status and whose race historically was in a position of authority over my own <Player.race> people. Besides, I get turned on just thinking about the contrast between his pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                                
+                            Elseif Actor4.isEthnic(white) && !Actor4.isMale() && !isTimingOut(strt_white_f)
+                                Actor4.blendPreset(strt_white_f)
+                                "I can't help but fantasize about <Dating.name> being with a white woman. Subconsciously, maybe I enjoy a little bit feel inferior to someone whose race historically was in a position of authority over my own <Player.race> people and even now still considered by some as the standard for beauty. Besides, I get turned on just thinking about the contrast between her pale skin and <Dating.name>'s <Dating.race> tone when they make love."
+                            Endif
+                        Endif
+                    Endif
+                    // STEREOTYPE BLOCK END                     
+                    
+                    secondScreen(Actor4)
+                    Actor4.show()
+                    "<Actor4.name> responded to my ad and sent over a photo of <Actor4.him_or_her> as requested."
+                    0:: "Invite <Actor4.name>"
+                    1:: "Look for someone else"
+                    
+                    If 1
+                        Actor4.delete()
+                    Endif
+                    secondScreen()
+                    Actor4.hide()                    
+                    
+                Else
+                    GoingAhead = false
+                    setBackgroundCustom(livingroom)
+                    
+                    Actor.dress()
+                    Actor.show()
+                    
+                    Actor2.dress()
+                    Actor2.show()
+                    
+                    Actor3.dress()
+                    Actor3.show()
+                    
+                    "My guests showed up to the party and after a little bit of mingle, everyone got down to business."
+                    Sex(Dating, Actor, Actor2, Actor3)
+                Endif
+            Endwhile
+            
+            If GoingAhead
+                setBackgroundCustom(livingroom)
+                
+                Actor.dress()
+                Actor.show()
+                
+                Actor2.dress()
+                Actor2.show()
+                
+                Actor3.dress()
+                Actor3.show()
+                
+                Actor4.dress()
+                Actor4.show()
+                
+                "My guests showed up to the party and after a little bit of mingle, everyone got down to business."
+                Sex(Dating, Actor, Actor2, Actor3, Actor4)    
+            Endif
+        Endif
+    Endif
+    SceneEnd()

@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: take_pet_out
+ACTION_NAME: Take out for a walk
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 5 - 10
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: take_pet_out
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isTemporary() && !isWithCompanion() && !isWithCompanionCreature() && Actor.isCreature()

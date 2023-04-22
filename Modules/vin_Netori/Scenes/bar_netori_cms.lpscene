@@ -1,0 +1,155 @@
+WHAT: all
+WHERE: bar, nightclub, pub, biergarten, restaurant
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isDating() && Actor.isFemale()
+OTHER:
+
+    SceneStart()
+    "This place is crowded."
+    "I head off get some drinks for my <Actor.boyfriend_or_girlfriend> and me and soon I lose sight of her in the crowd."
+    Actor.hide()
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isSameGender(Actor)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2:age => Random(18, 35)
+    Actor2:attractiveness => Random(75, 100)
+    Actor2:perversion => Random(50, 100)
+    Actor2.randomizeFace()
+    Actor2.randomizeHairs()
+    Actor2.dress()
+    Actor2.show()
+    "While searching for her you meet the glance of a beautiful lady, who decides to chat you up."
+    Actor2:: "Are you here alone?"
+    0:: "Tell her that you are alone."
+    1:: "Tell her you are waiting for your <Actor.boyfriend_or_girlfriend>"
+
+    If 0
+        Player:: "I was here with a friend but she had to leave abruptly, so yeah now I’m here alone."
+        Actor2:: "Not anymore,now you’re here with me."
+        
+        Player:: "I like the sounds of that."
+        Actor2:: "Me too! I'm <Actor2.name> by the way"
+        
+        Player.animate(drinkglass)
+        Actor2.animate(drinkglass)
+        
+        "You both enjoy a couple drinks and you begin to forget about <Actor.name>"
+        
+        Actor2:: "I'm going to the restroom. Meet me there in 2 minutes!"
+        0:: "Follow <Actor2.name> into the restroom."
+        1:: "Stop this right here and continue searching for your <Actor.boyfriend_or_girlfriend>"
+
+        If 0
+            setBackground(toilets)
+            "I enter the first open bathroom stall and <Actor.name> greets me with a sultry smile."
+            Actor2(Flirty):: "Look what a pervert, we got here! Following a girl into the ladies room..."
+            "She opens the belt of my trousers."
+            Actor2(Flirty):: "Tell me...! How happy are you that your date has left?"
+            Player:: "I'm so damn happy, you can't believe it!"
+            Actor2(Flirty)::"Good Answer. Now let me blow your mind!"
+            Sex(Player,Actor2)
+            
+            Cuck = Actor.getActorVar(tag_NTRCuck)
+            If Random(50, 200) < Actor:perversion + Actor:masochist || openRelationship() || Cuck == 1
+                DateFollowed = true
+                "Suddenly the <Actor2.name> stops midway through our incredibly hot fucking session. She seems to be distracted by something."
+            
+                Player:: "What's wrong?!"
+                Actor2:: "Nothing. Put your hard cock in the hole right there! Some slut wants it."
+                Player:: "What? Really who?"
+                Actor2:: "I didn’t ask her name! Just give her your cock already!"
+            
+                "I shove my cock through the hole and the mysterious woman gently start strokes it."
+                
+                Player:: "She's stroking my cock!"
+                Actor2:: "What a slut! Kiss me!"
+                Player:: "Oh shit! She’s…. oh fuck… she’s so good!  She’s sucking my cock!"
+                
+                Sex(Player, Actor, Actor2)
+                
+                Actor2:: "My turn,  I want your cock!"
+                Sex(Actor2, Player)
+                Actor2:: "Hope you enjoyed the show. That pretty cock belongs to me bitch! Haha!"
+            EndIf
+            "<Actor2.name> turns to you. "
+            Actor2:: "Let's leave this place..."
+            If DateFollowed
+                "We both exit the restrooms, leaving the mysterious woman alone in the other stall."
+            Endif
+            Actor.hide()
+            setBackground(bar)
+            
+            Actor2:: "Listen...This was fun, but I gotta go now. Let's do this again sometime."
+            If DateFollowed
+                Actor2:: "Maybe even without some random slut trying to steal you away from me"
+            Endif
+            "What should I do?"
+            0:: "Exchange numbers"
+            1:: "This was a one time thing for me"
+            
+            If 0
+                Player:: "Sounds terrific, let us exchange numbers"
+                "We exchange numbers and then part your ways."
+            Else
+                Player:: "Sorry, but if you leave now, this is more like a onetime quickie for me"
+                Actor2:: "Whatever...Your loss!"
+                "With that <Actor2.he_or_she> leaves the bar and you will probably never see her again."
+            Endif
+            Actor2.hide()
+            "After <Actor2.he_or_she> has left I start searching for my <Actor.boyfriend_or_girlfriend> <Actor.name> again."
+            
+            If DateFollowed
+                "Soon I notice my <Actor.boyfriend_or_girlfriend> sitting alone at the bar."
+                Actor.show()
+                Player::"Hey there, finally I found you! You look happy..."
+                
+                If Random(0, 100) < 75
+                    Actor:: "Of course I’m happy, I just fulfilled a fantasy of mine."
+                    Player:: "You did? Which fantasy?"
+                    Actor:: "I just watched you fuck that girl in the restroom."
+                    Player:: "What the fuck? From where?"
+                    Actor:: "I was the other slut who sucked you"
+                    Player:: "I knew that mouth felt familiar, too good to be anyone else."
+                    Actor:: "Tonight was fun, we should do this again, but for now let’s head home."
+                    Actor.setActorVar(tag_NTRCuck, 1)
+                Else
+                    Actor:: "I just had a few drinks, while I waited to find you again. I think they are getting to my head..."
+                    Player:: "My little boozy girl...Seems like I just can't leave you alone for a bit. Let's get you home then" 
+                Endif   
+            Else
+                If Random(0, 100) < Actor:masochist || openRelationship() || Cuck
+                    "Then I hear her calling me from the bar."
+                    Actor.show()
+                    Actor:: "Hey, there my love! Here am I!" 
+                    "I get closer and greet her back and eventually we continue our date."
+                    "It seems like she does not have the slightest suspision regarding my litte detour to the restrooms with <Actor2.name>."
+                    "The rest of our date turns out quite delightful, especially <Actor.name> seems to have a wonderful time."
+                    "Since I met her after my quickie with <Actor.name> she almost seems to sparkle with joy. Could it be that she knows and approves?"
+                    Actor.setActorVar(tag_NTRCuck, 1)
+                Else
+                    "I search for quite a time but <Actor.name> is nowhere to be found. Could she have seen something?"
+                    setBackground(home)
+                    Actor.show()
+                    "Later that day my <Actor.boyfriend_or_girlfriend> and I have a great argument, and she confronts me with the events at the bar."
+                    "I dispute all of her (of course all so true) "suspicions" and swear nothing naughty has happend with me and this woman."
+                    "After a while we abandon our fight, but our relationship and <Actor.name>'s trust in me has noticeably suffered."
+                    Actor:attractiontoplayer -= 10
+                Endif
+            Endif
+        Elseif 1
+            Player:: "Sorry I can't do this. I've got to search for my friend..."
+            Actor2:: "Haven't you said she left you here alone?"
+            Player:: "Yeah...but maybe she is still somewhere around here" 
+            Actor2(angry):: "Hmpff...Whatever. Your loss!" 
+            "The woman walks off, visibly annoyed and leaves you alone at the bar again."
+            "A short time later I spot <Actor.name> again at the other side of the bar. We come back together and continue our date."  
+        Endif
+    Elseif 1
+        Actor2:: "I see...Hope you'll find her soon then. Have a good night."
+        "She gives me a little wink and leaves me alone at the bar again."
+        Actor.show()
+        "A short time later I spot <Actor.name> again at the other side of the bar. We come back together and continue our date."  
+    Endif
+    SceneEnd()
+    timeout(100, bar_netori_cms)

@@ -1,0 +1,45 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 8 - 21 
+WHO: none
+OTHER: Random(0, 100) < attractiveness && !Player.isProstitute() && modelfame == 0 && !isWithCompanion()
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    Actor.makeInterested(Player)
+    Actor.dress()
+    Actor.show()
+    "I was going about my business when suddenly a <Actor.man_or_woman> approached me ..."
+    Actor:: "Hello there, I represent this city's biggest model agency. You look like you have what it takes to go far in this industry. Would you like to come to our office to sort out some arrangements?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "This is a once-in-a-lifetime opportunity ... I've always wanted to be a model ..."
+        Actor:: "Please, follow me ..."
+        setBackground(home)
+        "The agency office turns out to be rather small and more like a cheap motel room than an office."
+        Actor:: "As I said, you have the look we're looking for ... what remains to be seen is whether you have the drive and determination to do whatever it takes to survive and thrive in this cutthroat industry ..."
+        Player:: "I do ..."
+        Actor:: "Have you heard about casting couch culture? Let me tell you it's a very real and necessary part of the industry. You refuse to do it, and your modelling career will be cut short right away ..."
+        Actor:: "What are you waiting for? Show me how driven you are for success in this industry, and we'll give you a contract right away."
+        0:: "Fuck the agent for a modelling contract"
+        1:: "No way"
+        
+        If 0
+            perversion += 1
+            Sex(Actor, Player)
+            Actor:: "Well done, I was right about you. You have everything required for a successful modelling career. Now, let me go to the next room and grab some paperwork and we can sort out the contract right away ..."
+            Actor.hide()
+            "So I wait ... and wait ... and wait ... the agent never came bank"
+            "I soon found out that the so-called 'agency office' was in fact an AirBnB and I was duped ... How embarrassing"
+            mood -= 20
+        Else
+            Actor:: "It's your loss ..."
+            perversion -= 1
+        Endif
+    Else
+        "I'm not that keen on becoming a model. Besides, this is too out of the blue, I'm a little bit suspicious ..."
+    Endif
+    SceneEnd()
+    timeout(500, fake_modeling)

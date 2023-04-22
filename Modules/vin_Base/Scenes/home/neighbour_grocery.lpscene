@@ -1,0 +1,99 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 11 - 17
+WHO: Actor = getSpecific(Neighbour); If !Actor.isAsexual() && Random(0, 100) > Actor:fitness
+OTHER: isAtHome()
+
+    SceneStart()
+    Actor.dress()
+    Actor.show(2)
+    setBackground(street)
+    "I was walking just outside my apartment when I spotted my neighbour <Actor.name> struggling to carry <Actor.his_or_her> grocery shopping back to <Actor.his_or_her> apartment. Should I help?"
+    0:: "Help <Actor.him_or_her> carry the groceries inside"
+    1:: "Ignore <Actor.him_or_her>"
+
+    If 1
+        "I really have to go now though, can't help out my neighbour right now. I'm sure <Actor.name> will manage."
+    Else
+        "We've all been there ... getting a bit carried away while grocery shopping and ending up with more that you can carry."
+        Player:: "Hey <Actor.name>, looks like you need some help there!"
+        Actor:: "Oh, thank you so much, <Player.name>"
+        karma += 1
+        Actor:rapportwithplayer += 1
+        setBackgroundCustom(livingroom)
+        "Eventually, we arrive at <Actor.name>'s apartment. I put the grocery bags I carried down on <Actor.his_or_her> kitchen countertop."
+        Player:: "Alright, see you later!"
+        Actor:: "Wait ... do you want to stay and chill for a while? I can cook you something from the ingredients I just bought as a thank you."
+        0:: "Sure"
+        1:: "I've got to go. Sorry"
+        
+        If 0
+            Player:: "Sure, I'd love to stay and hang out for a while."
+            choice = -1
+            ate = false
+            hadSex = false
+
+            While choice < 5
+                Kissed = false
+                "What should I suggest to <Actor.name> that we do?"
+                0:: "Chat"
+                1:: !ate:: "Eat something together"
+                2:: "Watch a movie"
+                3:: "Drink alcohol"
+                4:: !hadSex:: "Kiss <Actor.him_or_her>"
+                5:: "Say goodbye"
+
+                If 5
+                    "We said goodbye and went our ways."
+                Else
+                    Actor:rapportwithplayer += Random(0, 0.5)
+                    Actor:attractiontoplayer += Random(0, 0.5)
+                    If 0
+                        "We simply sat and chat for a while ..."
+                    Elseif 1
+                        "We made some quick snacks and enjoyed them together ..."
+                        ate = true
+                    Elseif 2
+                        "We watched a movie together ..."
+                    Elseif 3
+                        "We had a drink together ..."
+                        Player:intoxication += Random(0,10)
+                        Actor:intoxication += Random(0,10)
+                    Elseif 4
+                        Kissed = true
+                    Endif
+
+                    If Kissed || [!hadSex && Actor.isInterestedIn(Player) && Actor:attractiontoplayer > Random(30, 200)]
+                        AnimatePair(Player, Actor, Kissing)
+                        Player(Kiss):: "..."
+                        Actor(Kiss):: "..."
+                        "We had a kiss, an awkward one at first, but soon moving towards a more passionate direction."
+                        "Should I let this escalate further?"
+                        0:: "Make out"
+                        1:: "Stop"
+
+                        If 0
+                            If Actor.isInterestedIn(Player) && [Actor.IsDominantSex(Player) || Actor:attractiontoplayer + Actor:perversion > Random(50, 200) || Actor:intoxication > 80]
+                                "Our kiss got more and more steamy and soon we were making out, our hands all over each other."
+                                hadSex = true
+                                Player:perversion += Random(0, 1)
+                                Sex(Player, Actor)
+                                Actor.show(2)
+                                "The sex was amazing. We put our clothes back on afterwards and continued our date."
+                            Else
+                                "Unfortunately for me, <Actor.name> didn't seem interested in letting things escalate any further and pulled away."
+                            Endif
+                        Else
+                            "I decided to stop it there and not go any further."
+                        Endif
+                    Endif
+                Endif
+            Endwhile
+        Else
+            Player:: "Thank you for the offer. But maybe next time, I've got some errand to run right now."
+            Actor:: "Alright then, see you later!"
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(200, neighbour_grocery)

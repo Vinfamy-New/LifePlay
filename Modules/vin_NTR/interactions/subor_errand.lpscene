@@ -1,0 +1,49 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER:
+
+    SceneStart()
+    If OpenRelationship() || Actor1:perversion > 75 || Actor1:masochist < -50 || masochist > 50
+        Ignored = true
+    Else
+        Ignored = false
+    Endif
+    Actor1 = getSpecific(Dating)
+    "I decided to send my subordinate <Actor2.name> on an errand to retrieve some documents from my home. <Actor2.He_or_She> couldn't really turn it down but <Actor2.he_or_she> was clearly annoyed ... Tough luck, I'm <Actor2.his_or_her> boss."
+    Player.hide()
+    setBackground(street)
+    "Unbeknown to me ..."
+    Actor1.dress()
+    Actor1.show(2)
+    Actor1(Happy):: "You're retrieving something for my <Player.boyfriend_or_girlfriend>? Come right in!"
+    "It was my <Actor1.boyfriend_or_girlfriend> that opened the door for my subordinate."
+    setBackground(home)
+    "<Actor1.name> let <Actor2.name> inside my house to retrieve the documents as required."  
+    If Actor2.isInterestedIn(Actor1)
+        masochist += 1
+        Actor1:masochist -= 1
+        Actor1:perversion += 1
+        "Almost as a revenge for me sending <Actor2.him_or_her> on a tedius errand, <Actor2.name> tried to seduce my <Actor1.boyfriend_or_girlfriend>."
+        If Actor1.isInterestedIn(Actor2) && [Random(50, 75) < Actor1:perversion || Ignored]
+            masochist += 1
+            Actor1:masochist -= 1
+            Actor1:perversion += 1
+            "My <Actor1.boyfriend_or_girlfriend> was quite receptive to my subordinate's advances ..."
+            Actor1(Flirty):: "You know, my <Player.boyfriend_or_girlfriend> <Player.name> has been neglecting me recently ... always so busy at work."
+            Actor1(Flirty):: "Maybe <Player.he_or_she> sent you here deliberately ... to satisfy my needs."
+            "<Actor2.name> needed no further encouragement ..."
+            Actor2:: "Yes, I'm banging my boss's <Actor1.boyfriend_or_girlfriend>!"
+            Actor2:: "Serves <Player.him_or_her> right for sending me on pointless errands."
+            Sex(Actor2, Actor1)
+        Else
+            "Unfortunately for my traitorous subordinate, my <Actor1.boyfriend_or_girlfriend> was having none of <Actor1.his_or_her> flirting ..."
+            Actor1:attractiontoplayer += Random(0, 3)
+        Endif
+    Else
+        Actor2:: "Thank you, I'll need to head back to work and deliver these documents to the boss now."
+    Endif
+    Player.show()
+      
+    SceneEnd()

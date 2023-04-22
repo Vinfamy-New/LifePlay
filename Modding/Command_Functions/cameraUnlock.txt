@@ -1,0 +1,13 @@
+cameraUnlock()
+
+USE:
+Allows you to unlock the scene camera and let the player control
+
+TYPE: Command, Reference
+RETURNS: /
+THEME: Camera
+COMPARE:
+
+EXAMPLE:						
+    cameraUnlock()
+    "Voyeur scene over, the player can look around now"

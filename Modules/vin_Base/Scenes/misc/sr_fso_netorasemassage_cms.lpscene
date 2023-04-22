@@ -1,0 +1,45 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: Player.isMale() && Random(44, 100) < perversion && isModEnabled(vin_NTR)
+
+    // Summery - Player convinces their gf/wife to call for a expensive nude private massage at her house while you watch. 
+    
+    SceneStart()
+    
+    Actor.dress()
+    Actor.show()
+
+    "I recently fantasized about my <Actor.boyfriend_or_girlfriend> having a fully body nude massage at our house while I filmed it."
+    0:: "Yes, I'll talk to <Actor.name> and arrange for the massage." 
+    1:: "No, it might be too expensive in more than one way." 
+
+    If 0
+        Actor2 = generatePersonTemporary()
+        Actor.strip()
+        Actor2.dress()
+        Actor2.show()
+        
+        animatePair(Actor2, Actor, FingerPussy)
+        "My <Actor.boyfriend_or_girlfriend> has a massage at home from a stranger." 
+        
+        If Random(0, 100) < 50
+            "The stranger was a professional though and didn't try anything funny."
+        Else
+            "The stranger wishes to get handsy with her ..."
+            0:: "Nod yes"
+            1:: "Shake my head no"
+            
+            If 0
+                Sex(Actor2, Actor)
+                If Actor:perversion > 60
+                    Actor:: "Come on, join us for round two"
+                    Sex(Player, Actor2, Actor)
+                Endif
+            Endif
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(200, sr_fso_netorasemassage_cms)

@@ -1,0 +1,41 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // "Engage in extracurricular activities" has a high chance to allow you to meet another student or increase rapport/attraction with someone you've already met. 
+    
+    SceneStart()
+    If Random(0, 100) < 50
+        Actor = getSpecific(Coursemate)
+    Endif
+    
+    If Actor.isValid()
+        Actor.dress()
+        Actor.show()
+        "I was joined one of the fellow students, <Actor.name>, while engaging in some extracurricular activities."
+        "We already knew each other before but our relationship has improved as a result."
+        Actor:attractiontplayer += 2
+        Actor:rapportwithplayer += 2
+    Else
+        Actor = generatePersonTemporary()
+        Actor:age => Random(18, 24)
+        Actor.randomizeFace()
+        Actor.randomizeHairs()
+        Actor.dress()
+        Actor.show()
+        "I met another student while engaging in some extracurricular activities today. <Actor.He_or_She> seems interesting."
+        0:: "Keep in touch"
+        1:: "Probably will never see <Actor.him_or_her> again"
+        
+        If 0
+            Actor.makePermanent()
+            Actor.setDifferentMajor()
+            "<Actor.His_or_Her> name is <Actor.name> and <Actor.he_or_she>'s studying <Actor.Major>."
+            exchangeContact(Actor)
+            "We added each other on social media and decided to keep in touch."
+        Endif
+    Endif
+    SceneEnd()
+    timeoutPrecise(2, engage_in_extracurricular)

@@ -1,0 +1,51 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Actor = Rival.getActorAlias()
+    endorse = rfm_endorse.getGlobal()
+    RivalS = Actor:interpersonal*10*Random(0.8, 1.2) / [Actor:interpersonal*10 + endorse*Random(0.9, 1.1)]
+    RivalS *= 100
+    If RivalS > 90
+        RivalS => Random(80, 90)
+    Endif
+    PlayerS = 100 - RivalS - Random(5, 10)
+    If PlayerS < 0
+        PlayerS => Random(2, 5)
+    Endif
+    "The most recent poll indicates that I currenly have the support of about <PlayerS>% of voters, while my rival <Actor.name>'s share is about <RivalS>%. Of course, polls aren't 100% accurate all the time."
+    0:: "Continue the current campaign strategies to election day"
+    1:: "Need to be doing more!"
+    
+    If 0
+        "Feeling confident, I stick to my current strategies, thinking it's the correct approach to win the mayoral campaign."
+        "Election day is here ... Votes have been cast. They're counting the votes ... the moment of truth will come soon enough."
+        RivalS => Actor:interpersonal*10*Random(0.8, 1.2) / [Actor:interpersonal*10 + endorse*Random(0.9, 1.1)]
+        RivalS *= 100
+        If RivalS > 90
+            RivalS => Random(80, 90)
+        Endif
+        PlayerS => 100 - RivalS - Random(5, 10)
+        If PlayerS < 0
+            PlayerS => Random(2, 5)
+        Endif
+        "The final election results end with <PlayerS>% of voters voting for me, while my rival <Actor.name>'s share is about <RivalS>%."
+        If PlayerS > RivalS
+            startMayor()
+            Salary = 2000+10000*CostOfLiving
+            Salary.setSalary()
+            Player.setActorVar(tag_Mayor, 1)
+            jobperformance => 50
+            "Thankfully, I won the mayoral election in the end. Even my rival had to make a concession speech. I'm now the mayor of this city and will start work immediately."
+
+            QuestEnd()
+        Else
+            "Unfortunately, I lost to my rival and had to make a concession speech ... All that effort over how many months for ultimately nothing ..."
+            QuestEnd()
+        Endif
+    Endif
+    SceneEnd()
+    

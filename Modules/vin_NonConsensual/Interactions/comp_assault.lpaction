@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: comp_assault
+ACTION_NAME: Get companion to lure into trap
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 10 - 20
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: ag_comp
+ANIMATION:
+WHO: Actor = getTarget(); Actor2 = getCompanion(); If Actor2:attractiontoplayer > 49 && !Actor.isCreature() && !Actor.isDating() && Actor2.isSameGender(Actor)

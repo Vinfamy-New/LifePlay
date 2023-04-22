@@ -1,0 +1,37 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getPerson(tag_Raped); If Actor.isPregnant() && !Actor.isDating()
+OTHER: isModEnabled(vin_NonConsensual) && !Player.isFemale()
+
+    // If you made some victim pregnant in a 'rap... music' scene. Later on, she desperately want to see you again, and instead of accusing you, she actually comes back for more and begs you to be in a relationship with her for the child's sake. If this victim happens to be South Asian or Middle Eastern, they will mention parental pressure.
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "I was just chilling in the living room when the last person I would expect to see showed up .."
+    Actor.dress()
+    Actor.show()
+    "It's <Actor.name> ... who I recently assaulted sexually ..."
+    "Well, at least no cops are with her as far as I can see ..."
+    "I should be careful though, maybe she's wired up and about to trick me into confessing on tape as evidence for the cops ..."
+    Actor:: "<Player.name> ... what happened that night ... I didn't want it ... but I'm pregnant with your child ..."
+    Actor:: "Please be with me ... I can't handle raising this child alone ..."
+    If Actor.isEthnic(indian) || Actor.isEthnic(arab)
+        Actor:: "My traditional parents would kill me if they found out I got knocked up by someone I was not even in a committed relationship with."
+        Actor:: "They wouldn't care about the circumstances ..."
+    Endif
+    "What should I do now?"
+    0:: "Accept <Actor.name> as my <Actor.boyfriend_or_girlfriend>"
+    1:: "I want nothing to do with her and the baby"
+    
+    If 0
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer => Random(40, 100)
+        "How often is it that you raped someone and she came back begging you to be her serious partner? I have my very efficient sperm to thank for that."
+        "Of course, now that she's my girl, I can have her anytime I want ... although maybe the non-consent bit was part of the fun after all?"
+        Actor.setDating()
+        Sex(Player, Actor)
+        Actor.setActorVar(tag_Raped, 0)
+    Endif
+    SceneEnd()
+    timeout(500, victim_pressure)

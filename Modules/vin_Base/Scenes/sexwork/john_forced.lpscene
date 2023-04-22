@@ -1,0 +1,166 @@
+WHAT: whore_out, whore_out_brothel, whore_out_online
+WHERE: sexwork, brothel
+WHEN: 0 - 24
+WHO: none
+OTHER: isModEnabled(vin_NonConsensual)
+
+    SceneStart()
+    "Sometimes I get outcall requests to go to the client's place, which may turn out to be a trap for them to rape me and not pay a thing."
+    Protected = Player.getActorVar(tag_protected)
+    If Protected == 0
+        "Most other sex workers deal with this by hiring a bodyguard to drive them around and protect them from rapists and non-paying scammers. However, this bodyguard demands quite a significant chunk of their incomes."
+        0:: "I don't need one"
+        1:: "Hire a bodyguard"
+        
+        If 1
+            "I decided to hire a bodyguard and allow him to take a cut of any money I make. It's better to be safe than sorry."
+            Player.setActorVar(tag_protected, 1)
+            Protected => 1
+        Endif        
+    Else
+        "I currently have a bodyguard to drive me to client's place and stay around to prevent this from happening. However, this bodyguard takes quite a significant chunk of my income."
+        0:: "Continue having a bodyguard"
+        1:: "I no longer need one!"
+        
+        If 1
+            "I decided to get rid of the bodyguard so that I can keep all the money I've made to myself."
+            Player.setActorVar(tag_protected, 0)
+            Protected => 0
+        Endif
+    Endif
+    
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    secondScreen(Actor)
+    Actor.show(2)
+    "A John contacts me for a potential outcall ..."
+    
+    If Random(0, 100) < 35 && [Actor.isMale() || [Actor.isTrans() && !Player.isMale()]] 
+        If Random(0, 100) < 50
+            Actor(Flirty):: "How much for a blowjob?"
+            Actor:likes_oral => Random(50, 100)
+            Dice = Random(200, 300)
+            Filter(Blowjob)
+        Else
+            Actor(Flirty):: "How much for a handjob?"
+            Dice = Random(100, 200)
+            Filter(Handjob)
+        Endif
+    Elseif Actor.isFemale() && Random(0, 100) < 15
+        Actor(Flirty):: "How much for you to eat my pussy?"
+        Actor:likes_oral => Random(50, 100)
+        Dice = Random(200, 300)
+        Filter(LickPussy)        
+    Else
+        If Random(0, 100) < 80 || [Player.isFemale() && !Actor.isMale()]
+            Actor(Flirty):: "How much for me to do whatever I want to you?"
+            Dice = Random(300, 400)
+        Else
+            Actor(Flirty):: "How much for anal?"
+            Actor:likes_anal => Random(50, 100)
+            Dice = Random(400, 500)
+            Filter(Anal)
+        Endif    
+    Endif
+    
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    
+    "How much should I charge <Actor.him_or_her>?"
+    0:: "Turn <Actor.him_or_her> down"
+    1:: "Rip <Actor.him_or_her> off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give <Actor.him_or_her> a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but I'm not working right now ..."
+    Elseif choice*attractiveness > Actor:intelligence + Actor:interpersonal
+        Actor(Flirty):: "It looks like we have a deal, darling."
+        secondScreen()
+        
+        "Soon enough, I went to the client' place at the agreed time."
+        If Protected > 0
+            "Of course, my bodyguard drove me there and waited nearby. His intimidating look made sure that the client wouldn't dare to try anything funny."
+        Endif
+        setBackground(home)
+        Actor.dress()
+        Actor.show()
+        "Here I am, alone with the client in <Actor.his_or_her> place ..."
+        If Protected > 0
+            "Of course, I feel safe in the knowledge that my bodyguard is nearby."
+        Endif
+        
+        If Protected > 0 || Actor:masochist > -33
+            "The client seems respectful enough though ..."
+            Sex(Actor, Player)        
+            money => money + Dice/choice
+            
+            If Random(5, 30) < Actor:attractiontoplayer
+                "Aside from our agreed fee, the John also gave me a big tip."
+                money += Dice/choice/2
+                "I can't help but notice how smitten this John has become with me after sex ... looks like <Actor.he_or_she> is going to become a regular customer ..."
+                Actor.makePermanent()
+                Actor.setActorVar(tag_john, 1)
+            Endif
+            
+            If WHERE == brothel
+                "I picked up this John directly from a brothel so I had to pay back a cut of the payment to the house."
+                money => money - Dice/choice/4
+            Endif
+            
+            Illegal = Player.getActorVar(sexwork_illegal)
+            If Illegal > 0
+                If Random(0, 50) < sneak*BroMu
+                    "Even though prostitution is now illegal in this country, I got away with this particular transaction without incident"
+                Elseif Random(0, 100) < 20
+                    "Unfortunately for me, prostitution is illegal in this country and I wasn't sneaky enough."
+                    "As soon as I put my clothes back on, I realized the cops were there waiting for me ..."
+                    sentence => 30
+                    followUp(imprisoned)
+                Endif
+            Endif
+        Else
+            Actor:: "Stupid whore! I can't believe you agree to come here alone so easily."
+            Actor:: "You're really naive if you think I was planning to pay you a penny for rough sex we're about to have."
+            "The client attacks me and tries to overwhelm me for a sexual assault."
+            Player.animate(martialart)
+            Actor.animate(martialart)
+            "I have no choice but to defend myself. A fight broke out."
+            If martial - intoxication > Actor:martial
+                Actor.animate(fightlost)
+                "Thankfully, my attacker was no match for me in a fight and was soon knocked down."
+                Player:: "That should teach me not to take advantage of vulnerable sex workers."
+                Player:: "Now, give me your wallet!"
+                Actor:: "Please, here, just leave please. You're hurting me."
+                money += 300
+                "I made quite a bit of money ... and I didn't even need to have sex with anyone. That's a perk of being a sex worker who can actually protect <Player.himself_or_herself>."
+            Else
+                Player.animate(fightlost)
+                "Unfortunately, my attacker was well-prepared for the ambush and I was soon knocked down."
+                "Soon, <Actor.he_or_she> was ripping my clothes off and proceeded to force <Actor.himself_or_herself> upon me."
+                Player(Crying):: "Please ... you can enjoy my body as much as you want... just don't hurt me ..."
+                "My cries for help went unheard as I was in <Actor.his_or_her> own place and I had no choice but endure a rough and unpaid night at the hand of this vile <Actor.man_or_woman>."
+                If !Actor.isMale() && Player.isMale()
+                    Filter(AggressiveFM)
+                Else
+                    Filter(Aggressive)
+                Endif
+                TalkNonConsensual()
+                SexNoAffair(Actor, Player)
+                Actor.setActorVar(tag_Rapist, 1)
+                Actor.hide()
+                mood => 0
+            Endif
+        Endif
+    Else
+        Actor(Angry):: "No way, that's too expensive! You have too high an opinion of yourself, honey. I'll find myself another whore elsewhere."
+    Endif
+    
+    SceneEnd()
+    timeout(100, john_forced)

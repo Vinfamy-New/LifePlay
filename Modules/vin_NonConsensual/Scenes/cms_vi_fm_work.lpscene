@@ -1,0 +1,28 @@
+WHAT: work
+WHERE: work
+WHEN: 20 - 5
+WHO: Actor = getSpecific(Colleague); If Actor.isFemale() && Actor.isInterestedIn(Player) && Actor:perversion > 70 && Actor:masochist < -50 && !Actor.hadSex()
+OTHER: Player.isMale() && Random(20, 100) < masochist
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I'm working late tonight, the only other colleague still in the office working with me is <Actor.name>."
+    "Despite being a woman, <Actor.name> always strikes me as extremely dominant, I wouldn't be surprised if she has a secret job as a dominatrix somewhere."
+    "The work isn't done yet but I'm getting so tired and sleepy already. Maybe it's best to go home now and come back early tomorrow's morning to finish this up. If I keep going, I can't guarantee that I won't just fall asleep at the desk."
+    0:: "Go home"
+    1:: "Stay and work"
+    
+    If 0
+        moveTo(home)
+    Else
+        "Despite my best effort, soon enough, I fell asleep at the desk ..."
+        Player.closeEyes(true)
+        Actor(Evil):: "Asleep already? Good! Sleep well, little boy, because you and I are going to have some fun whether you like it or not."
+        TalkNonConsensual()
+        Filter(AggressiveFM)
+        SexNoAffair(Player, Actor)
+        Actor.setActorVar(tag_Rapist, 1)
+    Endif
+    SceneEnd()
+    timeout(500, cms_vi_fm_work)

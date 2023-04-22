@@ -1,0 +1,24 @@
+WHAT: all
+WHERE: all
+WHEN: 7-19
+WHO: Actor = getRelatedPeople(Spouses, Dating); If !Actor0.hasRelationship(Poly) && !Actor1.hasRelationship(Poly) && Random(75, 150) < Actor0:perversion + Actor1:perversion && Actor0.isContactExchanged()
+OTHER:
+
+    SceneStart()
+    secondScreen(Actor0)
+    Actor0.show()
+    "Judging from their social media posts constantly going on dates with other people and inviting singles over for dinner, I can't help but notice there's something unusual and very ... open about how <Actor0.name> and <Actor1.name> act as a couple. My guts feeling tells me that they're probably polyamorous now if they haven't always been that way."
+    addNpcRelationship(Poly, Actor0, Actor1)
+    "Should I be forward to offer to have some fun with them?"
+    0:: Actor0.isInterestedIn(Player) || Actor1.isInterestedIn(Player):: "Offer a threesome"
+    1:: "No"
+    
+    If 0
+        "My suspicion was correct. <Actor0.name> confirmed that they are indeed in a polyamorous relationship and are more than happy to invite me over for some fun ..."
+        setBackground(home)
+        Sex(Actor0, Actor1, Player)
+        exchangeContact(Actor0)
+        exchangeContact(Actor1)
+    Endif
+    SceneEnd()
+    timeout(300, poly_couple)

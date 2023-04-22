@@ -1,0 +1,146 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // You can click on any relative you've slept with and choose to 'seek therapy', hoping to stop yourself from having these inappropriate desires anymore. Some therapists may be professional, but others may end up banging you or your lover or watching you banging each other, have threesome and suggest a poly relationship afterwards as the solution. 
+    
+    SceneStart()
+    "My <Actor.relationship> and I have crossed all sorts of boundaries and done things we probably shouldn't have done with each other."
+    "Maybe it's time to try and put a stop to this by seeking out professional help in dealing with these inappropriate desires, before things get even more out of control."
+    0:: "Seek therapy"
+    1:: "Maybe not"
+    
+    If 0
+        "We decided to arrange a discreet session with a trained psychologist to address our forbidden feelings."
+        setBackground(community_centre)
+        Actor2 = generatePersonTemporary()
+        dressFormal()
+        Actor2.dress()
+        Actor2.show()
+        Player.moveToPerson(Actor2)
+        Actor.moveToPerson(Actor2)
+        "The psychologist we meet with is Dr <Actor2.name> <Actor2.name_last>."
+        If Actor2:perversion < 50
+            "Dr <Actor2.name_last> was professional throughout and without judgment gave us plenty of advices as to how to control these inappropriate urges ..."
+            "Of course, a psychologist can only guide the patients. It's up to them to follow the advices."
+            "So how did my <Actor.relationship> and I do with regards to Dr <Actor2.name_last>'s advices."
+            0:: "We managed to follow Dr <Actor2.name_last>'s advices as much as we could"
+            1:: "We failed to control our incestual urges ..."
+            
+            If 0
+                "We were committed to following through with Dr <Actor2.name_last>'s professional advices and managed to do just that largely. There were lapses and moments of weakness for sure but in the end, we seem to be in much more control of our incestual urges" 
+                Actor:incest -= 10
+            Else
+                "It wasn't for the lack of commitment, but my <Actor.relationship> and I completely failed and our desires for each other only grew."
+                Actor:incest += 3
+            Endif
+        Else
+            "I couldn't help but notice that Dr <Actor2.name_last> was being less than professional and seemed almost excited by our tender confessions of the incestual things we've done."
+            If Actor2.isInterestedIn(Player) && Actor2.isInterestedIn(Actor)
+                "Dr <Actor2.name_last> claimed that since this was such an unusual problem, it required an unconventional medical intervention to resolve."
+                "<Actor2.He_or_She> suggested that we take it slow and such strong emotions for each other can't just be erased instantly, maybe a threesome with another person unrelated to us would be a good step down since it would still satisfy these incestuous desires without the focus of each of us being on each other the whole time, which could become addicting."
+                "Dr <Actor2.name_last> then volunteered <Actor2.himself_or_herself> as the third person ..."
+                0:: "Have a threesome with my <Actor.relationship> and Dr <Actor2.name_last> ..."
+                1:: "Decline"
+                
+                If 0
+                    Sex(Actor2, Player, Actor)
+                    Actor:incest += 10
+                    "I'm not too sure if that worked to be honest, having a threesome with another <Actor2.man_or_woman> was just about the hottest thing I've done with my <Actor.relationship> ..."
+                    
+                    If isModEnabled(vin_Polyamorous) && Actor2:attractiontoplayer > 10
+                        Actor2:: "I'll be honest ... that method didn't work at all, did it? That threesome just made your desires for each other stronger, I could feel it."
+                        Actor2:: "Maybe we were all asking the wrong question? It was not about how to control your inappropriate desires. Instead, we should simply come up with how to still enjoy these desires while hiding the incest from the public eye."
+                        Actor2:: "I think I know the solution, I know certain ancient cultures and religions where a man took multiple wives who weren't related to him but may be biological sisters to each other."
+                        Actor2:: "If I date both of you in a polyamorous relationship, we could hide that any incest is happening ..."
+                        0:: "Accept Dr <Actor2.name_last> as our <Actor2.boyfriend_or_girlfriend>"
+                        1:: "No way"
+                        
+                        If 0
+                            "This seems like the best solution where we could continue to enjoy the forbidden fruit in private while Dr <Actor2.name_last> act as our <Actor2.boyfriend_or_girlfriend> in public. Plus, threesomes like the one we just had are nice bonuses."
+                            Actor2.makePermanent()
+                            exchangeContact(Actor2)
+                            Actor2.setDating()
+                            addNpcRelationship(Dating, Actor2, Actor)
+                        Else
+                            "No way, this whole threesome thing has been a mistake ..."
+                        Endif
+                    Endif
+                Else
+                    "No way, the psychologist clearly just wanted a piece of the action <Actor2.himself_or_herself>."
+                Endif
+                
+            Elseif Actor2:attractiontoplayer > 10 && Actor2.isSameGender(Actor)
+                "Dr <Actor2.name_last> claimed that since this was such an unusual problem, it required an unconventional medical intervention to resolve."
+                "Dr <Actor2.name_last> suggested that we took advantage of the human emotions of jealousy and humiliation to combat our inappropriate attraction towards each other."
+                "In order to trigger such strong mix of emotions, Dr <Actor2.name_last> suggested that my <Actor.relationship> be forced to watch another <Actor2.man_or_woman> fuck me and the psychologist volunteered to do the job <Actor2.himself_or_herself>
+                0:: "Let Dr <Actor2.name_last> fuck me, while my <Actor.relationship> watches"
+                1:: "Decline"
+                
+                If 0
+                    Sex(Actor2, Player)
+                    
+                    Actor:masochist += 5
+                    Actor:incest += Actor:masochist*0.2
+                    If Actor:masochist > 0
+                        "My <Actor.relationship> later admitted that <Actor.he_or_she> actually got turned on from watching another <Actor2.man_or_woman> fuck me ..."
+                        "As a result, <Actor.He_or_She> only gained even more desires for me and the vivid image of Dr <Actor2.name_last> with me reallly magnified <Actor.his_or_her> arousal whenever <Actor.he_or_she> ended up thinking about me inappropriately ..."
+                        "Dr <Actor2.name_last>'s unconventional method has back-fired spectacularly!"
+                    Else
+                        "My <Actor.relationship> later admitted that <Actor.he_or_she> was feeling very jealous and humiliated, being forced to watch another <Actor2.man_or_woman> fuck me ..."
+                        "As a result, <Actor.He_or_She> seemed to lose some desires for me and the vivid image of Dr <Actor2.name_last> with me killed <Actor.his_or_her> arousal whenever <Actor.he_or_she> ended up thinking about me inappropriately ..."
+                        "Dr <Actor2.name_last>'s unconventional method has actually worked!"
+                    Endif
+                Else
+                    "Yeah, right ... or the psychologist is just trying to find an excuse to get laid. We're not stupid!"
+                Endif
+                
+            Elseif Actor2.isInterestedIn(Actor) && Actor2.isSameGender(Player)
+                "Dr <Actor2.name_last> claimed that since this was such an unusual problem, it required an unconventional medical intervention to resolve."
+                "Dr <Actor2.name_last> suggested that we took advantage of the human emotions of jealousy and humiliation to combat our inappropriate attraction towards each other."
+                "In order to trigger such strong mix of emotions, Dr <Actor2.name_last> suggested that I be forced to watch another <Actor2.man_or_woman> fuck my <Actor.relationship> and the psychologist volunteered to do the job <Actor2.himself_or_herself>"
+                0:: "Let Dr <Actor2.name_last> fuck my <Actor.relationship>, while I watch"
+                1:: "Decline"
+                
+                If 0
+                    Sex(Actor2, Actor)
+                    
+                    masochist += 5
+                    Actor:incest += masochist*0.2
+                    If Actor:masochist > 0
+                        "I must admit that I actually got turned on from watching another <Actor2.man_or_woman> fuck my <Actor.relationship> ..."
+                        "As a result, I only gained even more desires for my <Actor.relationship> and the vivid image of Dr <Actor2.name_last> with my <Actor.relationship> reallly magnified my arousal whenever I ended up thinking about my <Actor.relationship> inappropriately ..."
+                        "Dr <Actor2.name_last>'s unconventional method has back-fired spectacularly!"
+                    Else
+                        "I must admit that I was feeling very jealous and humiliated, being forced to watch another <Actor2.man_or_woman> fuck my <Actor.relationship> ..."
+                        "As a result, I seemed to lose some desires for my <Actor.relationship> and the vivid image of Dr <Actor2.name_last> with my <Actor.relationship> killed my arousal whenever I ended up thinking about my <Actor.relationship> inappropriately ..."
+                        "Dr <Actor2.name_last>'s unconventional method has actually worked!"
+                    Endif
+                Else
+                    "Yeah, right ... or the psychologist is just trying to find an excuse to get laid. We're not stupid!"
+                Endif            
+            Else
+                If Random(50, 100) < Actor2:perversion
+                    "After listening carefully, Dr <Actor2.name_last> claimed that since previous medical research into this aspect of human emotion is rather scarce, <Actor2.he_or_she> would have to conduct primary research into this <Actor2.himself_or_herself> ..."
+                    "<Actor2.He_or_She> asked us to perform a sex act in front of <Actor2.him_or_her> so that <Actor2.he_or_she> could observe, assess the severity of these forbidden urges, diagnose their causes and try to come up with some solutions."
+                    0:: "Agree to have sex with my <Actor.relationship> in front of Dr <Actor2.name_last>"
+                    1:: "Decline"
+                    
+                    If 0
+                        "Well, <Actor2.he_or_she> had a point ..."
+                        Sex(Player, Actor)
+                        Actor:incest += 5
+                        "Unfortunately for us, Dr <Actor2.name_last> seemed to get carried away and just enjoyed the incest porn live show we were putting on for <Actor2.him_or_her> too much to actually come up with any solutions."
+                        "<Actor2.He_or_She> apologized and suggested that we seek another psychologist's help."
+                    Else
+                        "I had a feeling that the psychologist was just making up excuses to watch some live incest porn ..."
+                    Endif
+                Else
+                    "Thankfully Dr <Actor2.name_last> regained <Actor2.his_or_her> composure eventually and didn't do anything too inappropriate. Still, <Actor2.he_or_she> admitted that <Actor2.he_or_she> didn't have any experience with helping patients in such situation and suggested that we seek another psychologist's help."
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

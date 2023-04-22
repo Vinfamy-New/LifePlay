@@ -1,0 +1,9 @@
+STAT_ID: attractiontoplayer
+STAT_NAME: Attraction -> Me; How much this person wants to fuck you, -100 means this person isn't interested in your gender in general. Starting value is largely based on your attractiveness. Increase with sending flowers and dating activities. 
+PLAYER_ONLY: false
+HIGHER_BETTER: true
+STAT_MIN: -100
+STAT_MAX: 100
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 0
+NPC_ONLY: true

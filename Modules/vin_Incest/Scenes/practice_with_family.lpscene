@@ -1,0 +1,101 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If !Actor.isMarried() && !Actor.isAsexual() && Actor.livesWithPlayer() && Player.isInterestedIn(Actor) && Actor:rapportwithplayer > 20 && Random(70, 300) < Actor:perversion && Random(0, 300) < Actor:interpersonal
+OTHER: IsAtHome() && perversion < Random(0, 30)*Random(0, 1)
+
+    SceneStart()
+    Actor.dress()
+    Actor.show(2)
+    Actor2 = Actor.getRelatedPerson(Dating, Spouses)
+    If !Actor2.isValid()
+        Actor2 = generatePersonTemporary()
+        While !Actor.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2.makePermanent()
+        addNpcRelationship(Dating, Actor, Actor2)
+    Endif
+    Actor2.dress()
+    Actor2.show(3)
+    "My <Actor.relationship> has such a high sex drive. <Actor.He_or_She> is getting it on with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> again."
+    0:: "Peep on them"
+    1:: "Maybe not"
+    
+    If 0
+        Sex(Actor, Actor2)
+        Actor:incest += Random(0, 1)
+        Actor2.hide()
+        Actor.show(2)
+        Player.show(0)
+        "Wow, compared to me, my <Actor.relationship> is so much more experienced in bed. I don't know how I should feel about this."
+        0:: "Self-righteous"
+        1:: "Embarrassed"
+        
+        If 0
+            "My <Actor.relationship> is such a <Actor.manwhore_or_whore>. I'm glad I'm a self-respecting <Player.guy_or_girl> and not sleeping with random <Player.girls_or_guys> like that."
+        Else
+            "I must admit: I'm embarrassed about my terrible skills in the bedroom and wish I could be as good as my <Actor.relationship>."
+            0:: "Seek help from my <Actor.relationship>"
+            1:: "Say nothing"
+            
+            If 0
+                "Maybe I can ask my <Actor.relationship> for advice. Surely I should feel more comfortable talking about such sensitive topics with family than with some random sexologist."
+                If Actor:incest < 25
+                    "After I finally worked up the courage to ask my <Actor.relationship> for advice, <Actor.he_or_she> reluctantly gave me some advice. I could tell how uncomfortable <Actor.he_or_she> was though. I'm <Actor.his_or_her> own <Actor.callplayer> after all!"
+                Elseif Actor:incest < 50
+                    "After I asked my <Actor.relationship> for advice, <Actor.he_or_she> was happy to give me some advice on how to improve my performance in bed. <Actor.He_or_She> seemed strangely comfortable talking about this despite me being <Actor.his_or_her> own <Actor.callplayer>!" 
+                    Actor:incest += Random(0, 1)
+                Elseif Actor:incest < 75
+                    "After I asked my <Actor.relationship> for advice, <Actor.he_or_she> was happy to give me some advice on how to improve my performance in bed. However, <Actor.he_or_she> also stressed that practice makes perfect and no amount of advice could replace real sexual experience with an actual person."
+                    0:: "Do you know anyone I can practice with?"
+                    1:: "Stay silent"
+                    
+                    If 0
+                        Actor(Embarrassed):: "Well, if you really don't have anyone, I guess you could try it out with my fuckbuddy that you saw earlier ..."
+                        0:: "Yes"
+                        1:: "Yes, but I want you to be there"
+                        2:: "No"
+                        
+                        If 0 || 1
+                            Player(Embarrassed):: "I guess I can give that a try ..."
+                            If 1
+                                Player(Embarrassed):: "But I want you to be there to guide me and keep me safe. I don't know this <Actor2.guy_or_girl> at all."
+                                Actor(Embarrassed):: "Isn't that a bit weird? I'm your <Actor.relationship> - I shouldn't be watching you have sex ..."
+                                Actor(Embarrassed):: "... Alright, fine, if it makes you feel more confident then I can hang around while you two go at it."
+                                Actor:incest += Random(0, 5)
+                            Endif
+                            "A few days later ..."
+                            "We made the necessary arrangements with my <Actor.relationship>'s fuckbuddy. Today is the day."
+                            Actor2.dress()
+                            Sex(Actor2, Player)
+                            incest += Random(0, 2)
+                        Else
+                            Player(Embarrassed):: "No, that's too weird. I don't know the <Actor2.guy_or_girl> ... I guess I'll just find someone myself."
+                        Endif
+                    Endif
+                Else
+                    "After I asked my <Actor.relationship> for advice, <Actor.he_or_she> was happy to give me some advice on how to improve my performance in bed. However, <Actor.he_or_she> also stressed that practice makes perfect and no amount of advice could replace actual sexual experience with an actual person."
+                    0:: "Can I practice with you?"
+                    1:: "Stay silent"
+                    
+                    If 0
+                        Player(Embarrassed):: "You know ... I would be more comfortable practicing with you. You don't judge me like other lovers. And I don't want to just sleep with random strangers I've just met."
+                        If Random(75, 170) < interpersonal + Actor:incest
+                            Actor(Embarrassed):: "This is so wrong ... but I guess you have a point. You're so inexperienced - I don't want you to risk getting STDs or the danger of casual hookups either."
+                            "After an awkward conversation, we finally started making out. Despite me being <Actor.his_or_her> own <Actor.callplayer>, I can tell my <Actor.relationship> is getting into <Actor.his_or_her> element again and starts to rise to the task of being my bedroom mentor."
+                            Actor:incest += Random(0, 50)
+                            Sex(Actor, Player)
+                        Else
+                            Actor(Surprised):: "What? Are you crazy? I'm your <Actor.relationship>! We can't do that, no way ..."
+                        Endif                   
+                    Endif
+                Endif
+            Else
+                "I'm too embarrassed to say anything to my <Actor.relationship>."
+            Endif
+        Endif
+    Endif
+
+    timeout(200, practice_with_family)
+    SceneEnd()

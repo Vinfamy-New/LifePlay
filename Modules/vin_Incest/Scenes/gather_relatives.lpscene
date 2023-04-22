@@ -1,0 +1,135 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "Which relatives should I gather together?"
+    0:: "All relatives"
+    1:: "Only those currently living with me"
+    
+    If 0
+        Every = true
+    Else
+        Every = false
+    Endif
+    "I have decided to have a family gathering."
+    
+    "Should I just gather them to interact with each or should I cook them all a family dinner?"
+    0:: "Organize a family dinner"
+    1:: "Just gather them"
+    
+    If 0
+        Dinner = true
+    Else
+        Dinner = false
+    Endif
+    
+    count = 1
+    Actor = getRelative()
+    While Actor.isValid() && [Every || Actor.livesWithPlayer()]
+        Actor.dress()
+        Actor.show()
+        Actor.addToPeopleHere()
+        Backup = Actor
+        If Dinner
+            Actor:rapportwithplayer += Random(0, 3)
+            If count == 1
+                ActorA = Actor
+            Elseif count == 2
+                ActorB = Actor
+            Elseif count == 3
+                ActorC = Actor
+            Elseif count == 4
+                ActorD = Actor
+            Elseif count == 5
+                ActorE = Actor
+            Endif
+        Endif
+        Actor = getRelative()
+        
+        count += 1
+    Endwhile
+    
+    If Dinner
+        setBackgroundCustom(kitchen)
+        "Should I just make a delicious and healthy meal for them all? Or should I add a little bit of 'spice'?"
+        0:: "Just cook a normal meal"
+        1:: ActorB.isValid():: "Spike my family dinner with the strongest aphrodisiac"
+        
+        If 0
+            "We had a good family dinner together, which improved family rapport."
+        Else
+            "I decided to mix into my family dinner the strongest sex drug available. This family dinner is about to turn into an incest orgy."
+            "By the time we got to dessert, all my family members have been drugged out of their mind."
+            If count > 6
+                "Unfortunately, the effect was too strong for some of them, who fell temporarily unconscious and would have no part in the fun ahead. Plenty of the others left though ..."
+            Endif
+            "They became incredibly horny and open to suggestions ... I'm basically the director in full control of how this incest orgy will unfold now."
+            stage = 6
+            While stage < 11
+                stage += 1
+                round = stage - 6
+                "Round <round>! Who should fuck who?"
+                count = 0
+                Actor1 = none
+                Actor2 = none
+                Actor3 = none
+                Enough = false
+                While count < 3 && !Enough
+                    count += 1
+                    "Pick a person for the next steamy session ..."
+                    0:: !Actor1.isSameAs(ActorA) && !Actor2.isSameAs(ActorA) && !Actor3.isSameAs(ActorA)::"My <ActorA.relationship> <ActorA.name>"
+                    1:: !Actor1.isSameAs(ActorB) && !Actor2.isSameAs(ActorB) && !Actor3.isSameAs(ActorB)::"My <ActorB.relationship> <ActorB.name>"
+                    2:: !Actor1.isSameAs(ActorC) && !Actor2.isSameAs(ActorC) && !Actor3.isSameAs(ActorC)::"My <ActorC.relationship> <ActorC.name>"
+                    3:: !Actor1.isSameAs(ActorD) && !Actor2.isSameAs(ActorD) && !Actor3.isSameAs(ActorD)::"My <ActorD.relationship> <ActorD.name>"
+                    4:: !Actor1.isSameAs(ActorE) && !Actor2.isSameAs(ActorE) && !Actor3.isSameAs(ActorE)::"My <ActorE.relationship> <ActorE.name>"
+                    5:: !Actor1.isSameAs(Player) && !Actor2.isSameAs(Player) && !Actor3.isSameAs(Player):: "Me!"
+                    6:: count > 0:: "Enough bodies for now"
+                    
+                    If 0
+                        Picked = ActorA
+                    Elseif 1
+                        Picked = ActorB
+                    Elseif 2
+                        Picked = ActorC
+                    Elseif 3
+                        Picked = ActorD
+                    Elseif 4
+                        Picked = ActorE
+                    Elseif 5
+                        Picked = Player  
+                    Else
+                        count -= 1
+                        Enough = true
+                    Endif
+                    
+                    If !Enough
+                        If count == 1
+                            Actor1 = Picked
+                            Actor1.show(1)
+                        Elseif count == 2
+                            Actor2 = Picked
+                            Actor2.show(2)
+                        Elseif count == 3
+                            Actor3 = Picked
+                            Actor3.show(3)
+                        Endif
+                    Endif
+                Endwhile
+                If count == 1
+                    Sex(Actor1)
+                Elseif count == 2
+                    Sex(Actor1, Actor2)
+                Elseif count == 3
+                    Sex(Actor1, Actor2, Actor3)
+                Endif
+            Endwhile
+            "Eventually, everyone is exhausted from all the sex and the drug took them right to sleep. I can't believe how successful I was to turn my whole family to the incest way."
+        Endif
+    Else
+        "Everyone is here now."
+        "(Interacting with them by clicking on them and selecting from the list of options)"
+    Endif
+    SceneEnd()

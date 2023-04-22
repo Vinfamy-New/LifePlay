@@ -1,0 +1,58 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getPerson(tag_pregfetisher)
+OTHER: !Player.isPregnant()
+    
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    "My millionaire lover with a pregnancy fetish, Mr <Actor.name> <Actor.name_last>, wants to meet me today. I'm a bit confused, as I've already given birth so our arrangement should be over."
+    0:: "Meet him"
+    1:: "Cut all contact"
+    
+    If 0
+        setBackground(restaurant)
+        Actor.show()
+        "His secretary set us up at a fine dining restaurant. It's rather unusual, previously we always met in hotel rooms."
+        
+        If Random(50, 100) < Actor:attractiontoplayer
+            Actor.setActorVar(tag_pregfetisher, 0)
+            "At the dinner, to my shock, <Actor.name> confessed that he has developed genuine romantic feelings for me after being intimate with me so many times during our arrangement."
+            "And just like that, one of the richest men in the city asked me to be his girlfriend ..."
+            0:: "Become <Actor.name>'s girlfriend"
+            1:: "Turn him down"
+            
+            If 0
+                "I agreed to be in a relationship with <Actor.name>."
+                exchangeContact(Actor)
+                Actor.setDating()
+                "Having a millionaire boyfriend will have some perks for sure, especially for a new mom like me."
+            Else
+                "Unfortunately for him, my feelings for him didn't change at all. I simply slept with him and satisfied his stupid pregnancy fetish for the money."
+            Endif
+        Else
+            "At the dinner, <Actor.name> said that despite having had the same arrangements with other women during their pregnancies, he enjoyed mine the most due to how sexually compatible we were."
+            "It was a shame that I had to eventually give birth, but there was no reason the arrangement would have to end like this."
+            "In fact, he would be willing to pay a huge amount to impregnate me himself this time and then repeat the arrangement for the duration of this pregnancy, hitting two birds with one stone."
+            0:: "Get impregnated by <Actor.name>"
+            1:: "Enough is enough"
+            
+            If 0
+                setBackground(hotel)
+                "Soon we ended up in a luxurious hotel room again, this time not so that he could have sex with a pregnant woman, but so that he could make a pregnant woman out of me."
+                Sex(Actor, Player)
+                Player.impregnate(Actor)
+                "The money was transferred to my bank account afterwards. It was an even more generous sum than usual."
+                money += Random(1000, 2000)
+                Actor:attractiontoplayer += 5
+            Else
+                "I thanked him for the interest, but I thought it was time to move on with my life. I made enough money from the previous arrangement."
+                Actor.setActorVar(tag_pregfetisher, 0)
+            Endif
+        Endif
+    Else
+        Actor.setActorVar(tag_pregfetisher, 0)
+        "I decided to put this chapter of my life behind me. I made my money."
+    Endif
+    SceneEnd()

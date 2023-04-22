@@ -1,0 +1,63 @@
+WHAT: all
+WHERE: all, -home, -prison
+WHEN: 0-24
+WHO: none
+OTHER: PercentageElves > 0 && !Player.isRace(Elf)
+
+    // You come across a hot elf and ask them out, only to be rejected in the meanest way by the arrogant elf who considers themselves superior to you. Another more down-to-earth elf saw what happened and offers to go on a date with you instead.
+    
+    SceneStart()
+    "I was just going about my business as usual when someone caught my eye." 
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    endWhile
+    Actor:age => Random(18, 29)
+    Actor:attractiveness => Random(80, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.blendPreset(Elf)
+    Actor.dress()
+    Actor.show()
+    "<Actor.name> doesn't seem thrilled to see me."
+    Actor():: "What are you looking at?"
+    If Player.isRace(orc)
+        Actor(angry):: "You green skinned pig fucker."
+    Elseif Player.isRace(vampire)
+        Actor(angry):: "Blood sucking parasite."
+    Else
+        Actor(angry):: "You inferior want-to-be-elf loser."
+    Endif
+    Actor():: "You think I would ever taint my pure Elven heritage with the likes of you filth."
+    Actor(angry):: "Why don't you do everyone a favor and die." 
+    Actor2 = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    endWhile
+    Actor2.makeInterested(Player)
+    Actor2.blendPreset(Elf)
+    Actor2.dress()
+    Actor2.show()
+    Actor2:: "You should shut the hell up! It is elves like you that make the world so bad! You think yourself SOoo perfect!"
+    Actor.hide()
+    "This elf introduces <Actor2.himself_or_herself> as <Actor2.name>."
+    "<Actor2.name> does seem very well-adjusted and charming even. Soon enough, <Actor2.he_or_she> asks me out on a date and promises to show me a better side of Elves."
+    0:: "Go on a date with <Actor2.him_or_her>"
+    1:: "Exchange numbers for another time"
+    2:: "Reject <Actor2.him_or_her>"
+    
+    If 0
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+        endDate()
+        Actor2.startDate()
+    Elseif 1
+        "<Actor2.name> seems interesting, but let's not rush it."
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+    Else
+        Player:: "Thank you for your help today."
+    Endif
+    
+    SceneEnd()
+    timeout(300, elf_modest)

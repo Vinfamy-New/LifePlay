@@ -1,0 +1,57 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getPerson(true); If !Actor.isPregnant() && !Actor.isDating() && [isModEnabled(vin_NTR) || !Actor.hadSex()] 
+OTHER: none
+
+    SceneStart()
+    "It's such beautiful weather today ..."
+    If Actor.hasRelationship(Spouses, Dating)
+        Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+        If !Actor2.isPregnant()
+            If !Actor.isMale() && !Actor2.isFemale()
+                // small chance of getting pregnant with their partner's baby, very small chance (but increasing with perversion) chance of getting pregnant with a random existing m/t character's baby
+                If Random(0, 100) < 10
+                    If Random(0, 400) < Actor:perversion + Actor2:masochist
+                        Actor2 = getPerson(true)
+                        While Actor2.isFemale()
+                            Actor2 = getPerson(true)
+                        Endwhile
+                    Endif
+                    If Actor2.isValid()
+                        Actor.impregnate(Actor2)
+                    Endif
+                Endif
+            Elseif !Actor2.isMale() && !Actor.isFemale()
+                // small chance of knocking up partner, very small chance based on partner perv of knocking up someone else
+                If Random(0, 100) < 10
+                    If Random(0, 400) < Actor:perversion + Actor2:masochist
+                        Actor2 = getPerson(true)
+                        While Actor2.isMale()
+                            Actor2 = getPerson(true)
+                        Endwhile
+                    Endif
+                    If Actor2.isValid() && !Actor2.isDating() && !Actor2.isPregnant() && !Actor2.hadSex()
+                        Actor2.impregnate(Actor)
+                    Endif
+                Endif
+            Endif
+        Endif
+    Elseif !Actor.isMale() 
+        // very small chance of impregnating them with a random existing m/t character's baby
+        If Random(33, 333) < Actor:perversion
+            Actor2 = getPerson(true)
+            While Actor2.isFemale()
+                Actor2 = getPerson(true)
+            Endwhile
+            
+            If Actor2.isValid()
+                Actor.impregnate(Actor2)
+            Endif
+        Endif
+    Endif
+    
+    "My mood improves a bit as a result"
+    mood += 5
+    SceneEnd()
+    timeoutPrecise(48, random_pregnancy_cms)

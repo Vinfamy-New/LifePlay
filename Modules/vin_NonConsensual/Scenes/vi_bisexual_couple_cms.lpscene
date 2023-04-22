@@ -1,0 +1,46 @@
+WHAT: all
+WHERE: all
+WHEN: 8 - 21
+WHO: Actor = getRelatedPeople(Spouses, Dating); If Actor0.isFemale() && Actor1.isFemale() && [Actor0.isInterestedIn(Player) && Actor0:masochist < -33 && Actor0:perversion > 50 && Actor0.isContactExchanged()] || [Actor1.isInterestedIn(Player) && Actor1:masochist < -33 && Actor1:perversion > 50 && Actor1.isContactExchanged()]
+OTHER: Player.isMale()
+
+    // A bisexual female couple invites a male for 3 way sex. If he says no there is a possibility they sing rap music to him
+    
+    SceneStart()
+    secondScreen(Actor0)
+    Actor0.show()
+    "<Actor0.name> and her <Actor1.boyfriend_or_girlfriend> <Actor1.name> is inviting me over to their place for dinner. I've heard rumours that they're bisexual and quite adventurous. Maybe they have something more than dinner in mind with me?"
+    0:: "Come over to their place"
+    1:: "Maybe not"
+    
+    If 0
+        secondScreen()
+        setBackgroundCustom(kitchen)
+        Actor0.dress()
+        Actor0.show()
+        Actor1.dress()
+        Actor1.show()
+        Actor0.animate(drinkglass)
+        Actor1.animate(drinkglass)
+        Player.animate(drinkglass)
+        "I decided to come to their place, where they treated me to a nice dinner and plenty of alcohol too."
+        "As I suspected, they then invited me for a threesome"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "Why not? Should be fun!"
+        Elseif 1
+            Actor0:: "Don't just think you could just come here and have free food and drinks, then turn us down like that!"
+            Actor0.animate(martialart)
+            Actor1.animate(martialart)
+            Player.animate(fightlost)
+            "Suddenly, the pair of them started getting aggressive and pushed me down violently"
+            "Already heavily intoxicated and now outnumbered by two crazy women, I stood no chance of resisting their assault as they forced themselves upon me."
+            TalkNonConsensual()
+        Endif
+        
+        SexNoAffair(Player, Actor0, Actor1)
+    Endif
+    SceneEnd()
+    timeout(300, vi_bisexual_couple_cms)

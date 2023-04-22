@@ -1,0 +1,107 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // Using a dating app (both the normal one and the old-young one) may end up with you being matched with a relative, which can lead to just some awkwardness or some real needs / desires being expressed
+    SceneStart()
+    Actor = getRelative()
+    If Actor.isValid() && Actor.IsInterestedIn(Player) && Player.isInterestedIn(Actor) && !Actor.isDating() && !Actor.hasRelationship(Spouses, Dating)
+        "After some swiping right but no match, I come across a profile photo that is strangely familiar."
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+        "Hmm, it says <Actor.name>, <Actor:age> ...."
+        "No doubt about it: It's my <Actor.relationship>! By accident, I ran into a family member on a dating app ..."
+        0:: "Swipe right"
+        1:: "Swipe left"
+        
+        If 0
+            "I decided to swipe right ..."
+            "I didn't notice it before but my <Actor.relationship> actually has premium membership for this dating app, which means <Actor.he_or_she> would get a notification for what I just did ..."
+            Actor:incest += 5
+            If Actor:incest > 70 || Actor.hadSex()
+                "And ... it was a match. My <Actor.relationship> decided to swipe right back at me ..."
+                "And since we already messed around with each other, my <Actor.relationship> didn't even bother with the family pretense."
+                Actor:: "Look, it's obvious we're both on this dating app trying to find someone to hook up with ... Since we both have needs and find each other attractive, let's just help each other out?"
+                0:: "Have sex with my <Actor.relationship>"
+                1:: "Reject <Actor.him_or_her>"
+                
+                If 0
+                    secondScreen()
+                    Actor.show()
+                    "Soon enough, my <Actor.relationship> came over to my bedroom."
+                    Actor:incest += 20
+                    Sex(Player, Actor)
+                Else
+                    Actor:: "Oh ... you're playing hard to get now ..."
+                    Actor:: "Fine, I hope you won't regret if I find another <Player.guy_or_girl> from this dating app to sleep with ..."
+                Endif                
+            Elseif Actor:incest > 25
+                Actor:incest += 5
+                "And ... it was a match. My <Actor.relationship> decided to swipe right back at me ..."
+                "We chat a bit, keeping the conversation friendly enough initially."
+                "Soon though, the chat took a strange turn ..."
+                Actor:: "You know, you probably have more experience and past success with these dating apps than me. I know you're my <Actor.callplayer>, but can you pretend to be a potential <Player.guy_or_girl> that I match with and give me a honest opinion on whether my flirting game would work if another <Actor.guy_or_girl> tries it on you?"
+                Player:: "Oh okay ..."
+                "And just like that, my <Actor.relationship> put on <Actor.his_or_her> best flirting game against me and I decided to play along and flirt back a bit. We probably got carried away and momentarily forgot we were related."
+                Actor.strip()
+                "As our flirting became more and more heated, my <Actor.relationship> sent me a nude pic ..."
+                0:: "Compliment <Actor.him_or_her>"
+                1:: "Ew, WTF, you're my <Actor.relationship>!"
+                
+                If 0
+                    Actor:incest += 5
+                    Actor:: "Thank you! So basically what you're saying is if you're a real <Player.guy_or_girl> that match with me, that pic would really turn you on and grab your attention right?"
+                    Player:: "Of course, I would totally ask you out hoping for hot date then ..."
+                    Actor:: "But before that, you would pleasure yourself that night looking at my nude, right?"
+                    Actor:: "Thank you, <Actor.callplayer>! You really helped improve my confidence and flirting skills today."
+                    secondScreen()
+                    "Wow, we definitely went too far there ... The flirting was intense."
+                    "I can't help but think about what my <Actor.relationship> said last though ... And I still have that nude pic of <Actor.him_or_her> on my phone!"
+                    0:: "Masturbate to it"
+                    1:: "Resist the temptation"
+                    
+                    If 0
+                        Filter(Solo)
+                        Sex(Player)
+                        If Actor.livesWithPlayer()
+                            Actor.show()
+                            Actor:: "Surprise!"
+                            Actor:: "I knew it! You weren't just play-acting, you wanted me the whole time ... Now, you're playing with yourself looking at my nude pic."
+                            "Oh ... so it was a trap, that nude pic. My <Actor.relationship> lives next door after all and was simply baiting for this moment!"
+                            Actor:: "It's okay ... I want you too ... And now that our attractions towards each other are clear, I can do a hell lot more than giving you some masturbation material ..."
+                            0:: "Have sex with my <Actor.relationship>"
+                            1:: "Reject <Actor.him_or_her>"
+                            
+                            If 0
+                                Actor:incest += 20
+                                Sex(Player, Actor)
+                            Else
+                                Actor:: "Oh ... so after all of that, you're playing hard to get now ..."
+                                Actor:: "Fine, I'll leave. I hope you won't get jealous if I find another <Player.guy_or_girl> using the flirting tactics you just helped me practice ..."
+                            Endif
+                        Endif
+                    Endif
+                Else
+                    Actor:: "Sorry, I got carried away ..."
+                Endif
+            Elseif Actor:incest > 10
+                "And ... it was a match. My <Actor.relationship> decided to swipe right back at me ..."
+                "We chat a bit, keeping the conversation friendly enough though."
+                "Maybe <Actor.relationship> simply felt obliged to swipe right as to not be rude, since I already swiped right first."
+                "A sort of 'Don't worry, sweetheart, you're beautiful, any <Actor.guys_or_girls> would be lucky to date you' reassurance from a family member, nothing more?"
+                Actor:incest += 5
+            Else
+                "In the end though, it wasn't a match so <Actor.he_or_she> didn't swipe right back at me after all ..."
+            Endif
+        Else
+            "Well, I kinda had to ..."
+        Endif
+    Else
+        "It's just not my lucky day, not a single match today."
+        "Let's try again later ..."
+        mood -= 2
+    Endif
+    SceneEnd()

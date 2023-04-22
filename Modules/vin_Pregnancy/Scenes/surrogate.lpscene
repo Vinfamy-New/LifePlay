@@ -1,0 +1,59 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Player.isPregnant()
+        "I'm already pregnant ..."
+    Elseif fertility == 0
+        "I'm not fertile at all to get  pregnant ..."
+    Else
+        Actor = generatePersonTemporary()
+        While !Actor.isMale()
+            Actor = generatePersonTemporary()
+        Endwhile
+        secondScreen(Actor)
+        Actor.show()
+        
+        Price = 5*[Actor:intelligence*intelligence + Actor:interpersonal*interpersonal + Actor:attractiveness*attractiveness]*CostOfLiving
+        PriceC = Price.convertToLocalCurrency(true)
+        "<Actor.name> is offering to pay me <PriceC> to be a surrogate mother for <Actor.his_or_her> child. Half of the money will be paid when the pregnancy is confirmed and the other half will be after birth."
+        0:: "Become the surrogate mother for <Actor.name>'s child"
+        1:: "No"
+        
+        If 0
+            secondScreen()
+            Actor.makePermanent()
+            Actor.dress()
+            "That's a good offer actually ..."
+            Actor.show()
+            If Random(30, 100) < Actor:perversion
+                "Instead of going ahead with an artificial insemination procedure as agreed, <Actor.name> is offering to meet up with me for daily sessions to do it the 'traditional' way, for some bonus payment. <Actor.He_or_She> says using science to conceive a child is against <Actor.his_or_her> faith. I'm not sure if that's the case or the client is just using religion as an excuse to sleep with me."
+                0:: "Get impregnated the 'traditional' way"
+                1:: "Artificial insemination or nothing!"
+                
+                If 0
+                    setBackground(home)
+                    "Over the period of the next two weeks, we meet up every day at a hotel so that <Actor.name> can plant <Actor.his_or_her> seeds inside me ... I'm not sure this is any different from prostitution."
+                    Sex(Actor, Player)
+                    money += Price*0.2
+                    Arti = false
+                Else
+                    Arti = true
+                    "Left with no choice, <Actor.name> decided to go with the more scientific method after all ..."
+                Endif
+            Else
+                Arti = true
+            Endif
+            
+            If Arti
+                setBackground(hospital)
+                "A few weeks later, <Actor.name> and I underwent an artificial insemination procedure."
+            Endif
+            Player.impregnate(Actor)
+            Surrogate.setGlobal(Price)
+        Endif     
+    Endif
+    SceneEnd()

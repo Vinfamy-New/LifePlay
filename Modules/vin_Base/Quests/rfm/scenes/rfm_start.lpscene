@@ -1,0 +1,251 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Mayor = Player.getActorVar(tag_Mayor)
+    If Mayor > 0
+        "You're already the mayor. No need to run another campaign."
+        QuestEnd()
+    Else
+        Salary = 2000+10000*CostOfLiving
+        SalaryConverted = Salary.convertToLocalCurrency(true)
+        "I'm considering running for Mayor of my city I'm currently living in. It's an elected position so I would have to run a campaign to win votes. If I win, the monthly salary for being the mayor of the city will be around <SalaryConverted> a month. It's not crazy money but of course the prestige is incomparable to any other jobs ... and there will be plenty of opportunities to 'make extra income' under the table as mayor if I want to go down the corrupt path."
+        "Launch my campaign now?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 1
+            "I need time to build up my reputation more before running for mayor."
+            QuestEnd()
+        Else
+            "How should I position myself on the political spectrum for this mayoral campaign?"
+            0:: "Far left"
+            1:: "Left"
+            2:: "Centre left"
+            3:: "Centrist"
+            4:: "Centre right"
+            5:: "Right"
+            6:: "Far right"
+            
+            If 0
+                politics => -100
+            Elseif 1
+                politics => -66
+            Elseif 2
+                politics => -33
+            Elseif 3
+                politics => 0
+            Elseif 4
+                politics => 33
+            Elseif 5
+                politics => 66
+            Else
+                politics => 100
+            Endif
+            
+            "I announced my candidacy for mayor and made my first campaign speech."
+            "Other candidates launched their campaigns too, quite a few no-hopers and even a few pranksters looking for attention on Youtube."
+            Actor = generatePerson()
+            If politics == 0
+                Random
+                    Actor:politics => -66
+                    Actor:politics => 66
+                endRandom
+            Else
+                Actor:politics => -1*politics
+            Endif
+            Rival.setActorAlias(Actor)
+            dressFormal()
+            Actor.dress()
+            secondScreen(Actor)
+            Actor.show()
+            "However, there's also a very impressive candidate in <Actor.Mr_or_Ms> <Actor.name> <Actor.name_last>. I reckon <Actor.he_or_she> will be my main rival for the campaign."
+            If Actor:politics < -90
+                "Based on <Actor.his_or_her> campaign launch speech, <Actor.he_or_she> seems to be running as a far-left candidate."
+            Elseif Actor:politics < -56
+                "Based on <Actor.his_or_her> campaign launch speech, <Actor.he_or_she> seems to be running as a left-wing candidate."
+            Elseif Actor:politics < -23
+                "Based on <Actor.his_or_her> campaign launch speech, <Actor.he_or_she> seems to be running as a centre-left candidate."
+            Elseif Actor:politics > 90
+                "Based on <Actor.his_or_her> campaign launch speech, <Actor.he_or_she> seems to be running as a far-right candidate."
+            Elseif Actor:politics > 56
+                "Based on <Actor.his_or_her> campaign launch speech, <Actor.he_or_she> seems to be running as a right-wing candidate."
+            Elseif Actor:politics > 23
+                "Based on <Actor.his_or_her> campaign launch speech, <Actor.he_or_she> seems to be running as a centre-right candidate."
+            Else
+                "Based on <Actor.his_or_her> campaign launch speech, <Actor.he_or_she> seems to be running as a centrist candidate."            
+            Endif
+            
+            secondScreen()
+            "My first step should be to assess accurately the city's current situation. All my campaign strategies will be based around that after all."
+            "How is the city's economy currently? Are a lot of citizens employed and do they have high disposable incomes?"
+            0:: "Terrible"
+            1:: "Very bad"
+            2:: "Bad"
+            3:: "Average"
+            4:: "Good"
+            5:: "Very good"
+            6:: "Perfect"
+            
+            If 0
+                c_economy.setGlobal(0)
+            Elseif 1
+                c_economy.setGlobal(17)
+            Elseif 2
+                c_economy.setGlobal(34)
+            Elseif 3
+                c_economy.setGlobal(50)
+            Elseif 4
+                c_economy.setGlobal(67)
+            Elseif 5
+                c_economy.setGlobal(84)
+            Else
+                c_economy.setGlobal(100)
+            Endif
+            
+            "How is the city's healthcare currently? Are hospitals providing sufficient and affordable care to the citizens?"
+            0:: "Terrible"
+            1:: "Very bad"
+            2:: "Bad"
+            3:: "Average"
+            4:: "Good"
+            5:: "Very good"
+            6:: "Perfect"
+            
+            If 0
+                c_health.setGlobal(0)
+            Elseif 1
+                c_health.setGlobal(17)
+            Elseif 2
+                c_health.setGlobal(34)
+            Elseif 3
+                c_health.setGlobal(50)
+            Elseif 4
+                c_health.setGlobal(67)
+            Elseif 5
+                c_health.setGlobal(84)
+            Else
+                c_health.setGlobal(100)
+            Endif
+            
+            "How is the city's public security currently? Is the police force coping well with crimes?"
+            0:: "Terrible"
+            1:: "Very bad"
+            2:: "Bad"
+            3:: "Average"
+            4:: "Good"
+            5:: "Very good"
+            6:: "Perfect"
+            
+            If 0
+                c_security.setGlobal(0)
+            Elseif 1
+                c_security.setGlobal(17)
+            Elseif 2
+                c_security.setGlobal(34)
+            Elseif 3
+                c_security.setGlobal(50)
+            Elseif 4
+                c_security.setGlobal(67)
+            Elseif 5
+                c_security.setGlobal(84)
+            Else
+                c_security.setGlobal(100)
+            Endif
+            
+            "How is the city's education currently? Are the citizens all literate with many advancing to higher education?"
+            0:: "Terrible"
+            1:: "Very bad"
+            2:: "Bad"
+            3:: "Average"
+            4:: "Good"
+            5:: "Very good"
+            6:: "Perfect"
+            
+            If 0
+                c_education.setGlobal(0)
+            Elseif 1
+                c_education.setGlobal(17)
+            Elseif 2
+                c_education.setGlobal(34)
+            Elseif 3
+                c_education.setGlobal(50)
+            Elseif 4
+                c_education.setGlobal(67)
+            Elseif 5
+                c_education.setGlobal(84)
+            Else
+                c_education.setGlobal(100)
+            Endif
+            
+            "How is the city's transport currently? Are traffic jams under control and public transports affordable and comfortable?"
+            0:: "Terrible"
+            1:: "Very bad"
+            2:: "Bad"
+            3:: "Average"
+            4:: "Good"
+            5:: "Very good"
+            6:: "Perfect"
+            
+            If 0
+                c_transport.setGlobal(0)
+            Elseif 1
+                c_transport.setGlobal(17)
+            Elseif 2
+                c_transport.setGlobal(34)
+            Elseif 3
+                c_transport.setGlobal(50)
+            Elseif 4
+                c_transport.setGlobal(67)
+            Elseif 5
+                c_transport.setGlobal(84)
+            Else
+                c_transport.setGlobal(100)
+            Endif
+            
+            "How is the city's culture and entertainment currently? Are the citizens having enjoyable and fulfilling lives?"
+            0:: "Terrible"
+            1:: "Very bad"
+            2:: "Bad"
+            3:: "Average"
+            4:: "Good"
+            5:: "Very good"
+            6:: "Perfect"
+            
+            If 0
+                c_culture.setGlobal(0)
+            Elseif 1
+                c_culture.setGlobal(17)
+            Elseif 2
+                c_culture.setGlobal(34)
+            Elseif 3
+                c_culture.setGlobal(50)
+            Elseif 4
+                c_culture.setGlobal(67)
+            Elseif 5
+                c_culture.setGlobal(84)
+            Else
+                c_culture.setGlobal(100)
+            Endif
+            
+            rfm_endorse.setGlobal(0)
+            
+            fairH.generateBuildingAlias(community_centre)
+            fairH.addObjective(rfm_fair)
+            
+            sexH.generateBuildingAlias(home)
+            sexH.addObjective(rfm_sex)
+            
+            rivalH.generateBuildingAlias(cafe)
+            rivalH.addObjective(rfm_rival)
+            
+            finalH.generateBuildingAlias(community_centre)
+            finalH.addObjective(rfm_final)
+            
+            "Having assessed the city's current situation, it's time to conduct my campaign. There are plenty of strategies I could use, but in general, I could either compete fairly, try to discredit my rival or use sex to my advantage. There will also be plenty of polls from now to election day that I can use to keep track of my progress."
+        Endif
+    Endif
+    SceneEnd()

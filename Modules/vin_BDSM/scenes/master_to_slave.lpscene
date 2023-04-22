@@ -1,0 +1,268 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+
+    // If your SO or a past lover has very high submissiveness (which of course can be built up gradually by putting BDSM pieces on them during adult scenes) or attraction to you, you can click on them and become their master, which makes them wear a collar permanently and gives you the right to bang them or make them bang anyone anytime with no timeout. You can also tie them up and leave them in a dodgy part of town and let strangers have their ways with them.
+
+    SceneStart()
+    If !Actor.isValid()
+        Actor = getSpecific(PassedOn)
+        Actor.show()
+    Endif
+    Existing = Actor.getActorVar(tag_Slave)
+    If Existing > 0
+        Actor.dressBondage(Collar)
+        "<Actor.name> has already accepted <Actor.his_or_her> place as my slave. As <Actor.his_or_her> rightful <Player.master_or_mistress>, I can do whatever I want with <Actor.him_or_her>!"
+        "So, what do I require of my slave today?"
+        0:: "Fuck my slave"
+        1:: "Make my slave fuck someone I know"
+        2:: "Tie my slave up and let strangers fuck <Actor.him_or_her>"
+        3:: isModEnabled(vin_Bestiality):: "Make my slave fuck an animal"
+        4:: "Nothing"
+
+        If 0
+            Actor:: "Yes, of course, I'm at your service, <Player.Master_or_Mistress>."
+            Sex(Player, Actor)
+        Elseif 1
+
+
+            "Who should I invite to fuck my slave?"
+            selectNpc()
+            Actor2 = getSelectedNpc()
+
+            If Actor.isRelationshipWith(Actor2, Siblings, ParentChild, Cousins) && !isModEnabled(vin_Incest)
+                Actor:: "I can't do that! We're related!"
+                Actor2:: "Gross!"
+            Elseif Actor2.isInterestedIn(Actor) && [Actor2:perversion > 50 || Actor2.hadSex()]
+                Actor2.dress()
+                Actor2.show()
+                If Actor.isRelationshipWith(Actor2, ParentChild)
+                    If Actor:age > Actor2:age
+                        Actor:: "With my own <Actor2.son_or_daughter>, kinky!"
+                    Elseif Actor2:age > Actor:age
+                        Actor:: "With my own <Actor2.father_or_mother>, kinky!"
+                    Else
+                        Actor:: "With my own flesh and blood, kinky!"
+                    Endif
+                Elseif Actor.isRelationshipWith(Actor2, Siblings)
+                    Actor:: "With my own <Actor2.brother_or_sister>, that's hot!"
+                Elseif  Actor.isRelationshipWith(Actor2, Cousins)
+                    Actor:: "Sure, I'll pleasure my cousin!"
+                Else
+                    Actor:: "Yes, of course, anything you want, <Player.Master_or_Mistress>. I'll pleasure <Actor2.Mr_or_Ms> <Actor2.name> as best as I can on your behalf."
+                Endif
+                Sex(Actor2, Actor)
+
+                // When you use the "Make my slav e fuck someone I know" option and select someone in a relationship with a woman, after having their fun, your friend confesses their envy at your absolute power over your plaything and asks for your advice. You can simply give out some useful tips or suggest they bring their girl over for you to 'train', which may lead to her submitting to you instead.
+
+                Actor4 = Actor2.getRelatedPerson(Spouses, Dating)
+
+                If Actor4.isValid() && !Actor4.isMale()
+                    Actor2:: "Wow, that was great! Your slave really knew what <Actor.he_or_she> was doing. You must have trained <Actor.him_or_her> well."
+                    Actor2:: "How do you manage to make <Actor.him_or_her> submit to you so fully? I must admit I'm a bit envious. My <Actor4.boyfriend_or_girlfriend> <Actor4.name> would never ..."
+                    0:: "Simply give out some tips"
+                    1:: "I can 'train' <Actor4.him_or_her> for you"
+
+                    If 0
+                        "I decided to give <Actor2.name> some advices on how to gradually make <Actor2.his_or_her> <Actor4.boyfriend_or_girlfriend> more submissive."
+                        Actor4:masochist += 2
+                    Else
+                        Actor2:: "Of course, you're the expert after all ... Let me bring <Actor4.him_or_her> over for you to train."
+                        Actor4.dress()
+                        Actor4.show()
+                        Actor2:: "Here <Actor4.he_or_she> is. I'll leave you two to it."
+                        Actor2.hide()
+                        "First, I made <Actor2.name>'s <Actor4.boyfriend_or_girlfriend> watch me and my slave <Actor.name> 'interact'."
+                        Sex(Player, Actor)
+                        "Next, I put some bondage gears on <Actor4.name>."
+                        Actor4.dressBondage()
+                        Actor4.dressBondage(Handcuffs)
+                        Actor4.dressBondage(Shincuffs)
+                        Actor4.dressBondage(Thighcuffs)
+                        "Finally, I proceed to have rough sex with <Actor4.him_or_her>."
+                        Sex(Player, Actor4)
+                        Actor4:masochist += 10
+                        If Actor4:masochist > 50
+                            "My lessons have made <Actor4.name> submissive enough to want so submit to a <Player.Master_or_Mistress> ..."
+                            "Of course, <Actor4.his_or_her> <Actor2.boyfriend_or_girlfriend>'s idea was to be that <Actor2.Master_or_Mistress>."
+                            "As <Actor4.name>'s trainer so far though, I could simply go back on our original arrangement and make <Actor4.him_or_her> my slave instead."
+                            0:: "Betray <Actor2.name> and make <Actor2.his_or_her> <Actor4.boyfriend_or_girlfriend> my slave"
+                            1:: "Let the now submissive <Actor4.name> go back to serve <Actor4.his_or_her> <Actor2.boyfriend_or_girlfriend>"
+
+                            If 0
+                                Actor2:rapportwithplayer -= 15
+                                passOn(Actor4)
+                                followUp(master_to_slave)
+                            Else
+                                "<Actor2.name> is forever grateful to me for completely transforming the dynamic of their relationship."
+                                Actor2:rapportwithplayer += 30
+                            Endif
+                        Else
+                            "My lessons have certainly made <Actor2.name>'s <Actor4.boyfriend_or_girlfriend> more submissive, but <Actor4.he_or_she>'s quite ready to submit yet."
+                        Endif
+                    Endif
+                endIf
+            Else
+                "Unfortunately, <Actor2.name> didn't seem overly interested in my slave."
+            Endif
+        Elseif 2
+            If Random(0, 100) < 14
+                setBackground(street)
+                "I tied my slave up and left <Actor.him_or_her> in a dodgy part of town ..."
+            Elseif Random(0, 100) < 17
+                setBackground(park)
+                "I tied my slave up and left <Actor.him_or_her> in a public park ..."
+            Elseif Random(0, 100) < 20
+                setBackground(beach)
+                "I tied my slave up and left <Actor.him_or_her> on a public beach ..."
+            Elseif Random(0, 100) < 25
+                setBackground(forest)
+                "I tied my slave up and left <Actor.him_or_her> in the middle of a forest ..."
+            Elseif Random(0, 100) < 33
+                setBackground(river)
+                "I tied my slave up and left <Actor.him_or_her> by a popular fishing spot ..."
+            Elseif Random(0, 100) < 50
+                setBackground(mountain)
+                "I tied my slave up and left <Actor.him_or_her> on a hill popular with hikers ..."
+            Else
+                setBackground(pool)
+                "I tied my slave up and left <Actor.him_or_her> at a popular public swimming pool ..."
+            Endif
+
+            Actor.dressBondage()
+            Actor.dressBondage(Handcuffs)
+            Actor.dressBondage(Shincuffs)
+            Actor.dressBondage(Thighcuffs)
+
+            "I also left a sign next to <Actor.him_or_her> that simply said 'Enjoy!'"
+            count = 0
+            While count < 3
+                Actor2 = generatePersonTemporary()
+                While !Actor.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.dress()
+                Actor2.show()
+                "A stranger passed by and took up the offer."
+                Sex(Actor2, Actor)
+                count += 1
+            Endwhile
+            Player:: "Well done, slave, you've worked hard for your <Player.Master_or_Mistress> today ..."
+        Elseif 3
+            Actor2 = getCreature()
+            While !Actor.isInterestedIn(Actor2) && Actor2.isValid()
+                Actor2 = getCreature()
+            Endwhile
+
+            If Actor2.isValid()
+                If Actor2.isCreatureType(Horse)
+                    setBackgroundCustom(stable)
+                Endif
+
+                Actor2.show()
+
+                "Perhaps <Actor2.name> would be a good candidate for my slave to fuck?"
+                0:: "Yes"
+                1:: "No"
+
+                If 0
+                    Actor:: "Of course, <Player.Master_or_Mistress>, anything for you ..."
+                    Sex(Actor2, Actor)
+                Endif
+            Else
+                "I can't think of any animals I own that would be appropriate for this."
+            Endif
+        Endif
+
+        If choice < 4
+            Actor3 = Actor.getRelatedPerson(Siblings, Cousins, ParentChild)
+            RelSlave = Actor3.getActorVar(tag_Slave)
+            If RelSlave > 0
+                "Of course, one of <Actor.name>'s family members, <Actor3.name> is another one of my slaves as well. <Actor3.He_or_She> should be around since they live together. Now that I'm done with <Actor.name>, should I demand that <Actor3.name> serve me as well?"
+                0:: "Demand my other slave <Actor3.name>'s presence"
+                1:: "I have enough fun with this family for now"
+
+                If 0
+                    Actor3.passOn()
+                    followUp(master_to_slave)
+                Endif
+            Elseif !Actor3.isValid() || [Actor3:masochist > 25 && !Actor3.isMale() && Actor3.isInterestedIn(Player) && Player.isInterestedIn(Actor3)]
+                If !Actor3.isValid()
+                    Actor3 = Actor.generatePersonTemporaryMatchRace()
+                    While !Actor3.isFemale() && !Actor3.isValid()
+                        Actor3 = Actor.generatePersonTemporaryMatchRace()
+                    endWhile
+                    Actor3.makeInterested(Player)
+                    Actor3:masochist => Random(30, 100)
+                    Actor3.makePermanent()
+                    If Actor3:age - Actor:age > 18
+                        addNpcRelationship(ParentChild, Actor3, Actor)
+                    Elseif Actor:age - Actor3:age > 18
+                        addNpcRelationship(ParentChild, Actor, Actor3)
+                    Else
+                        Random
+                            addNpcRelationship(Siblings, Actor, Actor3)
+                            addNpcRelationship(Cousins, Actor, Actor3)
+                        endRandom
+                    Endif
+                    Actor3.matchLastName(Actor)
+                Endif
+                If Actor3.isValid() && Random(0, 100) < 25
+                    Actor3.dress()
+                    Actor3.show()
+                    "Just as I was having my fun with my slave <Actor.name>, another member of <Actor.his_or_her> family <Actor3.name> made <Actor3.his_or_her> presence known. <Actor3.He_or_She> must have followed us and seen everything."
+                    Actor3:: "I knew it ... I've suspected you're submitted to someone as a slave for a while now."
+                    "Just as I was expecting <Actor3.name> to criticize <Actor.name> for <Actor.his_or_her> life choices, <Actor3.he_or_she> shocked me ..."
+                    Actor3:: "You should have just told me ... It's something I've fantasized about for a while now ... It's so hot to feel that a <Actor.Master_or_Mistress> is fully in control of you."
+                    Actor3.moveToPersonStand(Player, 50)
+                    Actor3:: "<Player.Master_or_Mistress>, would you accept me as your slave as well? Together with <Actor.name>, I swear to obey your every commands. In fact, satisfying all your needs is all that we were born for."
+                    0:: "Claim <Actor3.name> as my personal slave"
+                    1:: "This is a bad idea"
+
+                    If 0
+                        "<Actor3.name> agreed that <Actor3.he_or_she> was worthless and should rightfully submit to me as <Actor3.his_or_her> <Player.master_or_mistress>."
+                        "As a slave, <Actor3.name> swore to obey my every commands. In fact, satisfying all my needs is all that she was born for."
+                        exchangeContact(Actor3)
+                        Actor3.setActorVar(tag_Slave, 1)
+                        Actor3.setWantsBabies()
+                        Actor3.strip()
+                        Actor3.dressBondage(Collar)
+                        "To show my newly recognized ownership of my new slave, I put a collar around <Actor3.his_or_her> neck and forbid <Actor3.him_or_her> from ever removing it."
+                        Actor3:masochist => 100
+                    Else
+                        "Having two slaves from the same family might cause some drama in the future. I'd rather not."
+                    Endif
+                Endif
+            Elseif Random(0, 100) < 25
+                Actor3.dress()
+                Actor3.show()
+                "Unfortunately, one of my slave's relatives <Actor3.name> caught us in the act and scolded us."
+                "<Actor3.He_or_She> demanded that I leave <Actor.name> alone, having no idea that it's <Actor.name> who submitted to me willingly."
+                Actor3:rapportwithplayer -= 10
+            Endif
+        Endif
+    Else
+        "<Actor.name> has not submitted to me and accepted me as <Actor.his_or_her> rightful <Player.master_or_mistress> yet ..."
+        "Should I assert that authority now?"
+        0:: "Claim <Actor.name> as my personal slave"
+        1:: "Not now"
+
+        If 0
+            If Actor:attractiontoplayer > 70 || Actor:masochist > 50
+                "<Actor.name> agreed that <Actor.he_or_she> was worthless and should rightfully submit to me as <Actor.his_or_her> <Player.master_or_mistress>."
+                "As a slave, <Actor.name> swore to obey my every commands. In fact, satisfying all my needs is all that she was born for."
+                Actor.setActorVar(tag_Slave, 1)
+                Actor.setWantsBabies()
+                Actor.strip()
+                Actor.dressBondage(Collar)
+                "To show my newly recognized ownership of my new slave, I put a collar around <Actor.his_or_her> neck and forbid <Actor.him_or_her> from ever removing it."
+                Actor:masochist => 100
+            Else
+                "Unfortunately, <Actor.name> still showed some resistance and didn't quite submit to me just yet."
+            Endif
+        Endif
+    Endif
+    SceneEnd()

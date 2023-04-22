@@ -1,0 +1,53 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If energy > 40
+        "Hypnosis is effective but takes time and consumes a lot of energy, which for a vampire like me is only refilled from drinking blood."
+        "What should I use hypnosis on <Actor.name> for?"
+        0:: "Make <Actor.him_or_her> become more attracted to me"
+        1:: "Make <Actor.him_or_her> like me more"
+        
+        If 0
+            energy -= 40
+            If Actor.isInterestedIn(Player)
+                Actor:attractiontoplayer += 5
+                FwB = Actor.getActorVar(tag_fwb)
+                If !Actor.isDating() && FwB == 0
+                    If energy > 50
+                        "Now that <Actor.name> is a bit more attracted to me, should I use some more hypnosis to push it further?"
+                        0:: Actor:attractiontoplayer > 75:: "To turn <Actor.him_or_her> into my <Actor.boyfriend_or_girlfriend>"
+                        1:: Actor:attractiontoplayer > 50:: "To turn <Actor.him_or_her> into a friend with benefits"
+                        2:: "<Actor.His_or_her> current level of attraction is not enough for it to work"
+                        
+                        If 0
+                            energy -= 50
+                            Actor.setDating()
+                            Actor:: "Of course I will be your <Actor.boyfriend_or_girlfriend>!"
+                        Elseif 1
+                            energy -= 50
+                            Actor.setActorVar(tag_fwb, 1)
+                            Actor:: "Of course, you can booty call me anytime!"
+                        Endif               
+                    Else
+                        "<Actor.name> is a bit more attracted to me, but the hypnosis drains my energy so much I can't go further ..."
+                    Endif
+                Endif   
+            Else
+                Actor.makeInterested(Player)
+                "First, I need to use hypnosis to change <Actor.his_or_her> sexual orientation to be interested in my gender first."
+                "Done ..."
+            Endif
+        Else
+            energy -= 40
+            Actor:rapportwithplayer += 10
+            "<Actor.name> now likes me more ... This is a rather unconventional way of making friends though ..."
+        Endif
+    Else
+        "My energy is too drained to use hypnosis right now ... I need to drink some blood first to recover energy."
+    Endif
+    
+    SceneEnd()

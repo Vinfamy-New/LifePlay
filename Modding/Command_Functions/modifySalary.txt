@@ -1,0 +1,12 @@
+Actor.modifySalary(Float)
+
+USE:
+Give an employee in your business an xFloat salary raise
+
+TYPE: Command, Ref
+RETURNS: /
+THEME: Business
+COMPARE:
+
+
+

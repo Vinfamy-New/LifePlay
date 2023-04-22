@@ -1,0 +1,42 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor.isVirgin() && Actor:rapportwithplayer > 70
+OTHER: !Player.isVirgin()
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "My <Actor.relationship> <Actor.name> seems to want to talk to me about something important."
+    Actor:: "I'm still a virgin and it's affecting my confidence."
+    "Oh no ... this is going to be awkward conversation ..."
+    Actor:: "I don't want to give up my virginity to just some random person though."
+    Actor:: "And I also don't want whoever ending up taking my virginity to run their mouth to everyone about it."
+    Actor:: "I just want to get that first time out of the way, discreetly without any headache so that I can start freely exploring more about sex."
+    "Hmm ... I think I know where this is going ..."
+    Actor:: "The other day, I ended up in the weird corner of the internet and came across a blog post about letting a family member take your virginity."
+    Actor:: "It sounds crazy ... and highly illegal at first but the blog post does make some very good points."
+    Actor:: "First of all, this would be someone you've known all your life and you can trust. It's not just some random hookup you'll never see again or some hopeless romantic with attachment issues."
+    Actor:: "Secondly, your deflowerer won't go around boasting to everyone about it since it's incest and must be kept seret."
+    Actor:: "It will be the least drama possible."
+    "I suppose this is where I come in ..."
+    Actor:: "I know you have some experience in bed ... maybe you can ... take my virginity"
+    0:: "Agree to take my <Actor.relationship>'s virginity"
+    1:: "No way!"
+    
+    If 0
+        If Actor:incest + Actor:perversion > 55
+            Actor:: "Well, I make some good points. I don't want my precious <Actor.callplayer> to go out and fuck some random <Actor.guy_or_girl> for <Player.his_or_her> first time either ..."
+            Actor:: "And family is supposed to pass on 'life experience' to each other ..."
+            Sex(Actor, Player)
+        Else
+            Actor:: "You know full well we can't do that! I'm your <Actor.relationship>!"
+            Actor:: "You're just confused ... You'll find someone special soon, I'm sure."
+        Endif
+    Else
+        Player:: "You know full well we can't do that! I'm your <Actor.relationship>!"
+        Player:: "You're just confused ... You'll find someone special soon, I'm sure."
+        Actor:rapportwithplayer -= 10
+    Endif
+    SceneEnd()
+    timeout(500, incest_virgin_offered)

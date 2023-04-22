@@ -1,0 +1,50 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    "The stripper that just gave me a lapdance seemed open to to some VIP service ..."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor:age => Random(18, 30)
+    Actor:attractiveness => Random(65, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    
+    Actor.show()
+    Actor.animate(dance)
+    "Should I spend some money and accept <Actor.his_or_her> offer?"
+    0:: "Fuck the stripper"
+    1:: "A lapdance is enough"
+    
+    If 0
+        Sex(Player, Actor)
+        money -= 200
+        
+        If Random(0, 100) < 50
+            Actor2 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2:age => Random(18, 30)
+            Actor2:attractiveness => Random(65, 100)
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            
+            Actor2.show()
+            "Just as I was fucking the stripper, another stripper who probably just got <Actor2.his_or_her> similar VIP service offer turned down by another patron came over and started giving me some attention ..."
+            0:: "Spend some more money for a threesome"
+            1:: "Fucking one stripper is enough"
+
+            If 0
+                Sex(Player, Actor2, Actor)
+                money -= 200
+            Endif
+        Endif
+    Endif
+    SceneEnd()

@@ -1,0 +1,38 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isFemale()
+OTHER: TfGame()
+
+    // When hanging out with a female friend or relative, your character may be prompted to learn from this person something you missed not growing up as a woman like make-up, walking in heels, how to send "signals", how to coordinate outfits, how to survive without pockets, etc, which increases attractiveness or interpersonal stats.
+    
+    SceneStart()
+    "Not being born a woman, I'm not used to many of the little things involved in living as a woman, which is why hanging out with a woman can be so useful."
+    0:: "Pay attention to <Actor.name> and learn to be more feminine"
+    1:: "That could make <Actor.name> suspicious"
+    
+    If 0
+        Sus = Actor.getActorVar(Tf_Sus)
+        Sus += Actor:intelligence*0.1
+        Actor.setActorVar(Tf_Sus, Sus)
+        "<Actor.name> feels a bit weird initially when I was asking so many questions about her mannerism and paying so much attention to <Actor.him_or_her>."
+        If Random(0, 100) < 50
+            attractiveness += 0.5
+            masochist += 0.5
+            Random
+                "But eventually, I managed to pick up some of her my make-up skills as a woman."
+                "But eventually, I managed to pick up some of her technique of walking in heels as a woman."
+                "But eventually, I managed to pick up some of her fashion sense and now know better how to corrdinate female outfits."                
+            endRandom
+        Else
+            interpersonal += 0.5
+            masochist += 0.5
+            Random
+                "But eventually, I managed to pick up some of her ways to send 'signals' as a woman."
+                "But eventually, I managed to pick up some of her ways suriviving without pockers."
+                "But eventually, I managed to pick up some of her communication and manner as a woman."                         
+            endRandom            
+        Endif
+    Endif
+    SceneEnd()
+    timeout(48, tf_companion)

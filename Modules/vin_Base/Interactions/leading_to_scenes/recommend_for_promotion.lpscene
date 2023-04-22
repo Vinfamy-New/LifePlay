@@ -1,0 +1,85 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // If your jobexperience is at least 30 higher than a colleague, you're considered their superior and you can recommend them for a promotion in exchange for either some 'fun' (with them or their SO, the latter being generated when you ask for it according to your orientation if they don't currently have one) or for a big rapport and/or attraction boost. You can only recommend one subordinate for promotion every 2 weeks and obviously you can't abuse the interaction forever since eventually, they're promoted high enough to no longer be your subordinate
+    
+    SceneStart()
+    
+    If isTimingOut(recommend_for_promotion)
+        "I already recommended someone for promotion recently. It's not wise to make another recommendation to my boss so soon."
+        "(You can only recommend one subordinate for promotion every 2 weeks)"
+    Else
+        Raise = false
+        "<Actor.name> is one of my subordinates in the office who is probably due for a promotion. Still, since I'm one of their supervisors, I hold a lot of sway over my boss's final decision whether to promote <Actor.him_or_her> or not."
+        Player:: "<Actor.name>, I think it's time to discuss your recent performance and position within the company."
+        Actor:: "Yes, of course."
+        0:: "Just be nice and recommmend a promotion"
+        1:: "Ask for sex in exchange for a promotion recommmendation"
+        2:: "Ask for sex with their significant other instead"
+        3:: "Do nothing"
+        
+        If 0
+            Raise = true
+            karma += 20
+            Actor:rapportwithplayer += 20
+            Actor:attractiontoplayer += 20
+        Elseif 1
+            If Actor.hadSex() || Random(40, 70) < Actor:perversion
+                Raise = true
+                Actor:: "Okay ... I really want this promotion ... The extra cash won't hurt either."
+                Sex(Player, Actor)
+            Else
+                Raise = false
+                Actor:: "Sorry, but I can't do that ..."
+            Endif
+        Elseif 2
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            If !Actor2.isValid()
+                Actor2 = generatePersonTemporary()
+                While !Player.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.makeInterested(Player)
+                Actor2.makeInterested(Actor)
+                Actor.makeInterested(Actor2)
+                Actor2.makePermanent()
+                addNpcRelationship(Dating, Actor, Actor2)
+            Endif
+            
+            secondScreen(Actor2)
+            Actor2.show()
+            
+            "<Actor.name>'s <Actor2.boyfriend_or_girlfriend> is <Actor2.name>. Am I sure that a night with <Actor2.name> is worth a promotion for <Actor.name>?"
+            0:: "Try to sleep with <Actor2.name>"
+            1:: "On second thought, no"
+            
+            If 0
+                secondScreen()
+                If Random(80, 140) < Actor:perversion + Actor:masochist
+                    Raise = true
+                    Actor:: "Okay ... I really want this promotion ... The extra cash won't hurt either. Give me a few days, let me talk <Actor2.name> into it."
+                    setBackground(home)
+                    Actor2.show()
+                    "A few days later, <Actor.name> invited me to dinner at <Actor.his_or_her> apartment, with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> providing the dessert ..."
+                    SexNoAffair(Player, Actor2)
+                    Actor:masochist += 10
+                    setBackground(work)
+                    Actor2.hide()
+                Else
+                    Raise = false
+                    Actor:: "Sorry, but I can't let you sleep with my <Actor2.boyfriend_or_girlfriend> ..."
+                Endif
+            Endif
+        Endif
+        
+        If Raise
+            "As promised, I recommended to my boss that <Actor.name> should get promoted."
+            Actor:jobexperience += 20
+            "This was approved, much to <Actor.his_or_her> delight."
+            timeoutPrecise(336, recommend_for_promotion)
+        Endif
+    Endif
+    SceneEnd()

@@ -1,0 +1,15 @@
+Actor.getPregnancyTag()
+
+USE:
+Check if a pregnancy was the result of rape
+
+TYPE: Command, Reference
+RETURNS: String
+THEME: Pregnancy
+COMPARE:
+
+Example:
+      Rape = Actor.getPregnancyTag()
+      If Rape.isString("Aggressive") && !Actor.isDating()
+           "Of course <Actor.name> and I both know that this pregnancy wasn't the result of some loving relationship. Instead, it was the result of my sexual assault on <Actor.him_or_her>. This could get really messy ..."
+      Endif

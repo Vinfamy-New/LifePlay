@@ -1,0 +1,119 @@
+WHAT: all
+WHERE: all, -work
+WHEN: 8 - 18
+WHO: none
+OTHER: Random(1, 150) < pornfame && [likes_older > 30 || likes_older < -30]
+
+    SceneStart()
+    Dice = Random(500, 2000)
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    
+    Actor:age => age + likes_older*0.5
+    Actor:age += Random(-5, 5)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.dress()
+    Actor.show(2)
+    DoneBeast = Player.getActorVar(tag_beastporn)
+    
+    If DoneBeast > 0 && Random(0, 100) < 50
+        "One of the most famous porn directors was planning to shoot me, but pulled out in the last minute after finding out about me being involved in a bestiality shoot earlier in my career. He didn't think I would fit the glamcore market."
+    Else
+        "A porn director wants to book me for a old-young fetish scene with <Actor.name>, who is <Actor:age> years old!"
+        "It's a well-paid offer since it's a porn niche high in demand. I guess a lot of people want to watch two pornstars with a big age gap going at it ..."
+        "With all that in mind, what should I do about this offer?"
+        0:: "Turn down the offer"
+        1:: "Rip the director off (<P1C>)"
+        2:: "Offer a fair price (<P2C>)"
+        3:: "Give the director a bargain (<P3C>)"
+        
+        If 0
+            Player(Sad):: "Sorry, but I have a holiday planned on the day of the shoot ..."
+        Elseif 3 || Random(0, 100) < choice*pornfame
+            "The porn director accepted my demands and soon enough we were meeting at the shoot location that we agreed on."
+            Random
+                setBackground(home)
+                setBackground(bar)
+                setBackground(hairdresser)
+                setBackground(cafe)
+                setBackground(clothes)
+                setBackground(dentist)
+                setBackground(doctor)
+                setBackground(hotel)
+                setBackground(laundry)
+                setBackground(marketplace)
+                setBackground(musical_instrument)
+                setBackground(nightclub)
+                setBackground(work)
+                setBackground(place_of_worship)
+                setBackground(police)
+                setBackground(prison)
+                setBackground(pub)
+                setBackground(restaurant)
+                setBackground(shoes)
+                setBackground(sports_centre)
+                setBackground(supermarket)
+                setBackground(theatre)
+                setBackground(toilets)
+            endRandom
+            "What should I do?"
+            0:: "Shoot the scene as agreed"
+            1:: "Invite the porn director to join for a threesome."
+            
+            If 0
+                Sex(Actor, Player)
+            Else
+                Actor2 = generatePersonTemporary()
+                Actor2:age => Random(35, 55)
+                Actor2.randomizeFace()
+                Actor2.randomizeHairs()
+                Actor2.dress()
+                Actor2.show(3)
+                Player(Flirty):: "I heard you were quite a star performer back in your day? Why don't you join us, make this a POV threesome video and teach us a thing or two about performing in this industry? It would be quite a honor to star alongside an industry legend."
+                Actor2(Flirty):: "It's been a long time since I last performed, but since you insist ..."
+                Sex(Actor, Actor2, Player)
+            Endif
+            money => money + Dice/choice
+            pornfame += 0.5
+            perversion += 0.25
+        Else
+            "No way, that's way above the market rate for this type of shoots! You have too high an opinion of yourself, honey. You should ask the other pornstars how much they charge."
+            0:: "Say nothing"
+            1:: "Cheap motherfucker!"
+            
+            If 1
+                If Random(0, 100) < 30
+                    "The director got pissed off and tried to hit me"
+                    If Random(0, 100) < martial
+                        "Unfortunately for him, I was no pushover and gave him a good spanking."
+                        "As things would have it, our little incident went viral in the porn industry media and somehow made me even more popular. I guess no publicity is bad publicity. Besides, other directors will have to think twice now before trying to bully me in the future."
+                        pornfame += 2
+                    Else
+                        "I tried to stand my ground but ..."
+                        "Unfortunately for me, he was a powerful man and I got quite seriously hurt."
+                        "As things would have it, our little incident went viral in the porn industry media and somehow made me a butt of jokes. No doubt this would affect my future prospects with other directors."
+                        pornfame -= 2                
+                    Endif
+                Elseif Random(0, 100) < 50
+                    "How dare you? You'll never work for this studio again!"
+                    pornfame -= 1
+                Else
+                    "Fine, I changed my mind. Let's try negotiating again ..."
+                    followUp(porn_shoot)
+                Endif
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(48, porn_shoot_oldyoung)

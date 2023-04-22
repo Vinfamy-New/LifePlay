@@ -1,0 +1,26 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "Should I adopt a baby?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "I'm in luck. The centre currently has one newborn available for adoption"
+        "It's a lot of paperwork to fill but in the end my application was accepted."
+        Actor = Player.generateRelativeMatchRace()
+        Actor.setRelativeType(Child)
+        Actor2 = getSpecific(Dating)
+        If Actor2.isValid()
+            addNpcRelationship(ParentChild, Actor2, Actor)
+        Endif
+        "It's a <Actor.boy_or_girl>! What should I name my <Actor.son_or_daughter>?"
+        Actor.enterFirstName()
+        Actor:age => 0
+        Player:children += 1        
+    Endif
+    SceneEnd()

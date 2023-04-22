@@ -1,0 +1,62 @@
+WHAT: all
+WHERE: all, -home, -work, -prison, -fraternity
+WHEN: 0 - 24
+WHO: none
+OTHER: likes_older < -10 && !Player.isAsexual()
+
+    // Randomly triggered scene for an older player character that prefers younger where you come across someone younger who checks you out and you have a choice to approach
+    
+    SceneStart()
+    "I was just going about my day when my eyes meet with those of a stranger."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    
+    Actor:age => age + likes_older*0.5
+    Actor:age += Random(-5, 5)
+    Actor:attractiveness => Random(70, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor:likes_older => 2*[age - Actor:age]
+    Actor:attractiontoplayer += Random(25, 50)
+    
+    Actor.dress()
+    Actor.show()
+    "And I must admit: This stranger is a rather hot younger <Actor.man_or_girl>, around <Actor:age> years old if I have to guess, ... and I happen to always have a thing for younger <Actor.men_or_women>." 
+    "I could swear <Actor.he_or_she> is checking me out too ... Is it my lucky day to have such a hot young thing show interest, or is it all just my imagination? Maybe I should approach <Actor.him_or_her> ... A risky strategy though as either <Actor.he_or_she> will appreciate my confidence, or I'll come across as an old creep trying to hit on young <Actor.guys_or_girls>."
+    0:: "Approach the younger stranger"
+    1:: "Let's not be creepy in public"
+    
+    If 0
+        Player.moveToPersonStand(Actor, 100)
+        "I mustered all the confidence I could and approached the stranger, introducing myself and giving <Actor.him_or_her> a nice compliment."
+        "Thankfully, the worst case scenario in my head of getting slapped and called a creep didn't happen. Quite the contrary, the stranger smiled and introduced <Actor.himself_or_herself> as <Actor.name> and returned my compliment in kind ..."
+        0:: "Push for a date right now"
+        1:: "Ask for <Actor.his_or_her> number for a future date"
+        2:: "Lose my nerves and chicken out"
+        
+        If 2
+            "For some reason, I found myself lost for words and ended up not even getting <Actor.name>'s number ..."
+        Else
+            Actor.makePermanent()
+            exchangeContact(Actor)
+            "<Actor.name> was happy to exchange numbers with me."
+            
+            If 0
+                If Random(50, 100) < Actor:attractiontoplayer
+                    "To my delight, <Actor.name> seemed very eager and agreed to a date right away."
+                    Actor.startDate()
+                    "Hopefully it will be a good experience. Since we're obviously into each other, this may turn out to be a rather hot date."                    
+                Else
+                    "Unfortunately, <Actor.name> wasn't available for a date right way."
+                    "Oh well, at least I got <Actor.his_or_her> number."
+                Endif
+            Endif
+        Endif
+    Else
+        "I was too terrified of the prospect of getting rejected in public and everyone staring at me as an old creep that I decided not to approach the younger <Actor.guy_or_girl>."
+    Endif
+    SceneEnd()
+    timeout(200, meet_younger)

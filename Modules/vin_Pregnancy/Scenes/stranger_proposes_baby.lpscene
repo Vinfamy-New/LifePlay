@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: sports_centre
+WHEN: 0 - 24
+WHO: none
+OTHER: !Player.isFemale() && Player:fertility > 0 && Random(70, 100) < fitness && Random(70, 100) < attractiveness
+
+    SceneStart()
+    Actor = generatePersonTemporary()
+    While !Actor.isFemale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dress()
+    Actor.show()
+    "I was just about to leave the gym when I was suddenly approached by a woman I've never met before."
+
+    Actor:: "Excuse me, do you have a minute?"
+    "Must be important ..."
+    Player:: "Yes, what is it?"
+    Actor:: "I've always wanted to become a mother ..."
+    "That's a strange first thing to say to someone you've just met ..."
+    Actor:: "But I've found stable relationships so hard to come by and I'd rather not go to a sperm bank and just get pregnant with a complete stranger, who could be ugly or carrying all sort of hidden health issues to pass onto my child ..."
+    Actor:: "On the other hand, you're so good-looking and I saw you working out just now, you're a physical freak too! I would love for my child to inherit your genes ... Would you like the honour?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Player:: "Of course, I'd love to help."
+        Actor.makePermanent()
+        Actor.setWantsBabies()
+        Actor:likes_vaginal => 100
+        Actor:rapportwithplayer => 40
+        setBackground(home)
+        "Soon enough, we were back in a hotel for our first 'natural insemination' session ..."
+        Sex(Player, Actor)
+        "We exchanged numbers afterwards for future 'sessions'."
+        exchangeContact(Actor)
+    Else
+        Player:: "Sorry, but that's a crazy idea ... Why would I want to impregnate a total stranger?"
+    Endif
+    SceneEnd()
+    timeout(1000, stranger_proposes_baby)

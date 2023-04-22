@@ -1,0 +1,78 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isDating()
+OTHER:
+
+    // While on a date with your SO, you may run into one of their exes and your SO admits to you that they can't help but fantasize about the passion they used to share.
+    
+    SceneStart()
+    If [OpenRelationship() && random(0,100) > 70] || Actor:perversion > 75 || Actor:masochist < -50 || masochist > 50
+        Ignored = true
+    Else
+        Ignored = false
+    Endif
+    "I was enjoying a nice date being out with my <Actor.boyfriend_or_girlfriend> when suddenly the sight of someone caught <Actor.his_or_her> attention and clearly bothered <Actor.him_or_her>."
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isSameGender(Player)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2.makeInterested(Actor)
+    Actor2.dress()
+    Actor2.show()
+    Actor:: "It's my ex, <Actor2.name>. Maybe we should go before <Actor2.he_or_she> sees me."
+    Player:: "Don't worry, baby, I'm not that type of jealous and possessive <Player.boyfriend_or_girlfriend> who gets in a fight with your ex."
+    Actor:: "It's not you ... It's me ... You know, I still fantasize about <Actor2.name> sometimes ... Being too close to <Actor2.him_or_her> again could make things out of control again. I don't know if I can resist <Actor2.him_or_her> if it comes to that."
+    Actor2.moveToPersonStand(Actor, 100)
+    "Too late ... As my <Actor.boyfriend_or_girlfriend> was explaining things to me, her ex noticed us and walked towards <Actor.him_or_her> ..."
+    Actor2:: "Hi <Actor.name>, it's good to see you again! I hope you're doing well."
+    Actor2:: "And you must be ..."
+    0:: "Say I'm <Actor.name>'s <Player.boyfriend_or_girlfriend> and give <Actor2.him_or_her> a hostile look"
+    1:: "Just say my name and shake <Actor2.his_or_her> hand"
+    
+    If 0 && !Ignored
+        Actor2:: "Oh okay, then, it seems you're busy, I'll leave you two to it."
+    Else
+        If Ignored || !OpenRelationship()
+            masochist += 1
+            Actor:masochist -= 1
+        Endif
+        Actor:perversion += 1
+        If 0
+            "<Actor2.name> seemed bemused by my pathetic display of dominance and completely ignored me from then on."
+        Endif
+        Actor2:: "You know, <Actor.name>, just because we're no longer together, it doesn't mean that we shouldn't still be friends and hang out sometimes."
+        Actor2:: "I'm throwing a house party later today actually, I'd love to have you there ..."
+        "<Actor2.name> then winked at <Actor.name> ..."
+        Actor2:: "I trust you don't need reminding of the address considering how much fun we used to have there!"
+        Actor2.hide()
+        
+        If Ignored || Actor:attractiontoplayer < 30
+            masochist += 1
+            Actor:masochist -= 1
+            Actor:perversion += 1
+            "A couple of hours later, <Actor.name> decided to end our date early. Apparently, <Actor.he_or_she> promised to see <Actor.his_or_her> best friend but forgot about it until now."
+            "My instinct told me that <Actor.he_or_she> was lying and this probably had something to do with <Actor.his_or_her> ex."
+            "But having just boasted earlier that I wasn't the jealous or possessive type, I couldn't bring myself to stop <Actor.him_or_her>."
+            Player.hide()
+            setBackground(home)
+            Actor2.show()
+            Actor.show()
+            "Of course, at <Actor2.name>'s house party, the inevitable happened and they eventually ended up in the same bedroom where they used to share so much passion together."
+            Actor2:: "I knew it, baby, deep inside, you're still mine ..."
+            Actor2:: "How could your <Player.boyfriend_or_girlfriend> pleasure you? Being all weak and pathetic like that."
+            Sex(Actor2, Actor)
+            
+            endDate()
+            setBackground(livingroom)
+            Actor2.hide()
+            Actor.hide()
+            Player.show()
+            "I spent the rest of the night watching TV, having a rather uneasy feeling."
+        Else
+            "Once <Actor2.name> was out of sight, <Actor.name> reassured me that no way in hell <Actor.he_or_she> would go to <Actor.his_or_her> ex's house party and we continued our date ..."
+            Actor:attractiontoplayer += 2
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, run_into_so_ex)

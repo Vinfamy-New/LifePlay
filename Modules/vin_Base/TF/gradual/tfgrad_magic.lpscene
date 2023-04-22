@@ -1,0 +1,43 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    If TfGame()
+        SceneStart()
+        setBackground(home)
+        "I've tried everything to satisfy my sexual fantasies of being in the female role. However, like an addiction, the more I try, the stronger my gender dysphoria becomes as my male identity fades and I've become extremely unhappy in this male body."
+        "I think I'm ready to take the next step and transition into a woman. That's the only way I can truly be happy."
+        0:: "Transition into a woman"
+        1:: "Bear with my gender dysphoria for now"
+        
+        If 1
+            Player.setActorVar(tf_dys, 80)
+            "I remind myself of all the physical and mental pain of transitioning and kinda scare myself off the idea, for now at least."
+            SceneEnd()
+        Else
+            Player.strip()
+            "I went abroad for two years of hormone treatments, surgeries and their subsequent recovery and came back as a woman. Now, I can finally live the life that I've fantasized about all this time."
+            
+            Player.hide()
+            SaveOldPlayer()
+            Player.changeSex()
+            "How effective were the treatments and surgeries? Do I still look a bit androgynous or completely feminine?"
+            0:: "Feminine"
+            1:: "Androgynous"
+            
+            If 1
+                Player.setMorphValue(Genesis8Female__PBMBreastsGone, 1.0)
+                Player.setMorphValue(Genesis8Female__FBMFitnessDetails, 1.0)
+            Endif
+            
+            Feminine = perversion + masochist
+            Player.setActorVar(LastFeminine, Feminine)
+            timeoutPrecise(168, tf_track)
+            
+            "(What do you look like post-transformation? Remember to give yourself a female first name and tick the appropriate 'Interested In Gender' boxes you want your post-tf character to be into. You can choose to keep your penis or be fully female.)"
+            SceneEnd()
+            OpenMenu(Chargen)
+        Endif
+    Endif

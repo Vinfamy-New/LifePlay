@@ -1,0 +1,15 @@
+Actor.clothesContain(Keyword)
+
+USE:
+Check if any equipped apparel has an ID that contains the keyword
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Clothes
+COMPARE:
+
+EXAMPLE:
+    If Actor.clothesContain(Jeans)
+        "<Actor.name> is wearing some sorts of jeans"
+    Endif
+

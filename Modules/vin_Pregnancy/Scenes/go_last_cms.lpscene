@@ -1,0 +1,44 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); If !Actor.isPregnant() && [masochist > 25 || OpenRelationship() || Actor:perversion + perversion > 150 || Actor.wantsBabies()] && !Actor.isMale()
+OTHER: isModEnabled(vin_NTR) && Player.isMale()
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "Being quite an open-minded couple <Actor.name> and I have been invited to a party where she will be thoroughly bred by one guy after another while I watch before I actually have a go. This will give it the highest possibility that she will become pregnant by the end of the night."
+    "<Actor.name> seems quite interested in the idea."
+    0:: "Attend the party"
+    1:: "Maybe not"
+    
+    If 0
+        masochist += 2
+        perversion += 2
+        Actor:perversion += 2
+        setBackground(stripclub)
+        Actor.setWantsBabies(true)
+        count = 0
+        While count < 5
+            count += 1
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2:fertility = 100
+            Actor2.dress()
+            Actor2.show()
+            "The next guy to breed <Actor.name> is <Actor2.name>."
+            Sex(Actor2, Actor)
+            Actor2.hide()
+        Endwhile
+        "Finally, now that <Actor.name> has been creampied again and again by multiple guys. It's my turn."
+        Sex(Player, Actor)
+        If !Actor.isPregnant()
+            Actor.impregnate(Player)
+        Endif
+        "With <Actor.name> full of cum from so many different guys, myself included, I have a funny feeling a baby was made tonight."
+    Endif
+    
+    SceneEnd()
+    timeout(500, go_last_cms)

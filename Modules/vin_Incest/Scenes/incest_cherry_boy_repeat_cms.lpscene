@@ -1,0 +1,21 @@
+WHAT: all
+WHERE: all
+WHEN: 16-20
+WHO: Actor = getPerson(tag_incest_cherry_boy_cms_preg); Actor2 = Actor.getRelatedPerson(ParentChild); If !Actor.isPregnant() && Actor2.isMale() && Actor2:age > Actor:age + 16
+OTHER: none
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    "<Actor.name> is ovulating again, <Actor.he_or_she> calls for <Actor2.name> to make <Actor.him_or_her> pregnant again."
+    0:: "Let it happen"
+    1:: "Stop it"
+    
+    If 0
+        Actor.impregnate(Actor2)
+        Sex(Actor2, Actor)
+    Endif
+    SceneEnd()
+    timeout(1000, incest_cherry_boy_repeat_cms)

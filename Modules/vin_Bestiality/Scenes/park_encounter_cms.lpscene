@@ -1,0 +1,65 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanionCreature(); If Actor.isCreatureType(Dog) && Actor.isMale()
+OTHER: Player.isFemale()
+
+    SceneStart()
+    setBackground(street)
+    Actor2 = generatePersonTemporary()
+    While Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    "You are walking your dog in the park when you see an attractive woman walking her own dog."
+    Actor3 = generateCreatureTemporary(dog)
+    While !Actor3.isMale()
+        Actor3 = generateCreatureTemporary(dog)
+    Endwhile
+    Actor2.dress()
+    Actor2.show()
+    Actor3.show()
+    "You notice that the woman's dog is male and fully intact. It has huge testicles that swing about as it runs and you can see the tip of it's red cock poking out from it's sheath."
+    "This makes you feel warm and fuzzy inside. The woman throws a ball in your direction and her pet runs towards you."
+    Actor3.moveToPersonStand(Player)
+    "But instead of picking up the ball, it comes to you and begins to excitedly sniff your crotch. This sends a shiver of pleasure through your body. You feel embarrassed but also turned on."
+    "Do you?"
+    0:: "Make a joke of the situation and push the dog away?"
+    1:: "Admit to yourself that it feels good?"
+    
+    If 0
+        "You laugh and shove the dog away. The owner notices that you seemed to enjoy the attention but decides not to push things any further with you." 
+        "She makes a mental note of who you are though and she hopes that you will make a different choice if you meet again."
+    Else
+        perversion += 0.5
+        "You laugh but do not push the dog away. It feels good. Very good. Your cheeks begin to blush and you start to feel very turned on."
+        If Actor.hadSex()
+            "The dog's owner notices your positive reaction and makes you an offer"
+            Actor2:: "I notice that <Actor3.name> has made you feel pretty good there. He can always tell which ladies 'do' and which ladies 'don't'"
+            Actor2:: "Just for the record, I most definitely 'do'! So... would you like to come back to my place where we can all get to know each other a lot better?"
+            0:: "Refuse"
+            1:: "Accept"
+
+            If 1
+                setBackground(home)
+                "The fun begins ..."
+                "First, we take turns doing it with each other's dog ..."
+                Sex(Actor3, Player)
+                Sex(Actor, Actor2)
+                "Next, we take turns taking two dogs at the same time ..."
+                Sex(Actor, Actor3, Player)
+                Sex(Actor3, Actor, Actor2)
+                "After that, the dogs take turns to fuck both of us at the same time ..."
+                Sex(Actor, Actor2, Player)
+                Sex(Actor3, Player, Actor2)
+                "Finally, we all enjoy a foursome together ..."
+                Sex(Actor, Actor3, Actor2, Player)
+                "After enjoying each other some more, I exchanged numbers with <Actor2.name> so that we can have more fun in the future ..."
+                Actor2.makePermanent()
+                exchangeContact(Actor2)
+                Actor3.makePermanent()
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, park_encounter_cms)
+    

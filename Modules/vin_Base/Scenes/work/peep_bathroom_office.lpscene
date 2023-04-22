@@ -1,0 +1,45 @@
+WHAT: go_to_the_bathroom
+WHERE: work
+WHEN: 0 - 24
+WHO: Guy = getSpecific(Colleague); Girl = getSpecific(Colleague); If Guy.isInterestedIn(Girl) && Girl.isInterestedIn(Guy) && Guy:perversion > 50 && Girl:perversion > 50
+OTHER:
+
+    SceneStart()
+    setBackground(shower)
+    "I was about to step into my cubicle at the office bathroom when I noticed some moaning from the cubicle next to mine ... Some office couple clearly couldn't wait until they get to a hotel or something and even risk getting fired by doing it at work."
+    0:: "Ignore"
+    1:: perversion > 20:: "Peep"
+        
+    If 0
+        "There's nothing to see here. I 'did the business' as fast as I could and got the hell out of the bathroom. The couple were too busy fucking to ever notice me coming in and out."
+    Else
+        perversion += Random(0, 0.5)
+        "Live pornography? Hell yeah, sign me up!"
+        karma -= 1
+        "I stood up on top of the toilet seat cover and started peeping at them."
+        "Turns out it's my colleagues <Guy.name> and <Girl.name>"
+        Sex(Guy, Girl)
+        arousal += Random(0, 30)
+        Guy.show(2)
+        Girl.show(3)
+        Player.show(0)
+        "That was hot. But it looks like they're already ready for another round ..."
+        0:: "Offer to join them"
+        1:: "Enough"
+        
+        If 0
+            Player(Flirty):: "Looks like you guys are having some fun there? Mind if I join?"
+            If Random(30, 100) < Guy:perversion || Random(30, 100) < Guy:attractiontoplayer
+                Guy(Flirty):: "Come on and join us then, what are you waiting for?"
+                Sex(Guy, Girl, Player)
+                Player:perversion += Random(0, 1)
+            Else
+                Guy(Angry):: "What the fuck are you doing here, peeping Tom? Get out!"
+            Endif
+        Else
+            "I should get out of here before I get caught."
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(500, peep_bathroom_office)

@@ -1,0 +1,91 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22 
+WHO: Actor = getRelative(Cousin, Sibling, Child, StepSibling, StepChild); If Actor.livesWithPlayer() && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player) && !Actor.hasRelationship(Spouses, Dating)
+OTHER:
+
+    // Someone living with you is waiting for their date to come pick them up. The date arrived and you opened the door, you can let them get on with it (in which case, there's a decent chance they eventually start a serious relationship) or scare the date off and lie to your relative that the date never arrived and proceed to 'comfort' them
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    "My <Actor.relationship> is waiting for a date to come pick <Actor.him_or_her> up."
+    Actor2 = generatePersonTemporary()
+    While !Actor2.isSameGender(Player)
+        Actor2 = generatePersonTemporary()
+    Endwhile
+    Actor2:age => Actor:age
+    Actor2.randomizeFace()
+    Actor2.randomizeHairs()
+    Actor2.makeInterested(Actor)
+
+    "It's this <Actor2.guy_or_girl> called <Actor2.name> that my <Actor.relationship> matched with on a dating app."
+    "They only went on one date so far but it was clear that my <Actor.relationship> liked <Actor2.him_or_her> a lot. In fact, <Actor.he_or_she> has been praising how nice and gentle <Actor2.name> is in front of me."
+    Actor:: "Hey, don't look at me like that. We only kissed each other good night last time. I don't have sex on first dates, I'm not that type of <Actor2.guys_or_girls>."
+    "That might be, but it was obvious that they would go a lot further tonight on their second date."
+    Actor:: "Urgh ... nature calls ... would you mind keeping an eye on the door for <Actor2.name> while I'm in the bathroom, <Actor.callplayer>?"
+    Player:: "Of course"
+    Actor.hide()
+    "Pretty much as soon as my <Actor.relationship> closed the bathroom door, as luck would have it, <Actor.his_or_her> date <Actor2.name> arrived."
+    Actor2.dress()
+    Actor2.show()
+    Actor2:: "You must be <Actor.name>'s <Actor.callplayer>. <Actor.name> is in the bathroom? I'll just wait here then, thank you."
+    "<Actor2.name> seems nervous and intimidated by me being there already."
+    "My <Actor.relationship> did mention that <Actor2.name> was gentle and nice. <Actor2.He_or_She> seemed weak and cowardly to me."
+    0:: "Scare my <Actor.relationship> date off"
+    1:: "Let them be"
+    
+    If 0
+        Player:: "You probably should know why my <Actor.relationship> is still single."
+        Actor2:: "Oh ... whatever the reason ... I like <Actor.him_or_her> just the way <Actor.he_or_she> is ..."
+        Player:: "Oh no, I don't mean there's anything wrong with my <Actor.relationship>. It's just that <Actor.he_or_she> has a possessive psycho <Actor.callplayer> that beat up every <Actor2.guys_or_girls> that come near <Actor.him_or_her> ..."
+        Actor2:: "What? Oh please, don't hurt me. I'll leave now. I swear I'll never contact <Actor.him_or_her> again ..."
+        Player:: "Good, if you even take a call from <Actor.him_or_her> again, I'll hunt you down and beat you up!"
+        Actor2.hide()
+        "Well, that was super easy ... What a coward!"
+        Actor.show()
+        "Soon after, my <Actor.relationship> came out of the bathroom."
+        Actor:: "<Actor.callplayer>, did my date come yet?"
+        Player:: "No, no-one came yet."
+        Actor:: "Oh ... <Actor2.he_or_she>'s late ... Must be the traffic ..."
+        "And so my poor <Actor.relationship> waits and waits ... having no idea that <Actor.his_or_her> date already ran for the hills."
+        Actor:: "Let me try calling <Actor2.him_or_her> ...."
+        Actor:: "What? The call ended right away ... <Actor2.name> blocked my number!"
+        Actor:: "How could <Actor2.he_or_she> leave me hanging on our second date and ghost me right away like that?"
+        Actor:: "And here I was, thinking we had a perfect first date. <Actor2.He_or_She> was so nice and gentle then."
+        Actor:: "Am I ugly? Why does a <Actor2.guy_or_girl> I'm interested in want nothing to do with me after just one date?"
+        0:: "Use this opportunity to seduce my <Actor.relationship>"
+        1:: "Simply comfort <Actor.him_or_her>"
+        
+        If 0
+            "My <Actor.relationship> is feeling insecure and craving to feel wanted ... The perfect opportunity ... I didn't go to this length of scaring off <Actor.his_or_her> date for nothing ..."
+            Player:: "Forget about <Actor2.him_or_her>, it's <Actor2.his_or_her> loss. You're the most <Actor.handsome_or_beautiful> <Actor.guy_or_girl> in the world."
+            Actor:: "You really think so?"
+            Player:: "Of course, don't worry, you don't need to go on a date with such a <Actor2.asshole_or_bitch> with terrible taste in <Actor.men_or_women>. You already have me here ..."
+            animatePair(Player, Actor, Kissing)
+            "I grabbed my <Actor.relationship> and started making out with <Actor.him_or_her>. It was a risk but feeling confused and hurt, <Actor.he_or_she> didn't stop <Actor.his_or_her> <Actor.callplayer> to take it further."
+            Sex(Player, Actor)
+            Actor:incest += 50
+        Else
+            "I simply gave my <Actor.relationship> some comforting words, which improved our relationship."
+            Actor:rapportwithplayer += 5
+        Endif
+    Else
+        "Cute couple, let's just let them be."
+        Actor.show()
+        "Eventually, my <Actor.relationship> came out of the bathroom and went together with <Actor.his_or_her> date."
+        Actor.hide()
+        Actor2.hide()
+        "I can't help but wonder whether their second date would end with some action ..."
+        If Random(0, 100) < 50
+            Actor2.makePermanent()
+            addNpcRelationship(Dating, Actor, Actor2)
+            "It probably did, since just a few days later, my <Actor.relationship> introduced <Actor2.name> to me again, this time as <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend>."
+        Else
+            "Maybe not, cause I never heard about <Actor2.name> ever again. That second date probably was a disaster." 
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, family_date_pickup)

@@ -1,0 +1,135 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+
+    "Here, you can choose to enable or disable specific racial stereotypes. In fact, most scenes in the Interracial module have variants for all the different races, with different scene texts, dialogues and NPC generation logic changing depending on which race and whether that race's stereotype is enabled."
+    "Here are the stereotypes for each group, one by one."
+    
+    "Black Men: More likely to have big dicks"
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_black_m)
+    Else
+        timeoutPrecise(1000000, strt_black_m)    
+    Endif
+    
+    
+    "Black Women: More likely to have big asses"
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_black_f)
+    Else
+        timeoutPrecise(1000000, strt_black_f)    
+    Endif    
+    
+    "South Asian Men: More likely to have thick body hair"
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_indian_m)
+    Else
+        timeoutPrecise(1000000, strt_indian_m)    
+    Endif     
+    
+    "South Asian Women: More likely to have low perversion. More likely to have a full bush down there."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_indian_f)
+    Else
+        timeoutPrecise(1000000, strt_indian_f)    
+    Endif       
+    
+    "Arab Men: More likely to have beards and thick body hair. More likely to have high dominance. Some texts about the forbidden nature of homosexuality."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_arab_m)
+    Else
+        timeoutPrecise(1000000, strt_arab_m)    
+    Endif       
+    
+    "Arab Women: More likely to have low perversion and high submissiveness. Some texts about the forbidden nature of homosexuality."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_arab_f)
+    Else
+        timeoutPrecise(1000000, strt_arab_f)    
+    Endif       
+        
+    "Latino Men: Some scene texts and dialogues will describe them as more 'passionate' - but the game doesn't really have any gameplay element to reflect passion, so I just give them higher fitness and lower proneness to orgasm, which makes adult scenes with them longer than average."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_latin_m)
+    Else
+        timeoutPrecise(1000000, strt_latin_m)    
+    Endif     
+    
+    "Latina Women: More likely to have big asses. Some scene texts and dialogues will describe them as more 'passionate' - but the game doesn't really have any gameplay element to reflect passion, so I just give them higher fitness and higher proneness to orgas m, which makes adult scenes with them longer with multiple orgasms."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_latin_f)
+    Else
+        timeoutPrecise(1000000, strt_latin_f)    
+    Endif
+    
+    "East Asian Men: Less likely to have beards or thick body hair. More likely to have high intelligence, but lower interpersonal."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_asian_m)
+    Else
+        timeoutPrecise(1000000, strt_asian_m)    
+    Endif    
+    
+    "East Asian Women: More likely to have low perversion and high submissiveness. More likely to have smaller boobs. More likely to have a full bush down there. More likely to have high intelligence, but lower interpersonal."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_asian_f)
+    Else
+        timeoutPrecise(1000000, strt_asian_f)    
+    Endif  
+    
+    "White Men: Some scene texts and dialogues will mention other races sometimes seeking them for perceived higher social status."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_white_m)
+    Else
+        timeoutPrecise(1000000, strt_white_m)    
+    Endif
+    
+    "White Women: More likely to shave pubic region. Some scene texts and dialogues will mention other races sometimes seeking them for a 'trophy wife'."
+    0:: "Enable"
+    1:: "Disable"
+    
+    If 0
+        timeout(0, strt_white_f)
+    Else
+        timeoutPrecise(1000000, strt_white_f)    
+    Endif
+    
+    "(There are other traits that they get described in the texts depending on the context of the specific scene. For more advanced users, you can even go in LifePlay\Content\Modules\vin_Interracial\stereotypes and edit the lpcharacter files to remove or add stuffs to each specific stereotype)"
+
+    SceneEnd()

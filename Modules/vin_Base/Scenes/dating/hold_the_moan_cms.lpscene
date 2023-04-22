@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: all
+WHEN: 19 - 24
+WHO: Actor = getSpecific(Affair); Actor2 = Actor.getRelatedPerson(Dating, Spouses); If Actor.isContactExchanged() && Random(70, 100) < Actor:perversion && Actor.hadSex() && Actor.isInterestedIn(Player)
+OTHER: none
+
+    SceneStart()
+    "My phone rang"
+    Actor.dress()
+    secondScreen(Actor)
+    Actor.show()
+    "It's <Actor.name>, who I have been having an affair with behind <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend>'s back."
+    Actor:: "<Actor2.name> is away tonight. Come over and fuck me!"
+    0:: "Hell yeah!"
+    1:: "Not tonight"
+    
+    If 0
+        Player(Flirty):: "I'll be there as soon as I can, baby!"
+        secondScreen()
+        Loc = Actor.getBuilding(home)
+        moveTo(Loc)
+        setBackground(home)
+        Actor.show()
+        "As soon as I arrived, we started making out."
+        Sex(Player, Actor)
+        "That was amazing. Affair sex is always the best."
+        "Suddenly, <Actor.name>'s phone rang."
+        Actor.animate(call)
+        Actor:: "Yes baby, I'm at home ... missing you of course."
+        "It's <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend>, <Actor2.name> ... the poor unknowing victim of our affair."
+        Actor2.dress()
+        secondScreen(Actor2)
+        Actor2.show()
+        Actor2:: "What are you doing?"
+        Actor:: "Nothing much, just watching a movie on Netflix."
+        "To my surprise, <Actor.name> signalled to me to come over and continue fucking <Actor.him_or_her> ... while <Actor.he_or_she>'s still on the phone with <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend>."
+        0:: "Fuck <Actor.him_or_her> while <Actor2.name> is on the phone"
+        1:: "Too risky"
+        
+        If 0
+            Sex(Player, Actor)
+        Endif
+        secondScreen(Actor2)
+        Actor2.show()
+        Actor.animate(call)
+        Actor2:: "Baby? What's all that noise about? I think I heard someone ... moaning"
+        Actor:: "It's nothing baby, just some bad acting from someone pretending to cry in the movie I'm watching ..."
+    Endif
+    SceneEnd()
+    timeout(200, hold_the_moan_cms)

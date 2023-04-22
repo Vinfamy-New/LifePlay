@@ -1,0 +1,73 @@
+WHAT: all
+WHERE: nightclub, bar, pub, stripclub, restaurant
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Actor.isFemale() && Actor.isInterestedInWomen() && !Actor.hadSex() && !Actor.isDating()
+OTHER: Player.isMale() && Player.isInterestedInWomen()
+
+
+    SceneStart()
+    "I'm out drinking with <Actor.name> and and she definitely has had more than one drink. <Actor.name> companion is a lesbian who has never had sex with a man, and who is in a serious relationship with another lesbian."
+    "<Actor.name> is embarrassed, but asks me to explain why straight women like giving blowjobs ..."
+    0:: "It makes them feel in control, choosing what to do and how to do it"
+    1:: "It makes them feel submissive, the guy is using her mouth to get him off"
+    2:: "They like the sensation – the lips and tongue are very sensitive, after all."
+    3:: "There’s lots of different reasons, probably as many as there are women!"
+    
+    If 0
+        Actor:masochist -= 2
+    Elseif 1
+        Actor:masochist += 2
+    Elseif 2
+        Actor:perversion += 2
+    Endif
+    
+    "<Actor.name> nods and accepts your explanation, saying that it’s an interesting point."
+    "The evening continues as normal until you decide to leave."
+    0:: "Take <Actor.name> back to your place"
+    1:: "Just part ways"
+    
+    If 0
+        setBackground(street)
+        "When you get back to her place, she asks if you’d like to come in for a coffee."
+        0:: "Come in for a coffee"
+        1:: "Leave"
+        
+        If 0
+            setBackgroundCustom(livingroom)
+            "When you’re at her place, you are sitting on a sofa and she is sitting in a chair next to it. You both drink coffee. After a while she gets embarrassed again and asks if you would do her a favour. She says that she’s been thinking about what you said about blowjobs, and she’d like to try giving you one. She says she knows this is weird, but she’ll make it up to you, she promises!"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                "She kneels in front of you and starts giving you a handjob."
+                Filter(Handjob)
+                Sex(Player, Actor)
+                "<Actor.name> is giving me a handjob ..."
+                0:: "Let her continue" 
+                1:: "Tell her to take off her top"
+                2:: "Push her head down to give you a blowjob"
+
+                If 0
+                    "She keeps stroking your cock for a while, and then eventually leans forward and starts sucking your cock."
+                Elseif 1
+                    Actor.strip()
+                    "She takes off her clothes, and then eventually leans forward and starts sucking your cock."
+                    Actor:perversion += 2
+                Else
+                    "She leans forward and starts sucking your cock."
+                    Actor:masochist += 2
+                Endif
+                
+                Filter(Blowjob)
+                Sex(Player, Actor)
+
+                Actor:rapportwithplayer += 10
+                "After you’ve cum, <Actor.name> seems surprised and stunned. She says that was quite an experience, and she can see what you meant about why girls like blowjobs. She’ll have to remember that for next time. She says goodbye, and asks you not to tell her lesbian partner about this."
+                
+                Actor.setActorVar(tag_curiousred, 1)
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, curious_red_1_cms)

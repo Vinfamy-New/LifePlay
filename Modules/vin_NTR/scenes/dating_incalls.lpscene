@@ -1,0 +1,132 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If Actor:perversion > 70
+OTHER:
+
+    // If the Netorare module is enabled and you have a significant other with perversion > 70, you may end up finding out that your SO is hustling as a sex worker behind your back. Not only that, but they're using your apartment for in-calls whenever you're not at home. You can decide to confront them and either put an end to this and demand a cut, and / or set up a hidden camera to watch your SO with their Johns, who could turn out to be a group, a colleague or even a relative.
+    
+    SceneStart()
+    Incalling = Actor.getActorVar(tag_incalling)
+    If Incalling == 0
+        "One of the neighbours I'm quite friendly with called me out of nowhere and wanted to have a chat over a coffee. <Actor.He_or_She> stressed that it was important and insisted I didn't tell my <Actor.boyfriend_or_girlfriend> <Actor.name> about this."
+        0:: "Hear my neighbour out"
+        1:: "Ignore <Actor.him_or_her>"
+        
+        If 0
+            setBackground(cafe)
+            "Shockingly, my neighbour accused <Actor.name> of working as a prositute behind my back. In fact, <Actor.he_or_she> has been doing in-calls with <Actor.his_or_her> Johns at my apartment."
+            0:: "Believe the neighbour"
+            1:: "Don't believe the neighbour"
+            
+            If 0
+                "<Actor.name> has been acting quite weird recently, so my gut instinct told me that my neighbour was telling the truth."
+                "The question is: what should I do about this?"
+                0:: "Demand that <Actor.name> stop whoring <Actor.himself_or_herself> out"
+                1:: "Ask for a cut of <Actor.his_or_her> income"
+                2:: "Say nothing to <Actor.him_or_her>"
+                
+                If 0
+                    setBackgroundCustom(livingroom)
+                    Actor.dress()
+                    Actor.show()
+                    "I gave <Actor.name> an ultimatum: either give up the sex work, or I'll break up with <Actor.him_or_her>!"
+                    "Thankfully, <Actor.he_or_she> valued our relationship enough to put an end to this shady business."
+                    "I just hope I can trust <Actor.him_or_her> to stay away long-term from such easy money."
+                    timeout(1000, dating_incalls)
+                Else
+                    If 1
+                        Actor.setActorVar(tag_incalling, 2)
+                        setBackgroundCustom(livingroom)
+                        Actor.dress()
+                        Actor.show()
+                        "I surprised <Actor.name> by admitting that I was okay with <Actor.him_or_her> making money that way. But if <Actor.he_or_she> was gonna use my apartment to do it, I should deserve a cut of <Actor.his_or_her> income."
+                        "<Actor.He_or_She> had no choice but to accept. I'm basically now pimping out my own <Actor.boyfriend_or_girlfriend>."
+                    Else
+                        Actor.setActorVar(tag_incalling, 1)
+                        "I didn't confront <Actor.him_or_her> about this at all. In front of <Actor.him_or_her>, I pretended that I was none the wiser."
+                    Endif
+                    
+                    moveTo(home)
+                    setBackground(home)
+                    "I also decided to put in a hidden camera in the bedroom to keep track of my <Actor.boyfriend_or_girlfriend>'s side hustle. I guess if nothing else, it gives me assurance that I can always keep an eye on <Actor.him_or_her> and make sure <Actor.he_or_she>'s safe."
+                Endif
+            Else
+                "What a horrible personal attack on my <Actor.boyfriend_or_girlfriend>'s character! I had no idea my neighbour was so vile and hostile towards <Actor.name>."
+                timeout(1000, dating_incalls)
+            Endif
+        Else
+            timeout(500, dating_incalls)
+        Endif
+    Else
+        moveTo(home)
+        setBackground(home)
+        "My <Actor.boyfriend_or_girlfriend> <Actor.name> is a sex worker who has been using our apartment for in-calls."
+        Player.hide()
+        Actor.dress()
+        Actor.show()
+        If Incalling == 2
+            "We also agreed that <Actor.he_or_she> would pay me back a cut of any money <Actor.he_or_she> made since <Actor.he_or_she> was using my apartment for the in-calls anyway."
+            money += 100
+        Else
+            "My <Actor.boyfriend_or_girlfriend> still had no idea that I already found out. That's the way I prefer it."
+        Endif
+        "I've also put in a secret camera to observe <Actor.his_or_her> work and keep <Actor.him_or_her> safe."
+        Actor2 = generatePersonTemporary()
+        While !Actor.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        
+        "Or at least ensuring safety was how I justified to myself putting in a secret camera. Maybe the truth is I just want to watch my <Actor.boyfriend_or_girlfriend> fucking random <Player.guys_or_girls> for money."
+        
+        Actor3 = getRelative()
+        While Actor3.isValid() && [!Actor3.isInterestedIn(Actor) || Actor3:perversion < 50 || !Actor.isInterestedIn(Actor3)]
+            Actor3 = getRelative()
+        Endwhile
+        
+        "In fact, I'm watching right now as my <Actor.boyfriend_or_girlfriend> welcomes yet another John into our bedroom."
+        
+        Actor4 = getSpecific(Colleague)
+        While Actor4.isValid() && [!Actor4.isInterestedIn(Actor) || Actor4:perversion < 50 || !Actor.isInterestedIn(Actor4)]
+            Actor4 = getSpecific(Colleague)
+        Endwhile
+        
+        If Random(0, 100) < 25 && Actor3.isValid()
+            Actor3.dress()
+            Actor3.show()
+            "Wait, isn't that ..."
+            "It's my <Actor3.relationship> <Actor3.name>!"
+            "What the fuck? <Actor3.He_or_She> must have known this was my apartment and put 2 and 2 together to know that the prostitute <Actor3.he_or_she> was hiring was my <Actor.boyfriend_or_girlfriend>."
+            "<Actor3.He_or_She> must be doing it on purpose. Maybe <Actor3.he_or_she> gets a kick out of paying money to fuck <Actor3.his_or_her> <Actor3.callplayer>'s <Actor.boyfriend_or_girlfriend> ..."
+            "And just like that my <Actor3.relationship> proceeded to have fun with my <Actor.boyfriend_or_girlfriend> while I watched from a secret cam."
+            Sex(Actor3, Actor)
+        Elseif Random(0, 100) < 33 && Actor4.isValid()
+            Actor4.dress()
+            Actor4.show()
+            "Wait, isn't that ..."
+            "It's one of my colleagues from the office, <Actor4.name>!"
+            "To be fair, I never invited <Actor4.name> back to my apartment nor introduced <Actor4.him_or_her> to my <Actor.boyfriend_or_girlfriend> so this might just be a coincidence."
+            "Either that or my colleague is getting a kick out of paying to fuck the <Actor.boyfriend_or_girlfriend> of someone <Actor4.he_or_she> works with everyday ..."
+            Sex(Actor4, Actor)
+        Elseif Random(0, 100) < 50
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Actor2)
+                Actor3 = generatePersonTemporary()
+            Endwhile
+            Actor2.dress()
+            Actor2.show()
+            Actor3.dress()
+            Actor3.show()
+            "Wait ... it's not just one John that my <Actor.boyfriend_or_girlfriend> is servicing this time. It's two!"
+            "The Johns proceeded to have fun with my <Actor.boyfriend_or_girlfriend> while I watched from a secret cam."
+            Sex(Actor2, Actor3, Actor)
+        Else
+            Actor2.dress()
+            Actor2.show()
+            "The John proceeded to have fun with my <Actor.boyfriend_or_girlfriend> while I watched from a secret cam."
+            Sex(Actor2, Actor)
+        Endif
+        Player.show()
+    Endif
+    SceneEnd()
+    timeout(72, dating_incalls)

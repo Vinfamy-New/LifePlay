@@ -1,0 +1,52 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getRelative(); If Actor.isFemale() && Actor.isInterestedIn(Player) && Random(50, 100) < Actor:perversion
+OTHER: Player.isFemale()
+
+    // 'Someone' perverted convincing you that there's no such thing as lesbian inbr eeding
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    "I was in the living room watching TV with my <Actor.relationship> when she suggested that we watch a movie on Netflix."
+    "Apparently, she heard good reviews about a particular movie from a friend so we decided to watch that one."
+    "It turned out to be one of those artsy French lesbian movies with full-frontal nudity and explicit sex scenes. The experience was like watching a porn movie at times."
+    "What's more: the lesbian characters being involved happened to be a <Actor.relationship> and her <Actor.callplayer> ..."
+    "I guess the screenwriters decided to go with incest as it would add to the drama, but they really should have put a warning on the box cover not to watch this movie with your <Actor.relationship> if you don't want things to get awkward."
+    "Although judging by how unshaken my <Actor.relationship> has acted for the whole duration of the movie, maybe she actually knew this all along and wanted to watch it with me anyway."
+    Actor:: "You know, they really should have just make inbreeding, instead of incest, illegal."
+    Actor:: "There's no harm as long no baby is born from an incest relationship."
+    Actor:: "Specifically, there's absolutely nothing wrong lesbian incest. Sex between a <Actor.relationship> and a <Actor.callplayer>, for instance ..."
+    0:: "Agree"
+    1:: "Disagree"
+    
+    If 0
+        Player:: "Two women can't make a baby between them so I guess it would be fine."
+        Actor:incest += Random(0, 10)
+        If Actor:incest > 30
+            Actor:: "Yes, honey, it would be absolutely fine ... and hot too."
+            animatePair(Actor, Player, Kissing)
+            "My <Actor.relationship> grabbed me and started to make out with her own <Actor.callplayer>."
+            Actor:incest += Random(0, 10)
+            "Things are getting very heated and if I don't put an end to it right now, the hot lesbian action we just watched together in that French movie might just become reality right here."
+            0:: "Break it off"
+            1:: "Let things escalate further"
+            
+            If 0
+                Player:: "Sorry, <Actor.relationship>, but this is just too weird ..."
+            Else
+                Sex(Actor, Player)
+                Actor:incest += 50 
+            Endif
+        Else
+            Actor:: "Glad you agree. It's good to know."
+            "My <Actor.relationship> winked mischievously at me. Judging by her 'good to know', maybe she planned to do something about this knowledge in the not-so-far future?"
+        Endif
+    Else
+        Player:: "Ew, <Actor.relationship>, it's still incest whatever the genders involved."
+        Player:: "Can we end this weird conversation and watch something else less touchy now, please?"
+    Endif
+    SceneEnd()
+    timeout(100, incest_lesbian)

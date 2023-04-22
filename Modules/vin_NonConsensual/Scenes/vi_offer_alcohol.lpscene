@@ -1,0 +1,100 @@
+WHAT: all
+WHERE: nightclub, bar, stripclub, pub
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(0, 100) < attractiveness && !Player.isAsexual()
+
+    // Frequently triggered scene (more frequent the higher your attractiveness) at nightclubs or bars where a stranger offers to buy you drink. Most of them are simply nice and don't have any bad intention except asking for your number, but that doesn't mean that you won't get increasingly drunk whenever you accept a drink, which leaves you vulnerable to other not-so-nice opportunists. The original stranger may then either save you or join in.
+    
+    SceneStart()
+    "I was just chilling near the bar when I was approached by a stranger."
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.makeInterested(Player)
+    Actor.dress()
+    Actor.show()
+    Actor:: "Hi, I'm <Actor.name>. Nice to meet you. Can I offer you a drink?"
+    "Hmm, <Actor.he_or_she> seems nice enough ..."
+    0:: "Accept a drink"
+    1:: "Turn <Actor.him_or_her> down"
+    2:: "Move away from the bar to avoid these strangers"
+    
+    If 0
+        "I gladly accepted the free drink from my new friend."
+        intoxication += 25
+        "We chatted for a bit and <Actor.name> asked to exchange numbers with me."
+        0:: "Exchange numbers"
+        1:: "Turn <Actor.him_or_her> down"
+        
+        If 0
+            Actor.makePermanent()
+            exchangeContact(Actor)
+        Endif
+        "<Actor.name> then bid farewell to me and went back to <Actor.his_or_her> group of friends that <Actor.he_or_she> came with."
+        Actor.hide()
+        
+        If Random(50, 100) < intoxication && Random(0, 100) < 50
+            "I think I've drunk a bit too much too quickly and need to pee."
+            setBackground(toilets)
+            If Random(75, 100) < intoxication && Random(0, 100) < 25
+                "Another stranger seemed to have been paying attention to my intoxicated state and followed me to the bathroom ..."
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isSameGender(Actor)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2.makeInterested(Player)
+                Actor2.dress()
+                Actor2.show()
+                "Once inside the bathroom, a stranger force opened my cubicle door and grabbed me."
+                Actor2.show(2)
+                If Actor2:martial - Actor2:intoxication < martial - intoxication
+                    Actor2(Pain):: "Ah!"
+                    Player(Angry):: "That should teach you to not sexually assault people in public bathrooms!"
+                Else
+                    "The element of surprise was too great. I was overwhelmed before I could even react to the assault."
+                    Player(Crying):: "No! Please stop ... I beg you ... Somebody help ..."
+                    If 0 && Actor:martial > 50
+                        Actor.show()
+                        "<Actor.name>, the <Actor.guy_or_girl> who offered me a drink earlier, came to my rescue. <Actor.He_or_She> must have kept an eye on me and saw someone following me after we bid farewell and I went in the bathroom."
+                        Actor:: "Hey! Stop! How dare you assault people in public like that?"
+                        Actor2.hide()
+                        "Panicked, my assaulter ran away!"
+                        "It was a narrow escape for me this time, and <Actor.name> is my hero!"
+                    Elseif 1 && Actor:perversion > 65
+                        Actor.show()
+                        "<Actor.name>, the <Actor.guy_or_girl> who offered me a drink earlier, came inside the bathroom as well. <Actor.He_or_She> must have kept an eye on me and saw someone following me after we bid farewell and I went in the bathroom."
+                        Actor:: "Hey, let's fuck this <Player.asshole_or_bitch> together! You have me to thank for getting <Player.him_or_her> drunk!"
+                        Actor2.show()
+                        "What? No ... I couldn't believe it. <Actor.name> wasn't here to rescue me. Instead, <Actor.he_or_she> was in on the plans all along ..."
+                        "My cries for help went unheard in the bathroom and I had no choice but endure it all at the hand of these vile <Actor2.men_or_women>."
+                        TalkNonConsensual()
+                        SexNoAffair(Actor2, Player, Actor)
+                        Actor.setActorVar(tag_Rapist, 1)
+                        Actor2.setActorVar(tag_Rapist, 1)
+                    Else
+                        "My cries for help went unheard in the bathroom and I had no choice but endure it all at the hand of this vile <Actor2.man_or_woman>."
+                        If !Actor2.isMale() && Player.isMale()
+                            Filter(AggressiveFM)
+                        Else
+                            Filter(Aggressive)
+                        Endif
+                        TalkNonConsensual()
+                        SexNoAffair(Actor2, Player)
+                        Actor2.setActorVar(tag_Rapist, 1)
+                    Endif
+                Endif                
+            Else
+                "What a relief! Let's head back to the bar now."
+                intoxication -= 25
+            Endif
+        Endif
+    Elseif 1
+        "I wasn't sure about this so I turned down the offer from the stranger, who took the message and left."
+    Else
+        "I was starting to get annoyed by constantly being offered drinks by random strangers. Maybe finding another spot away from the bar would help."
+        timeout(24, vi_offer_alcohol)        
+    Endif
+    SceneEnd()
+    timeout(1, vi_offer_alcohol)

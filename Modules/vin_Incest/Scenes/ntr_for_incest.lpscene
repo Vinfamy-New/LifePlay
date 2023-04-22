@@ -1,0 +1,55 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getCompanion(); Actor2 = getSpecific(Dating); Actor3 = getRelative(Child, GrandChild, SiblingChild, StepChild); If !Actor.isRelative() && !Actor.isExRelative() && !Actor.isCreature() && Player.isInterestedIn(Actor3) && Actor3.isInterestedIn(Player) && Actor2.isInterestedIn(Actor) && Actor.isInterestedIn(Actor2) && [Actor2:perversion > 50 || OpenRelationship()] && Actor3.livesWithPlayer()
+OTHER: isModEnabled(vin_NTR)
+
+    // When hanging out with a friend at home, your SO (high perversion or open relationship) admits they fancy your friend and ask you to name your price. The price may already be there in your family home ... 
+    
+    SceneStart()
+    Actor2.dress()
+    Actor2.show()
+    "I was hanging out with <Actor.name> at my place where I introduce <Actor.him_or_her> to my <Actor2.boyfriend_or_girlfriend> <Actor2.name>."
+    "After a while, <Actor2.name> took me to one side and whispered into my ear."
+    Actor2:: "I see you've invited home a hot friend. Can I fuck <Actor.him_or_her>?"
+    Player:: "Are you joking? Of course not ... <Actor.name> is a good friend of mine."
+    Actor2:: "Come on, I'll make it worth it for you ... Name your price!"
+    Player:: "You can't bribe me ... I'm not letting you fuck my friend."
+    Actor2:: "I'm pretty sure I know someone to offer you in exchange that you would bite my hand off for"
+    Player:: "One of your friends you mean? Not really, don't really fancy any of them."
+    Actor2:: "Nah, <Actor3.he_or_she>'s closer than you think ..."
+    "My <Actor2.boyfriend_or_girlfriend> pointed towards my own <Actor3.relationship> <Actor3.name>'s bedroom door."
+    Actor2:: "Come on, I've seen the way you looked at <Actor3.him_or_her> ... and I've caught <Actor3.him_or_her> masturbating in <Actor3.his_or_her> bedroom probably thinking about you as well. I could almost taste the sexual tension between you two."
+    Actor2:: "<Actor3.He_or_She> just needs a little encouragement from me, that's all."
+    0:: "Let my <Actor2.boyfriend_or_girlfriend> fuck <Actor.name> in exchange for <Actor2.his_or_her> help with my <Actor3.relationship>"
+    1:: "Deny any incestuous tension between me and my <Actor3.relationship>"
+    
+    If 0
+        Player:: "Alright, you win ... I can't turn down the chance to finally experience my <Actor3.relationship>'s body even just once."
+        Actor2:: "Deal. Let me enjoy my prize first and I'll help you with <Actor3.name> later tonight."
+        Sex(Actor, Actor2)
+        "I sat and watched as my <Actor2.boyfriend_or_girlfriend> fucked one of my friends. It didn't bother me one bit though, my mind was too busy fantasizing about fucking my own <Actor3.relationship>."
+        
+        Actor.hide()
+        
+        setBackground(home)
+        "As we bid goodbye to <Actor.name>, <Actor2.name> stuck to <Actor2.his_or_her> promise and went to have a long conversation with my <Actor3.relationship> <Actor3.name> who then visited me in my bedroom."
+        Actor3.dress()
+        Actor3.show()
+        Actor3:: "I've heard about what happened, <Actor3.callplayer>."
+        "What? Hopefully, <Actor2.name>'s master plan wasn't simply to tell <Actor3.name> about our deal."
+        Actor3:: "<Actor2.He_or_She> cheated on you with one of your friends ... it was a horrible mistake."
+        Actor3:: "She told me how angry you were and that I was the only person who could save this family from breaking apart now ..."
+        Actor3:: "Please, you can have me tonight to make up for the pain that <Actor2.he_or_she>'s caused you. And please, <Actor3.callplayer>, forgive <Actor3.him_or_her> for what <Actor3.he_or_she>'s done."
+        Sex(Player, Actor3)
+        Actor2:: "Thank you for your sacrifice for this family, <Actor3.name>. I shouldn't have fallen on your shoulder to fix my terrible mistake but you were so generous and kind to agree to make it up to your <Actor3.callplayer> on my behalf."
+        Actor2:: "Now, let us pleasure your <Actor3.callplayer> together."
+        Sex(Player, Actor2, Actor3)
+        Actor3:incest += 50
+        
+        Actor.show()
+    Else
+        Player:: "That's some crazy talk from you. <Actor3.He_or_She>'s my <Actor3.relationship>. I would never harbour such wrong feelings towards <Actor3.him_or_her>."
+    Endif
+    SceneEnd()
+    timeout(300, ntr_for_incest)

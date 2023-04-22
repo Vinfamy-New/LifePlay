@@ -1,0 +1,54 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If !Actor.hadSex()
+        "Damn it, I'm so horny! I'm not getting any action recently ..."
+        If Actor.isCreatureType(Dog)
+            Actor:: "Wuff! Wuff! Wuff!"
+            Player(Happy):: "What's the matter, <Actor.boy_or_girl>? Hungry?"
+        Else
+            setBackgroundCustom(stable)
+            "Let's clear my thoughts by going to the stable to take care of <Actor.name> ..."
+        Endif
+        "Suddenly, an idea popped up in my head, a highly forbidden desire ..."
+        "Damn it, I can't seriously be thinking about this, can I? Has my lack of sex driven me mad?"
+    Else
+        "I already had some 'creature comfort' with <Actor.name> before. It's no big deal to fuck <Actor.him_or_her> again, I suppose."
+    Endif
+    
+    If !Player.isMale()
+        If Actor.isCreatureType(Dog)
+            Actor2 = getCreature()
+            While Actor2.isValid() && [!Actor2.isCreatureType(Dog) || Actor2.isSameAs(Actor)]
+                Actor2 = getCreature()
+            Endwhile
+        Elseif Actor.isCreatureType(Horse)
+            Actor2 = getCreature()
+            While Actor2.isValid() && [!Actor2.isCreatureType(Horse) || Actor2.isSameAs(Actor)]
+                Actor2 = getCreature()
+            Endwhile        
+        Endif
+    Endif
+    "Am I really going for this?"
+    0:: "Have sex with <Actor.name> ..."
+    1:: "No"
+    2:: Actor2.isValid():: "Have threesome with both <Actor.name> and <Actor2.name>"
+    
+    
+    If 0
+        Player(Flirty):: "Sorry <Actor.boy_or_girl>, you were just in the right place at the right time ..."
+        Sex(Actor, Player)
+        perversion += Random(0, 2)
+        Actor:attractiontoplayer += Random(0, 2)
+    Elseif 2
+        "Something came to mind: <Actor.name> isn't my only animal here that can fuck me."
+        Sex(Actor, Actor2, Player)
+        perversion += Random(0, 2)
+        Actor:attractiontoplayer += Random(0, 2)
+        Actor2:attractiontoplayer += Random(0, 2)           
+    Endif
+    SceneEnd()

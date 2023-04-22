@@ -1,0 +1,24 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Which spell should I use?"
+    0:: "Vanish clothes!"
+    1:: "Masturbate furiously!"
+    2:: "Nothing"
+    
+    If 0
+        "This spell not only removes all of the victim's clothes, but makes the victim unaware that they're naked ... making for an unknowing exhibitionist!"
+        Actor.setNoRedress()
+        Actor.strip()
+        "The poor <Actor.guy_or_girl> is now showing off everything to everyone, without realizing it."
+    Elseif 1
+        "This spell overcomes the victim with an irrestible urge to masturbate ... even in public."
+        Actor:: "Ah ... I'm so horny ... what's happening to me?"
+        Filter(Solo)
+        Sex(Actor)
+    Endif
+    SceneEnd()

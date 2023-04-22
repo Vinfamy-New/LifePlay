@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: have_a_bonfire_party
+ACTION_NAME: Have a bonfire party
+WHERE: forest, mountain
+WHEN: 16 - 4
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT:
+EFFECTS: money -100 (START), mood +20 (START), interpersonal +0.5 (START), energy -20 (START)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: bbq_party
+ANIMATION: bonfire

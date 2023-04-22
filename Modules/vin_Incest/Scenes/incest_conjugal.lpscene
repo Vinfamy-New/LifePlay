@@ -1,0 +1,45 @@
+WHAT: all
+WHERE: prison
+WHEN: 9 - 22
+WHO: Actor = getRelative(); If Actor:rapportwithplayer > 20
+OTHER:
+
+    // Family members can visit you in prison. These visits may be secretly 'conjugal' in nature already, or may turn 'conjugal' after some convincing since you're desperately in need. 
+    SceneStart()
+    "While being in prison, I'm allowed the occasional visits from family members."
+    Actor.dress()
+    Actor.show()
+    "My <Actor.relationship> <Actor.name> is visiting me today ..."
+    If Actor.hadSex()
+        "Of course, beknown to the prison system, <Actor.name> is a hell lot more to me than a <Actor.relationship>, since we've already tasted the forbidden fruit together."
+        "This is basically a visit from a lover, which I should make the most of"
+        0:: "Have some fun with <Actor.name>"
+        1:: "Too risky"
+        
+        If 0
+            Sex(Player, Actor)
+        Else
+            "I'm already in jail, let's not get some more time added to my sentence for incest."
+        Endif
+    Else
+        "It's good to know that there's still someone out there who cares about me and not just leaves me all alone in prison."
+        "Unfortunately, a visit from a family member may help with loneliness a bit and bring some good food and supplies ... but it can't satisfy a certain need that is most lacking in prison ..."
+        "Or maybe it can ..."
+        "A crazy idea pops up in my head ..."
+        "Maybe incest isn't so bad under such dire circumstances ... considering my alternative of getting any action is to either get taken advantage of by the prison guards or fellow inmates ..."
+        0:: "Convince my <Actor.relationship> to help me 'release'"
+        1:: "I'm not that desperate ..."
+        
+        If 0
+            If Actor:incest + Actor:perversion > 50
+                Actor:: "Okay ... I guess you have a point ... Sex is an esssential need and under the circumstances, it's safer with family than with some random prison guard or inmate ..."
+                Sex(Player, Actor)
+                Actor:incest => 100
+            Else
+                Actor:: "Oh my god! I can't believe you just said that. Has prison driven you mad? I'm your <Actor.relationship>!"
+                Actor:rapportwithplayer -= 10
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(300, incest_conjugal)

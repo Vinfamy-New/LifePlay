@@ -1,0 +1,79 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If Actor:perversion > 80 && Actor:masochist < -65
+OTHER: Player.isFemale() && isAtDatingHome() && isModEnabled(vin_NonConsensual) && Player:masochist > 65
+
+    // a scene tree where a dom boyfriend of a sub female PC forces the PC to have sex with his dog (or dogs) while he watches.  if the characters are living together, boyfriend says he'll dump her (female player character) and kick her ass out if she doesn't. After this, at random chance, scenes pop where he demands it more regularly, but also starts inviting his male friends to watch. Leading into the b/f telling his male friends to bring their male dogs along for some action.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Count = Actor.getActorVar(bravo_jun1)
+    If Count == 0
+        "I've been staying with my <Actor.boyfriend_or_girlfriend> who loves dogs ... a bit too much even."
+
+        "I always had that uneasy feeling something was seriously wrong with <Actor.his_or_her> closeness with his dogs ..."
+        Actor2 = generateCreatureTemporary(Dog)
+        Actor2.show()
+        "Things also started to make sense when <Actor.he_or_she> demands that I have sex with one of his dogs while he watches ..."
+        "<Actor.He_or_She>'s threatening to dump me and kick me out of his place if I don't satisfy his demand ..."
+        0:: "Fuck the dog"
+        1:: "Refuse"
+        
+        
+        If 0
+            Sex(Player, Actor2)
+            Count += 1
+        Else
+            "I refused and ended up getting dumped. Not a great loss having such a sick bastard as my <Actor.boyfriend_or_girlfriend>."
+            Actor.setDatingId()
+            loseDating()
+        Endif
+    Else
+        If Random(0, 100) < 50
+            Actor2 = generateCreatureTemporary(Dog)
+            Actor2.show()        
+            "<Actor.name> is demanding that I have sex with his dog again ... or he threatens to dump me"
+            0:: "Comply"
+            1:: "Refuse"
+            
+            If 0
+                Sex(Player, Actor2)
+                Count += 1
+            Else
+                "I refused and ended up getting dumped. Not a great loss having such a sick bastard as my <Actor.boyfriend_or_girlfriend>."
+                Actor.setDatingId()
+                loseDating()
+            Endif
+        Else
+            Actor2 = generateCreatureTemporary(Dog)
+            Actor2.show() 
+            Actor3 = generateCreatureTemporary(Dog)
+            Actor3.show()            
+            "<Actor.name> is having some of his buddies with equally twisted minds over. They all brought their dogs and demanding that I have sex with them all ... <Actor.name> demands that I put on a show for him and his friends or he threatens to dump me"
+            0:: "Comply"
+            1:: "Refuse"
+            
+            If 0
+                Sex(Player, Actor2, Actor3)
+                Count += 1
+            Else
+                "I refused and ended up getting dumped. Not a great loss having such a sick bastard as my <Actor.boyfriend_or_girlfriend>."
+                Actor.setDatingId()
+                loseDating()
+            Endif        
+        Endif
+    Endif
+    
+    Actor.setActorVar(bravo_jun1, Count)
+    
+    If Count < 3
+        timeout(300, bravo_jun1_cms)
+    Elseif Count < 10
+        timeout(200, bravo_jun1_cms)
+    Else
+        timeout(100, bravo_jun1_cms)    
+    Endif
+    
+    SceneEnd()

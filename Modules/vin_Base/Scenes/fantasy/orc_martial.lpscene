@@ -1,0 +1,78 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: none
+OTHER: PercentageOrcs > 0 && martial > 70
+
+    // If you have high martial, you're invited to a orc martial art competition. Instead of money as prize, you get to either bang the opponents you defeated or their spouses instead. If Netorare is also enabled, if you lose, you have to offer your SO instead.
+    
+    SceneStart()
+    "Some orcs heard about my martial arts skill and decided to invite me to a fighting competition organized by their tribe. I'm the only outsider invited, so I can't help but feel a bit flattered."
+    0:: "Join their competition"
+    1:: "Maybe not"
+    
+    If 0
+        setBackground(forest)
+        Dating = getSpecific(Dating)
+        If Dating.isValid()
+            Dating.dress()
+            Dating.show()
+            "<Dating.name> decided to come along to support me."
+        endif
+        "The competition is about to begin. A lot of tough-looking Orcs around. I'm not so sure about my chance of winning ..."
+        count = 0
+        Lost = false
+        
+        While count < 3 && !Lost
+            Actor = generatePersonTemporary()
+            Actor.blendPreset(Orc)
+            Actor.dress()
+            Actor.show()
+            "My next opponent is called <Actor.name>."
+            Actor2 = generatePersonTemporary()
+            While Actor.isSameGender(Actor2)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.blendPreset(Orc)
+            Actor2.dress()
+            Actor2.show()
+            "<Actor.His_or_her> <Actor2.husband_or_wife> is there to support as well."
+            Actor.moveToPersonStand(Player, 50)
+            Actor.animate(martialart)
+            Player.animate(martialart)
+            
+            If martial > Actor:martial
+                "I managed to defeat <Actor.name> and progressed to the next round."
+                "As part of my victory, I'm allowed to use my defeated opponent for pleasure to get my body in the best condition for the next fight."
+                0:: "Fuck <Actor.name>"
+                1:: "Fuck <Actor.his_or_her> <Actor2.husband_or_wife> instead"
+                
+                If 0
+                    Sex(Player, Actor)
+                Else
+                    Sex(Player, Actor2)
+                Endif
+            Else
+                Lost = true
+                "Unfortunately, I lost and failed to progress to the next round."
+                If isModEnabled(vin_NTR)
+                    "It's my fault for not reading the fine-print of the competition, but as part of <Actor.name>'s victory, <Actor.he_or_she>'s allowed to use <Actor.his_or_her> defeated opponent for pleasure to get <Actor.his_or_her> body in the best condition for the next fight."
+                    If Player.isInterestedIn(Actor)
+                        Sex(Actor, Player)
+                    Elseif Dating.isValid() && Dating.isInterestedIn(Actor)
+                        "<Actor.name> wasn't too keen on fucking me, but unfortunately, my <Dating.boyfriend_or_girlfriend> caught <Actor.his_or_her> eyes."
+                        Sex(Actor, Dating)
+                    Else
+                        "Thankfully, <Actor.name> was nice enough to not enforce this rule to an outsider like me."
+                    Endif
+                Endif
+            Endif
+            count += 1
+        endWhile
+        
+        If !Lost
+            "I won the whole competition! I can't believe it. The Orcs can't help but respect my fighting skill."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(500, orc_martial)

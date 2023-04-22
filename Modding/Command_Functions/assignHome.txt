@@ -1,0 +1,13 @@
+Actor.assignHome()
+
+USE:
+Reroll a place to live for this actor
+
+TYPE: Command, Reference
+RETURNS: /
+THEME: Buildings
+COMPARE:
+
+EXAMPLE:						
+    John.assignHome()
+    "John recently moved home"

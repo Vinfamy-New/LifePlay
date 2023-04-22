@@ -1,0 +1,52 @@
+WHAT: all
+WHERE: pool, river, beach, park, farm, festival, forest, mountain
+WHEN: 0 - 24
+WHO: none
+OTHER: arousal > 60 && perversion > 40
+
+    // If high arousal and at least average perversion at an outdoor location (beach, pool, river, mountain, park, forest), you may be tempted to find a private spot to play with yourself and end up getting caught by a couple also looking to have some public fun.
+    
+    SceneStart()
+    "I've been going through a bit of dry spell sexually recently and there's just something about being outdoors that really triggers the 'horny' chemistry in my brain ..."
+    "Maybe I should try to find a secluded spot somewhere around here and have some fun time alone."
+    "There's a risk of getting caught of course, but for some reason, the thrill of it makes it even more exciting."
+    0:: "Find somewhere to masturbate"
+    1:: "Control myself"
+    
+    If 0
+        "I should be quite safe here ... as long as I don't make too much noise. I don't think too many people would go to this particular spot."
+        Filter(Solo)
+        Sex(Player)
+        
+        "Just as I was having a great orgasm thinking I got away with it by choosing a spot that no-one would notice, the illusion was suddenly destroyed when a couple walked towards me and winked."
+        
+        Actor = generatePersonTemporary()
+        While !Player.isInterestedIn(Actor)
+            Actor = generatePersonTemporary()
+        endWhile
+        Actor.dress()
+        Actor.show()
+        Actor:: "Sorry, we didn't mean to disrupt your intense session there ..."
+        Actor2 = generatePersonTemporary()
+        While Actor.isSameGender(Actor2)
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "Me and my <Actor.boyfriend_or_girlfriend> was just trying to find a secluded spot to fuck, but it looks like you found the spot before us ..."
+        Actor:: "It's a shame that you had to do it all alone though ... why don't we make it a threesome? Would be fun for us wild spirits to share each other's company, don't you think?"
+        0:: "Have a threesome with the couple"
+        1:: "Run away in embarrassment"
+
+        If 0
+            perversion += 0.25
+            Player:: "That's a very considerate offer. I'd love to join!"
+            Sex(Actor, Player, Actor2)
+        Endif
+    Else
+        "Come on, get a hold of yourself, <Player.name>!"
+        arousal += 10
+    Endif
+    
+    SceneEnd()
+    timeout(100, public_solo)

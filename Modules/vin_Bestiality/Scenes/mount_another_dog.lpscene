@@ -1,0 +1,75 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0-24
+WHO: Actor = getCompanionCreature(); If Actor.isCreatureType(Dog)
+OTHER:
+
+    // When walking your dog, it comes across another pet owner's dog of the opposite gender and ends up mounting or getting mounted. You can try to break it up and may end up being mounted. Or if you do nothing, the other pet owner may do the same.
+    
+    SceneStart()
+    If WHERE == park || WHERE == river || WHERE == beach || WHERE == mountain
+        "Such a nice day outside."
+    Else
+        setBackground(street)
+    Endif
+    
+    "I was walking my dog <Actor.name> when we come across another dog accompanied by its owner."
+    Actor2 = generatePersonTemporary()
+    While Actor2.isMale()
+        Actor2 = generatePersonTemporary()
+    endWhile
+    Actor2.dress()
+    Actor2.show()
+    
+    Actor3 = generateCreatureTemporary(Dog)
+    While Actor3.isSameGender(Actor)
+        Actor3 = generateCreatureTemporary(Dog)
+    endWhile
+    Actor3.show()
+    
+    If Actor.isMale()
+        "Suddenly, <Actor.name> aggressively ran towards the other dog and starts to mount her. I guess it's some sort of breeding instinct towards the opposite sex."
+        Actor.moveToPersonStand(Actor3, 50)
+        Fucker = Actor
+    Else
+        "Suddenly, the other dog aggressively ran towards <Actor.name> and starts to mount her. I guess it's some sort of breeding instinct towards the opposite sex."
+        Actor3.moveToPersonStand(Actor, 50)
+        Fucker = Actor3
+    Endif
+    "What should I do?"
+    0:: "Try to break it up"
+    1:: "Do nothing"
+    
+    If 0
+        "I decide to take action and try to separate the dogs."
+        If martial > Fucker:martial
+            "Thankfully, I managed to bring the situation back into control and avoided any further embarrassment with the other pet owner."
+        Else
+            If Actor.isMale()
+                "Unfortunately for me, <Actor.name> is unusually aggressive today and soon overwhelms me and starts to mount me instead."
+            Else
+                "Unfortunately for me, the stranger's dog is unusually aggressive and soon overwhelms me and starts to mount me instead."
+            Endif
+            Sex(Fucker, Player)
+            
+            If !Player.isMale()
+                "Seeing me in distress, the other pet owner tries to help me but ends up getting dragged into the mess herself."
+                Sex(Fucker, Actor2, Player)
+            Endif
+        Endif
+    Else
+        "While I do nothing, the other pet owner decides to take action and try to separate the dogs."
+        If martial > Fucker:martial
+            "Thankfully, she managed to bring the situation back into control and we avoided any further embarrassment."
+        Else
+            If Actor.isMale()
+                "Unfortunately for her, <Actor.name> is unusually aggressive today and soon overwhelms her and starts to mount her instead."
+            Else
+                "Unfortunately for me, the stranger's dog is unusually aggressive and soon overwhelms his own owner and starts to mount her instead."
+            Endif
+            Sex(Fucker, Actor2)
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(150, mount_another_dog)

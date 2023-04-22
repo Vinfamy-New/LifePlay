@@ -1,0 +1,43 @@
+WHAT: whore_out, whore_out_online, whore_out_brothel
+WHERE: all
+WHEN: 0-24
+WHO: none
+OTHER: Player.isFemale() && Player.isInterestedInWomen()
+
+    // As a sex worker, you're asked to attend a bachelorette party where you're paid to please all the bridemaids and finally the bride.
+    
+    SceneStart()
+    "I'm asked to be the entertainment for a bachelorette party. I had to do a double-take to make sure it wasn't a bachelor party. Why would a bunch of drunk women hire a sex worker for? They usually prefer male strippers dressed as firemen and cops and all that."
+    "The pay is good though."
+    0:: "Go to the bachelorette party"
+    1:: "Not my type of work"
+    
+    If 0
+        money += 200
+        setBackground(fraternity)
+        Player.strip()
+        Player.animate(dance)
+        "Once there, I found out from one of the bridemaids that the groom-to-be was a jealous and paranoid type. He forbade the bride to have any male guests at all at her bachelorette party."
+        "Still, that didn't mean they couldn't have some fun, which was where I came in. Looks like it's gonna be a busy night."
+        
+        count = 0
+        While count < 4
+            Actor = generatePersonTemporary()
+            While !Actor.isFemale()
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor.dress()
+            Actor.show()
+            If count < 3
+                "One of the bridemaids want to play."
+            Else
+                "It's finally the bride-to-be's turn herself. She was reluctant at first considering how possessive her fiance was, but gave in to the peer pressure from all her drunk and raunchy friends at last."
+                "After all, it's the least that she deserves from accepting her fiance's ridiculous condition of no guys at all at her bachelorette party." 
+            Endif
+            Sex(Player, Actor)
+            count += 1
+            Actor.delete()
+        Endwhile
+    Endif
+    SceneEnd()
+    timeout(200, john_bachelorette)

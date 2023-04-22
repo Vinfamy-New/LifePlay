@@ -1,0 +1,15 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If Random(0, 50) < Actor:rapportwithplayer || Random(0, 50) < Actor:attractiontoplayer
+        "<Actor.name> gladly accepted my free drink."
+        Actor:intoxication += 25
+    Else
+        "<Actor.name> decided that <Actor.he_or_she> already had enough alcohol and turned down my offer."
+        Actor:intoxication -= 10
+    Endif
+    SceneEnd()

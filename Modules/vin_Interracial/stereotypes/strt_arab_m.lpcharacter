@@ -1,0 +1,11 @@
+// Skin
+SKIN BHairColor_R: 100% 0.005
+SKIN BHairColor_G: 100% 0.001
+SKIN BHairColor_B: 100% 0.0
+SKIN BHairColor_A: 100% 0.85
+SKIN BHairThickness: 100% 1.0
+SKIN BHairstyle: 100% JPBH78-TorsoNG-05
+SKIN FHairstyle: 100% Facial_Hair__14_
+
+// Stats
+STAT masochist: 100% -100.0=>-50.0

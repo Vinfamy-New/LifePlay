@@ -1,0 +1,141 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    Dice = Player.getActorVar(rng_dice)
+    Dice += 1
+    If Dice > 4 // CHANGE HERE
+        Dice = 1
+    Endif
+    Player.setActorVar(rng_dice, Dice)
+    Nothing = false
+    
+    Player.animate(fish)
+    
+    If Dice == 1
+        // Your companion gets bored and suggests having fun. If Netorare is enabled, a rejected companion may find someone else.
+        If CurrentCompanion.isValid() && CurrentCompanion:perversion > 50 && CurrentCompanion:attractiontoplayer > 25 && CurrentCompanion.isInterestedIn(Player) && Player.isInterestedIn(CurrentCompanion)
+            "I took <CurrentCompanion.name> along on my fishing trip but <CurrentCompanion.he_or_she> was finding it too boring."
+            CurrentCompanion:: "I can think of something else a lot more fun we could be doing together, you know ..."
+            "<CurrentCompanion.name> winked at me flirtatiously, making it clear what <CurrentCompanion.he_or_she> meant."
+            0:: "Bang <CurrentCompanion.name>"
+            1:: "Stick to fishing"
+            
+            If 0
+                Sex(Player, CurrentCompanion)
+            Else
+                "I pretended to not understand what <CurrentCompanion.name> meant."
+                CurrentCompanion:attractiontoplayer -= 0.5
+                Actor = generatePersonTemporary()
+                Actor.dress()
+                Actor.show()
+                "Disappointed by my rejection and still very much bored, <CurrentCompanion.name> walked around and tried to find new friends."
+                CurrentCompanion.moveToPersonStand(Actor, 50)
+                "Eventually, <CurrentCompanion.he_or_she> came across someone who also seemed disinterested in fishing."
+                If isModEnabled(vin_NTR) && Actor.isInterestedIn(CurrentCompanion) && CurrentCompanion.isInterestedIn(Actor) && Actor:perversion > 50
+                    "I was too busy fishing to notice the two of them disappear together away from the fishing area."
+                    "I wonder what <CurrentCompanion.name> is up with this newly met friend ..."
+                    Sex(Actor, CurrentCompanion)
+                    masochist += 0.5
+                Else
+                    "They just had a friendly chat to pass the time while the rest of us continued to fish."
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 2
+        // If Netori is enabled, a stranger hates fishing but is dragged along by their SO.
+        Actor = generatePersonTemporary()
+        If isModEnabled(vin_Netori) && Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor:perversion > 50
+            Actor.dress()
+            Actor.show()
+            "While fishing, I overheard a stranger arguing with <Actor.his_or_her> <Player.boyfriend_or_girlfriend>. The latter seemed a fishing enthusiast, with the former having no interest at all and being bored to death."
+            0:: "Try to seduce the bored <Actor.boyfriend_or_girlfriend>"
+            1:: "I'll just stick to fishing as well"
+            
+            If 0
+                "Sensing a golden opportunity, I approached the bored <Actor.boyfriend_or_girlfriend> and started chatting <Actor.him_or_her> up. I think <Actor.his_or_her> <Player.boyfriend_or_girlfriend> saw us together but was too busy with <Player.his_or_her> fish to care."
+                "There was clearly some chemistry between us."
+                0:: "Ask for <Actor.his_or_her> number"
+                1:: "Try to bang <Actor.him_or_her> right behind <Actor.his_or_her> <Player.boyfriend_or_girlfriend>'s back"
+                
+                If 0
+                    "Seeing that their relationship probably won't last, it's never too early to ask for <Actor.his_or_her> number."
+                    Actor.makePermanent()
+                    exchangeContact(Actor)
+                Else
+                    If Random(50, 100) < Actor:perversion + Actor:rapportwithplayer
+                        Actor:: "Okay, that would serve <Player.him_or_her> right for being more interested in those damn fish than me!"
+                        Sex(Player, Actor)
+                    Else
+                        Actor:: "No way, I may be pissed at my <Player.boyfriend_or_girlfriend>, but don't think you can just take advantage of me like that."
+                    Endif
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 3
+        // You share your catch with an inexperienced stranger.
+        Actor = generatePersonTemporary()
+        Actor.dress()
+        Actor.show()
+        Actor.animate(fish)
+        "I've been fishing next to <Actor.name>, who seems to have only become interested in fishing recently. With such a lack of experience, <Actor.he_or_she> is going home with absolutely nothing, having wasted hours."
+        0:: "Share part of my catch"
+        1:: "Let <Actor.him_or_her> taste failure"
+        
+        If 0
+            Actor:rapportwithplayer += 10
+            karma += 5
+            stock_ingredient -= 0.5
+            Player:: "Hey, you know what. You're new, don't give up. Here, have some of my catch. I don't really that much anyway."
+            Actor:: "Thank you so much. I'll keep at it."
+            Actor:: "Perhaps we could exchange numbers and go fishing together some time soon so that you'll be able to show me a thing or two?"
+            0:: "Exchange contacts"
+            1:: "No need"
+            
+            If 0
+                Player:: "Of course."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+            Else
+                Player:: "I don't think it's necessary. I'll see you around here again, I'm sure."
+            Endif
+        Else
+            "Failure makes people more determined for success. I experienced the same thing when I first started out."
+        Endif
+    Elseif Dice == 4
+        // You engage in a long conversation with a stranger.
+        Actor = generatePersonTemporary()
+        Actor.dress()
+        Actor.show()
+        Actor.animate(fish)
+        "While fishing, I engaged in a deep conversation with another seasoned fishing enthusiast, <Actor.name>."
+        Actor:rapportwithplayer += 10
+        Actor:attractiontoplayer += 10
+        "Since we got along so well, maybe we should exchange contacts so that we could go fishing together again soon."
+        0:: "Exchange numbers"
+        1:: "No need"
+        
+        If 0
+            Actor:: "Sure, let's meet again soon."
+            Actor.makePermanent()
+            exchangeContact(Actor)
+        Else
+            "I don't think it's necessary. I'll see <Actor.him_or_her> around here again, I'm sure."
+        Endif
+    Else
+        Nothing = true
+    Endif
+    
+    If Nothing
+        "Nothing unusual happened."
+    Endif
+    
+    SceneEnd()

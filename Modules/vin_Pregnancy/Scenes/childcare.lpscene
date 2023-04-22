@@ -1,0 +1,557 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getAnyRelative(Child); If Actor:age < 18
+OTHER:
+
+    SceneStart()
+    
+    If !Actor.isValid() || Actor:age > 18 || Actor.isCreature()
+        Actor = getAnyRelative(Child)
+        While Actor.isValid() && Actor:age > 18
+            Actor = getAnyRelative(Child)
+        endWhile
+    Endif
+    
+    If Actor.isValid()
+        If Actor:age < 2 // BABY
+            If Actor:age > 1 && Random(0, 100) < 50
+                Random
+                    scene = 21 // talk
+                    scene = 22 // walk
+                endRandom
+            Else
+                Random
+                    scene = 20 // breastfeed
+                    scene = 23 // cry
+                    scene = 24 // diaper
+                    scene = 1801 // babysitter
+                endRandom
+            Endif
+        Elseif Actor:age < 5 // KINDERGARTEN
+            Random
+                scene = 50 // cook
+                scene = 51 // play
+                scene = 52 // park
+                scene = 1801 // babysitter
+                scene = 1802 // teacher
+                scene = 1803 // fellow parents
+            endRandom
+        Elseif Actor:age < 12 // PRIMARY SCHOOL
+            Random
+                scene = 120 // swear
+                scene = 121 // chores
+                scene = 122 // violence
+                scene = 123 // questions
+                scene = 124 // sports
+                scene = 125 // iphone
+                scene = 126 // tutor
+                scene = 127 // parental control
+                scene = 128 // piano or IT
+                scene = 129 // dance or Japanese
+                scene = 1801 // babysitter
+                scene = 1802 // teacher
+                scene = 1803 // fellow parents
+            endRandom
+        Else // TEENAGER
+            Random
+                scene = 171 // sex ed
+                scene = 172 // porn
+                scene = 173 // expectations
+                scene = 174 // loud music
+                scene = 175 // dating
+                scene = 176 // smoking
+                scene = 177 // gossip
+                scene = 1802 // teacher
+                scene = 1803 // fellow parents
+            endRandom
+        Endif
+        
+        If scene == 20 // breastfeed
+            "<Actor.name> is crying quite loudly. <Actor.He_or_She> is probably hungry."
+            0:: !Player.isMale():: "Breastfeed"
+            1:: "Get <Actor.him_or_her> some formula milk"
+            
+            If 0
+                Actor:fitness += Random(0, 0.5)
+                Actor:intelligence += Random(0, 0.5)
+                Actor:attractiveness += Random(0, 0.5)
+            Endif
+        Elseif scene == 21 // talk
+            Actor:: "<Player.Papa_or_Mama>!"
+            Actor:: "(inaudible)"
+            "<Actor.name> is only starting to speak a few words."
+            0:: "Talk to <Actor.him_or_her> as much as possible"
+            1:: "What's the point?"
+            
+            If 0
+                Actor:interpersonal += Random(0, 0.5) 
+            Else
+                "<Actor.name> can't say anything back anyway. I would just be talking to myself."
+            Endif
+        Elseif scene == 22 // walk
+            "<Actor.name> is trying to walk. <Actor.He_or_She> is struggling quite a bit to keep balance."
+            0:: "Stop <Actor.him_or_her>"
+            1:: "Let <Actor.him_or_her>"
+            
+            If 0
+                "Let's stop <Actor.him_or_her> before <Actor.he_or_she> falls over and hurts <Actor.himself_or_herself>."
+            Else
+                "What baby hasn't fell down a few times trying to learn to walk?"
+                Actor:fitness += Random(0, 0.5)
+            Endif
+        Elseif scene == 23 // cry
+            "<Actor.name> just wouldn't stop crying for the past couple of hours. I'm seriously losing patience!"
+            0:: "Endure it"
+            1:: "Scream back at <Actor.him_or_her>"
+            
+            If 0
+                mood -= Random(0, 20)
+                Actor:rapportwithplayer += Random(0, 0.5)
+            Else
+                Player(Furious):: "Would you please just shut up for one god damn second?"
+                Actor:rapportwithplayer -= Random(0, 0.5)
+            Endif
+        Elseif scene == 24 // diaper    
+            "<Actor.name> made a mess ... again."
+            0:: "Change <Actor.his_or_her> diaper."
+            1:: "Can't be bothered right now."
+            
+            If 0
+                mood -= Random(0, 15)
+                Actor:fitness += Random(0, 0.5)      
+            Endif
+        Elseif scene == 50 // cook
+            Actor:: "<Player.Daddy_or_Mommy>, I'm hungry!"
+            0:: "Make <Actor.him_or_her> a healthy meal"
+            1:: "Some instant noodle should do"
+            
+            If 0
+                energy -= Random(0, 15)
+                Actor:fitness += Random(0, 0.5)
+                Actor:intelligence += Random(0, 0.5)
+                Actor:attractiveness += Random(0, 0.5)
+            Endif
+        Elseif scene == 51 // play
+            Actor:: "<Player.Daddy_or_Mommy>, play Lego with me!"
+            0:: "Sure!"
+            1:: "I'm busy ..."
+            
+            If 0
+                Actor:rapportwithplayer += Random(0, 0.5)
+            Endif
+        Elseif scene == 52 // park
+            Actor:: "<Player.Daddy_or_Mommy>, I want to go to the park!"
+            0:: "Sure!"
+            1:: "I'm busy ..."
+            
+            If 0
+                Actor:rapportwithplayer += Random(0, 0.5)
+                Actor:fitness += Random(0, 0.5)
+                energy -= Random(0, 15)
+            Endif    
+        Elseif scene == 120 // swear
+            Player(Happy):: "You're back! How was your day at school?"
+            Actor:: "It was fucking crap, <Player.Dad_or_Mom>!"
+            0:: "Don't use those words!"
+            1:: "Let it slide"
+            
+            If 0
+                Player(Angry):: "Hey, who taught you those bad words? Don't let me hear you speak like that again, okay?"
+                Actor:interpersonal += Random(0, 0.5)
+                Actor:rapportwithplayer -= Random(0, 0.25)
+            Endif
+        Elseif scene == 121 // chores
+            "<Actor.name> has a lot of free time away from school."
+            0:: "Give <Actor.him_or_her> some chores"
+            1:: "Do everything for <Actor.him_or_her>"
+            
+            If 0
+                Actor:fitness += Random(0, 0.5)
+                Actor:masochist -= Random(0, 0.5)
+                Actor:rapportwithplayer -= Random(0, 0.25)
+            Else
+                Actor:masochist += Random(0, 0.5)        
+            Endif
+        Elseif scene == 122 // violence
+            "I walked in to <Actor.name> watching some action movie on TV, with its fair share of graphic violence."
+            0:: "Switch to Disney"
+            1:: "Do nothing"
+            
+            If 0
+                Actor:masochist += Random(0, 0.5)
+                Actor:rapportwithplayer -= Random(0, 0.25)            
+            Else
+                Actor:martial += Random(0, 0.5)
+                Actor:masochist -= Random(0, 0.5)        
+            Endif
+        Elseif scene == 123 // questions
+            "<Actor.name> is a curious <Actor.boy_or_girl>, never stopping asking questions. <Actor.He_or_She> is beginning to get on my nerves."
+            0:: "Answer all <Actor.his_or_her> questions"
+            1:: "Respond with silence"
+            
+            If 0
+                mood -= Random(0, 20)
+                Actor:intelligence += Random(0, 0.5)
+                Actor:rapportwithplayer += Random(0, 0.25)                        
+            Else
+                Actor:rapportwithplayer -= Random(0, 0.25)
+            Endif
+        Elseif scene == 124 // sports
+            "<Actor.name>'s school is asking for parents' consent to take part in sport activities."
+            0:: "Sign <Actor.him_or_her> up for the football team"
+            1:: "Chess counts as sports I guess ..."
+            
+            If 0
+                Actor:fitness += Random(0, 0.5)
+            Else
+                "I don't want <Actor.him_or_her> to hurt <Actor.himself_or_herself> getting tackled."
+                Actor:intelligence += Random(0, 0.25)
+            Endif
+        Elseif scene == 125 // iphone
+            "I'm far too busy right now to play with <Actor.name>."
+            0:: "Tell <Actor.him_or_her> to go play outside"
+            1:: "Give <Actor.him_or_her> my smartphone to play with"
+            
+            If 0
+                Actor:fitness += Random(0, 0.5)
+            Else
+                "I don't want risk <Actor.him_or_her> getting kidnapped."
+                Actor:intelligence += Random(0, 0.25)
+            Endif
+        Elseif scene == 126 // tutor
+            Actor:: "<Player.Daddy_or_Mommy>, could you help me with some math problems?"
+            0:: "Sure!"
+            1:: "I'm busy ..."
+            
+            If 0
+                Actor:rapportwithplayer += Random(0, 0.5)
+                Actor:intelligence += Random(0, 0.5)
+                mood -= Random(0, 10)
+            Endif        
+        Elseif scene == 127 // parental control
+            "Since <Actor.name> is sometimes given my smartphone to play games on, maybe I should install a parental control app."
+            0:: "Of course"
+            1:: "It's a waste of money"
+            
+            If 0
+                money -= Random(0, 20)
+            Else
+                Actor:perversion += Random(0, 0.5)
+            Endif
+        Elseif scene == 128 // piano or IT
+            "<Actor.name>'s school is asking for parents' consent to take part in some extra classes."
+            0:: "Sign <Actor.him_or_her> up for piano"
+            1:: "Some beginner computer science would be useful"
+            
+            If 0
+                Actor:music += Random(0, 0.5)
+            Else
+                Actor:intelligence += Random(0, 0.25)
+            Endif    
+        Elseif scene == 129 // dance or Japanese
+            "<Actor.name>'s school is asking for parents' consent to take part in some extra classes."
+            0:: "Sign <Actor.him_or_her> up for the dance class"
+            1:: "Some beginner Japanese would be useful"
+            
+            If 0
+                Actor:dance += Random(0, 0.5)
+            Else
+                Actor:interpersonal += Random(0, 0.25)
+            Endif      
+        Elseif scene == 171 // sex ed
+            Player(Happy):: "<Actor.name>, dinner is ready! Come down!"
+            Actor:: "<Player.Dad_or_Mom>, I'm ... busy. You go ahead and eat."
+            "This has been a regular occurence ... I have a strong suspicion about what my teenage <Actor.son_or_daughter> is doing in <Actor.his_or_her> bedroom."
+            0:: "Find time for some sex ed chat"
+            1:: "I'll let <Actor.his_or_her> school take care of that"
+            
+            If 0
+                "It's the most awkward thing in the world to talk to your child about sex ... but it has to be done." 
+                Actor:perversion += Random(0, 0.5)
+                Actor:rapportwithplayer -= Random(0, 0.25)
+            Endif
+        Elseif scene == 172 // porn
+            "By accident, I came across <Actor.name>'s browser history ... It's full of visits to PornHub ..."
+            0:: "Take <Actor.his_or_her> computer away"
+            1:: "I was the same at <Actor.his_or_her> age ..."
+            
+            If 0
+                "<Actor.He_or_She> is far too young for this sort of content."
+                Actor:rapportwithplayer -= Random(0, 0.5)
+            Else
+                "Realistically though, does anyone actually wait till 18 to start watching porn?"
+                Actor:perversion += Random(0, 0.5)
+            Endif
+        Elseif scene == 173 // expectations
+            Actor:: "<Player.Dad_or_Mom>, one of the seniors in my school just got accepted into Harvard. The school is making a big deal of it."
+            0:: "That's what I expect from you!"
+            1:: "It doesn't matter"
+            
+            If 0
+                Player(Happy):: "That will be you in a few years' time. I just know it!"
+                Actor:intelligence += Random(0, 0.5)
+                Actor:rapportwithplayer -= Random(0, 0.25)
+            Else
+                Player(Happy):: "It doesn't matter which university you get into, as long as you're a good person."
+                Actor:rapportwithplayer += Random(0, 0.5)
+            Endif
+        Elseif scene == 174 // loud music
+            "<Actor.name> is playing extremely loud music. Worse still, the songs are all teen pop trash."
+            0:: "Tell <Actor.him_or_her> to turn it down"
+            1:: "Be cool"
+            
+            If 0
+                Player(Angry):: "Could you please turn the volume down? Do you want the whole neighborhood to complain about us?"
+                Actor:rapportwithplayer -= Random(0, 0.5)
+            Else
+                Actor:music += Random(0, 0.5)
+            Endif
+        Elseif scene == 175 // dating
+            Actor:: "<Player.Dad_or_Mom>, there's this <Actor.pretty_or_handsome> <Actor.girl_or_guy> at school ..."
+            0:: "You're too young to be dating ..."
+            1:: "Give advice"
+            
+            If 0
+                Actor:rapportwithplayer -= Random(0, 0.5)
+            Else
+                Actor:perversion += Random(0, 0.5)
+            Endif
+        Elseif scene == 176 // smoking
+            "I couldn't help but smell tobacco in <Actor.name>'s breath these days."
+            0:: "Tell <Actor.him_or_her> off"
+            1:: "Say nothing"
+            
+            If 0
+                Actor:fitness += Random(0, 0.5)
+                Actor:attractiveness += Random(0, 0.5)
+                Actor:rapportwithplayer -= Random(0, 0.25)
+            Else
+                Actor:interpersonal += Random(0, 0.5)
+            Endif
+        Elseif scene == 177 // gossip
+            Actor:: "There's this girl Stephanie in school. She's a bitch. Everyone knows she slept with the entire football team!"
+            0:: "You shouldn't gossip about other people"
+            1:: "Say nothing"
+            
+            If 0
+                Actor:rapportwithplayer -= Random(0, 0.25)
+            Else
+                Actor:interpersonal += Random(0, 0.25)
+            Endif
+        Elseif scene > 1000
+            If scene == 1801 // babysitter
+                Actor2 = getPerson(tag_babysitter)
+                If Actor2.isValid()
+                    Actor2.dress()
+                    Actor2.show()
+                    "<Actor2.name> is <Actor.name>'s current babysitter."
+                    0:: "Keep hiring <Actor2.him_or_her>"
+                    1:: "Fire <Actor2.him_or_her>"
+                    
+                    If 0
+                        Dating = getSpecific(Dating)
+                        Dating.dress()
+                        If !Actor2.hadSex() && Dating.isInterestedIn(Actor2) && Actor2.isInterestedIn(Dating) && [OpenRelationship() || [isModEnabled(vin_NTR) && Dating:perversion - Dating:attractiontoplayer > 70] ] && Random(0, 100) < 20
+                            setBackgroundCustom(livingroom)
+                            Actor2.hide()
+                            Dating.hide()
+                            "I came home early only to find <Actor.name> sleeping soundly on the living room's couch, completely unattended."
+                            Player(Angry):: "Where the hell is the babysitter?"
+                            Player(Surprised):: "And what's that sound coming out of the bedroom?"
+                            Player(Surprised):: "What the hell?"
+                            setBackground(bedroom)
+                            Player.hide()
+                            Sex(Dating, Actor2)
+                            "I caught my <Dating.boyfriend_or_girlfriend> fucking <Actor.name>'s babysitter!"
+                            If OpenRelationship()
+                                "Of course, we're in an open relationship so <Dating.he_or_she> isn't breaking any rules ..."
+                            Endif
+                            "What should I do about this?"
+                            0:: "Stay silent"
+                            1:: "Fire the babysitter"
+                            2:: "Join them"
+                            
+                            If 1
+                                "I didn't want to cause a scene right there and then, but discreetly fired the babysitter."
+                                "About my <Dating.boyfriend_or_girlfriend>, what should I do?"
+                                0:: !OpenRelationship():: "Break up with <Dating.him_or_her> over cheating"
+                                1:: !OpenRelationship():: "Give <Dating.him_or_her> a last warning"
+                                2:: "Do nothing"
+                                
+                                If 0
+                                    Dating.setDatingId()
+                                    loseDating()
+                                Elseif 1
+                                    Dating:attractiontoplayer -= 20
+                                Else
+                                    If OpenRelationship()
+                                        "I did agree to an open relationship after all ..."
+                                    Endif                            
+                                Endif
+                            Elseif 2
+                                Player.show()
+                                Player:: "Looks like you guys already started the party without me! Mind if I join?"
+                                Dating:: "You're the best <Player.boyfriend_or_girlfriend> in the world!"
+                                Sex(Player, Dating, Actor2)
+                            Endif
+                        Elseif Actor2.hadSex()
+                            "I've been sleeping with the babysitter ... <Actor2.he_or_she> is coming over again today. Should I ask <Actor2.him_or_her> to perform some 'extra duty' afterwards too?"
+                            0:: "Yes"
+                            1:: "No"
+                            2:: OpenRelationship():: "Share the babysitter with my <Dating.boyfriend_or_girlfriend> too"
+                            
+                            If 0
+                                "After <Actor.name> has been put to sleep, I ask the babysitter to come over to my bedroom for some extra work."
+                                Sex(Player, Actor2)
+                            Elseif 2
+                                "After <Actor.name> has been put to sleep, I ask the babysitter to come over to the bedroom for some extra work. Of course, it would be selfish of me not to share <Actor2.him_or_her> with <Dating.name>. We're in an open relationship after all."
+                                Sex(Player, Dating, Actor2)                        
+                            Endif
+                        Else
+                            "<Actor2.name> came over today to take care of <Actor.name>."
+                            0:: "Flirt with <Actor2.him_or_her>"
+                            1:: "Leave <Actor2.him_or_her> alone to do <Actor2.his_or_her> job>"
+                            
+                            If 0
+                                If Actor2.isInterestedIn(Player) && Random(0, 100) < Actor2:perversion
+                                    "<Actor2.He_or_She> seems rather receptive to my advances ..."
+                                    Actor2:attractiontoplayer += Actor2:perversion*0.1
+                                    "Should I try to go further?"
+                                    0:: "Try to sleep with the babysitter"
+                                    1:: "Let's take this slow"
+                                    
+                                    If 0
+                                        If Actor2:attractiontoplayer > 50
+                                            Actor2:: "I guess I really want to feel part of this family ..."
+                                            Sex(Player, Actor2)
+                                        Else
+                                            Actor2:: "<Player.Mr_or_Ms> <Player.name_last>, please don't ... this is going too far ..."
+                                        Endif
+                                    Endif
+                                Else
+                                    "<Actor2.He_or_She> doesn't seem interested at all in anything but a professional babysitting gig today."
+                                Endif
+                            Endif                    
+                        Endif
+                    Else
+                        "We'll think about hiring a different babysitter on another day."
+                        Actor2.setActorVar(tag_babysitter, 0)
+                    Endif
+                Else
+                    "<Actor.name> doesn't have a babysitter currently."
+                    0:: "Look for one"
+                    1:: "It's not necessary"
+                    
+                    If 0
+                        Actor2 = generatePersonTemporary()
+                        Actor2.dress()
+                        Actor2.show()
+                        "We got introduced to a local babysitter called <Actor2.name>."
+                        0:: "Hire <Actor2.him_or_her>"
+                        1:: "Wait for a better candidate"
+                        
+                        If 0
+                            Actor2.makePermanent()
+                            Actor2.setActorVar(tag_babysitter, 1)
+                            exchangeContact(Actor2)
+                        Else
+                            "I don't think <Actor2.name> would be a good fit for <Actor.name>. Let's continue the search another day."
+                        Endif
+                    Endif
+                Endif
+            Elseif scene == 1802  // teacher
+                If Random(0, 100) < 20   // Blackmail
+                    Dating = getSpecific(Dating)
+                    Dating.dress()
+                    "<Actor.name>'s grades in one of the subjects in school have been terrible recently."
+                    "<Actor.name> is adamant that <Actor.he_or_she> has been studying hard though and the teacher has just been unfair."
+                    Actor2 = generatePersonTemporary()
+                    Actor2.dress()
+                    "There's some rumour that this particular teacher has somewhat of a reputation for corruption, soliciting money or sex from the parents or their children's grades are going to suffer."
+                    0:: "Report the teacher"
+                    1:: Actor2.isInterestedIn(Player):: "Sleep with <Actor2.him_or_her> myself"
+                    2:: Actor2.isInterestedIn(Dating):: "Convince <Dating.name> to sleep with the teacher"
+                    3:: "Just bribe <Actor2.him_or_her> with some cash"
+                    
+                    If 0
+                        "Thankfully, the school launched an investigation and the corrupt teacher was removed."
+                    Elseif 1
+                        "Anything for the sake of my <Actor.son_or_daughter>'s education ..."
+                        Sex(Actor2, Player)
+                    Elseif 2
+                        masochist += 2
+                        Dating.show()
+                        If OpenRelationship() || Dating:perversion > 60   
+                            Dating:: "Alright, I'll do it. It's the right thing to do for our <Actor.name>'s future."
+                            Player.hide()
+                            Sex(Actor2, Dating)                    
+                        Else
+                            Dating:: "I can't believe you're actually asking me to do such a thing. No way!"
+                            Dating:attractiontoplayer -= 3
+                        Endif
+                    Else
+                        "After we bribed the teacher, <Actor.name>'s grades dramatically improved. I guess this is how some teachers make extra income ..."
+                        money -= 200
+                    Endif
+                Else  // Hot
+                    setBackground(street)
+                    Actor2 = generatePersonTemporary()
+                    While !Player.isInterestedIn(Actor2)
+                        Actor2 = generatePersonTemporary()
+                    Endwhile
+                    Actor2.dress()
+                    Actor2.show()
+                    "Each time I take <Actor.name> to school, I can't help but notice how hot one of <Actor.his_or_her> teachers, <Actor2.name>, is ..."
+                    0:: "Find an excuse to ask for <Actor2.his_or_her> number"
+                    1:: "Not wise to mess around with my <Actor.son_or_daughter>'s teachers"
+                    
+                    If 0
+                        "I used the excuse of wanting to keep track on <Actor.name>'s progress in school and easily got <Actor.his_or_her> hot teacher's number."
+                        Actor2.makePermanent()
+                        exchangeContact(Actor2)
+                        "Now I just need to find an excuse to ask <Actor2.him_or_her> out for a date ..."
+                    Endif
+                Endif
+            Elseif scene == 1803 // fellow parents
+                setBackground(street)
+                Actor2 = generatePersonTemporary()
+                Actor3 = generatePersonTemporary()
+                While Actor3.isSameGender(Actor2)
+                    Actor3 = generatePersonTemporary()
+                Endwhile
+                Actor2.makeInterested(Actor3)
+                Actor3.makeInterested(Actor2)
+                Actor2:age => age*Random(0.8, 1.2)
+                Actor3:age => age*Random(0.8, 1.2)             
+                Actor2.randomizeFace()
+                Actor2.randomizeHairs()
+                Actor3.randomizeFace()
+                Actor3.randomizeHairs()
+                Actor2.dress()
+                Actor3.dress()
+                Actor2.show()
+                Actor3.show()
+                "While taking <Actor.name> to school today, I met the parents of another kid at <Actor.his_or_her> school. I had a little chat, seemed like decent people."
+                0:: "Keep in touch with them"
+                1:: "No need"
+                
+                If 0
+                    "I exchanged numbers with them, it's good to know more people of similar age and going through the same experience of raising young children."
+                    Actor2.makePermanent()
+                    Actor3.makePermanent()
+                    addNpcRelationship(Spouses, Actor2, Actor3)
+                    exchangeContact(Actor2)
+                    exchangeContact(Actor3)
+                    If OpenRelationship()
+                        "Of course, being in an open relationship, I would be lying if I didn't think about them being potential swinging partners ..."
+                        "I guess I would find out more about how open minded they are as a couple soon enough ..."
+                    Endif
+                Endif 
+            Endif
+        Endif
+        timeout(2, childcare)
+    Else
+        "No children to take care of"
+    Endif
+    SceneEnd()  

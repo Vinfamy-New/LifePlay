@@ -1,0 +1,45 @@
+WHAT: sleep
+WHERE: home
+WHEN: 22 - 4
+WHO: none
+OTHER: !Player.isAsexual() && Random(0, 100) < 5 && Random(0, 100)*Random(0, 1) > energy - intoxication
+
+    SceneStart()
+    Player.animate(na_sleep)
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dressUniform(Crime)
+    Actor.show()
+    "In the middle of the night ..."
+    Actor.animate(na_sleep)
+    "I was suddenly awakened to the sight of horror, some stranger trying to rape me ..."
+    0:: "Resist"
+    1:: "I might enjoy this actually ..."
+    
+    If 0
+        If Actor:martial - Actor:intoxication > martial - intoxication
+            "Unfortunately, my assailant was too strong for me ..."
+            Rape = true
+        Else
+            "I managed to push my assailant off me. Defeated, <Actor.he_or_she> promptly jumped out of the window and made a run for it ..."
+            "Phew, that was close ..."
+            Rape = false
+        Endif
+    Else
+        Rape = true
+        masochist += 2
+    Endif
+    If Rape
+        If !Actor.isMale() && Player.isMale()
+            Filter(AggressiveFM)
+        Else
+            Filter(Aggressive)
+        Endif
+        TalkNonConsensual()
+        Sex(Actor, Player)
+        Actor.setActorVar(tag_Rapist, 1)
+    Endif
+    SceneEnd()
+    timeout(500, vi_wake_cms)

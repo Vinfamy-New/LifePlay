@@ -1,0 +1,40 @@
+WHAT: all
+WHERE: university:school, fraternity
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating)
+OTHER: isModEnabled(vin_NTR)
+
+    SceneStart()
+    "While at college I thought about a terrible idea. What if I dared my <Actor.boyfriend_or_girlfriend> <Actor.name> to go into one of the empty college rooms nude and masturbate there?"
+    0:: "Yeah this will be great idea!"
+    1:: "Hmm might get arrested...lets not."
+
+    If 0
+        If Actor:perversion > 50
+            Actor.show()
+            "<Actor.name> agreed to my dare."
+            Filter(Solo)
+            Sex(Actor)
+            
+            If Random(0, 100) < 33 && isModEnabled(vin_NonConsensual)
+                Actor2 = generatePersonTemporary()
+                While !Actor.isInterestedIn(Actor2)
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                
+                "Unfortunately for us, <Actor.he_or_she> was caught and rapped by another student who passed by."
+                Filter(Aggressive)
+                TalkNonConsensual()
+                Sex(Actor2, Actor)
+            Elseif Random(0, 100) < 50
+                "No-one saw what <Actor.he_or_she> was doing but eventually <Actor.he_or_she> said <Actor.he_or_she> enjoyed that but we should leave fast just in case."
+            Else
+                "Unfortunately, she was caught by one of the university staff and I was fined and threatened with being expelled."
+                money -= 100
+            Endif
+        Else
+            "She turned my idea down and actually got a bit angry at me for even suggesting it."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, sr_fso_collegedare1_cms)

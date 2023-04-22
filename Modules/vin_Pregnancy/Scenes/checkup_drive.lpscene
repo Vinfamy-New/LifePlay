@@ -1,0 +1,89 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 20
+WHO: Actor = getSpecific(Dating); If Actor.isPregnant()
+OTHER:
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "Now that <Actor.name> is pregnant, she must have a checkup with a doctor periodically, for the sake and her and the baby's health."
+    "Today she's asking me to drive her there."
+    0:: "Yes"
+    1:: "No"
+    
+    If 1
+        "I don't have time for this today. She's not so heavily pregnant that she can't go anywhere by herself, surely?"
+    Else
+        "Okay, it's the least I could do for my pregnant <Actor.boyfriend_or_girlfriend>."
+        Dest = findNearbyBuilding(hospital)
+        moveTo(Dest)
+        setBackground(hospital)
+        
+        If isModEnabled(vin_NTR) && Random(0, 100) < 66
+            If [OpenRelationship() && random(0,100) > 70] || Actor:perversion > 75 || Actor:masochist < -50 || masochist > 50
+                Ignored = true
+            Else
+                Ignored = false
+            Endif
+            "It's up to the doctor to decide whether the significant other of the expected mother is allowed inside while she's having her scans and tests done."
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Player)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.makeInterested(Actor)
+            Actor2.dressUniform(Doctor)
+            Actor2.show()
+            "Thankfully, <Actor.name>'s doctor for today, Dr <Actor2.name> <Actor2.name_last> is one such easy-going doctor, who is happy to have me accompany her inside."
+            "While doing her scans though, I can't help but notice that the doctor is eyeing my <Actor.boyfriend_or_girlfriend>'s body quite a bit and even flirting with <Actor.him_or_her>."
+            "And she's quite receptive so far, I guess it can be flattering being hit on by someone obviously very smart and successful."
+            "The flirting is getting a bit intense though ... The doctor doesn't seem to care one bit that I was right there!"
+            0:: "Ahem to show disapproval"
+            1:: "Wink to <Actor.name> to escalate things"
+            
+            If 0 && !Ignored
+                "Reading my subtle message, <Actor.name> stopped flirting with the doctor and started asking medical questions to kill off the mood."
+            Else
+                If Ignored || !OpenRelationship()
+                    masochist += 1.5
+                    Actor:masochist -= 1.5
+                Endif
+                Actor:perversion += 1.5
+                If 0
+                    "<Actor.name> seemed to ignore me completely and continued to flirt with the doctor"
+                Endif
+                "Soon, things escalated and they started getting handsy, right in front of me."
+                "Was this the real reason why the doctor allowed me to accompany her? Maybe <Actor2.he_or_she> is the type who gets a kick out of dominating another <Player.man_or_woman> and fucking <Player.his_or_her> <Actor.boyfriend_or_girlfriend>."
+                SexNoAffair(Actor2, Actor)
+            Endif
+        Else
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.makeInterested(Player)
+            Actor2.dressUniform(Nurse)
+            Actor2.show()
+            Actor.hide()
+            "While <Actor.name> is inside having her scans and tests done with the doctor, I have no choice but wait patiently in the hospital's waiting room."
+            "I couldn't help but notice that one of the receptionists was eyeing me up quite flirtatously though."
+            "Is this what these hospital staff do? Trying to sleep with all their pregnant patients' spouses?"
+            0:: "Do nothing"
+            1:: "Fuck the receptionist while <Actor.name> is having her scans"
+            2:: "Ask for her number discreetly"
+            
+            If 1   
+                "It's probably another long while before <Actor.name> finishes all her scans and tests, enough time for a quickie with the receptionist."
+                "Soon, we end up in the hospital's supplies room and got down to business."
+                Sex(Player, Actor2)
+            Elseif 2
+                "I discreetly got her number, for a future rendezvous when my pregnant <Actor.boyfriend_or_girlfriend> is not around."
+                Actor2.makePermanent()
+                Actor2:attractiontoplayer => 40
+                Actor2:perversion => 80
+                exchangeContact(Actor2)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(700, checkup_drive)

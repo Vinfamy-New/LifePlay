@@ -1,0 +1,40 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: none
+OTHER: !Player.isFemale() && Player:fertility > 0 && Random(50, 200) < fitness && Random(50, 200) < attractiveness && Random(50, 200) < intelligence
+
+    SceneStart()
+    "I was approached by the organizer of a so-called 'Impregnation Party' where women wanting children come to get pregnant. They invite me to come as an impregnator spreading my seeds for the women."
+    "Apparently, I met their genetic standards for fitness, attractiveness and intelligence. This shadowy organizer must have scouted me for a while."
+    0:: "Come to the Impregnation Party"
+    1:: "Decline"
+    
+    If 0
+        "I won't let the organizer of the event or the women attending disappointed. I'll make many bellies swollen tonight!"
+        setBackground(stripclub)
+        "At the party, I found out that the dick-to-pussy ratio was like 5 to 1. Looks like I'll have a busy night ahead ..."
+        count = 0
+        While count < 5
+            Actor = generatePersonTemporary()
+            While !Actor.isFemale()
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor.dress()
+            Actor.show()
+            "The next woman that thinks I'm a suitable father for her child is <Actor.name>"
+            0:: "Impregnate <Actor.him_or_her>"
+            1:: "No"
+            
+            If 0
+                Actor.makePermanent()
+                Actor.setWantsBabies()
+                Sex(Player, Actor)
+                Actor.impregnate(Player)
+            Endif
+            Actor.delete()
+            count += 1
+        Endwhile
+    Endif
+    SceneEnd()
+    timeout(1000, invited_impreg_party)

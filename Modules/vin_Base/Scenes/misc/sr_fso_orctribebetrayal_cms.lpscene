@@ -1,0 +1,60 @@
+WHAT: all, -sleep, -nap
+WHERE: all, -home
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); Actor2 = getPerson(tag_orcchief); If !Actor.isMale() && Actor.isDating() && Actor.isRace(Orc)
+OTHER: PercentageOrcs > 0 && PercentageElves > 0 && Player.isMale() && isModEnabled(vin_NTR)
+
+    //Summery - Assuming the player has joined the alternate orc tribe they will be given the option to further "loan" their Orc girlfriend/wife to the other tribe.
+    
+    SceneStart()
+    
+    Actor2.dress()
+    Actor2.show()
+    "The orc chieftan you met back in the last wargame has asked to meet with you to talk about a new proposal."
+    setBackground(forest)
+    "After walking to the meeting location your new ork chieftan to the tribe you joined walks over to you."
+    Actor2:: "Well hello there again. Since you seemed to enjoy messing with your orc mate so much I have a new idea for you." 
+    0:: "A more tame idea but, perhaps you would like to expose your girl to us?"
+    1:: isModEnabled(vin_Bestiality):: "Perhaps we could interest you in watching your mate get mated with by two wolves?" 
+    2:: isModEnabled(vin_Tentacles):: "We did capture an interesting tentacle creature that could knock her up"
+    3:: "If you are not up to it we could do one of these ideas later."
+    
+    If 0 
+        "I came up with a plan to expose <Actor.name> to the cheiftan and his council members. I would have <Actor.name> show off to me at a clothing store with the changing room door open."
+        setBackground(clothes)
+        Actor.show()
+        "I then talk her into exposing herself to me at a clothing store for his eyes with the other orcs happening to see it from a hiding spot."
+    Elseif 1
+        "I nodded to their idea of setting her up with some wolves. To do this I convinced her to go camping nude with me, she always talked about how ancient orks would brave the outdoors nude."
+        Actor.dress()
+        Actor.show()
+        Actor3 = generateCreatureTemporary(Dog)
+        Actor4 = generateCreatureTemporary(Dog)
+        Actor3.show()
+        Actor4.show()
+        "While she was gathering firewood I used some of the diguise magic to hide myself and then I helped the wolves sneak up to her and take her down."
+        "The wolves then have sex with her one on one then in a threesome." 
+        Sex(Actor3, Actor4, Actor)
+
+        "She try to pretend that nothing happened but of course I know." 
+    Elseif 2
+        "While this is evil of me to do to her. I am also quite interested in seeing something out of a hentai..."
+        setBackground(shower)
+        Actor3 = generateCreatureTemporary(Tentacles)
+        Actor3.show()
+        "Me and the tribe managed to setup the tentacle creature to ambush her next time she goes to the bathroom at the restaurant I just took her to."
+        "<Actor.name> and the tentacle creature have sex after it captures her when she gets up to go the bathroom."
+        Sex(Actor3, Actor)
+        
+        If Random(0, 100) < 75
+            "The tentacles knock her up and she gives birth to a tentacle creature that the orc tribe quickly takes"
+        Else
+            "Unfortunately, she wasn't knocked up but you take her home and she seems to become more perverted having actually enjoyed that."
+            Actor:perversion += 1
+        Endif
+    Else
+        "I decided not to do anything yet about this. But next time they proposition me about this perhaps I will."
+    Endif
+    
+    SceneEnd()
+    timeout (1000, sr_fso_orctribebetrayal_cms)

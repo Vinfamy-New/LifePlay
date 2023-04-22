@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: impregnation_bet
+ACTION_NAME: Impregnation Bet
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: impregnation_bet
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && !Actor.isFemale() && !Player.isFemale() && !Actor.isTemporary()

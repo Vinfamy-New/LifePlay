@@ -1,0 +1,34 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    Actor1 = Actor.getRelatedPerson(Spouses, Dating)
+    secondScreen(Actor1)
+    Actor1.show()
+    "Suggest to <Actor.name> and <Actor.his_or_her> <Actor1.boyfriend_or_girlfriend> <Actor1.name> to open up their relationship and let me join and turn it into a polyamorous arrangement?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        If Actor1.hadSex()
+            "I've had incredible sexual experiences with both <Actor.name> and <Actor1.name> in the past so we all agreed it was only natural progression to turn this threeway into an official polyamorous relationship."
+            If !OpenRelationship()
+                startOpenRelationship()
+            Endif
+            Actor.setDating()
+            Actor1.setDating()
+            addNpcRelationship(Dating, Actor, Actor1)
+            exchangeContact(Actor)
+            exchangeContact(Actor1)
+        Else
+            "While I've done sexual things with <Actor.name> <Actor.himself_or_herself>, I haven't experienced anything sexual with <Actor.his_or_her> <Actor1.boyfriend_or_girlfriend> <Actor1.name>."
+            exchangeContact(Actor1)
+            "I probably should get more comfortable with <Actor1.name> before suggesting a polyamorous arrangement with them both."
+            "This can be done simply by trying to sleep with <Actor1.name> directly, or have a threesome with <Actor1.him_or_her> involving <Actor.name>, another lover of mine, or a hooker."
+            "(Go into your Contacts menu, select <Actor1.name> <Actor1.name_last>, then Current to move to their current location, click on <Actor1.him_or_her> and see what interactions you may have available)."
+        Endif
+    Endif
+    SceneEnd()

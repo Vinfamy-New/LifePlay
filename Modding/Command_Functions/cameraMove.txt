@@ -1,0 +1,19 @@
+cameraMove(LocX,LocY,LocZ,RotX,RotY,RotZ)
+
+USE: 
+Moves and rotates the camera.
+
+First three parameters are the position of the camera.
+Following three parameters are the roation.
+
+Note that the default Camera (main menu scene) is Loc(X=-3131132.000000,Y=-14967241.000000,Z=50.000000) and Rot(Pitch=0.000000,Yaw=-180.000000,Roll=0.000000)
+
+TYPE: Command, Non-Ref
+RETURNS: /
+THEME: Camera
+COMPARE: cameraFocus
+EXAMPLE:
+    cameraMove( 0, 0, 800 ) // Move camera to the middle of the room
+    cameraFocus(MainActor)  // Make cam point to the main actor
+
+

@@ -1,0 +1,105 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 8 - 22
+WHO: Actor = getSpecific(Dating); If !Actor.isMale()
+OTHER: Player.isMale() && Random(44, 100) < perversion && isModEnabled(vin_NTR)
+
+    SceneStart()
+    "I was looking at some couple dares online and saw one that caught my eye. The guy had their girlfriend standing in the doorway fingering herself right there where anyone could see!"
+    0:: "Convince <Actor.name> to do it"
+    1:: "No way"
+    
+    If 0
+        Actor.dress()
+        Actor.show()
+        "You have a short conversation with your <Actor.boyfriend_or_girlfriend> about the video. She agrees to do it for you because of how much she loves you."
+        setBackgroundCustom(livingroom)
+        Player.hide()
+        "You get your camera out and set it up to record while you hide in the hallway of your bedroom. <Actor.name> then goes on to begin fingering herself in the open doorway where anyone can see it!"
+        Filter(Solo)
+        Sex(Actor)
+        
+        
+        If Random(0, 100) < 25
+            "Your <Actor.boyfriend_or_girlfriend> fingers herself in the doorway. You film it and rewatch it anytime you want to be reminded of how perverted and loyal she is."
+            timeout(160, sr_fso_door_dare2_cms)
+        Elseif Random(0, 100) < 33
+            "<Actor.name> fingers herself in the doorway." 
+            Actor2 = getSpecific(Neighbour)
+            Actor2.dress()
+            Actor2.show()
+            "She is caught by one of your neighbours <Actor2.name>!" 
+            
+            If Actor2.isInterestedIn(Actor) && Actor2:rapportwithplayer > 30
+                "Being the great person <Actor2.he_or_she> is, <Actor2.name> texts you and asks if they can get in on the action, sending a pic of what <Actor.name> is doing in the doorway."
+                0:: "No, she's just putting on a show"
+                1:: "Go for it"
+                
+                If 0
+                    Player:: "No she is just putting on a show. Feel free to watch through."
+                    "<Actor2.He_or_She> respects that and watch till she is done."
+                Else
+                    Player:: "Go for it, let her know I said it was ok."
+                    Actor2:rapportwithplayer += 5
+                    Sex(Actor2, Actor)
+                    "Should I make my presence known and join them for a threesome now?"
+                    0:: "No, I prefer to just watch"
+                    1:: "Join them"
+                    
+                    If 1
+                        Player.show()
+                        Actor2:: "I didn't realize you were hiding in there the whole time ..."
+                        Sex(Player, Actor, Actor2)
+                    Endif
+                Endif
+            Else
+                "Unfortunately, <Actor2.name> simply scolded <Actor.name> for such public indecency."
+            Endif
+            timeout(160, sr_fso_door_dare2_cms)
+        Elseif Random(0, 100) < 50 && isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual)
+            Actor = generatePersonTemporary()
+            While !Actor.isMale()
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor.dress()
+            Actor.show()
+            "Your <Actor.boyfriend_or_girlfriend> is masturbating in the doorway. Someone walking by sees this and quickly moves to her shoving her inside the apartment and rapes her."
+            0:: "Peek and watch"
+            1:: "Call the cops"
+            
+            Filter(Aggressive)
+            TalkNonConsensual()
+            Sex(Actor, Actor2)
+            
+            If 1
+                "The cops eventually arrived and arrested the sex offender, but not before <Actor.name> had already had to endure a round with this vile man."
+            Endif
+            timeout(120, sr_fso_door_dare2_cms)
+        Elseif isModEnabled(vin_NTR)
+            Actor2 = getRelative()
+            Actor2.dress()
+            Actor2.show()
+            "One of your family members was coming to your house to say hello, my <Actor2.relationship> <Actor2.name>."
+            If Actor2.isInterestedIn(Actor)
+                "My <Actor2.relationship> sees your <Actor.boyfriend_or_girlfriend> who <Actor2.he_or_she> always wanted to bang and immediately push her into the house."
+                setBackground(home)
+                "After your <Actor2.relationship> shoves her onto the bed they proceed to have sex she offers no resistance as to not injure a member of your family."
+                0:: "Stop them"
+                1:: "Just peek"
+                
+                If 0
+                    Player.show()
+                    "Hey, what the fuck are you doing with <Actor.name>, <Actor.he_or_she> is your <Actor2.callplayer>'s <Actor.boyfriend_or_girlfriend>, for god's sake!"
+                Else
+                    Sex(Actor2, Actor)
+                Endif
+            Else
+                "Unfortunately, my <Actor2.relationship> wasn't impressed by our dare and scolded us for our stupid prank."
+            Endif
+            timeout(120, sr_fso_door_dare2_cms)
+        Else
+            "The plan certainly went down better in my head since absolutely nothing actually happened after <Actor.name>'s performance."
+            timeout(160, sr_fso_door_dare2_cms)            
+        Endif
+    Endif
+    SceneEnd()

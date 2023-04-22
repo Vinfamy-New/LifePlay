@@ -1,0 +1,27 @@
+// Info
+
+INFO Is_Male: 100% false
+INFO Interested_In_Men: 80% true, 20% false
+INFO Interested_In_Women: 65% false, 35% true
+INFO Interested_In_Transgender: 65% false, 35% true
+INFO First_Name: 0% a
+INFO Last_Name: 0% a
+INFO Genital: 95% Vagina, 5% Penis
+
+// Morphs
+MORPH Stomach_LocalFat_max: 100% 0.34285714285714286=>0.6719999999999999
+MORPH Torso_BreastMass-BreastPosX_max-max: 100% 0.12857142857142861=>0.25200000000000006
+MORPH Torso_BreastMass-BreastPosX_max-min: 100% 0.12857142857142861=>0.25200000000000006
+MORPH Torso_BreastMass-BreastTone-Mass-Tone_max-max-max-max: 100% 0.06428571428571431=>0.12600000000000003
+MORPH Torso_BreastMass-BreastTone-Mass-Tone_max-max-max-min: 100% 0.06428571428571431=>0.12600000000000003
+MORPH Torso_BreastMass-BreastTone-Mass-Tone_max-min-max-max: 100% 0.06428571428571431=>0.12600000000000003
+MORPH Torso_BreastMass-BreastTone-Mass-Tone_max-min-max-min: 100% 0.06428571428571431=>0.12600000000000003
+MORPH Torso_Mass-Tone_max-max: 100% 0.08571428571428572=>0.16799999999999998
+MORPH Torso_Mass-Tone_max-min: 100% 0.08571428571428572=>0.16799999999999998
+MORPH Torso_BreastMass-AureolaSize_max-max: 100% 0.12857142857142861=>0.25200000000000006
+MORPH Torso_BreastMass-AureolaSize_max-min: 100% 0.12857142857142861=>0.25200000000000006
+MORPH Torso_BreastMass-BreastScaleY_max-max: 100% 0.12857142857142861=>0.25200000000000006
+MORPH Torso_BreastMass-BreastScaleY_max-min: 100% 0.12857142857142861=>0.25200000000000006
+MORPH Waist_Size_min: 100% 0.7142857142857143=>1.4
+MORPH Genesis8Female__FBMVoluptuous: 100% 0.3=>0.7
+MORPH Genesis8Female__FBMThin: 100% 0.5=>0.8

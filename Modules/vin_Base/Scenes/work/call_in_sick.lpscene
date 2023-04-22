@@ -1,0 +1,51 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    If isTimingOut(call_in_sick)
+        "It's not a good idea to call in sick more than once a week."
+    Else
+        "I'm feeling under the weather today. Maybe I should call in sick and take the day off? This shouldn't have any effect on my job performance as sick leave is part of the contract after all."
+        0:: "Call in sick"
+        1:: "Not necessary"
+        
+        If 0
+            timeoutPrecise(168, call_in_sick)
+            "I decided to take the day off."
+            jobperformance += 1
+            dressFormal()
+            Actor = getSpecific(Colleague)
+            If Actor.isValid() && Actor:attractiontoplayer > 30
+                "An hour later, my phone rang. Who could this be? Normally I don't get a lot of personal calls during office hours."
+                Actor.dress()
+                secondScreen(Actor)
+                Actor.show()
+                "It's my colleague <Actor.name>, who has been rather attentive to me at work as of late."
+                Actor:: "<Player.name>, I heard you got sick and had to take a day off work."
+                Actor:: "Maybe I can come over after work with some healthy takeout and help take care of you."
+                0:: "That would be nice"
+                1:: "I'd rather not have visitors today"
+                
+                If 0
+                    secondScreen()
+                    setBackgroundCustom(livingroom)
+                    Actor.show()
+                    "Just as <Actor.he_or_she> had promised, <Actor.name> came over to my place after work with some healthy recovery food, medicine and even some 'Get Well Soon' flowers. A bit of an overkill for a simple sick leave to be honest."
+                    "It's clear that <Actor.he_or_she> sees me as more than a normal colleague."
+                    0:: "Thank <Actor.him_or_her> and say goodbye"
+                    1:: "Thank <Actor.him_or_her> with sex"
+                    
+                    If 1
+                        Sex(Actor, Player)
+                    Endif
+                Else
+                    Player:: "That's really kind of you, but I think I'd rather just rest and not have anyone over."
+                    Actor:: "Okay, makes sense. Get well soon!"
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()

@@ -1,0 +1,118 @@
+WHAT: all, -sleep, -nap
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Actor.isMale() && Actor.isDating() && Actor:perversion > 45
+OTHER: Player.isMale() && isModEnabled(vin_NTR)
+
+    //Summery - The player is given an invitation to a haunted house event + after party. While there the player can engage in netorase events, or vanilia events.
+    
+    SceneStart()
+    "I randomly receieved a invite to a adult only haunted house event and an after party on my phone from a friend I know. I wonder what could happen."
+    0:: "I think I'll ask <Actor.name> to be my date there and perhaps I can talk her into something..."
+    1:: "I think I'll skip the event, but I'll ask <Actor.name> if they want to go."
+    2:: "I think I'll skip the event. No reason to go, nor do I think <Actor.name> would want to go without me honestly."
+
+    If 0
+        "What should I try to do with <Actor.name> to do at the event?"
+        0:: "I'll try to get her to let me bang her secrectly somewhere in the house."
+        1:: "I'll take a video of her streaking nude throughout the haunted house event! This sounds like a great idea to try to convince her to do!"
+        2:: "I'll get her durnk and groped by the guests...maybe let them go further."
+        
+        If 0
+            "After an hour into the party me and <Actor.name> snuck off to have sex!"
+            Sex(Player, Actor)
+            If Random(0, 100) < 50
+                "We enjoy the rest of the party"
+            Else
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isFemale()
+                    Actor2 = generatePersonTemporary()
+                endWhile
+                
+                Actor2.dress()
+                Actor2.show()
+                
+                "We were caught in the act by another girl <Actor2.name>, who wanted part of the action as well ..."
+                0:: "Fuck <Actor2.name> as well"
+                1:: "Turn her down"
+                
+                If 0
+                    Sex(Player, Actor2)
+                Endif
+            Endif
+        Elseif 1
+            "After me and <Actor.name> learned the layout of the haunted house I had her strip and I brought out my phone. I then began filming and following her as she snuck throughout the house nude."
+            Actor.strip()
+            Actor:: "Babe this is turning me on so badly!"
+            Filter(Solo)
+            Sex(Actor)
+            Actor:: "Wait did you hear something?!"
+            0:: isModEnabled(vin_NTR):: "You notice someone in the shadows watching and beckon him over"
+            1:: "No one is there, love. If you want you can re-dress and we can go to the after-party soon."
+            
+            If 0
+                "I smirked and put a blindfold on <Actor.name> and told her my plan."
+                "I then waved over the man and told him he can play with her, but he needs to do so as sneakily as he can."
+                "He didn't know that I told her the stranger was going to mess with her, but I thought it would enchance the mood if he pretended to be me."
+                Actor3 = generatePersonTemporary()
+                While !Actor3.isMale()
+                    Actor3 = generatePersonTemporary()
+                endWhile
+                
+                Actor3.dress()
+                Actor3.show()
+                Sex(Actor3, Actor)
+                
+                "After he had sex with <Actor.name> he thanked me silently and slipped me a small amount of cash as additional thanks."
+                Actor:: "Haha that was something for sure! That was pretty kinky getting me 'accidently' fucked by a stranger."
+                Player:: "I enjoy netorase it is quite hot to see, and you do netorase so damn well. I love you!"
+                Actor:: "I love you too!"
+            Else
+                "She redressed after a few more poses for pictures and then we rejoined the party and had a blast!"
+            Endif
+        Else
+            "After awhile of partying and many drinks later <Actor.name> was pretty drunk."
+            Player:: "Dare you to take off your top on the dance floor!"
+            Actor:: "Bet!"
+            Actor.stripOne()
+            Actor.stripOne()
+            "<Actor.name> took her top off and went further even sliding her bottoms down standing in just panties and shoes."
+            "I pushed her up against someone near us on the dance floor and dared her to grind on them while dancing."
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isMale()
+                Actor3 = generatePersonTemporary()
+            endWhile
+            
+            Actor3.dress()
+            Actor3.show()
+            "She began grinding against <Actor3.name> and this quickly escalated to her being fingered right there!"
+            Filter(FingerPussy)
+            Sex(Actor3, Actor)
+            "<Actor.name> looked at me still drunk but chohrient enough to be asking if I want to let it go further."
+            0:: "I nodded yes to her knowing full well she was about to have sex right there infront of everyone on the dance floor."
+            1:: "I shook my head no, she understood"
+            
+            If 0
+                Sex(Actor3, Actor)
+                "After watching them have sex I decided to pull her away from them and take her myself."
+                Sex(Player, Actor)
+                "After we finished up we quickly redressed and left the party to go sleep at a nearby hotel."
+            Else
+                "After a few pushes managed to get away form <Actor3.name>."
+                "The rest of the night we spent mostly slow dancing with each other and occasionally kissing."
+                Actor:: "That was a great night love. Thanks for that."
+                Player:: "I enjoyed tonight as well. I cannot wait to have another date like that with you!"
+            Endif
+        Endif
+    Elseif 1
+        "I showed the invite to <Actor.name> and told them they could go if they wanted."
+        Actor:: "Thanks love! I'll bring you back a giftback!" 
+        Player:: "love you, stay safe!"
+        "<Actor.name> enjoyed the party and gave me a giftbag from the party next time I saw them. They recommended I go with them next time."
+        Player:: "Alright, I'll think about it love!"
+    Else
+        "I decided not to go to the event, nor did I tell anyone about it."
+    endif
+    
+    SceneEnd()
+    Timeout(500, sr_fso_hauntedhouse1_cms)

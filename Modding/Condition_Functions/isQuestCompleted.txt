@@ -1,0 +1,14 @@
+isQuestCompleted(questID)
+
+USE:
+Check if a quest has been completed
+
+TYPE: Condition, Reference
+RETURNS: bool
+THEME: Quests
+COMPARE: 
+
+EXAMPLE:
+    If isQuestCompleted(legalized)
+        "Incest has been legalized"
+    Endif

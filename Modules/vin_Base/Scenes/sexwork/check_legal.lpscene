@@ -1,0 +1,20 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24 
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "It's a huge shock but the government recently decided to make prostitution in this country ..."
+    0:: "Legal"
+    1:: "Illegal"
+    
+    If 0
+        "Now, I can work without worrying about getting arrested"
+        Player.setActorVar(sexwork_illegal, 0)
+    Else
+        "Now, there's a risk of getting arrested while working as a prostitute. Most brothels already move quickly to bribe their local cops though so the risk is much lower if I restrict all my work to inside brothels only."
+        "I should learn to be more sneaky from now on."
+        Player.setActorVar(sexwork_illegal, 1)
+    Endif
+    SceneEnd()

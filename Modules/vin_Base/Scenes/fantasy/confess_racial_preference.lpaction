@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: confess_racial_preference
+ACTION_NAME: Confess racial fetish
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: confess_racial_preference
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && !Player.isSameRace(Actor) && Player.isInterestedIn(Actor) && !Actor.hadSex()

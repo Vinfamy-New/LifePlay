@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: imp_obj
+ACTION_NAME: Train my ex now that she's a woman
+WHERE: quest
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: imp_main
+ANIMATION:

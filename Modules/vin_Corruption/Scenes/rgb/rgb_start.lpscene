@@ -1,0 +1,169 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    If isWithCompanion()
+        endDate()
+    Endif
+    rgb_stage.setGlobal(0)
+    SceneStart()
+    Boss = getSpecific(Boss)
+    
+    If Boss.isValid()
+        "Your current office boss <Boss.name> is leaving the company soon and head office decides to transfer another country's head, who is an impressive young woman who's been profiled in many business magazines, to your country to replace your boss. In the month between your old boss leaving and this new boss starting, you're asked to help her and her husband settle in the new country outside of work. Accept this extra responsibility?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 1
+            QuestEnd()
+        Else
+            B1.generateBuildingAlias(work)
+            B1.addObjective(rgb_obj)
+            rgb_stage.setGlobal(1)
+
+            "Your new girl boss comes from quite a traditional country where career women like her are still quite rare. Which region of the world is this country located in?"
+            0:: "Africa"
+            1:: "South Asia"
+            2:: "Middle East"
+            3:: "Latin America"
+            4:: "East Asia"
+            5:: "Eastern Europe"
+            
+            setBackground(street)
+            "The day of their arrival comes and I was asked to pick the couple up at the airport."
+            
+            If 0
+                setRaceGenerated(black)
+            Elseif 1
+                setRaceGenerated(indian)    
+            Elseif 2
+                setRaceGenerated(arab)        
+            Elseif 3
+                setRaceGenerated(latin)    
+            Elseif 4
+                setRaceGenerated(asian)    
+            Else
+                setRaceGenerated(white)    
+            Endif
+                    
+            Actor = generatePersonTemporary()
+            While !Actor.isFemale()
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor:age => Random(28, 38)
+            Actor:intelligence => Random(85, 100)
+            Actor:interpersonal => Random(85, 100)
+            Actor:perversion => Random(0, 20)
+            Actor:attractiveness => Random(70, 100)
+            Actor.randomizeFace()
+            Actor.randomizeHairs()
+            If isModEnabled(vin_Interracial)
+                If Actor.isEthnic(black) && Actor.isMale() && !isTimingOut(strt_black_m)
+                    Actor.blendPreset(strt_black_m)
+                    
+                Elseif Actor.isEthnic(black) && !Actor.isMale() && !isTimingOut(strt_black_f)
+                    Actor.blendPreset(strt_black_f)
+
+                Elseif Actor.isEthnic(indian) && Actor.isMale() && !isTimingOut(strt_indian_m)
+                    Actor.blendPreset(strt_indian_m)
+                    
+                Elseif Actor.isEthnic(indian) && !Actor.isMale() && !isTimingOut(strt_indian_f)
+                    Actor.blendPreset(strt_indian_f)
+                    
+                Elseif Actor.isEthnic(arab) && Actor.isMale() && !isTimingOut(strt_arab_m)
+                    Actor.blendPreset(strt_arab_m)
+                    
+                Elseif Actor.isEthnic(arab) && !Actor.isMale() && !isTimingOut(strt_arab_f)
+                    Actor.blendPreset(strt_arab_f)
+
+                Elseif Actor.isEthnic(latin) && Actor.isMale() && !isTimingOut(strt_latin_m)
+                    Actor.blendPreset(strt_latin_m)
+                    
+                Elseif Actor.isEthnic(latin) && !Actor.isMale() && !isTimingOut(strt_latin_f)
+                    Actor.blendPreset(strt_latin_f)
+                    
+                Elseif Actor.isEthnic(asian) && Actor.isMale() && !isTimingOut(strt_asian_m)
+                    Actor.blendPreset(strt_asian_m)
+                    
+                Elseif Actor.isEthnic(asian) && !Actor.isMale() && !isTimingOut(strt_asian_f)
+                    Actor.blendPreset(strt_asian_f)
+
+                Elseif Actor.isEthnic(white) && Actor.isMale() && !isTimingOut(strt_white_m)
+                    Actor.blendPreset(strt_white_m)
+                    
+                Elseif Actor.isEthnic(white) && !Actor.isMale() && !isTimingOut(strt_white_f)
+                    Actor.blendPreset(strt_white_f)
+                Endif
+            Endif
+            Actor.makePermanent()
+            GBoss.setActorAlias(Actor)
+            
+            dressFormal()
+            Actor.dress()
+            Actor.show()
+            "My new girl boss is called <Actor.name>. She seems excited at the challenge of living abroad and appying the business skill she's used in your home country to a brand new country."
+            
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2:age => Actor2:age + Random(0, 5)
+            Actor2:fertility => 0
+            Actor2.randomizeFace()
+            Actor2.randomizeHairs()
+            
+            If isModEnabled(vin_Interracial)                
+                If Actor2.isEthnic(black) && Actor2.isMale() && !isTimingOut(strt_black_m)
+                    Actor2.blendPreset(strt_black_m)
+                    
+                Elseif Actor2.isEthnic(black) && !Actor2.isMale() && !isTimingOut(strt_black_f)
+                    Actor2.blendPreset(strt_black_f)
+
+                Elseif Actor2.isEthnic(indian) && Actor2.isMale() && !isTimingOut(strt_indian_m)
+                    Actor2.blendPreset(strt_indian_m)
+                    
+                Elseif Actor2.isEthnic(indian) && !Actor2.isMale() && !isTimingOut(strt_indian_f)
+                    Actor2.blendPreset(strt_indian_f)
+                    
+                Elseif Actor2.isEthnic(arab) && Actor2.isMale() && !isTimingOut(strt_arab_m)
+                    Actor2.blendPreset(strt_arab_m)
+                    
+                Elseif Actor2.isEthnic(arab) && !Actor2.isMale() && !isTimingOut(strt_arab_f)
+                    Actor2.blendPreset(strt_arab_f)
+
+                Elseif Actor2.isEthnic(latin) && Actor2.isMale() && !isTimingOut(strt_latin_m)
+                    Actor2.blendPreset(strt_latin_m)
+                    
+                Elseif Actor2.isEthnic(latin) && !Actor2.isMale() && !isTimingOut(strt_latin_f)
+                    Actor2.blendPreset(strt_latin_f)
+                    
+                Elseif Actor2.isEthnic(asian) && Actor2.isMale() && !isTimingOut(strt_asian_m)
+                    Actor2.blendPreset(strt_asian_m)
+                    
+                Elseif Actor2.isEthnic(asian) && !Actor2.isMale() && !isTimingOut(strt_asian_f)
+                    Actor2.blendPreset(strt_asian_f)
+
+                Elseif Actor2.isEthnic(white) && Actor2.isMale() && !isTimingOut(strt_white_m)
+                    Actor2.blendPreset(strt_white_m)
+                    
+                Elseif Actor2.isEthnic(white) && !Actor2.isMale() && !isTimingOut(strt_white_f)
+                    Actor2.blendPreset(strt_white_f)
+                Endif
+            Endif
+            Actor2.makeInterested(Actor)
+            Actor.makeInterested(Actor2)
+            Actor2.makePermanent()
+            addNpcRelationship(Spouses, Actor2, Actor)
+            GHus.setActorAlias(Actor2)
+            Actor2.dress()
+            Actor2.show()
+            "Meanwhile, her husband <Actor2.name> doesn't seem as delighted to be here though. He comes across a bit grumpy for some reason. I also notice right away it was just the two of them, I was expecting a few young children considering their age and that they've been married for a while."
+            "I help them with the luggage and start driving them back to the hotel where they'll stay for the next week while we sort out their more permanent accommodation."
+        Endif
+    Else       
+        "I must be working in an office job under a boss to start this quest. Quest was not started."
+        QuestEnd()
+    Endif        
+    SceneEnd()

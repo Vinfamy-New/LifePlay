@@ -1,0 +1,34 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getRelatedPeople(Spouses, Dating); Dating = getSpecific(Dating); Daddy = Actor1.getBabyDaddy(); If Actor1.isPregnant() && Daddy.isSameAs(Player) && !Actor0.isFemale() && !Dating.isMale() && !Dating.isPregnant()
+OTHER: isModEnabled(vin_NTR) && !OpenRelationship()
+
+    // If you impregnate someone who is already taken, their significant other may try to impregnate your wife/ girlfriend to make things even. (+ API funciton to get any NPC's baby daddy to make these scenes possible).
+    SceneStart()
+    secondScreen(Actor1)
+    Actor1.show()
+    "I fucked <Actor1.name> and made her pregnant. Let's hope <Actor1.his_or_her> <Actor0.boyfriend_or_girlfriend> never finds out."
+    "Another person that shouldn't find out about this affair is my own <Dating.boyfriend_or_girlfriend> <Dating.name> ..."
+    secondScreen()
+    Actor1.hide()
+    setBackgroundCustom(livingroom)
+    Player:: "Honey, I'm home ..."
+    "Wait, what's that sound? Is someone moaning ... ?"
+    "The sound is coming out from the bedroom ..."
+    setBackground(home)
+    Actor0.setWantsBabies(true)
+    Dating.setWantsBabies(true)
+    Actor0.show()
+    Dating.show()
+    
+    animatePair(Actor0, Dating, Vaginal)
+    "Oh no, <Actor0.name> is fucking my <Dating.boyfriend_or_girlfriend> <Dating.name>. Unprotected vaginal sex, no less ..."
+    Dating:: "Honey, you're finally home ..."
+    animatePair(Actor0, Dating, Vaginal)
+    Dating:: "I hope you don't mind watching ... after all, you didn't mind cheating on me and impregnating another <Actor0.man_or_woman>'s <Actor1.boyfriend_or_girlfriend> ..."
+    animatePair(Actor0, Dating, Vaginal)
+    Actor0:: "Revenge is sweet ..."
+    Sex(Actor0, Dating)
+    SceneEnd()
+    timeout(500, impregnation_revenged)

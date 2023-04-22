@@ -1,0 +1,199 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // You no longer have to wait in-game months to take the final exams. Instead, you have to attend at least 30 lectures between each attempt at the final exams. Your current performances in the subjects will now have the biggest impact when you're taking the final exams.
+    
+    SceneStart()
+    LectCount = Player.getActorVar(tag_LectCount)
+    If LectCount < 30
+        Left = 30 - LectCount
+        "I haven't attended enough lectures to meet the minimum requirement to take the final exams right now. I need to attend <Left> more lectures."
+    Else
+        "Am I sure I'm ready to take the final exams now?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            clearGetList()
+            
+            timeoutPrecise(720, take_final)
+            
+            Actor2 = getSpecific(Dating)
+            If Actor2.isValid()
+                Actor2.dress()
+            Endif
+            
+            "Yes, I think I'm ready ..."
+            tot = 0
+            
+            dressFormal()
+            count = 0
+            Actor = getSpecific(Lecturer)
+            While Actor.isValid()
+                count += 1
+                Actor.dress()
+                secondScreen(Actor)
+                Actor.show()
+                "The next exam is for the <Actor.major> subject, to be marked by Dr <Actor.name> <Actor.name_last>."
+                secondScreen()
+                "I've done all the revisions I could for it. The only thing left now is to take the exams. I hope that my effort pays off ..."
+                Perform = Actor.getActorVar(tag_perform)
+                cur = karma*Random(0, 0.25) + Perform*0.66 + intelligence*0.33
+                If cur > 100
+                    cur => 100
+                Endif
+                
+                If cur > 95
+                    "I came out of the exam delighted. I absolutely nailed it for sure. Could easily be a perfect score even." 
+                Elseif cur > 80
+                    "I'm quite confident that I did very well there. I was well-prepared for all the questions." 
+                Elseif cur > 65
+                    "I think you should easily pass that, but some of the questions were more challenging than I expected."
+                Elseif cur > 50
+                    "Well, that definitely wasn't a cakewalk, I think I probably did just enough to pass though."
+                Else
+                    "Damn, it turned out I was quite ill-prepared for that exam. A lot of things came up that I didn't revise for. Pretty sure I failed."
+                Endif
+                
+                Slave = Actor.getActorVar(tag_Slave)
+                
+                If Slave > 0
+                    "Of course, I have nothing to worry about as the marker of this exam paper, Dr <Actor.name> <Actor.name_last>, has completely submitted to me and accepted me as <Actor.his_or_her> <Player.Master_or_Mistress>."
+                    "My obedient little slave wouldn't dare to give me anything but a good grade for this."
+                    If cur < 70
+                        cur => Random(70, 100)
+                    Endif
+                Else                
+                    "Now that I finished the <Actor.major> exam and have a rough idea how well I did, maybe I should plan in advance and try to intervene in the result? After all, I could visit the marker of this exam, Dr <Actor.name> <Actor.name_last>, in <Actor.his_or_her> office ..."
+                    0:: "Offer to fuck Dr <Actor.name> <Actor.name_last> for a better mark"
+                    1:: Actor2.isValid():: "Offer my <Actor2.boyfriend_or_girlfriend> <Actor2.name>'s body for a better mark"
+                    2:: "Do nothing"
+                    
+                    If 2
+                        karma += 2
+                    Elseif 0
+                        Actor.show()
+                        If Actor.hadSex() || [Random(50, 75) < Actor:perversion && Random(0, 25) < Actor:attractiontoplayer && Actor.isInterestedIn(Player)]
+                            Actor:: "I really should be impartial, my entire academic career could be at risk if the university ever finds out ..."
+                            Actor:: "But I just can't resist you ..."
+                            Sex(Player, Actor)
+                            cur *= 1.33
+                            If cur < 50
+                                cur => Random(50, 60)
+                            Elseif cur > 100
+                                cur => 100
+                            Endif
+                        Else
+                            Actor:: "I don't know what you're talking about. Now if you excuse me, I have some exam papers to mark."
+                            "Unfortunately, Dr <Actor.name> <Actor.name_last> played dumb and ignored my offer. Oh well, at least, <Actor.he_or_she> didn't want to make a big deal of it and report my behavior ..."
+                        Endif
+                    Else
+                        "I managed to convince <Actor2.name> to do it as after all, successful attainment of a university degree may have a big long-term impact on our financial future together."
+                        Actor.show()
+                        Actor2.show()
+                        If Actor.hadSex() || [Random(50, 75) < Actor:perversion && Random(25, 75) < Actor2:attractiveness && Actor.isInterestedIn(Actor2)]
+                            Actor:: "I really should be impartial, my entire academic career could be at risk if the university ever finds out ..."
+                            Actor:: "But I just can't resist your <Actor2.handsome_or_beautiful> <Actor2.boyfriend_or_girlfriend> here ..."
+                            Sex(Actor, Actor2)
+                            masochist += 2
+                            cur *= 1.33
+                            If cur < 50
+                                cur => Random(50, 60)
+                            Elseif cur > 100
+                                cur => 100
+                            Endif
+                        Else
+                            Actor:: "I don't know what you're talking about. Now if you excuse me, I have some exam papers to mark."
+                            "Unfortunately, Dr <Actor.name> <Actor.name_last> played dumb and ignored my offer. Oh well, at least, <Actor.he_or_she> didn't want to make a big deal of it and report my behavior ..."
+                        Endif                
+                    Endif
+                Endif
+
+                
+                "Eventually, I receive the final result for the <Actor.major> subject. I got a <cur>%."
+                
+                Actor2.hide()
+                Actor.hide()
+
+                
+                tot => tot + cur
+                
+                Actor = getSpecific(Lecturer)  
+            endWhile
+            
+            avg = tot / count
+            
+            "Having taken all the exams for the different subjects, my final average for my degree works out as <avg>%."
+            
+            If avg > 50
+                "Of course, getting a degree is not just getting a piece of paper to open up employment opportunities. I've gained other skills as well having spent so much time improving them as part of my major of <Player.Major> and hanging out among my social circles who tend to have certain personality traits."
+                Maj = getPlayerMajor()
+                 
+                intelligence += avg*0.15
+                "My intelligence has improved."
+                
+                If Maj.isString("Classics") || Maj.isString("Economics") || Maj.isString("Education") || Maj.isString("English") || Maj.isString("Geography") || Maj.isString("Law") || Maj.isString("Music") || Maj.isString("Philosophy") || Maj.isString("Psychology") || Maj.isString("Political Sciences")
+                    interpersonal += avg*0.15
+                    "My interpersonal skill has improved."
+                Endif
+                
+                If Maj.isString("Chemical Engineering") || Maj.isString("Education") || Maj.isString("Medicine") || Maj.isString("Psychology")
+                    fitness += avg*0.15
+                    "My knowledge about health and fitness has improved."
+                Endif
+                
+                If Maj.isString("Architecture") || Maj.isString("Education") || Maj.isString("Geography") || Maj.isString("Law") || Maj.isString("Medicine") || Maj.isString("Music") || Maj.isString("Psychology") || Maj.isString("Political Sciences")
+                    attractiveness += avg*0.15
+                    "I've learned to dress and present myself better."
+                Endif
+                
+                If Maj.isString("Classics") || Maj.isString("Computer Science") || Maj.isString("Education") || Maj.isString("English") || Maj.isString("Geography") || Maj.isString("History") || Maj.isString("Music") || Maj.isString("Philosophy") || Maj.isString("Political Sciences")
+                    music += avg*0.15
+                    "I've become a better musician."
+                Endif
+                
+                If Maj.isString("Classics") || Maj.isString("Education") || Maj.isString("Geography") || Maj.isString("") || Maj.isString("") || Maj.isString("History") || Maj.isString("Music") || Maj.isString("Political Sciences")
+                    dance += avg*0.15
+                    "I've become a better dancer."
+                Endif
+                
+                If Maj.isString("Chemical Engineering") || Maj.isString("Education") || Maj.isString("Geography") || Maj.isString("History") || Maj.isString("Medicine") || Maj.isString("Philosophy")
+                    cooking += avg*0.15
+                    "I've become a better cook."
+                Endif
+                
+                If isModEnabled(vin_Pregnancy) && [Maj.isString("Chemical Engineering") || Maj.isString("Education") || Maj.isString("Geography") || Maj.isString("Mathematics") || Maj.isString("Medicine") || Maj.isString("Psychology")] 
+                    fertility += avg*0.05
+                    If Player.isMale()
+                        "I now know better how to impregnate a woman."
+                    Else
+                        "I now know better how to get pregnant."
+                    Endif
+                Endif
+            Endif
+        
+            If avg > 80
+                "With that score, I got the highest possible degree classification. This should be one of my unique selling points to potential employers."
+                jobexperience += 40
+                graduate()
+                Player.setActorVar(tag_LectCount, 0)
+            Elseif avg > 65
+                "With that score, I got a decent enough degree classification. Most good job positions ask for this as a minimum so I did enough in that aspect."
+                jobexperience += 25
+                graduate()
+                Player.setActorVar(tag_LectCount, 0)
+            Elseif avg > 50
+                "I barely passed basically. Oh well, at least I got a degree, although I don't think it's anything to boast about in job interviews. It's also below the minimum requirement for even applying for some of the best-paying jobs."
+                jobexperience += 10
+                graduate()
+                Player.setActorVar(tag_LectCount, 0)
+            Else
+                "Unfortunately, I failed my finals. I will have to attend at least 10 more lectures and retake the final exams."
+                Player.setActorVar(tag_LectCount, 20)
+            Endif
+        Endif
+    Endif
+    SceneEnd()

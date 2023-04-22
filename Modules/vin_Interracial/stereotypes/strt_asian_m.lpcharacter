@@ -1,0 +1,8 @@
+// Skin
+SKIN BHairThickness: 100% 0.0
+SKIN BHairstyle: 100% NoHair
+SKIN FHairstyle: 100% NoHair
+
+// Stats
+STAT intelligence: 100% 70.0=>100.0
+STAT interpersonal: 100% 0.0=>30.0

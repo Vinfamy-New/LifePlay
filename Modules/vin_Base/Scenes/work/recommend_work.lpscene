@@ -1,0 +1,112 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // Action where you can encourage an NPC (including your SO) to apply for a position at the company you work for. Your own boss may insist on interviewing your recommendation, going various ways depending on their personalities and whether NTR is enabled
+    
+    SceneStart()
+    "Do I have someone in mind for an open position at my company?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        "Who should I recommend as a new colleague?"
+        selectNpc()
+        Actor = getSelectedNpc()
+        
+        dressFormal()
+        
+        If Actor.isValid()
+            Hired = false
+            Actor.dress()
+            secondScreen(Actor)
+            Actor.show()
+            Actor:: "Thank you for your recommendation. It's indeed quite an interesting position. I'll apply right away."
+            If Random(70, 99) < jobexperience
+                Hired = true
+                "Thanks to my high position at the company, my boss trusts my judgment and didn't even bother to interview <Actor.name> <Actor.himself_or_herself> and just hired <Actor.name> right away."
+            Else
+                "Of course, I'm not the boss of the company myself and therefore can't just make the final decision."
+                secondScreen()
+                Actor.show()
+                Actor2 = getSpecific(Boss)
+                Actor2.dress()
+                Actor2.show()
+                Actor.movetoPerson(Actor2)
+                "My boss insists on interviewing all the candidates, including <Actor.name>. All I could do is to put in a good word and wish <Actor.him_or_her> luck."
+                Player.hide()
+                "Meanwhile, at the interview ..."
+                If Random(50, 150) < Actor:interpersonal + Actor:intelligence
+                    "<Actor.name> didn't need any of my help or any unfair advantage as <Actor.he_or_she> impressed with an impressive CV and great charisma."
+                    Hired = true
+                Elseif isModEnabled(vin_NTR)
+                    If Actor2.isInterestedIn(Actor) && Actor.isInterestedIn(Actor2)
+                        Laid = false
+                        If Actor:perversion > 65 && [OpenRelationship() || !Actor.isDating() || Actor:attractiontoplayer < 10]
+                            Actor:: "Before we begin the interview ..."
+                            Actor:: "I just wanted to say how much this job would mean to me. I'm sure you get a lot of exceptional candidates for such a lucrative position."
+                            Actor:: "I'm afraid I've never been the best at interviews ... Any chance I can show how you my dedication to work and willingness to go the extra mile in a more intimate way than a bunch of boring questions and answers?"
+                            If Actor2:perversion > 50
+                                Actor2:: "Well, I guess the world is changing and we should allow candidates to show their suitability for the job in whatever way they're most comfortable with ..."
+                                Laid = true
+                            Else
+                                Actor2:: "I'm sorry, but these 'boring questions and answers' as you call them are a crucial part of the process and we must be fair and professional to all candidates."
+                                Laid = false
+                            Endif
+                        Elseif Actor2:perversion > 50
+                        If Actor:perversion > 65 && [OpenRelationship() || !Actor.isDating() || Actor:attractiontoplayer < 10]
+                            Actor2:: "Before we begin the interview ..."
+                            Actor2:: "I just wanted to warn you how important this position is to the company, hence the pay. I'm sure you realize we get a lot of exceptional candidates for such a lucrative position."
+                            Actor2:: "I'm afraid you barely made the shortlist and it would take a miracle at this interview to outperform some of the candidates I've already interviewed ... So, any chance you can show me your dedication to work and willingness to go the extra mile in a more intimate way than a bunch of boring questions and answers?"
+                            If Actor:perversion > 40
+                                Actor:: "I guess I can do that ... I really need this job ..."
+                                Laid = true
+                            Else
+                                Actor2:: "I'm sorry, but I don't mind the 'boring questions and answers' as you call them. I don't mind being judged like any other candidates, even if it means I'll not succeed."
+                                Laid = false
+                            Endif                            
+                        Endif
+                        
+                        If Laid
+                            "Making sure first that no-one was near the interview room, the boss closes the shades and locks the door before enthusiastically moving towards this very cooperative candidate."
+                            Sex(Actor2, Actor)
+                            
+                            Actor2:: "That was amazing, baby. I'm sure you'll make a fine addition to this company, having demonstrated your absolute dedication to work."
+                            Actor2:: "Expect to receive a generous job offer soon."
+                            Hired = true
+                        Else
+                            "The interview didn't go too well. <Actor.name>'s CV wasn't that suited to the position and <Actor.his_or_her> personality didn't really shine through either."
+                            Hired = false
+                        Endif
+                    Else
+                        Hired = false
+                    Endif
+                Else
+                    "The interview didn't go too well. <Actor.name>'s CV wasn't that suited to the position and <Actor.his_or_her> personality didn't really shine through either."
+                    Hired = false
+                Endif
+            Endif
+            
+            
+            If Hired
+                "In the end, <Actor.name> was hired for the position and became the latest addition to my company."
+                Actor.addColleague()
+                If Actor:jobexperience > jobexperience + 30
+                    "In fact, since <Actor.name> already had a lot of experience, <Actor.his_or_her> position in the company starts off much higher than me."
+                Elseif jobexperience > Actor:jobexperience + 30
+                    "In fact, due to our existing association, the boss decided that it would be best to place <Actor.name> as one of my subordinates."
+                Else
+                    "<Actor.name>'s new position is roughly on the same seniority level as me and I imagine there's not too much difference between our salaries."
+                Endif
+            Else
+                "In the end, <Actor.name> wasn't hired for this position as the company opted for someone else. I guess maybe we're not meant to be colleagues after all."
+            Endif
+            
+            Player.show()
+        Else
+            "I couldn't think of anyone."
+        Endif
+    Endif
+    SceneEnd()

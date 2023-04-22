@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Dating = getSpecific(Dating); Actor = Dating.getBabyDaddy(); Actor2 = Actor.getRelatedPerson(Spouses, Dating); If Dating.isPregnant() && !Actor.isSameAs(Player) && !Actor2.isMale()
+OTHER: !OpenRelationship()
+
+    // And vice versa if some other guy impregnates your SO first.
+    SceneStart()
+    Dating.dress()
+    Dating.show()
+    "<Dating.name> finally broke down and confessed to me that the baby she was carrying wasn't mine ..."
+    "It was <Actor.name> that impregnated her. I bet <Actor.his_or_her> <Actor2.husband_or_wife> <Actor2.name> has no idea ..."
+    0:: "Take revenge by trying to impregnate <Actor2.name>"
+    1:: "Forget it"
+    
+    If 0
+        Dating.hide()
+        setBackgroundCustom(livingroom)
+        Actor2.dress()
+        Actor2.show()
+        "I took advantage of <Actor.name> being at work to come to <Actor.his_or_her> apartment and told <Actor2.name> everything ..."
+        "Hurt by the betrayal, <Actor2.name> agreed to take revenge on <Actor.name> together with me ..."
+        Actor2.strip()
+        Player.strip()
+        Actor2.setWantsBabies(true)
+        Player.setWantsBabies(true)
+        "We started to fuck, unprotected of course ..."
+        animatePair(Player, Actor2, Vaginal)
+        Actor.show()
+        "<Actor.name> eventually came home, just in time ..."
+        animatePair(Player, Actor2, Vaginal)
+        Actor:: "What the fuck?"
+        Actor2:: "Honey, you're finally home ..."
+        animatePair(Player, Actor2, Vaginal)
+        Actor2:: "I hope you don't mind watching ... after all, you didn't mind cheating on me and impregnating another <Player.man_or_woman>'s <Dating.boyfriend_or_girlfriend> ..."
+        animatePair(Player, Actor2, Vaginal)
+        Player:: "Revenge is sweet ..."
+        Sex(Player, Actor2)   
+    Endif
+    SceneEnd()
+    timeout(500, impregnation_revenge)

@@ -1,0 +1,104 @@
+work
+university, bank, work, jewellery, travel_agency
+Classic-Office-Heels_1_F, Classic-Office-Suit_1_F; Fashion-Office-Dress_1_F, Fashion-Office-Jacket_1_F, Fashion-Office-Heels_1_F; Office-Outfit-Shirt_1_F, Office-Outfit-Short-Heels-Pumps_1_F, Office-Outfit-Skirt_1_F; Business-Overcoat-Skirt_1_F, Business-Overcoat-Tights_1_F, Business-Overcoat-Top_1_F, Business-Overcoat-Coat_1_F, Office-Outfit-Short-Heels-Pumps_1_F; HC-Business-Jacket_1_F, HC-Business-Top_1_F, HC-Business-Pants_1_F, Office-Outfit-Short-Heels-Pumps_1_F
+HC-Business-Top_1, HC-Business-Pants_1, HC-Business-Tie_1, Style-Goals-Shoes_1, HC-Business-Jacket_1
+
+nightclub
+art, bag, clothes, department_store, nightclub, shoes
+Office-Outfit-Vest_1_F, Office-Outfit-Skirt_1_F, Office-Outfit-Short-Heels-Pumps_1_F, Office-Outfit-Shirt_1_F
+HC-Business-Top_1, HC-Business-Pants_1, HC-Business-Tie_1, Style-Goals-Shoes_1, HC-Business-Vest_1
+
+library
+books, community_centre, copyshop, furniture, gift, library, newsagent, photo, post_office, stationery, tobacco
+Office-Outfit-Skirt_1_F, Office-Outfit-Shirt_1_F, Office-Outfit-Short-Heels-Pumps_1_F; Office-Attire-Camisole_1_F, Office-Attire-Skirt_1_F, Office-Outfit-Short-Heels-Pumps_1_F; BMS-Office-Heels_1_F, BMS-Office-Skirt_1_F, BMS-Office-Top_1_F; Office-Uniform-Skirt_1_F, Office-Uniform-Top_1_F, Office-Outfit-Short-Heels-Pumps_1_F; HC-Business-Pants_1_F, HC-Business-Top_1_F, Office-Outfit-Short-Heels-Pumps_1_F; Office-Outfit-Short-Heels-Pumps_1_F, Business-Overcoat-Top_1_F, Business-Overcoat-Skirt_1_F
+HC-Business-Top_1, HC-Business-Pants_1, Style-Goals-Shoes_1
+
+hotel
+hotel, theatre, cinema
+Uniform-Hotel-Jacket_1_F, Uniform-Hotel-Skirt_1_F, Uniform-Hotel-Cap_1_F, Office-Outfit-Short-Heels-Pumps_1_F
+HC-Business-Top_1, HC-Business-Pants_1, HC-Business-Tie_1, Style-Goals-Shoes_1, HC-Business-Vest_1
+
+convenience
+confectionery, convenience, musical_instrument, pet, toys, variety_store
+FG-TShirt_1_F, City-Limits-Jeans_1_F, Gym-Brat-Shoes_1_F
+Backyard-Bbq-T-Shirt_1, Kso-Jeans_1, Bbj-Sneakers_1
+
+car
+car, bicycle, doityourself, electronics, motorcycle
+Uniform-Mechanic-Coverall_1_F, Uniform-Mechanic-Top_1_F, Sport-Shoes_1_F
+Uniform-Mechanic-Coverall_1, 27-Hours-Shoes_1
+
+restaurant
+alcohol, bar, beverages, cafe, coffee, deli, florist, greengrocer, pub, restaurant, supermarket, tea
+Uniform-Waiting-Formal_1_F, Uniform-Waiting-Formal-Belt_1_F, Brynn-Slipons_1_F
+Groom-Shirt_1, Groom-Shoes_1, Groom-Slacks_1
+
+fast_food
+fast_food, ice_cream
+Uniform-Waiting-Casual_1_F, Jiwoo-Leather-Sandals_1_F
+Backyard-Bbq-T-Shirt_1, Kso-Jeans_1, Bbj-Sneakers_1
+
+butcher
+bakery, butcher, seafood
+Uniform-Chef_1_F, Sports-Uniform-Shoes_2_F
+Backyard-Bbq-Apron_1, Backyard-Bbq-Pants_1, Backyard-Bbq-Shoes_1, Backyard-Bbq-T-Shirt_1
+
+biergarten
+biergarten
+Oktoberfest-Dress_1_F, Oktoberfest-Stockings_1_F, Casual-Sweater-Heels-Boots_1_F
+Groom-Shirt_1, Groom-Shoes_1, Groom-Slacks_1
+
+computer
+computer, cinema, mobile_phone
+Gamer-Girl-Bottom_1_F, Gamer-Girl-Top_1_F, Summer-Style-Sandals_1_F
+Backyard-Bbq-T-Shirt_1, Kso-Jeans_1, Bbj-Sneakers_1
+
+doctor
+doctor, hospital, dentist, optician, chemist, pharmacy, veterinary
+Uniform-Doctor-Coat_1_F, HC-Business-Top_1_F, HC-Business-Pants_1_F, Office-Outfit-Short-Heels-Pumps_1_F, Uniform-Nurse-Cap_1_F
+Uniform-Doctor-Coat_1, Smart-and-Suave-Shoes_1, Backyard-Bbq-Pants_1, Intimate-Tanktop_1
+
+nurse
+doctor, hospital, dentist, optician, veterinary, beauty, cosmestics, hairdresser, laundry
+Uniform-Nurse-Cap_1_F, Uniform-Nurse_1_F, Brynn-Slipons_1_F
+Uniform-Doctor-Coat_1, Smart-and-Suave-Shoes_1, Backyard-Bbq-Pants_1, Intimate-Tanktop_1
+
+marketplace
+marketplace, garden_centre, outdoor
+Betty-Lou-Boots_1_F, City-Limits-Jeans_1_F, Warm-Winter-Jacket_1_F, Simple-Knit-Cap_1_F
+Bbj-Bomber-Jacket_1, Simple-Knit-Cap_1, Wardrobe-Super-Jeans_1, Hot-Shot-Boots_1
+
+place_of_worship
+place_of_worship
+Uniform-Nun-Dress_1_F, Uniform-Nun-Veil_1_F, Traditional-Shoes_1_F
+Priest-Robe_1, Grumpy-Shoes_1; Grumpy-Shoes_1, Vicar-Pants_1, Vicar-Top_1
+
+police
+police, prison
+Uniform-Police_1_F, Uniform-Police-Cap_1_F, Jill-Valentine-Boots_1_F
+Uniform-Police-Top_1, Uniform-Police-Pants_1, Uniform-Police-Cap_1, Urban-Ace-Shoes_1
+
+prison
+prison
+Uniform-Prison-Bottom_1_F, Uniform-Prison-Top_1_F, Sport-Shoes_1_F
+Prison-Inmate-Boots_1, Prison-Inmate-Coverall_1; Prison-Inmate-Boots_1, Uniform-Prison-Suit_1, Uniform-Prison-Top_1
+
+sexwork
+brothel, stripclub
+Mtt-Peek-Bodysuit_1_F, Burlesque-Heels_1_F; Burlesque-Heels_1_F, Angel-Secrets-2-Body_1_F; Burlesque-Heels_1_F, Sexy-Leather-Bodysuit_1_F; Burlesque-Heels_1_F, Jmr-Bodysuit_1_F; Burlesque-Heels_1_F, Jmr-Es-Bodysuit_1_F; Burlesque-Heels_1_F, LilFlame-See-Me-Suit_1_F; Burlesque-Heels_1_F, See-Me-Suit_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, Crop-Fishnet-T-Shirt_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, Hot-Stappy-Strappy_1_F; Burlesque-Heels_1_F, FGHM-Nighty_1_F; Burlesque-Heels_1_F, FG-Nighty_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, I3d-Low-Cut-Top_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, I3d-Sexy-Tank-Top_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, I3d-Shirt_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, I3d-Tank-Top_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, Jmr-Top_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, Jmr-Top_2_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, Kaleya-Croptop_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, LilFlame-Pure-Chance-Shirt_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, Passion-Touch-Lingerie-Top_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, After-Midnight-Top_1_F; Burlesque-Heels_1_F, Alluring-Skirt_1_F, Wiesnlook-Undershirt_1_F; Burlesque-Stockings_1_F, Burlesque-Heels_1_F, Burlesque-Bustier_1_F, Burlesque-Bra_1_F
+Manly-Leggings_1, Pack-Leader-Jacket_1, Hot-Shot-Boots_1
+
+sports
+sports, sports_centre
+Training-Wear-Hoodie_1_F, Sport-Pants_1_F, Gymwear-Sneakers_1_F
+Workout-Sneakers_1, Workout-Tank_1, Workout-Shorts_1
+
+crime
+crime
+Special-Criminal-Mask_1_F, Slim-Fit-Jacket_1_F, Sport-Pants_2_F, Sport-Shoes_1_F
+Special-Criminal-Mask_1, 27-Hours-Shoes_1, Cyber-Decker-Jacket_1, Urban-Streetwear-Jeans_1
+
+wedding
+wedding
+Special-Wedding-Dress_1_F, Wedding-Earrings_1_F, Sexy-Little-Heels_1_F
+Groom-Jacket_1, Groom-Shirt_1, Groom-Shoes_1, Groom-Slacks_1

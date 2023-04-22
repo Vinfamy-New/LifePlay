@@ -1,0 +1,188 @@
+WHAT: all
+WHERE: work
+WHEN: 0-24
+WHO: Actor = getSpecific(Boss); If Actor.isInterestedIn(Player) && Random(30, 100) < Actor:perversion && Player.isInterestedIn(Actor)
+OTHER: Random(30, 100) < perversion
+
+    SceneStart()
+    count = nsfw_count.getGlobal()
+    Actor.dress()
+    Actor.show()
+    Arrested = false
+    If count < 3
+        Actor.hide()
+        "While at your desk you begin to feel horny and very naughty. You decide to use your computer to look for some porn. But you are feeling so naughty that you decide to look for bestiality. You know wrong and it's a massive risk. Should you?"
+        0:: "THINK BETTER OF IT"
+        1:: "LOOK FOR BEAST PORN"
+        
+
+        If 0
+            count -= 1
+            "You decide it's not worth the risk. What the hell were you thinking?"
+        Else
+            "You decide to go for it. What's the worst that could happen?"
+            setBackground(home)
+            Player.hide()
+            "This scene should be good ..."
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isFemale()
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor3 = generateCreatureTemporary(Dog)
+            Sex(Actor3, Actor2)
+            Actor2.hide()
+            Actor3.hide()
+            setBackground(shower)
+            Player.show()
+            "Watching the videos makes you so horny that you pop to the toilet to masturbate."
+            Filter(Solo)
+            Sex(Player)
+            setBackground(work)
+            "At last you get back to your desk and start working again. You hope that none of your colleagues notice how hot and flushed your face is."
+        Endif
+        
+    Elseif count == 3 // First
+        "You are busy working away when your boss calls you into <Actor.his_or_her> office. You feel nervous and you wonder what <Actor.he_or_she> wants to see you about."
+        setBackground(bank)
+        Actor:: "Come in <Player.name> and take a seat. There's no easy way to say this so I'll just get straight to the point. I've been monitoring everyone's internet usage. You had the highest rate of non-work related traffic so I decided to look at your browser history. I'm sure you can guess what I found. Now before we go any further, I just want you to know that if you agree, we can handle this between ourselves. Or, I can get the police involved and I'm sure you realise what the implications of that are. What would you prefer to do?"
+        0:: "GET THE POLICE INVOLVED"
+        1:: "ACCEPT YOUR BOSS'S OFFER"
+        
+        If 0
+            "You decide it's better not to make things any worse than they already are."
+            Arrested = true
+        Else
+            "You can't afford to lose your job or, even worse, go to prison. You decide to accept the offer your boss made."
+            Actor:: "You've made the right decision. Now it's time for you to demonstrate how much you appreciate me for not having you sacked and arrested."
+            Sex(Actor, Player)
+        Endif
+        
+    Elseif count == 4 // Second
+        setBackground(bank)
+        Actor2 = generatePersonTemporary()
+        Actor2.dress()
+        Actor2.show()
+        Actor:: "Come in <Player.name>. As you can see, I've brought a friend with me today. I want you to show us both how much you appreciate your job and your liberty."
+        0:: "DISAGREE"
+        1:: "AGREE"
+        
+        If 0
+            "This has gone too far and it's time for this madness to end. Being sacked and unemployed is better than selling your soul."
+            Arrested = true
+        Else
+            "You don't want to admit it to yourself, but deep down you enjoyed being coerced into having sex with your boss. And now you are going to do something even naughtier. You feel very, very horny."
+            Sex(Actor2, Actor, Player)
+
+            Actor:: "You have done very well <Player.name>, I hope you have enjoyed yourself as much as I have. I shall look forward to our next meeting... close the door behind you, there's a good <Player.boy_or_girl>." 
+            "You then go back to your desk and hope that your colleagues don't know what's been going on in that office."
+        Endif
+
+    Elseif count == 5 // Third
+        setBackground(bank)
+        Actor2 = generateCreatureTemporary(Dog)
+        While !Actor2.isMale()
+            Actor2 = generateCreatureTemporary(Dog)
+        Endwhile
+        Actor2.show()
+        Actor:: "Come in <Player.name>. As you can see, I've brought a dog with me today. I want you to show the dog how much you appreciate for job and your liberty."
+        0:: "DISAGREE"
+        1:: "AGREE"
+        
+        If 0
+            "This has gone too far and it's time for this madness to end. Being sacked and unemployed is better than selling your soul."
+            Arrested = true
+        Else
+            "You don't want to admit it to yourself, but deep down you enjoyed being coerced into having sex with your boss and his guest. And now you are going to do something even naughtier. You feel very, very horny."
+            Sex(Actor2, Player)
+
+            Actor:: "You have done very well (PC name). I enjoyed myself and the dog did too. I hope you took some pleasure from being fucked by the dog... you certainly seemed to be having a good time! I shall look forward to our next meeting... close the door behind you, there's a good <Player.boy_or_girl>." 
+            "You then go back to your desk and hope that your colleagues don't know what's been going on in that office."
+        Endif
+
+    Elseif count == 6 // Fourth
+        setBackground(bank)
+        Actor2 = generateCreatureTemporary(Dog)
+        While !Actor2.isMale()
+            Actor2 = generateCreatureTemporary(Dog)
+        Endwhile
+        Actor2.show()
+        Actor:: "Come in (PC name) as you can see, I've brought a dog with me again today. This time, I want you to show both me and the dog how much you appreciate your job and your liberty."
+        0:: "DISAGREE"
+        1:: "AGREE"
+        
+        If 0
+            "This has gone too far and it's time for this madness to end. Being sacked and unemployed is better than selling your soul."
+            Arrested = true
+        Else
+            "You don't want to admit it to yourself, but deep down you enjoyed being coerced into having sex with your boss and his guest. And now you are going to do something even naughtier. You feel very, very horny."
+            Sex(Actor2, Actor, Player)
+
+            Actor:: "You have done very well (PC name). I enjoyed myself and the dog did too. I hope you took some pleasure from being fucked by the dog... you certainly seemed to be having a good time! I shall look forward to our next meeting... close the door behind you, there's a good <Player.boy_or_girl>." 
+            "You then go back to your desk and hope that your colleagues don't know what's been going on in that office."
+        Endif
+    
+    Else // Fifth, Repeatable
+        Actor2 = generateCreatureTemporary(Dog)
+        While !Actor2.isMale()
+            Actor2 = generateCreatureTemporary(Dog)
+        Endwhile
+        Actor2.show()
+        Actor3 = getSpecific(Colleague)
+        While Actor3.isValid()
+            Actor3.dress()
+            Actor3.show()
+            Actor3.animate()
+            Actor3.moveToPersonStand(Actor)
+            Backup = Actor3
+            Actor3 = getSpecific(Colleague)
+        Endwhile
+        Actor:: "Come in <Player.name> as you can see, I've brought a dog with me again today. This time, I want you to show the whole office how much you appreciate your job and your liberty."
+        0:: "DISAGREE"
+        1:: "AGREE"
+        
+        If 0
+            If count > 7
+                "You just don't feel in the mood today. Your boss understands though, so you don't have to worry about being sacked or imprisoned."
+            Else
+                "This has gone too far and it's time for this madness to end. Being sacked and unemployed is better than selling your soul."
+                Arrested = true
+            Endif
+        Else
+            If count > 7
+                "You don't want to admit it to yourself, but deep down you enjoyed being coerced into performing a live sex show with the dog and your work colleagues. You feel very, very horny and can't wait to be fucked like that all over again!"
+            Else
+                "You don't want to admit it to yourself, but deep down you enjoyed being coerced into having sex with your boss and that dog. And now you are going to do something even naughtier. You feel very, very horny."
+            Endif
+            Sex(Actor2, Player)
+            "One of my colleagues, <Backup.name>, becomes so horny from watching you that <Backup.he_or_she> wants to join in. Should you let them?"
+            0:: "No, end this madness for good"
+            1:: "Yes"
+            
+            If 0
+                "You've already gone far enough with this now. Fortunately your boss decides not to sack you or call the police. At last, <Actor.he_or_she> has no power over you. You are free to get back to living a normal life."
+                count => -1
+            Elseif 1
+                "You're so fucking horny that you just can't say 'no' to anything!"
+                Sex(Actor2, Backup, Player)
+                Actor:: "You have done very well <Player.name>. I enjoyed myself, the dog did too, and so did the whole office. I hope you took some pleasure from being fucked by me, the dog and your colleagues.... you certainly seemed to be having a good time! I shall look forward to our next meeting... close the door behind you, there's a good <Player.boy_or_girl>." 
+                "You then go back to your desk, not caring that the whole office is talking about you."
+            Endif
+        Endif
+    Endif
+
+    If Arrested
+        "First your boss sacks you on the spot. Then <Actor.he_or_she> calls the police."
+        loseJob()
+        sentence => 30
+        followUp(imprisoned)
+        count => -1
+    Endif
+    
+    count += 1
+    nsfw_count.setGlobal(count)
+    If count < 4
+        timeoutPrecise(96, dd_nsfw_cms)
+    Else
+        timeoutPrecise(240, dd_nsfw_cms)
+    Endif
+    SceneEnd()

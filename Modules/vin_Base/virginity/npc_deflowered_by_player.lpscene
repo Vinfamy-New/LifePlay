@@ -1,0 +1,63 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    Actor = getSpecific(PassedOn)
+    Actor.dress()
+    Actor.show()
+    Actor.moveToPerson(Player)
+    Raped = Actor.getActorVar(tag_Raped)
+    If Raped > 0
+        // If you've used rap music to take someone's virginity, they have a different reaction than normal. If they have very low perversion and somewhat high submissiveness, they may confess they were saving for marriage because of a religious family and beg you to marry them or they'll get disowned.
+        If Actor:perversion < 20 && Actor:masochist > 50
+            Actor:: "I was a virgin ... I was saving for marriage ..."
+            Actor:: "I said no ... How could you?"
+            Actor:: "Oh no, my religious family would never understand ... They will think I'm a <Actor.manwhore_or_whore> and lying about being raped."
+            Actor:: "They'll disown me once they've found out I've lost my virginity while being unmarried."
+            Actor:: "Please, even though you forced yourself on me, don't leave me and disappear from my life ..."
+            Actor:: "Please ... marry me ... that's the only way my family will continue to accept me."
+            0:: "Take my prize and marry <Actor.him_or_her>"
+            1:: "Walk away"
+            
+            If 0
+                "I couldn't believe my luck. Most rapists end up in jail. I ended up deflowering someone who then begged me to marry <Actor.him_or_her>. It's like having a cake and eating it at the same time."
+                exchangeContact(Actor)
+                Actor.setDating()
+                Actor.setActorVar(tag_Married, 1)
+                getMarried()
+                "We ended up having a rushed shotgun marriage to please <Actor.his_or_her> religious family."
+                "To me of course, <Actor.he_or_she>'s nothing more than a conquest from my raping exploits."
+            Endif
+        Else
+            Actor:: "How could you? It was my first time."
+            Actor:: "You robbed me of my virginity. I was saving it for someone special."
+            "<Actor.name> cried and cried and cried."
+            "I probably should feel bad and I can't help but feel a sense of conquest. Not only did I impose myself and force someone into having sex with me, I was the first to do it and <Actor.his_or_her> partners will all have to make do with sloppy seconds no matter how much love they have."
+            karma -= 20
+        Endif
+    Else
+        Actor(Embarrassed):: "<Player.name>, I have something important to tell you ..."
+        Player(Surprised):: "<Actor.name>, what is it?"
+        Actor(Embarrassed):: "That was my first time ... You're my first ..."
+        0:: "I'm so happy!"
+        1:: "There's a first time for everything ..."
+        2:: "No wonder you were so shit at it!"
+        
+        If 0
+            Player(Happy):: "Oh, <Actor.name>, you have no idea how happy I am to hear that ..."
+            Player:: "I feel like the luckiest <Player.man_or_woman> alive to be your first ..."
+            Player:: "I hope I managed to make it feel as special to you as it was to me."
+            Actor:attractiontoplayer += 50
+            Actor:: "Oh, <Player.name>, you will forever be special in my heart ..."
+        Elseif 1
+            Player(Surprised):: "Oh really? There's a first time for everything, I suppose."
+            "<Actor.name> doesn't look too happy with my carefree response to such a personal revelation. Maybe <Actor.he_or_she> is regretting giving up <Actor.his_or_her> virginity to me already."
+        Else
+            Player:: "And it showed! You were like a dead fish the whole time! You clearly need more practice!"
+            "<Actor.name> is visibly upset with my insulting response to such a personal revelation. Maybe <Actor.he_or_she> is regretting giving up <Actor.his_or_her> virginity to me already."    
+        Endif
+    Endif
+    SceneEnd()

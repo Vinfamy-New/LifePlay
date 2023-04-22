@@ -1,0 +1,25 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Dating); If Actor.isRace(Orc)
+OTHER: none
+
+    SceneStart()
+    "I'm currently in a relationship with <Actor.name>, an Orc. While <Actor.he_or_she> is somewhat more civilized than your steoreotypical Orc, it's pretty obvious that some of <Actor.his_or_her> violent and dominant side is still in there somewhere. It shows the most during sex ... <Actor.name> loves to dominate and be rough."
+    0:: "Indulge <Actor.him_or_her> with some rape roleplay tonight"
+    1:: "<Actor.He_or_She> should try and abandon that primitive nature"
+    
+    If 0
+        If Player.isMale() && !Actor.isMale()
+            Filter(AggressiveFM)
+        Else
+            Filter(Aggressive)
+        Endif
+        TalkNonConsensual()
+        Sex(Actor, Player)
+        Actor:attractiontoplayer += 1
+    Else
+        Sex(Actor, Player)
+    Endif
+    SceneEnd()
+    timeout(300, orc_agg_roleplay)

@@ -1,0 +1,131 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: none
+OTHER: PercentageElves > 0 || PercentageOrcs > 0
+
+    // You came across an orc or elf running from their inbreeding tribe. You can hand them over, pay for their freedom, threaten to prompt a goverment investigation upon that tribe's illegal practices, or if a certain module is enabled, show the runaway how it's done.
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "I come home only to find a stranger hiding in my living room"
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    endWhile
+    Actor:age => Random(18, 20)
+    Actor:attractiveness => Random(70, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    If PercentageElves > 0 && PercentageOrcs > 0        
+        Random
+            Actor.blendPreset(Elf)
+            Actor.blendPreset(Orc)
+        endRandom
+    Elseif PercentageElves > 0
+        Actor.blendPreset(Elf)
+    Else
+        Actor.blendPreset(Orc)
+    Endif
+    Actor.dress()
+    Actor.show()
+    
+    If Actor.isRace(Elf)
+        "What's even more unusual: it's a young elven <Actor.man_or_woman>."
+    Else
+        "What's even more unusual: it's a young orc <Actor.man_or_woman>."
+    Endif
+    Player:: "You're trespassing. Get out before I call the cops!"
+    Actor:: "Please, don't make too much noise. I'm running away from my inbreeding tribe. They're forcing me to marry my <Actor.sister_or_brother>."
+    If isModEnabled(vin_Incest)
+        Actor2 = getRelative()
+        While Actor2.isValid() && !Actor2.hadSex()
+            Actor2 = getRelative()
+        endWhile
+    Endif
+    "Just as <Actor.name> finishes explaining <Actor.his_or_her> situation, I could hear <Actor.his_or_her> tribespeople arriving to catch <Actor.him_or_her>."
+    0:: "Hand <Actor.him_or_her> over"
+    1:: "Offer to pay for <Actor.name>'s freedom"
+    2:: interpersonal + intelligence > 130:: "Threaten to expose the tribe"
+    3:: Actor2.isValid():: "Show <Actor.him_or_her> the passion of incest with my <Actor2.relationship>!"
+    
+    If 0
+        "This is none of my business."
+        "I easily let <Actor.his_or_her> tribespeople in to catch <Actor.him_or_her>, no doubt to be be prepared for the wedding soon."
+        "They were even happy to with my cooperation enough to pay me a small amount for keep quiet about their lifestyle."
+        money += 50
+    Elseif 3
+        // you can now convince them to go back to their tribe by showing your own 'family values'. You then receive a thank you letter from the new couple, whom you can choose to invite over once more.
+        "Actually, I know just how to resolve this in peace. I happen to agree with the tribe's inbreeding practice. In fact, I've been sleeping with my own <Actor2.relationship> myself."
+        "I offer a bit of reassurance to the young <Actor.groom_or_bride>-to-be by showing off our own experience in the art of incest."
+        Player:: "Look, your tribe's inbreeding tradition isn't a bad thing. It's nothing wrong to marry someone you're related to. Incest is wincest."
+        Player:: "Just watch how passionate my <Actor2.relationship> and I are with each other."
+        Actor2.dress()
+        Actor2.show()
+        Sex(Player, Actor2)
+
+        "Impressed by the love we show to each other despite being related, the young <Actor.man_or_girl> decided to go back to <Actor.his_or_her> tribe without protest to get married off to <Actor.his_or_her> own <Actor.sister_or_brother>."
+        Actor.hide()
+        "A few months later, I receive a letter from <Actor.him_or_her> attached with the photos of their traditional wedding, thanking me for helping <Actor.him_or_her> making the right decision in marrying <Actor.his_or_her> <Actor.sister_or_brother>. As it turned out, we got along just fine in their marriage life and had incredible chemistry in bed, just like how it turned out between me and my <Actor2.relationship>."
+        "The letter also hinted at a foursome to spice up our respective incest sex lives ..."
+        0:: "Invite the newly wed couple back for a foursome with me and my <Actor2.relationship>"
+        1:: "No, thanks"
+        
+        If 0
+            Actor.show()
+            Actor3 = Actor.generatePersonTemporaryMatchRace()
+            While Actor3.isSameGender(Actor)
+                Actor3 = Actor.generatePersonTemporaryMatchRace()
+            endWhile
+            If Actor.isRace(Elf)
+                Actor3.blendPreset(Elf)
+            Else
+                Actor3.blendPreset(Orc)
+            Endif
+            Actor3.dress()
+            Actor3.show()
+            "My <Actor2.relationship> and I decided to invite the newly married siblings over for some fun"
+            "To start off the show, the young couple was keen to show off their newly discovered passion for each other, which they almost missed out on by going against tradition."
+            Sex(Actor, Actor3)
+            "Now it's time for some incest couple swapping!"
+            If Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+                Sex(Player, Actor)
+            Endif
+            If Player.isInterestedIn(Actor3) && Actor3.isInterestedIn(Player)
+                Sex(Player, Actor3)
+            Endif                    
+            If Actor2.isInterestedIn(Actor) && Actor.isInterestedIn(Actor2)
+                Sex(Actor2, Actor)
+            Endif
+            If Actor2.isInterestedIn(Actor3) && Actor2.isInterestedIn(Actor3)
+                Sex(Actor2, Actor3)
+            Endif   
+        Endif
+    Else
+        karma += 10
+        If 1
+            money -= 1000
+            "It costs a small fortune but I decided to use my wealth in exchange for <Actor.name>'s freedom instead."
+        Else
+            "Using my law knowledge and connections, I threatened to prompt a goverment investigation upon that tribe's illegal practices."
+            "Thinking that <Actor.name> isn't worth attracting authorities' attention, the tribal chief lets this problematic child go free."
+        Endif
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        Actor.makeInterested(Player)
+        Actor:attractiontoplayer += 50
+        Actor:rapportwithplayer += 50
+        Actor:: "Oh my god. You saved me from a lifetime of being married to my own brother ... I'm forever in debt to you ... Please, I have nothing to offer you but my body ..."
+        0:: "Have sex with <Actor.name> as my reward"
+        1:: "It was only the right thing to do"
+        
+        If 0
+            Sex(Player, Actor)
+        Else
+            Player:: "Don't say that ... I didn't help you for any rewards. I just couldn't stand there and do nothing when someone falls into an incest arranged marriage."
+            karma += 50
+        Endif
+        "Now free, <Actor.name> decides to leave the tribal life behind and settle in the city. Of course, <Actor.he_or_she> wanted nothing more than for us to keep in touch."
+    Endif
+    SceneEnd()
+    timeout(500, fantasy_inbreed)

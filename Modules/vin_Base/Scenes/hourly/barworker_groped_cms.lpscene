@@ -1,0 +1,140 @@
+WHAT: work_hourly
+WHERE: restaurant, cafe, biergarten, pub, bar, nightclub
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "Work is quite slow today, with only a few drunk and tired lads hanging out at the bar."
+    "Although it's not good for the business, it's quite laid-back work for me and so I my mood improves and I become especially nice and frisky to the customers."
+    
+    Actor = generatePersonTemporary()
+    While !Actor.isInterestedIn(Player)
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor:perversion => Random(75, 100)
+    Actor:intoxication => Random(25, 100)
+    Actor.dress()
+    Actor.show()
+
+    "Suddenly without a trace of warning a drunk customer gives my as a loud smack!"
+    If !Player.isMale() && !Actor.isMale()
+        animatePair(Actor, Player, Stripsearch)
+    Else
+        animatePair(Actor, Player, Fingering)
+    Endif
+    Actor:: "Tasty meat on the menu here!"
+
+    "Shocked by this sudden assault, my body freezes for a moment, before I can react."
+    0:: "Throw him an angry look, but don't make a scene."
+    1:: "Ignore the incident and go on with your work."
+    2:: "Scold that drunk idiot."
+    3:: "Throw him a smile and press your ass into his hand."
+
+    If 0
+        SituationSettled = false
+        "I throw this <Actor.him_or_her> the gaze of death and curse <Actor.him_or_her>  with my inner voice"
+        Player:: "Don't you dare to try this again!"
+        
+        "The customer seems to be amused."
+        Actor:: "A tasty and feisty! I like it. Haha!" 
+        
+        "I storm off, before I give into the desire to knock out that drunken <Actor.bastard_or_bitch>."
+    Elseif 1
+        SituationSettled = false
+        masochist += 0.5
+        "I take a deep breath, before I go on with my work. I'm not in the position to start a scene."
+        "Let's put up a smile again and serve the next customer..."
+
+        "The rest of the shift is rather uneventful."
+    Elseif 2 
+        masochist -= 0.5
+        SituationSettled = true
+        "I answer this drunk idiot with a similar slap right across his face." 
+        Player(Angry):: "How does this feel dumbass? Not good...?! I thought so! Don't you dare to harass me or my colleagues again, or the next slap knocks you out!"
+        
+        Actor:: "Oh...okay!"
+        
+        "The rest of the shift is rather uneventful and the drunkhead didn't even dare to look in my direction again. I still got what it takes!"
+    Elseif 3
+        SituationSettled = true
+        perversion += 0.5
+        "I press my ass deep into <Actor.his_or_her> hand and let out a sexy moan, while <Actor.he_or_she> gives it another powerful squeeze."
+        Player(flirty)::"Hmmmm..."
+        Actor:: "Now we are talking...You are quite a naughty <Player.boy_or_girl>, aren't you?" 
+        Player(flirty):: "The naughtiest!" 
+        Actor:: "Why don't you take a break from your hard work and join me in the bathroom stalls, then?"
+        0:: "Follow the customer in the bathroom stalls."
+        1:: "This went already to far, go on with your work."  
+        
+        If 0
+            setBackground(toilets)
+            "You wait a few seconds after the customer dissapeared through the bathroom door, before you join <Actor.him_or_her>."
+            Actor:: "What a pleasant suprise. I didn't thought you would really have the guts for that...Let's get it on then!"
+            Sex(Player, Actor)
+        Elseif 1
+            "This is going way to far. You watch the customer as <Actor.he_or_she> dissapears through the bathroom door and for a brief moment you think about what dirty sex you could have right now..."
+            "But you decide better not to risk your job for such a insignificant quickie." 
+        Endif
+    Endif
+
+    If !SituationSettled
+        setBackground(street)
+        "But as I end my shift and get out the staff entrance into the alley, I stumble upon the groping drunk customer." 
+        0:: "I don't want any more trouble. I'll get out there before <Actor.he_or_she> sees me."
+        1:: "Time to teach this brute a lesson"
+
+        If 0
+            "I wait for a good moment and then rush quickly and unnoticed all the way through the dark alley to the main street."
+        If 1
+            "I march towards the drunk idiot and scold <Actor.him_or_her>"
+            Player(angry):: "Hey you! I still need an apology for your disgusting behaviour just lately!"
+            If Actor:masochist < 0
+                "That's not what you really need from me sexy ass. Hehe!" 
+                "I won't apologies for spanking such a fine ass! Hicks...What are you gonna do about it? Beat it out of me?!"
+                0:: "This is going to far, just get out of here."
+                1:: "<Actor.He_or_She> had it coming!"
+                    
+                If 0
+                    Player:: "I won't fight such a lame excuse of a <Actor.man_or_woman> like you. Get home, sleep off your drinking spree and then think about, how pathetic you behaved tonight!"
+                    Actor:: "You are the pathet...Hicks...one here!"
+                    "I turn around and head towards the main street, letting the drunkhead alone in the alley."
+                If 1
+                    Player.animate(martialart)
+                    Actor.animate(martialart)
+                    "My blood boils over and I throw the first punch."
+
+                    If Actor:martial - Actor:intoxication < martial - intoxication
+                        "It only takes a few punches and some failed blocks from the drunk until I manage to get <Actor.him_or_her> to the ground."
+                        "I feel almost no pity for <Actor.him_or_her> , as <Actor.he_or_she>  is whimpering on the cold ground. 
+                        With my work finally done I head home, leaving the drunk in <Actor.his_or_her>  misery."
+                    Else
+                        "To my suprise the drunk still has quite a fine constitution for <Actor.his_or_her> intoxicated state.
+                        With nearly no harm done <Actor.he_or_she> takes my first punches and then counters with quite a hart combo."
+                        Player.animate(fightlost)
+                        "<Actor.His_or_Her>  punches are to much for me to handle and I soon get sent to the ground, by this sheer unbridled force."
+                        "Laying on the floor, unable to move any of my hurting muscles, I watch the drunk building <Actor.himself_or_hersel> up right above me."
+                            
+                        If isModEnabled(vin_NonConsensual)
+                            Actor:: "Haha...That's what happens if you challenge me bitch! Now let's have some fun with your fine body, shall we?"
+                            If Player.isMale() && !Actor.isMale()
+                                Filter(AggressiveFM)
+                            Else
+                                Filter(Aggressive)
+                            Endif
+                            TalkNonConsensual()
+                            SexNoAffair(Actor, Player)
+                            Actor.setActorVar(tag_Rapist, 1)
+                        Else
+                            Actor:: "Haha...You've got a fine ass, but you are a pathetic fighter. Let this be a lesson, and call me if you need a spanking again!"
+                            "With this the drunk turns <Actor.his_or_her> back on me and walks out of the alley."
+                            "A takes a few moments, before I am able to stand up again and move on myself."
+                        Endif
+                    mood => 0
+                    Endif
+                Endif
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(24, barworker_groped_cms)

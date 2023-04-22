@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: vampire_suck
+ACTION_NAME: Suck blood
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: vampire_suck
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && Player.isRace(Vampire)

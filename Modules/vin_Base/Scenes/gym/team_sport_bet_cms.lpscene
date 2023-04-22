@@ -1,0 +1,51 @@
+WHAT: play_a_team_sport
+WHERE: all
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // When playing a team sport, you can bet with the opposing team captain whether your team is going to win or not. You can choose between 50/100/200 bucks. If you win, you get the money, if you lose, you can choose to pay or offer to have sex with the team captain as a form of payment
+
+    SceneStart()
+    "We're about to play a game against one of our fiercest rivals with a team captain that I hate."
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show()
+    "<Actor.name> dared me to a bet whether my team was going to win or not"
+    0:: "Go big on the bet"
+    1:: "Have a moderate bet"
+    2:: "Just a small bet"
+    3:: "No bet"
+    
+    If 3
+        "I decided not to bet this time."
+    Else
+        If 0
+            bet = 200
+        Elseif 1
+            bet = 100
+        Else
+            bet = 50
+        Endif
+        
+        If Actor:fitness < fitness
+            "My team won the match, I won the bet."
+            "The other team captain had no choice but pay up"
+            money += bet
+        Else
+            "My team lost the match, I lost the bet."
+            "The other team captain is now demanding that I pay up"
+            0:: "Pay <Actor.him_or_her>"
+            1:: "Have sex with <Actor.him_or_her> as payment"
+            
+            If 0
+                money -= bet
+            Else
+                Actor:: "Look at you! I'm starting to suspect you lost on purpose."
+                Actor:: "Fine, come, I'll take your alternative payment ..."
+                Sex(Actor, Player)
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, team_sport_bet_cms)

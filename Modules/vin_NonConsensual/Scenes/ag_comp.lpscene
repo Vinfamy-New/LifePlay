@@ -1,0 +1,46 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    "Wow, what a <Actor.handsome_or_beautiful> <Actor.guy_or_girl> standing there."
+    "I want to fuck <Actor.him_or_her> no matter whether <Actor.he_or_she> says yes or not."
+    "Thankfully, I have the perfect accomplice her with me, <Actor2.name>, who's so in love with me that <Actor2.he_or_she> would do anything I ask for."
+    "It's much easier for a stranger to trust <Actor2.name> and let <Actor.his_or_her> guard down than if I just approach <Actor.him_or_her> myself."
+    "Ask for <Actor2.name>'s help to lure <Actor.him_or_her> into a trap for me?"
+    0:: "Yes"
+    1:: "No"
+
+    If 0
+        "I give <Actor2.name> a packet of aphrodisiac and a mission to complete."
+        Actor2.moveToPersonStand(Actor, 50)
+        "<Actor2.name> goes ahead and soon makes friends with the hot stranger, who introduces <Actor.himself_or_herself> as <Actor.name>."
+        masochist -= Random(0, 2)
+        perversion += Random(0, 2)
+        karma -= 10
+        "Soon enough, <Actor2.name> found an opportunity to offer <Actor2.his_or_her> new friend a drink, who gladly accepted not thinking too much about it. <Actor2.He_or_She> was soon back with drinks for both of them. They enjoyed our drinks while having a pleasant conversation. "
+        "A while later ..."
+        "Of course, <Actor2.name> had already snuck the aphrodisiac into <Actor.name>'s drink. <Actor.His_or_Her> speech is becoming slurred now. <Actor.He_or_She> is also starting to sweat with arousal. It seems the drug is taking effect."
+        
+        Actor2:: "You don't look too well ... Let me get you a hotel room nearby so you can stay the night and drive back in the morning. Let me walk you there."
+        Actor:: "Okay ... Thank you so much for taking your time to help me despite us just meeting ... I don't know what's wrong me today. Normally, I can handle my drinks fine."
+        "<Actor2.name> walked <Actor.name> out of there and into the nearest hotel room."
+        "There's where I finally make my entrace"
+        setBackground(home)
+        "<Actor.name> struggled a bit initially, but <Actor.his_or_her> drugged up self was no match for my strength in the end, especially with <Actor2.name> also helping me hold <Actor.him_or_her> down."
+        Player(Flirty):: "Now, let us have some fun, because you're gonna forget all about this in the morning!"
+        "<Actor.name> is so drugged up with aphrodisiac that <Actor.he_or_she> starts begging me to give it to <Actor.him_or_her>."
+        Filter(Aggressive)
+        TalkNonConsensual()
+        SexNoAffair(Player, Actor)
+        
+        If !Actor.isTemporary()
+            Actor.setActorVar(tag_Raped, 1)
+        Endif
+    Else
+        "Actually, this place is too crowded. Others can still see what we're up to."
+    Endif
+    SceneEnd()
+    timeout(250, ag_comp)

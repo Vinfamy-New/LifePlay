@@ -1,0 +1,43 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    // If you have at least 50 rapport with a guy, you could click on him and try to "Convince him to undergo MtF transition". To accept, he either needs >50 submissiveness ("It's who you really are"), or >50 attraction to you, slept with you but not dating you ("It's the only way we could be together officially"), or interested in men and >50 perversion("Think of all the straight guys you could have"). Once he agrees, you can choose whether he'll have bottom surgery or not and suggest a new name.
+
+    SceneStart()
+    "It's a huge life-changing decision for <Actor.name> to transition from male to female so I'd better come up with a convincing argument to tell <Actor.him_or_her>."
+    0:: Actor:masochist > 50:: "It's who you really are"
+    1:: Actor:attractiontoplayer > 50 && Actor.hadSex() && !Actor.isDating():: "It's the only way we could be together officially"
+    2:: Actor.isInterestedInMen() && perversion > 50:: "Think of all the straight guys you could have"
+    3:: "Can't think of anything convincing enough"
+    
+    If 3
+        "To accept, he either needs one out of the following three:"
+        ">50 submissiveness"
+        ">50 attraction to you, slept with you but not dating you"
+        "Interested in men and >50 perversion. You could press Q > 'He Kissed a Guy' to convert a straight guy to be into men."
+    Else
+        "<Actor.name> agreed that a MtF transition is for the best."
+        "Should I suggest <Actor.name> get a bottom surgery during the transition?"
+        0:: "Yes"
+        1:: "Keep the penis"
+        
+        Actor.hide()
+        "That was the last I heard from <Actor.name> for nearly two years, who went abroad for the procedure and its subsequent recovery."
+        
+        Actor.changeSex()
+        If 0
+            Actor.blendPreset(blend_vagina)
+        Else
+            Actor.blendPreset(blend_penis)
+        Endif
+        Actor.randomizeHairs()
+        Actor.strip()
+        Actor.show()
+        "<Actor.name> came back to a country as a woman, the surgeons did a wonderful job. Actually, I shouldn't use the name <Actor.name> anymore, since she's now called ..."
+        Actor.enterFirstName()
+        "<Actor.name> is her new name."
+    Endif
+    SceneEnd()

@@ -1,0 +1,81 @@
+WHAT: whore_out, whore_out_brothel
+WHERE: sexwork, brothel
+WHEN: 0 - 24
+WHO: none
+OTHER: Random(0, 250)*Random(0, 250) < attractiveness*attractiveness
+
+    SceneStart()
+    Dice = Random(150, 750)
+    P1C = Dice.convertToLocalCurrency(true)
+    P2 = Dice/2
+    P2C = P2.convertToLocalCurrency(true)
+    P3 = Dice/3
+    P3C = P3.convertToLocalCurrency(true)
+    Actor = generatePersonTemporary()
+    Actor.dress()
+    Actor.show(2)
+    Actor2 = generatePersonTemporary()
+    Actor2.dress()
+    Actor2.show(3)
+    "Here comes two Johns ..."
+    Actor(Flirty):: "How much for you to have fun with both of us?"
+    0:: "Turn <Actor.him_or_her> down"
+    1:: "Rip <Actor.him_or_her> off (<P1C>)"
+    2:: "Offer a fair price (<P2C>)"
+    3:: "Give <Actor.him_or_her> a bargain (<P3C>)"
+    
+    If 0
+        Player(Sad):: "Sorry, but I'm not working right now ..."
+    Elseif choice*attractiveness > Actor:intelligence + Actor:interpersonal
+        Actor(Flirty):: "It looks like we have a deal, darling."
+        If WHERE == brothel
+            "Soon enough, I was following them to one of the brothel's rooms."
+        Else
+            "Soon enough, I was following them to a nearby motel room."
+            setBackground(home)
+        Endif
+        Sex(Actor, Player, Actor2)
+        If WHERE == brothel
+            BroMu = 10                
+        Else
+            BroMu = 1
+        Endif            
+        If Random(0, 0.5)*Actor:fitness < fitness*BroMu           
+            money => money + Dice/choice
+            
+            If Random(5, 30) < Actor:attractiontoplayer
+                "Aside from our agreed fee, the John also gave me a big tip."
+                money += Dice/choice/2
+                "I can't help but notice how smitten this John has become with me after sex ... looks like <Actor.he_or_she> is going to become a regular customer ..."
+                Actor.makePermanent()
+                Actor.setActorVar(tag_john, 1)
+            Endif
+            
+            If WHERE == brothel
+                "I picked up this John directly from a brothel so I had to pay back a cut of the payment to the house."
+                money => money - Dice/choice/4
+            Endif
+            
+            Illegal = Player.getActorVar(sexwork_illegal)
+            If Illegal > 0
+                If Random(0, 50) < sneak*BroMu
+                    "Even though prostitution is now illegal in this country, I got away with this particular transaction without incident"
+                Elseif Random(0, 100) < 20
+                    "Unfortunately for me, prostitution is illegal in this country and I wasn't sneaky enough."
+                    "As soon as I put my clothes back on, I realized the cops were there waiting for me ..."
+                    sentence => 30
+                    followUp(imprisoned)
+                Endif
+            Endif
+        Else
+            Actor.hide()
+            Actor2.hide()
+            "Oh no, the Johns made a run for it and disappeared before paying me ..."
+            "Damn it! Can't keep working for free like this. Maybe I should improve my fitness in case I need to chase down Johns like this in the future"
+            mood -= 5
+        Endif
+    Else
+        Actor(Angry):: "No way, that's too expensive! You have too high an opinion of yourself, honey. I'll find us another whore elsewhere."
+    Endif
+    
+    SceneEnd()

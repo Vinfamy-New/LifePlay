@@ -1,0 +1,49 @@
+WHAT: all
+WHERE: all, -home, -prison
+WHEN: 0-24
+WHO: none
+OTHER: PercentageVampires > 0 && !Player.isRace(Vampire)
+
+    // You're fending off a vampire attack, only to be saved by another law-abiding vampire who claims to only to feed on the inferior but legal animal blood. This vampire is well-adjusted and charming and soon asks you out on a date, which could be the start of something special ... or an act all along.
+    
+    SceneStart()
+    "I was just going about my business as usual when suddenly a pale figure appeared from the shadows to make a dash for my neck." 
+    Actor = generatePersonTemporary()
+    Actor.blendPreset(Vampire)
+    Actor.dress()
+    Actor.show()
+    Player.animate(martialart)
+    "It's a vampire! Thankfully, I managed to react in time. I'm now trying to desperately fight off my vampire attacker."
+    "As luck would have it, another pale figure appeared out of nowhere. I was freaked out for a moment, thinking it was an accomplice."
+    Actor2 = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor2)
+        Actor2 = generatePersonTemporary()
+    endWhile
+    Actor2.makeInterested(Player)
+    Actor2.blendPreset(Vampire)
+    Actor2.dress()
+    Actor2.show()
+    "To my surprise, this stranger instead attacked my attacker and helped me. Outnumbered, my attacker turned tail and ran away."
+    Actor.hide()
+    Actor2:: "It's people like you that give us a bad name!"
+    "My rescuer introduces <Actor2.himself_or_herself> as <Actor2.name>. <Actor2.He_or_She> doesn't hide the fact that <Actor2.he_or_she>'s a blood-sucking vampire, but soon reassures me that <Actor2.he_or_she>'s part of a growing number of law-abiding vampires who only feed on animal blood obtained from butcher's shops. While animal blood is inferior in quality, <Actor2.name> believes it's the most ethical solution to their community's dilemma of surviving while acting as a well-adjusted member of society."
+    "<Actor2.name> does seem very well-adjusted and charming even. Soon enough, <Actor2.he_or_she> asks me out on a date and promises to show me a better side of vampires."
+    0:: "Go on a date with <Actor2.him_or_her>"
+    1:: "Exchange numbers for another time"
+    2:: "Reject <Actor2.him_or_her>"
+    
+    If 0
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+        endDate()
+        Actor2.startDate()
+    Elseif 1
+        "<Actor2.name> seems interesting, but let's not rush it."
+        Actor2.makePermanent()
+        exchangeContact(Actor2)
+    Else
+        Player:: "Thank you for your help today. But I'm already with someone."
+    Endif
+    
+    SceneEnd()
+    timeout(300, vampire_legal)

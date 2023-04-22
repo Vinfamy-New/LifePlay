@@ -1,0 +1,9 @@
+STAT_ID: stock_video
+STAT_NAME: Unuploaded videos; You can upload to social media as a leisure activity.
+PLAYER_ONLY: true
+HIGHER_BETTER: true
+STAT_MIN: 0
+STAT_MAX:
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 0
+NPC_ONLY: false

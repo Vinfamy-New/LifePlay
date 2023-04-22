@@ -1,0 +1,125 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // At home with a gay/bi player character, you can now "Use gay dating app", where you first choose between top or bottom, then choose body type. The guy you meet also has a chance to be married and discreet. If either of the Interracial or Old-Young modules are also enabled, your racial and age preferences will also be taken into account, although not as strict as when you use the specialised age gap or interracial dating apps. 
+    
+    SceneStart()
+    
+    If Player.isMale() && Player.isInterestedInMen()
+        "Using a dating app is a good way to meet new potential lovers, friends with benefits and one-night stands. This particular gay dating app gives me so many options to narrow down the types of men I want to meet."
+        
+        If isModEnabled(vin_Interracial) && Random(0, 100) < 50
+            setRaceGenerated(Player, false)
+        Endif
+        
+        Actor = generatePersonTemporary()
+        While !Actor.isMale()
+            Actor = generatePersonTemporary()
+        Endwhile
+
+        
+        If isModEnabled(vin_OldYoung) && Random(0, 100) < 50
+            Actor:age => age + likes_older*0.5
+            Actor:age += Random(-5, 5)
+            Actor.randomizeFace()
+            Actor.randomizeHairs()
+            Actor:likes_older => 2*[age - Actor:age]
+        Endif
+        
+        Actor.makeInterested(Player)
+        
+        "First of all, should my potential lover be a top or bottom?"
+        0:: "Find a top"
+        1:: "Find a bottom"
+        
+        Actor:masochist => masochist
+        If 0
+            Actor:masochist -= Random(50, 100)
+        Else
+            Actor:masochist += Random(50, 100)
+        Endif
+        
+        "Next, choose my body type preference ..."
+        0:: "Slim"
+        1:: "Average"
+        2:: "Fit"
+        3:: "Bodybuilder"
+        4:: "Stocky"
+        5:: "Fat"
+        
+        If 0
+            Random
+                Actor.blendPreset(light)
+                Actor.blendPreset(slender)
+                Actor.blendPreset(underweight)
+            endRandom
+        Elseif 1
+            Random
+                Actor.blendPreset(normal)
+                Actor.blendPreset(common1)
+                Actor.blendPreset(common2)
+                Actor.blendPreset(common3)
+                Actor.blendPreset(common4)
+                Actor.blendPreset(common5)
+            endRandom        
+        Elseif 2
+            Random
+                Actor.blendPreset(ideal)
+                Actor.blendPreset(athletic)
+                Actor.blendPreset(vigorous)
+            endRandom        
+        Elseif 3
+            Actor.blendPreset(bodybuilder)
+        Elseif 4
+            Random
+                Actor.blendPreset(stocky1)
+                Actor.blendPreset(stocky2)
+            endRandom        
+        Else
+            Actor.blendPreset(heavy)
+        Endif
+        
+        "After some time swiping right on those I like, I finally got a match."
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+        "I was matched with <Actor.name>."
+        If Actor.isInterestedInWomen() && Actor:age > 22 && Actor:sneak > 50
+            "One thing that <Actor.name> made clear right away was that <Actor.he_or_she> was still in the closet and married to a woman so all our 'interactions' must be discreet."
+        Endif
+        "What should I do?"
+        0:: "Arrange a date with <Actor.name>"
+        1:: "Turn <Actor.him_or_her> down"
+        
+        If 0
+            Actor.makeInterested(Player)
+            Actor.makePermanent()
+            exchangeContact(Actor)
+
+            secondScreen()
+            "Soon enough, we meet up for our first date."
+            
+            If Actor.isInterestedInWomen() && Actor:age > 22 && Actor:sneak > 50
+                Actor2 = generatePersonTemporary()
+                While !Actor2.isFemale()
+                    Actor2 = generatePersonTemporary()
+                Endwhile
+                Actor2:age => Actor:age
+                Actor2:age -= Random(0, 5)
+                Actor2.randomizeFace()
+                Actor2.randomizeHairs()
+                Actor2.makePermanent()
+                addNpcRelationship(Spouses, Actor, Actor2)
+                "Again, <Actor.name> was careful to find a discreet place to meet as to not get caught by <Actor.his_or_her> wife."
+            Endif
+            Actor.startDate()
+            Actor.show()
+            "Hopefully it will be a good experience"
+        Endif
+    Else
+        "This app is only for men seeking other men unfortunately."
+    Endif
+    SceneEnd()

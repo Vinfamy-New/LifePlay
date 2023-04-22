@@ -1,0 +1,196 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    Dice = Player.getActorVar(rng_dice)
+    Dice += 1
+    If Dice > 4 // CHANGE HERE
+        Dice = 1
+    Endif
+    Player.setActorVar(rng_dice, Dice)
+    Nothing = false
+    
+    Player.animate(climb)
+    
+    If Dice == 1
+        // You almost fall off a cliff and the target / companion / a stranger saves your life.
+        If !Actor.isValid()
+            Actor = getCompanion()
+            If !Actor.isValid()
+                Actor = generatePersonTemporary()
+                Actor.dress()
+                Actor.show()
+            Endif
+        Endif
+        
+        Actor.animate(climb)
+        
+        If Actor:muscle - muscle > 30
+            "Oh no, I lost my grip! I'm about to fall off the cliff ..."
+            Player:: "Help!"
+            "Thankfully, <Actor.name> was near me and came to my rescue."
+            "Being so strong, <Actor.he_or_she> managed to lift me up to safety."
+            Player:: "Thank you so much. I couldn't imagine what would happen to me if you weren't there."
+            Actor:: "It's no problem. I couldn't just let you fall."
+            "Maybe <Actor.he_or_she> deserves a reward?"
+            0:: "Money"
+            1:: !Actor.isContactExchanged():: "My number"
+            2:: "Sex"
+            
+            If 0
+                Actor:: "Well, if you insist."
+                money -= 50
+            Elseif 1
+                Actor:: "Sure, I'll be happy to get to know you more."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+            Else
+                If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer || Actor.hadSex()
+                    Actor:: "Well, I wouldn't say no to such a happy ending ..."
+                    Sex(Actor, Player)
+                Else
+                    Actor:: "You're joking, right? I didn't help you for that."
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+
+    Elseif Dice == 2
+        // The target almost fall off a cliff and you save their life.
+        
+        If Actor.isValid() && muscle - Actor:muscle > 30
+            Actor.animate(climb)
+            Actor:: "Help!"
+            "Oh no, <Actor.name> lost <Actor.his_or_her> grip! <Actor.He_or_She> was about to fall off the cliff ..."
+            "Thankfully, I was nearby and came to <Actor.his_or_her> rescue."
+            "My dedication to strength paid off, as I managed to lift <Actor.him_or_her> up to safety."
+            Actor:: "Thank you so much. I couldn't imagine what would happen to me if you weren't there."
+            Player:: "It's no problem. I couldn't just let you fall."
+            "On second thought, maybe I deserve a reward?"
+            0:: "Money"
+            1:: !Actor.isContactExchanged():: "Your number"
+            2:: "Sex"
+            3:: "It was only the right thing to do"
+            
+            If 0
+                Actor:: "Sure. Here's all I have on me right now."
+                money += 50
+            Elseif 1
+                Actor:: "Sure, I'll be happy to get to know you more."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+            Elseif 2
+                If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer || Actor.hadSex()
+                    Actor:: "Well, I guess my hero deserves a happy ending ..."
+                    Sex(Actor, Player)
+                Else
+                    Actor:: "You're joking, right? Thank you for your help but that's too big a request."
+                Endif
+            Else
+                Player:: "It was only the right thing to do"
+                karma += 5
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Elseif Dice == 3
+        // Your target may get tired and can't climb higher. If you insist on continuing yourself, they'll stay behind and may meet a stranger.
+        If !Actor.isValid()
+            Actor = getCompanion()
+        Endif
+        
+        If isModEnabled(vin_NTR) && Actor.isValid() && Actor:perversion > 50
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show()
+            If Actor2:perversion > 50 && Actor2.isInterestedIn(Actor) && Actor.isInterestedIn(Actor2) && muscle - Actor:muscle > 30
+                Actor.animate(climb)
+                "As I was climbing with <Actor.name>, <Actor.he_or_she> wasn't as strong as me so couldn't climb any higher."
+                "<Actor.He_or_She> wasn't the only one giving up, as another person from another group also just told <Actor2.his_or_her> friends to leave them behind."
+                0:: "Leave <Actor.name> behind and continue climbing"
+                1:: "Stop climbing and stay with <Actor.him_or_her>"
+                
+                If 0
+                    Actor.hide()
+                    Actor2.hide()
+                    "I decided to go ahead and leave <Actor.name> behind. Well, at least, <Actor.he_or_she> would have some company while waiting for me to get back."
+                    "I eventually reached the peak and after a little rest, climbed down to where I left <Actor.name> waiting, only to witness a shocking sight ..."
+                    masochist += 0.5
+                    Actor.show()
+                    Actor2.show()
+                    Sex(Actor, Actor2)
+                Endif
+            Else
+                Nothing = true
+            Endif
+        Else
+            Nothing = true
+        endif
+    Elseif Dice == 4
+        // If Netori is enabled, the target has a SO too cowardly to climb, leaving you and the target alone higher up ...
+        
+        If Actor.isValid() && isModEnabled(vin_Netori)
+            Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+            If !Actor2.isValid()
+                Actor2 = generatePersonTemporary()
+                Actor2.dress()
+                Actor2.show()
+                Actor.makeInterested(Actor2)
+                Actor2.makeInterested(Actor)
+            Endif
+            "I asked <Actor.name> to join me on the climb, only for <Actor.him_or_her> to introduce me to <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name>, who didn't seem much of a mountaineer."
+            Player:: "Let's all climb together then ..."
+            "It wasn't long before you reach the part too difficult for <Actor2.name>"
+            Actor2:: "Wow, that looks impossible. No way I'll make it. I think I'll just stay here. You guys go ahead and climb higher up."
+            0:: "Let's stick together"
+            1:: "See you later!"
+            
+            If 0
+                Player:: "It's okay. That does look quite tough for a climbing beginner. Let's just stay here and watch the scenery."
+                Actor2:rapportwithplayer += 5
+                karma += 2
+            Else
+                Actor2.hide()
+                "It turned to be a cakewalk for both me and <Actor.name>. <Actor2.name> was just being a bit of a coward."
+                "Soon, we reached the peak, so higher up from <Actor2.name> that we couldn't even identify <Actor2.him_or_her> by looking down."
+                Actor:: "What a view! Shame my <Actor2.boyfriend_or_girlfriend> bailed so early ..."
+                0:: "Just chat with <Actor.name>"
+                1:: !Actor.isContactExchanged():: "Ask for <Actor.his_or_her> number"
+                2:: Player.isInterestedIn(Actor):: "Try to seduce <Actor.him_or_her>
+                
+                If 0
+                    "While enjoying the view, we chat for a long time before starting to head back down."
+                    Actor:rapportwithplayer += 5
+                Elseif 1
+                    "After some nice conversations, I decided to ask for <Actor2.name>'s number so that we could arrange another mpuntaineering trip in the future."
+                    Actor.makePermanent()
+                    exchangeContact(Actor)
+                    Actor2.makePermanent()
+                    addNpcRelationship(Dating, Actor, Actor2)
+                Else
+                    Player:: "We don't have to start climbing down anytime soon, why don't we stay here and have some fun in the meantime?"
+                    If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer
+                        Actor:: "Okay, this will hopefully teach my useless <Actor.boyfriend_or_girlfriend> a lesson and not be such a coward all the time."
+                        Sex(Player, Actor)
+                    Else
+                        Actor:: "I don't know what you're talking about ..."
+                    Endif
+                Endif
+            Endif
+        Else
+            Nothing = true
+        Endif
+    Else
+        Nothing = true
+    Endif
+    
+    If Nothing
+        "Nothing unusual happened."
+    Endif
+    
+    SceneEnd()

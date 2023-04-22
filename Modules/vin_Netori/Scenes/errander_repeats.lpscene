@@ -1,0 +1,146 @@
+WHAT: all, -sleep, -nap
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Boss); Actor2 = getPerson(tag_fuckBossFamily); If Actor2.isInterestedIn(Player) && Player.isInterestedIn(Actor2)
+OTHER:
+
+    // After you've done it with the boss's spouse or adult child once via the office errand scene, they may want more and call you to come over when your boss is out periodically. Threesome is possible for you've banged both. Eventually, they can become enamoured and want to be your bf / gf. With dating your boss's child, depending on the boss's existing rapport with you, they may threaten to fire you unless you leave their child alone, or actually be cool and give you a promotion for being their future son/daughter-in-law. With stealing your boss's spouse, you can either take the high road and accept getting sacked for it or plot with the spouse to get your boss fired due to false allegation of domestic violence and get a nice promotion to boot. You can also ask for a share of the divorce money.
+
+    SceneStart()
+    If Actor.isRelationshipWith(Actor2, ParentChild)
+        Spouse = false
+        If Actor:age > Actor2:age
+            If Actor2.isMale()
+                Rela = "son"
+            Else
+                Rela = "daughter"
+            Endif
+        Else
+            If Actor2.isMale()
+                Rela = "dad"
+            Else
+                Rela = "mom"
+            Endif        
+        Endif
+    Else
+        Spouse = true
+        If Actor2.isMale()
+            Rela = "husband"
+        Else
+            Rela = "wife"
+        Endif
+    Endif
+    secondScreen(Actor2)
+    Actor2.show()
+    "Ever since that lucky day where I got to bang my boss's <Rela> while running an errand to <Actor.his_or_her> place, I've stayed in touch with <Actor.his_or_her> <Rela> <Actor2.name>."
+    "In fact, since the boss is out of town for a business conference today, <Actor2.name> is asking me to come over to take care of <Actor2.his_or_her> needs again."
+    0:: "Come over to fuck my boss's <Rela> again!"
+    1:: "Too risky!"
+    
+    If 0
+        setBackgroundCustom(livingroom)
+        "I came over only to find my boss's <Rela> already waiting for me there all naked and horny."
+        Sex(Player, Actor2)
+        
+        Actor2:attractiontoplayer += 5
+        Actor3 = getPerson(tag_fuckBossFamily)
+        If Actor3.isValid() && Random(0, 100) < 50
+            Actor3.dress()
+            Actor3.show()
+            "Of course <Actor2.name> is not even the only family member of my boss that I've been banging ..."
+            Actor3:: "Looks like you guys are having a lot of fun! Don't mind if I join you, do you?"
+            Sex(Player, Actor3, Actor2)
+            Actor3:attractiontoplayer += 5
+        Else
+            "<Actor2.name> seemed to have become more and more enamoured with me and there's no doubt that if I asked <Actor2.him_or_her> to be with me in a serious relationship, <Actor2.he_or_she> would run with it."
+            0:: "Ask <Actor2.name> to be with me"
+            1:: "Just continue this as an affair"
+            
+            If 0
+                Actor2.setActorVar(tag_fuckBossFamily, 0)
+                Actor3.setActorVar(tag_fuckBossFamily, 0)
+                "I asked <Actor2.name> to become my <Actor2.boyfriend_or_girlfriend>, who agreed right away without even first thinking about how the boss would react."
+                
+                If Spouse
+                    Actor2.setDating()
+                    Actor:rapportwithplayer -= 100
+                    "Of course, my boss was never going to continue employing the <Player.guy_or_girl> who stole <Actor.his_or_her> <rela> ... Should I just accept my fate though?"
+                    0:: "Accept getting sacked"
+                    1:: "Plot with <Actor2.name> to get the boss fired"
+                    
+                    If 0
+                        "Well, if I have the guts to steal the boss's <rela>, I should be brave enough to accept that I'll have to find another job."
+                        "I didn't ever bother to come to the office anymore and just resigned, might as well not delay the inevitable."
+                        loseJob()
+                    Else
+                        karma -= 10
+                        "In addition to the divorce, I managed to convince <Actor2.name> to accuse my boss of domestic violence. Fearing a PR backlash, the company fired the boss right away without any thorough investigation."
+                        Salary = getSalary()
+                        Salary *= Random(1.3, 1.5)
+                        Salary.setSalary()
+                        jobexperience += 20
+                        timeoutPrecise(1440, ask_for_promotion)
+                        "They then restructured my team a bit and I got a promotion. Still, I didn't quite get my old boss's position, as they appointed someone else more senior in that position instead. Still, I couldn't really complain how things turned out."
+                        
+                        Actor4 = generatePersonTemporary()
+                        Actor4:age => Random(40, 65)
+                        Actor4.randomizeFace()
+                        Actor4.randomizeHairs()
+                        
+                        Actor4.makePermanent()
+                        Actor4.setBoss()
+                    Endif
+                    
+                    "<Actor2.name> went through with the divorce and got half of the boss's fortune as a result."
+                    0:: "Ask for a share of the divorce money"
+                    1:: "It's <Actor2.his_or_her> money"
+                    
+                    If 0
+                        "Probably not the best way to show you love someone, but I can't say no to such a large sum."
+                        money += 100000
+                        Actor2:attractiontoplayer -= 10
+                    Endif
+                Else
+                    Actor2.hide()
+                    setBackground(work)
+                    dressFormal()
+                    Actor.dress()
+                    Actor.show()
+                    "As soon as the fact I'm now dating <Actor.his_or_her> <rela> becomes public knowledge, the boss called me into <Actor.his_or_her> office. I expected this and was ready to accept the consequences."
+                    Actor:rapportwithplayer -= 30
+                    If Actor:rapportwithplayer > 20
+                        Actor2.setDating()
+                        Actor:: "I don't know how long you have been seeing my <rela>. I'd have preferred to know earlier. But I like you, <Player.name>."
+                        Actor:: "Treat my <rela> well and you'll be well treated in this job."
+                        Actor:: "Talk to the HR, I got you a promotion. I want my <rela> to date someone in a good position, you know. But don't ever take <Actor.him_or_her> for granted. Remember, what's given can be taken away."
+                        Salary = getSalary()
+                        Salary *= Random(1.3, 1.5)
+                        Salary.setSalary()
+                        jobexperience += 20
+                        timeoutPrecise(1440, ask_for_promotion)
+                        "Wow, what a pleasant surprise this turned out to be ... Not only did I not get punished for dating my boss's <rela>, I even got a promotion to boot. Maybe the boss is partially receptive to the idea of having a potential future <Player.son_or_daughter>-in-law as <Actor.his_or_her> right hand <Player.man_or_woman> in the office."
+                    Else
+                        Actor:: "I don't know how long you've been seeing my <rela>, but this needs to stop if you value your job here!"
+                        0:: "Break up with <Actor2.name> keep my job"
+                        1:: "Double down and get fired"
+                        
+                        If 0
+                            Player:: "I'm sorry, I'll stay away from <Actor2.name> from now on. Please don't fire me."
+                            Actor:: "My finger is always on the button so you'd better stick to your promise. If you lay another finger on my <rela>, you career is as good as over."
+                        Else
+                            Actor2.setDating()
+                            Actor:: "You'll regret this. <Actor2.He_or_She> will too once <Actor2.he_or_she> finds out the hard way it's no fun to be with an umemployed <Player.man_or_woman>."
+                            loseJob()
+                        Endif
+                    Endif
+                Endif
+            Else
+                "Doing it behind my boss's back adds to the thrill and the excitement."
+            Endif
+        Endif
+    Else
+        "I've already taken too many risks. What if <Actor.he_or_she> finds out?"
+    Endif
+    
+    SceneEnd()
+    timeout(100, errander_repeats)

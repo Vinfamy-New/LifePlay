@@ -1,0 +1,37 @@
+WHAT: all
+WHERE: home
+WHEN: 9-21
+WHO: Actor = getSpecific(Dating); Actor2 = Actor.getRelatedPerson(Poly); If !Actor2.isDating() && Random(35, 70) < Actor2:attractiontoplayer && Actor2.hadSex() && Random(35, 70) < Actor:attractiontoplayer && Player.isInterestedIn(Actor2) && Actor.isInterestedIn(Player)
+OTHER: OpenRelationship()
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    "I arrived back home only to be welcomed by <Actor.name> and <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> <Actor2.name> already waiting for me in the living room. Looks like they have something important to tell me ..."
+    Actor:: "Baby, you've been so generous in allowing me and <Actor2.name> to have our own relationship ..."
+    Actor2:: "We also have had our fair share of threesomes together ..."
+    Actor:: "I can't help but notice how during these threesomes, I'm not the only partner turning you on ... I could see the attraction between you and <Actor2.name> too"
+    Actor2:: "And I feel the same way about you, <Player.name> ..."
+    Actor:: "I think it's time we merge our two relationships together and have <Actor2.name> officially becoming your <Actor2.boyfriend_or_girlfriend> too!"
+    0:: "Take <Actor2.name> on as a polyamorous lover for myself too"
+    1:: "It's better if things stay as they are ..."
+    
+    If 0
+        Actor2.setDating()
+        Actor:: "Let us all celebrate together at the end, but first, I want to watch you two doing it!"
+        setBackground(home)
+        "For the first time, <Actor2.name> and I are having sex without <Actor.name> ... My generousity paid off ... I got myself a new lover."
+        Sex(Player, Actor2)
+        Sex(Player, Actor, Actor2)
+        Actor:attractiontoplayer += 10
+        Actor2:attractiontoplayer += 10
+    Else
+        Actor2:: "Okay, I understand ..."
+        Actor:attractiontoplayer -= 3
+        Actor2:attractiontoplayer -= 3
+    Endif
+    SceneEnd()
+    timeout(1000, poly_poly_joins)

@@ -1,0 +1,30 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If Actor.isRace(Vampire)
+OTHER: !Player.isRace(Vampire)
+
+    SceneStart()
+    "I know <Actor.name> is a vampire, and it's not hard to tell <Actor.he_or_she> is currently thristy for blood ... my blood"
+    If masochist - Actor:masochist > 50
+        "And for some reason, I just can't seem to say no ..."
+        Sucked = true
+    Else
+        "Should I let <Actor.him_or_her>?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Sucked = true
+        Else
+            Sucked = false
+        Endif
+    
+        If Sucked
+            masochist += 2
+            animatePair(Actor, Player, Kissing)
+            "Sensing my receptiveness to the whole situation, <Actor.name> didn't hesistate anymore for the blood <Actor.he_or_she> has been craving ..."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, sucked_by_vampire_cms)

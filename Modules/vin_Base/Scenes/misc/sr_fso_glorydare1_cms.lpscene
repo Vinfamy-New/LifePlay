@@ -1,0 +1,48 @@
+WHAT: all
+WHERE: all
+WHEN: 8-20
+WHO: Actor = getSpecific(Dating); If !Actor.isMale() && Actor:perversion > 50
+OTHER: Player.isMale() && isModEnabled(vin_NTR)
+
+    // Summery: Player gives a dare to their girlfriend/wife to go to the local glory hole with them. The player films as the SO messes with the gloryhole. A few choices happen.
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "You were looking at some porn on the internet and began thinking about, what if you got your SO to go to a local gloryhole and recorded <Actor.boyfriend_or_girlfriend> there." 
+    0:: "This could be a great video to look back at now and then."
+    1:: "No, I should keep her for myself." 
+    
+    If 0
+        "I decided to ask my <Actor.boyfriend_or_girlfriend> to go to the local gloryhole and let me record her being naughty."
+        Player:: "Hey love, I got a kinky dare for you."
+        Actor:: "Oh? What is it?"
+        Player:: "How about we hit up the local gloryhole and I film you getting dirty?"
+        Actor:: "Heh alright, but lets not make a habit of this!"
+        setBackground(street)
+        "We arrived at the local gloryhole. What should I have <Actor.boyfriend_or_girlfriend> do?"
+        0:: "I'll ask her to put her butt up to the glory hole and take whatever dick comes first."
+        1:: "I'll ask her to use her mouth on the next dick to come through."
+        
+        If 0
+            Actor.strip()
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Player)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.show()
+            Sex(Actor2, Actor)
+        Else
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isSameGender(Player)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.show()
+            Filter(Blowjob)
+            Sex(Actor2, Actor)        
+        Endif
+        perversion += 1
+        Actor:perversion += 1
+    Endif 
+    SceneEnd()
+    timeout(180, sr_fso_glorydare1_cms)

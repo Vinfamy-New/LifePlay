@@ -1,0 +1,86 @@
+WHAT: all
+WHERE: all, -home
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    // You rescue a stray dog but on your way home, it unexpectedly tries to hump a passerby. You can help or just let the passerby fight it off themselves. Afterwards, you conclude the dog was taught to favor humans by its previous owner and choose whether to adopt it or not.
+    
+    SceneStart()
+    If WHERE == park || WHERE == river || WHERE == beach || WHERE == mountain
+        "Such a nice day outside."
+    Else
+        setBackground(street)
+    Endif
+    "I was just going for a walk when I come across a stray dog with no owner in sight. He doesn't look feral but looks so dirty and malnourished that he must have been abandoned by his owner for a long time, which is rather surprising as there are quite a few dog shelter organizations active in my city."
+    Actor = generateCreatureTemporary(Dog)
+    While !Actor.isMale()
+        Actor = generateCreatureTemporary(Dog)
+    endWhile
+    Actor:perversion => 100
+    Actor.makeInterested(Player)
+    Actor.show()
+    "Should I take pity on the abandoned dog?"
+    0:: "Bring him home for a bath and some food at least"
+    1:: "No"
+    
+    If 0
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isSameGender(Player)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        Actor2.dress()
+        Actor2.show()
+        
+        "On our way home, my new four-legged friend suddenly attacks a passerby. Oh no, did I pick up a rabid dog by accident?"
+        "To my surprise though, the dog didn't try to bite the passerby. Instead, he tries to mount the poor <Actor2.guy_or_girl>."
+        0:: "Help the stranger"
+        1:: "Freeze in place"
+        
+        If 0
+            "It's not my dog, but I'm walking with it after all and it would be partly my responsibiity if a random stranger gets harmed."
+            "Thankfully, the dog is a bit weak from hunger and I manage to restrain him and let the stranger run away."
+            Actor2.hide()
+        Else
+            "Not sure what to do, I froze and could only watch this stray dog I just rescued attacking a stranger."
+            Actor2:: "Get off me you crazy dog."
+            "Thankfully, the dog is a bit weak from hunger and the stranger manages to fend the dog off long enough for me to remain composure and help <Actor2.name>." 
+            Actor2.hide()
+        Endif
+        
+        "Having witnessed all that, I easily conclude that the stray dog must have been used sexually by its previous owner and now favor humans as mates."
+        0:: "Continue to bring <Actor.him_or_her> home"
+        1:: "Give <Actor.him_or_her> to an animal shelter"
+        
+        If 0
+            "It doesn't matter. Least I could do is give <Actor.him_or_her> a bath and some food first."
+            setBackground(livingroom)
+            "I bring the dog home and have him cleaned and fed."
+            "Still, it's obvious that another basic need of his is left unsatisfied as he fails with the stranger earlier ..."
+            0:: "Relieve the abandoned dog's sexual needs"
+            1:: "No way"
+            
+            If 0
+                Sex(Actor, Player)
+            Endif
+            
+            "Now, I should decide what to do with this dog now that its basic survival needs are satisfied for now."
+            0:: "Keep <Actor.him_or_her> as a pet"
+            1:: "Give <Actor.him_or_her> to an animal shelter"
+            
+            If 0
+                Actor.makePermanent()
+                "What should I name him?"
+                Actor.enterFirstName()
+                
+                "<Actor.name> is a special dog for sure."
+            Else
+                "This dog has serious problems, it's best to leave it to the professional"
+            Endif
+        Else
+            "This could be too troublesome for me to handle, it's best to leave it to the professional"
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(300, stray_dog)

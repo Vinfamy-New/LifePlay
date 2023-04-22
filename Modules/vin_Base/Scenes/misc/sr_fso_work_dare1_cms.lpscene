@@ -1,0 +1,96 @@
+WHAT: all
+WHERE: work
+WHEN: 14 - 24
+WHO: Actor = getSpecific(Dating); If !Actor.isMale() && Actor.isColleague()
+OTHER: Player.isMale() && Random(50, 100) < perversion && isModEnabled(vin_NTR)
+
+    SceneStart()
+    dressFormal()
+    Actor.dress()
+    Actor.show()
+    Flash = Actor.getActorVar(tag_sr_fso_work_flash)
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> works in the same office as me."
+    If Flash > 0
+        Actor.strip()
+        Actor.dressExcept(Top, Bottom)
+        
+        Actor.addToPeopleHere()
+        Actor.moveToPersonStand(Player, 100)
+        "We have an agreement with our boss that <Actor.name> would sometimes strip to her underwear and walk around the office to improve staff morale."
+        "The boss was very pleased and gave us a bonus. This should also reflect well in my next performance review."
+        money += 100
+        jobperformance += 10
+    Else
+        "I notice her going to the bathroom stalls." 
+        0:: "Follow <Actor.name>"
+        1:: "Blow a kiss when she walks by you but do not follow"
+        
+        If 0
+            "You follow your <Actor.boyfriend_or_girlfriend> to the bathroom stalls and open the door." 
+            "Should I dare her to walk outside the bathroom into the hallway and stand by the bathroom door in just her undies for 2 minutes?"
+            0:: "Yes"
+            1:: "No"
+            
+            If 0
+                Player:: "Hey love, up for a quick dare for your <Player.boyfriend_or_girlfriend>?"
+                Actor:: "Always!"
+                Player:: "Dare you to walk out of here into the hallway and stand around there, no hiding for 2 minutes in just your undies."
+                If Actor:perversion > 40 && Actor:masochist > 0
+                    Actor:: "Oh wow that is a loaded dare…well it sounds kind of exciting. The idea of being caught fills me with excitement, yet makes me nervous! I’ll do it!"
+                    Actor.stripOne()
+                    Actor.stripOne()
+                    "She proceeds to strip to her underwear and walk out to the hallway"
+                    If Random(0, 100) < 50
+                        setBackground(toilets)
+                        "<Actor.name> comes back into the bathroom, masturbates in the stalls"
+                        Filter(Solo)
+                        Sex(Actor)
+                        "She then retrieves her clothes from you and tells you how exciting that was before she goes back to work."
+                        Actor:: "That was amazing! Hope you have some more ideas for us in the future!"
+                    Elseif Random(0, 100) < 50 && isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual)
+                        Actor2 = getSpecific(Colleague)
+                        Actor2.dress()
+                        Actor2.show()
+                        Actor2.movetoPersonStand(Actor, 100)
+                        
+                        "<Actor.name> was caught in the act by one of my other colleagues, <Actor2.name>."
+                        If Actor2:perversion > 30 && Actor2:masochist < 0 && Actor2.isInterestedIn(Actor)
+                            "<Actor2.name> then proceeded to sexually assault <Actor.name> ..."
+                            0:: "Peek and watch"
+                            1:: "Pull a fire alarm to put a stop to it"
+                            
+                            If 0
+                                Actor:: "Please no ..."
+                                Actor2:: "You were asking for it!"
+                                Filter(Aggressive)
+                                TalkNonConsensual()
+                                Sex(Actor2, Actor)
+                            Endif
+                        Else
+                            "<Actor2.name> wasn't impressed and scolded us for our unprofessional behavior in the workplace."
+                        Endif
+                    Else
+                        Actor2 = getSpecific(Boss)
+                        Actor2.dress()
+                        Actor2.show()
+                        Actor2.movetoPersonStand(Actor, 100)
+                        "<Actor.name> was caught in the act by our boss, <Actor2.name>!"
+                        "The boss takes a picture and then goes in to talk with me. The boss wants me to give more exhibition and lewd dares to my <Actor.boyfriend_or_girlfriend> at the workplace as the boss found seeing that quite sexy."
+                        0:: "Yes"
+                        1:: "No"
+                        
+                        If 0
+                            Actor.setActorVar(tag_sr_fso_work_flash, 1)
+                            "We agreed to the demand."
+                        Endif
+                    Endif
+                Else
+                    "Unfortunately, <Actor.name> declined my perverted request."
+                Endif
+            Endif
+        Else
+            Actor:attractiontoplayer += 1
+        Endif
+    Endif
+    SceneEnd()
+    timeout(75, sr_fso_work_dare1_cms)

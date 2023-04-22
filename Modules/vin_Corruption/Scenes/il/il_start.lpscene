@@ -1,0 +1,28 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    If isWithCompanion()
+        endDate()
+    Endif
+    il_stage.setGlobal(0)
+    SceneStart()
+    "Who is the innocent victim of my corruption?"
+    selectNPC()
+    Actor = getSelectedNPC()
+    
+    If !Actor.isValid() || Actor.isCreature() || Actor:perversion > perversion
+        "No valid NPC selected or NPC selected is already more perverted than player. Quest was not started."
+        QuestEnd()
+    Else
+        Actor.dress()
+        Actor.show(2)
+        "I feel that <Actor.name> is far too innocent and inexperienced and would love to be one to awaken something sexual within <Actor.him_or_her>."
+        VicA.setActorAlias(Actor)           
+        B1.generateBuildingAlias(cafe)
+        B1.addObjective(il_obj)
+        il_stage.setGlobal(1)      
+    Endif
+    SceneEnd()

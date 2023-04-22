@@ -1,0 +1,116 @@
+WHAT: all
+WHERE: all
+WHEN: 16 - 24
+WHO: Actor = getSpecific(ExDating); Actor2 = Actor.getRelatedPerson(Spouses, Dating); If Actor:attractiontoplayer > 20 && !Actor.isInterestedInRace(Actor2) && !Actor2.isSameEthnic(Player)
+OTHER:
+
+    // (This works as a follow-up for the 'bad ending' in the scene above, but also any other situations too) Any exes who are dating or married to a person whose race they're not all that interested in compared to their own attraction to you, may eventually miss you and intially ask to 'stay friends' and hang out, then depending on their perversion, fail miserably during the date itself and end up sleeping with you again.
+    
+    SceneStart()
+    Fucked = Actor.getActorVar(tag_exfucked)
+    Actorr = Actor.RaceToString()
+    Actor2r = Actor2.RaceToString()
+    Playerr = Player.RaceToString()
+    
+    If Fucked == 0
+        secondScreen(Actor)
+        Actor.show()
+        "My ex <Actor.name> is calling me ... I wonder what the matter is. Maybe I still have some of <Actor.his_or_her> stuffs somehow?"
+        Actor:: "<Player.name>, I was thinking ... maybe we could meet again some time ... as friends, you know. We did split amicably after all, there's no need to cut off contact."
+        Player:: "What about your <Actor2.boyfriend_or_girlfriend>? Is <Actor2.he_or_she> cool with this?"
+        Actor:: "It's none of <Actor2.his_or_her> business ... I don't feel like I have to report to <Actor2.him_or_her> everything I do or everyone I meet."
+        
+        "Hmm, <Actor.he_or_she> sounds rather defensive there. Let me guess ... This new <Actor2.boyfriend_or_girlfriend> isn't satisfying <Actor.him_or_her> and <Actor.he_or_she> is starting to miss me ..."
+
+        "Among other things, in all my time with <Actor.him_or_her>, <Actor.he_or_she> never demonstrated even a tiny bit of attraction to any <Actor2r> <Actor2.guys_or_girls> in general. No surprise things are not going too well behind closed doors over there, really."
+        0:: "Agree to hang out as 'friends'"
+        1:: "Turn <Actor.him_or_her> down"
+        
+        If 0
+            Player:: "Of course, I'll be there."
+            secondScreen()
+            setBackground(cafe)
+            Actor.dress()
+            Actor.show()
+            "We meet for a coffee, as normal 'friends' do. It wasn't long though before our conversation turned to be become mostly nostalgic about our good old times ..."
+            "... which is quite an opportunity to escalate things."
+            0:: "Seduce my ex"
+            1:: "Leave it there"
+            
+            If 0
+                animatePair(Player, Actor, Kissing)
+                Actor:attractiontoplayer += 5
+                "I grabbed my ex and made out with <Actor.him_or_her>."
+                "Almost by instinct, <Actor.name>'s lips responded passionately. I knew deep inside <Actor.he_or_she> still desired my <Playerr> <Player.dick_or_pussy>, probably even fantasized about me while in bed with <Actor.his_or_her> <Actor2r> <Actor2.boyfriend_or_girlfriend>."
+                If Random(40, 80) < Actor:attractiontoplayer + Actor:perversion
+                    "One thing led to another and we soon ended up in a hotel room together, just like the old times."
+                    setBackground(home)
+                    Sex(Player, Actor)
+                    Actor.setActorVar(tag_exfucked, 1)
+                    "Something tells me that is more than an one-off slip-up by <Actor.name> ... After all, <Actor.his_or_her> poor <Actor2r> <Actor2.boyfriend_or_girlfriend> can't just turn into a <Playerr> <Player.man_or_woman> like me overnight to give <Actor.him_or_her> what <Actor.he_or_she> truly desires."
+                Else
+                    Actor:: "No ... no ... we shouldn't be doing this ..."
+                    Actor:: "I'm taken now ... I can't cheat just like that ..."
+                    "That's a shame ... Still, maybe if <Actor.he_or_she> fancies another 'friendly' meetup in the future, I'll have better luck then."
+                Endif
+            Else
+                "Some passion is best left behind."
+            Endif
+        Else
+            Player:: "Sorry, <Actor.name>, but I really don't think it's a good idea."
+            Actor:attractiontoplayer -= 5
+        Endif
+    Else
+        // Once the above happened, they will occasionally call you over to satisfy their needs when their SO is away. If the Netori module is enabled, the SO will eventually catch you in the act, only to confess their own fetish for watching their partner get smashed by someone of your race.
+        secondScreen(Actor)
+        Actor.show()
+        "My ex <Actor.name> is desiring my company again tonight, while <Actor.his_or_her> <Actor2r> <Actor2.boyfriend_or_girlfriend> is away. Since <Actor.he_or_she>'s already cheated with me before, this time we don't have to pretend that <Actor.he_or_she> is after anything more innocent than my <Playerr> <Player.dick_or_pussy>."
+        0:: "Come over to fuck my ex"
+        1:: "Maybe not"
+        
+        If 0
+            secondScreen()
+            Fucked += 1
+            Actor.setActorVar(tag_exfucked, Fucked)
+            
+            setBackground(home)
+            Actor.show()
+            "When I arrived, my ex was already waiting for me there, naked."
+            Sex(Player, Actor)
+            
+            Actor:attractiontoplayer += 5
+            
+            If Fucked > 3 && isModEnabled(vin_Netori) && Actor2:masochist > 0 && Random(0, 100) < 50
+                Cuck = Actor2.getActorVar(tag_NTRCuck)
+                If Cuck == 0
+                    Actor2.setActorVar(tag_NTRCuck, 1)
+                    Actor2.dress()
+                    Actor2.show()
+                    "Too busy with our passionate session, neither of us noticed that <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> had arrived home."
+                    Actor:: "Wait, <Actor2.name>, I can explain ... It's not what it looks like."
+                    Actor2:: "It's okay, honey. Ever since I found out that your ex was such a hot <Playerr> <Player.man_or_woman>, I've been thinking non-stop about it."
+                    Actor2:: "First, I was jealous. Then, I was insecure. And finally, I became turned on by the thought of how much you must have been into that <Playerr> <Player.dick_or_pussy>."
+                    Actor2:: "What I just witnessed was just the biggest turn-on ever and I would love nothing more than continuing to be there and watch each time you guys meet up."
+                    Player:: "It'll be my pleasure, <Actor2.buddy_or_girl>!"
+                Else
+                    "Of course, soon enough, <Actor2.name> was there to watch with admiration how much <Actor2.his_or_her> <Actorr> <Actor.boyfriend_or_girlfriend> enjoyed my <Playerr> <Player.dick_or_pussy>."
+                    0:: "Ask <Actor2.him_or_her> to join in for a multi-cultural sandwich"
+                    1:: "That's not how cuckoldry works"
+                    
+                    If 0
+                        Sex(Player, Actor2, Actor)
+                    Else
+                        Filter(Solo)
+                        Sex(Actor2)
+                    Endif
+                Endif
+                Actor2:masochist += 5
+            Endif
+        Else
+            Player:: "Sorry, but I'm busy tonight."
+            Actor:attractiontoplayer -= 5
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(150, frustrated_ir)

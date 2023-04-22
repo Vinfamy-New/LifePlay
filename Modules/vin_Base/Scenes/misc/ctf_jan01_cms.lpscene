@@ -1,0 +1,49 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Actor.isProstitute() && [!Actor.isDating() || isModEnabled(vin_NTR)]
+OTHER:
+
+    SceneStart()
+    "I'm out with <Actor.name> when someone comes up to you and tries to solicit <Actor.him_or_her>, somehow mistaking <Actor.him_or_her> for a sex worker"
+    Actor2 = generatePersonTemporary()
+    Actor2.dress()
+    Actor2.show()
+    Actor2.moveToPersonStand(Actor, 100)
+    Actor2:: "How much for a night with you, baby?"
+    Actor2.hide()
+    "<Actor.He_or_She> indignantly turn down the would-be client, but they're strangely quiet afterward."
+    0:: "Brush it off"
+    1:: "Ask what's wrong"
+    
+    If 1
+        If Actor:perversion < 50
+            "<Actor.He_or_She> simply said that <Actor.he_or_she> was still processing the fact that that just happened."        
+        Elseif Actor:rapportwithplayer < 35 && Actor:attractiontoplayer < 35
+            "<Actor.He_or_She> said it was nothing, but you think you catch them glancing pensively in the direction the person left."
+        Else
+            "<Actor.name> confess they've fantasized for a while about being an escort, but haven't pursued it because"
+            If Actor.isDating()
+                "<Actor.he_or_she> didn't want to betray me."
+            Else
+                "<Actor.he_or_she> was afraid of what I and others would think and <Actor.he_or_she> doesn't want to have to hide it."
+            Endif
+            "What should I say to <Actor.him_or_her>?"
+            0:: "Yeah, it's a bad idea"
+            1:: "Follow your desires"
+            
+            If 0
+                Player:: "Yeah, maybe it's a bad idea"
+            Else
+                Actor:: "You should follow their desire. Who knows, maybe I'll even hire you myself!"
+                Actor:perversion += 3
+                If Actor:perversion > 50
+                    Actor.addProstitute()
+                    "Eventually, <Actor.name> decided to become a sex worker."
+                Endif
+            Endif
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(300, ctf_jan01_cms)

@@ -1,0 +1,13 @@
+cameraLock()
+
+USE:
+Allows you to lock the scene camera from player's control
+
+TYPE: Command, Reference
+RETURNS: /
+THEME: Camera
+COMPARE:
+
+EXAMPLE:						
+    cameraLock()
+    "Might be good for voyeur scene"

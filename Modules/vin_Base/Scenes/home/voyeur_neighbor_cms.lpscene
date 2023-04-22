@@ -1,0 +1,144 @@
+WHAT: do_housework, do_laundry, homerepair
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Neighbour); If Actor.isInterestedIn(Player) && Actor:perversion > 50
+OTHER: isAtHome()
+
+    SceneStart()
+
+    "All this housework is heating me up. I need to get rid of this top!"
+    Player.stripOne()
+    "Way better! Hmmm... somehow it feels good to walk around topless at home." 
+    "Wait...! Is this my neighbor <Actor.name> watching me through the window?!"
+    secondScreen(Actor)
+    Actor.show()
+    "Oh my god! <Actor.he_or_she> is even pleasuring <Actor.himself_or_herself>!"
+    
+    Filter(Solo)
+    Sex(Actor)
+    
+    secondScreen(Actor)
+    Actor.show()
+    Actor2 = getSpecific(Dating)
+    
+    "What should I do about this?"
+    0:: "Ignore"
+    1:: "Give <Actor.him_or_her> a show"
+    2:: Actor2.isValid():: "Call over your <Actor2.boyfriend_or_girlfriend> <Actor2.name>"
+    3:: "Scold <Actor.him_or_her>"
+    
+    If 0
+        "Maybe it's best just to carry on with my housework and to pretend I've never noticed <Actor.name>. I don't want to make the situation any more awkward for me or <Actor.him_or_her>" 
+        "After a while I finished my work, but after I'm done my body is even more in heat, even if it's a different kind of heat now... "
+        "It seems being watched like this, is getting me quite aroused!"    
+        arousal += 10
+        
+    Elseif 1
+        perversion += Random(0, 0.5)
+        "Getting watched like this really turns me on, but I won't leave it by this. Time to give my lovely neighboor a good show"
+        "I casually walk towards my bed, pretending to be finished with my work and getting myself some rest."
+        "I position myself in a good spot for <Actor.name> to watch me and then join <Actor.him_or_her> for some mutal masturbation"
+        
+        Filter(Solo)
+        Sex(Player)
+        
+        "That was hot. I take a short glance towards my voyeuristic neighbor, making a quick check that <Actor.he_or_she> is still there."
+        "I wonder ... Shall I let <Actor.him_or_her> know that I'm aware of <Actor.his_or_her> presence?"   
+        0:: "Let's drop the act"
+        1:: "No this would just make it weird"
+            
+        If 0
+            "I get out off my bed and turn myself towards the window. There I stare deep into <Actor.name>'s eyes."
+            "<Actor.He_or_She> stares back in shock, but then soon relaxes and grins, after I've reassured <Actor.him_or_her> with a seductive grin and a wink."
+            Player(Flirty):: "Hope you enjoyed the show"
+            "I close the window putting an end to the show for today. But probably I will see my neighbor hanging around the window more often from now on..."  
+        Else
+            "As fun as this little adventure has been, I don't want to make things weird between me and <Actor.name>. I decide it's best to just finish my housework normally and pretend nothing happend."
+            "I will still leave the window open though, secretly hoping to find my neighbor hanging around the window more often from now on..." 
+        Endif
+    Elseif 2
+        "I casually call over my <Actor2.boyfriend_or_girlfriend> and in a second <Actor2.he_or_she> is there."
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "Hey my love, why did you call me?"
+        0:: "Tell <Actor2.name> that there is a creep watching me"
+        1:: "Secretly seduce your partner to put up a show for my peeping Tom"
+        
+        If 0
+            Cuck = Actor.getActorVar(tag_NTRCuck)
+            If Random(100, 200) < Actor2:perversion + Actor2:masochist || Cuck == 1
+                Actor2:: "You mean <Actor.name> has been watching you half naked and is still watching us right now...? That's hot!"
+                Player:: "Do you think so?"
+                Actor2:: "Hell yes! Would you mind putting up a show for <Actor.him_or_her>? This would be amazing!"                    
+                0:: "No this is too weird"
+                1:: "If it makes <Actor2.name> happy. Why not?"
+                    
+                If 0 
+                    Player:: "No I don't like that idea of acting all naughty in front of <Actor.name>"
+                    Actor2:: "Ok baby, nevermind...Let's get you fully dressed again and then I help you with the rest of the housework."
+                    "I put my top back on and afterwards <Actor2.name> helps me finish quickly just as <Actor2.he_or_she> promised."
+                Else
+                    Player(flirty):: "My my...you naughty <Actor.boy_or_girl>! Do you like the idea of your lovely <Player.boyfriend_or_girlfriend> being jack-off material for all dirty perverts out there?"
+                    Actor2:: "Oh yes baby!"
+                    Player:: "Fine then. Go out and I'll give <Actor.name> the show of <Actor.his_or_her> life! Wait outside like a good <Actor.boy_or_girl> and I'll tell you all the dirty details later on..."  
+                    Actor2:: "You are the best!"
+                    Actor2.hide
+                    "As soon as my <Actor2.boyfriend_or_girlfriend> has left the room I turn towards the window and start touching myself" 
+                    
+                    Filter(Solo)
+                    Sex(Player)
+                Endif   
+            Elseif Random(100, 200) < Actor2:perversion - Actor2:masochist 
+                Actor2:: "You mean <Actor.name> is getting it off with you walking around half naked right now?"
+                Player:: "Ehhm...kind of I think?!"
+                Actor2:: "Then let's show <Actor.name> who really is your <Actor2.boyfriend_or_girlfriend>, shall we?"
+                "With that <Actor2.name> pulls me over and drops my pants with savage force and turns me towards the window"
+                Player.strip()
+                "I wink towards our voyeur, whose gaze then switches from intial shock towards pure passion" 
+                "My <Actor2.bofriend_or_girlfriend> then also turns his gaze towards <Actor.name> while giving my ass loud spank"
+                Actor2:: "That's right! This fine piece of ass belongs to me, have a good look. This will be all you get!"
+                Sex(Player, Actor2)
+            Else
+                "<Actor2.name> takes a look out the window and instantly detects <Actor.name>"
+                Actor2(Angry):: "What the fuck <Actor.name>?! You perverted creep!"
+                "With this my <Actor2.boyfriend_or_girlfriend> storms out of the room to engage <Actor.name>" 
+                "I just hope <Actor2.he_or_she> won't hurt <Actor.name>... At least not too much."
+            Endif
+        Else
+            Player(flirty):: "Hey baby, look how hard-working I've been. It got me all heated up."
+            Actor2:: "I can see that, baby!" 
+            "Just like <Actor.name> outside, my <Actor.boyfriend_or_girlfriend> is unable to take <Actor2.his_or_her> gaze away from my sweaty bare chest"
+            Player(flirty):: "Can you help me relax a bit? I really could use a nice reward right now"
+            "I snuggle up on <Actor2.name> and then point my eyes downwards to my crotch. Of course <Actor2.he_or_she> takes the hint and gladfully gets down on <Actor2.his_or_her> knees>"
+            Actor2:: "Of course my love. Just lay back and let me make you feel good"
+            Filter(Oral)
+            Sex(Player, Actor2)
+            "While my <Actor2.boyfriend_or_girlfriend> is going down on me. I make sure to have a view towards the window. Filled with lust and passion I feast upon <Actor.name>'s craving gaze as <Actor.he_or_she> pleasures <Actor.him_or_her>self."  
+            "Paired with <Actor2.name>'s oral effort I am reaching my climax in no time and come hard on my <Actor2.boyfriend_or_girlfriend>s face."
+            Actor2:: "Seems like you've had a lot build up there, baby. Do you still have some more energy for another round?"
+            0:: "Have sex with <Actor2.name> right in front of <Actor.name>"
+            1:: "Don't let this escalate even more"
+                
+            If 0 
+                Player:: "Of course let's get it started"
+                Sex(Player,Actor2)
+                Actor2:: "This was great! You've been especially enthusiastic today. I thought you were so worked up babe...haha"
+                "I give my <Actor2.boyfriend_or_girlfriend> a deep kiss, before having a quick glance over <Actor2.his_or_her> shoulder and towards the window. There I see how <Actor.name> pulls up <Actor.his_or_her> pants and making a go for it"
+                Player:: "You have no idea baby!"
+            Else
+                Player:: "Sorry my love, but I'm totally drained right now. You just killed me there baby! Thank you so much, I really needed that... I'll make it up to you soon!"
+                "I give my <Actor2.boyfriend_or_girlfriend> a deep kiss, before having a quick glance over <Actor2.his_or_her> shoulder and towards the window. There I see how <Actor.name> pulls up <Actor.his_or_her> pants and making a go for it"
+                "I decide to do the same and gather my clothes, before leaving the room"
+            EndIf
+        Endif
+    Else
+        "I sprint towards the window and slam it open!"
+        Player(Angry):: "For god sake <Actor.name> what are you doing there!"
+        Actor(Scared):: "Shit! shit!! shit!!!"
+        "<Actor.name> quickly pulls up <Actor.his_or_her> pants and sprints out of my sight."
+        "Considering the terror I saw in <Actor.his_or_her> eyes, the short moment our gazes met, I don't believe <Actor.he_or_she> will pull of something like this again." 
+        masochist -= Random(0, 1)
+    Endif
+
+    SceneEnd()
+    timeout(200, voyeur_neighbor_cms)

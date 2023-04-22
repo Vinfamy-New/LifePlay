@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: bathe_pet
+ACTION_NAME: Bathe
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 15 - 30
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: karma +0.1 (END), energy -5 (END), Interacting:rapportwithplayer +2 (END)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS:
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isCreature()    

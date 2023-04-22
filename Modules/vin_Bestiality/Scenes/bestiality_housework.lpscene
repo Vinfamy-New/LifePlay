@@ -1,0 +1,31 @@
+WHAT: do_housework, do_housework_together 
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getCreature(); If Actor.isMale() && Player.isInterestedInMen() && Actor.isCreatureType(Dog)
+OTHER:
+
+    // While doing housework, you can get mounted, you can then push your pet away or wait and see what happens. 
+    SceneStart()
+    Actor.show()
+    Player.animate(sweep)
+    "I was just doing some housework. I needed to bend over to grab something that I dropped by accident."
+    animatePair(Actor, Player, Doggy)
+    "Just as I was trying to stand back up, I could feel <Actor.name> mounting me from behind and dry-humping."
+    0:: "Push him away"
+    1:: "Wait and see what happens"
+    
+    If 0
+        "I pushed my horny dog away."
+    Else
+        "My dog is becoming even more excited, I could feel his dick getting harder and poking around my hole."
+        0:: "Fuck the dog"
+        1:: "Put an end to this before it's too late"
+        
+        If 0
+            Sex(Actor, Player)
+        Else
+            "I pushed my horny dog away."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(150, bestiality_housework)

@@ -1,0 +1,45 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getPerson(tag_Raped); If Actor:masochist > 50 && !Actor.isDating()
+OTHER:
+
+    // If someone who's listened to your rap music has high submissiveness (or has become so after you approach them repeatedly with the footage above), you may do a Stockholm and convince themselves they're in love with you instead.
+    
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I was chilling at home when suddenly one of my past rape victims <Actor.name> showed up unannounced."
+    "I was fully expecting a confrontation, maybe even cops waiting outside to arrest me, but nope!"
+    Actor:: "You have no idea how many nights I've spent awake thinking about what happened between us."
+    Actor:: "I did say no at the start of it but I can't help but remember the sensation of the experience, how much I enjoyed being roughly fucked by you."
+    Actor:: "I was confused for a long time, but I've finally accepted the truth: I've fallen in love with you"
+    Actor:attractiontoplayer => Random(75, 100)
+    exchangeContact(Actor)
+    Actor.setActorVar(tag_Raped, 0)
+    "Well well ... this is a pleasant surprise. Some serious Stockholm syndrome at work here. Not being able to cope with the trauma. <Actor.He_or_She>'s convinced <Actor.himself_or_herself> that <Actor.he_or_she>'s fallen in love with <Actor.his_or_her> rapist."
+    0:: "Just fuck <Actor.him_or_her> again"
+    1:: "Ask <Actor.him_or_her> to be my <Actor.boyfriend_or_girl-friend>"
+    2:: isModEnabled(vin_BDSM) && !Actor.isMale():: "Make <Actor.him_or_her> my sex slave"
+    3:: "Turn <Actor.him_or_her> down"
+    
+    If 0
+        "I'm not too keen on all these clingy emotional stuffs but I'm always down for a quick fuck."
+        Sex(Player, Actor)
+    Elseif 1
+        "<Actor.name> would make an obedient <Actor.boyfriend_or_girlfriend>, having completely submitted to <Actor.his_or_her> rapist. So I ask <Actor.him_or_her> to be just that. <Actor.He_or_She> was delighted to accept."
+        Actor.setDating()
+    Elseif 2
+        "<Actor.name> agreed that <Actor.he_or_she> was worthless and should rightfully submit to me as <Actor.his_or_her> <Player.master_or_mistress>."
+        "As a slave, <Actor.name> swore to obey my every commands. In fact, satisfying all my needs is all that she was born for."
+        Actor.setActorVar(tag_Slave, 1)
+        Actor.setWantsBabies()
+        Actor.strip()
+        Actor.dressBondage(Collar)
+        "To show my newly recognized ownership of my new slave, I put a collar around <Actor.his_or_her> neck and forbid <Actor.him_or_her> from ever removing it."
+        Actor:masochist => 100
+    Else
+        "Unfortunately for <Actor.him_or_her>, I enjoy the thrill of raping someone unwilling. Now that <Actor.he_or_she>'s submitted and even become emotional, <Actor.he_or_she>'s no fun anymore."
+    Endif
+    SceneEnd()
+    timeout(500, ag_stockholm)

@@ -1,0 +1,63 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getRelative(); If Actor.isFemale() && Actor2.isFemale()
+OTHER:
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> was over and my <Actor2.relationship> <Actor2.name> was home so we all decided to hang out in the living room watching TV."
+    "I was glad to see <Actor.name> getting along so well with my <Actor2.relationship>."
+    If Actor.isMarried()
+        "After all, it's good to have a wife who has a good relationship with her <Actor2.relationship>-in-law. Less family drama that way."
+    Else
+        "After all, it's good to have a girlfriend who has a good relationship with her <Actor2.relationship>-in-law. Less family drama that way."    
+    Endif
+    "Despite the nice conversations, we are in serious need of some snacks. The kitchen cupboard and fridge has none left."
+    0:: "Go grab snacks alone and let them two bond further"
+    1:: "Go grab snacks together with <Actor.name>"
+    
+    If 0
+        Player:: "I'm gonna head out and grab some snacks. Should be back soon."
+        Player:: "You two stay and chat."
+        Actor:: "Okay, honey."
+        Actor.hide()
+        Actor2.hide()
+        setBackground(street)
+        "I then left the two of them behind and drove to the nearby supermarket."
+        setBackground(supermarket)
+        "Unfortunately, there seemed to be a staff shortage there and there was a long queue just to pay for our snacks."
+        setBackground(street)
+        Player:: "At long last ... let's head back now. <Actor.name> and my <Actor2.relationship> must be starving."
+        setBackgroundCustom(livingroom)
+        Player:: "I'm back! Sorry, that took longer than expected."
+        Actor.show()
+        Actor2.show()
+        If Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor) && Random(0, 100) < Actor:perversion + Actor2:perversion
+            Actor.strip()
+            Actor2.strip()
+            animatePair(Actor, Actor2, Oral)
+            Player:: "What the fuck!"
+            Sex(Actor, Actor2)
+            "It seemed that the bonding between my <Actor.boyfriend_or_girlfriend> and my <Actor2.relationship> went a bit too well ... and I gave them plenty of time to escalate things ..."
+            Actor2:: "Sorry, but I was just doing my best to keep my <Actor2.callplayer>'s <Actor.boyfriend_or_girlfriend> company while you weren't here."
+            Actor2:: "You have such a beautiful <Actor.boyfriend_or_girlfriend> that I coudn't help myself."
+            Actor2:: "I know full well I was into women, and apparently, your <Actor.boyfriend_or_girlfriend> was too."
+            Actor2:: "She would make a fine addition to our family indeed."
+            "Oh well ... no point making a big fuss out of this. All for harmonious family relationships, I guess." 
+        Else
+            Actor:: "It's okay, honey. I was having a nice chat with your <Actor2.relationship>."
+            Actor2:: "Great. Just in time for this movie to start!"
+        Endif
+    Else
+        Player:: "<Actor.name>, let's go and grab some snacks. I'll drive and wait for you outside while you go in, we'll be back quicker that way."
+        Player:: "<Actor2.relationship>, we'll be back soon"
+        Actor2:: "Okay, <Actor2.callplayer>."
+        "The strategy worked and we were back with snacks in no time at all. The rest of the evening went quite well."
+    Endif
+    SceneEnd()
+    timeout(300, dating_inlaw_bonding)

@@ -1,0 +1,11 @@
+Actor.setNoRedress()
+
+USE:
+Force this actor's clothes or lack of such to stay the same after the scene finishes
+
+TYPE: Command, Ref
+RETURNS: /
+THEME: Clothes
+COMPARE:
+
+

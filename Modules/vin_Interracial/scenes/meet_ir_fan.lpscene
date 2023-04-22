@@ -1,0 +1,145 @@
+WHAT: all, -sleep_hotel, -nap_hotel
+WHERE: all, -home, -work, -prison
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "I was just going about my day when I catch the admiring eyes of a stranger towards me."
+    setRaceGenerated(Player, false)
+    Actor = generatePersonTemporary()
+    While !Player.isInterestedIn(Actor)
+        Actor = generatePersonTemporary()
+    Endwhile
+    
+    If Actor.isEthnic(black) && Actor.isMale() && !isTimingOut(strt_black_m)
+        Actor.blendPreset(strt_black_m)
+        
+    Elseif Actor.isEthnic(black) && !Actor.isMale() && !isTimingOut(strt_black_f)
+        Actor.blendPreset(strt_black_f)
+
+    Elseif Actor.isEthnic(indian) && Actor.isMale() && !isTimingOut(strt_indian_m)
+        Actor.blendPreset(strt_indian_m)
+        
+    Elseif Actor.isEthnic(indian) && !Actor.isMale() && !isTimingOut(strt_indian_f)
+        Actor.blendPreset(strt_indian_f)
+        
+    Elseif Actor.isEthnic(arab) && Actor.isMale() && !isTimingOut(strt_arab_m)
+        Actor.blendPreset(strt_arab_m)
+        
+    Elseif Actor.isEthnic(arab) && !Actor.isMale() && !isTimingOut(strt_arab_f)
+        Actor.blendPreset(strt_arab_f)
+
+
+    Elseif Actor.isEthnic(latin) && Actor.isMale() && !isTimingOut(strt_latin_m)
+        Actor.blendPreset(strt_latin_m)
+        
+    Elseif Actor.isEthnic(latin) && !Actor.isMale() && !isTimingOut(strt_latin_f)
+        Actor.blendPreset(strt_latin_f)
+
+        
+    Elseif Actor.isEthnic(asian) && Actor.isMale() && !isTimingOut(strt_asian_m)
+        Actor.blendPreset(strt_asian_m)
+        
+    Elseif Actor.isEthnic(asian) && !Actor.isMale() && !isTimingOut(strt_asian_f)
+        Actor.blendPreset(strt_asian_f)
+
+
+    Elseif Actor.isEthnic(white) && Actor.isMale() && !isTimingOut(strt_white_m)
+        Actor.blendPreset(strt_white_m)
+        
+    Elseif Actor.isEthnic(white) && !Actor.isMale() && !isTimingOut(strt_white_f)
+        Actor.blendPreset(strt_white_f)
+    Endif
+
+    Actor.ModifyRaceFetish(Player, 100, 200)
+    Actor.makeInterested(Player)
+
+    Actor.dress()
+    Actor.show()
+    Actor:attractiontplayer => Random(75, 100)
+    "This <Actor.race> <Actor.man_or_woman> approaches me ..."
+    Actor:: "Sorry, I swear I don't do this to everyone but you're like the most exquisite creature on the planet honestly ... I can't help myself but check you out a bit."
+    "Wow ... It's not the first time I come across someone who's instantly attracted to me and this <Actor.race> <Actor.guy_or_girl>'s desire for me seems unusually intense."
+    Actor:: "I guess I've always had a thing for <Player.men_or_women> that look like you ..."
+    Player:: "Huh? What do you mean by looking like me?"
+    Actor:: "I mean ... I've always had a taste in <Player.race> <Player.men_or_women> ..."
+    
+    
+    If Player.isEthnic(black) && Player.isMale() && !isTimingOut(strt_black_m)
+        Actor:: "I can't help but fantasize about black men and their big black cocks and how they will really stretch my poor little <Actor.race> body to its limits."
+        
+    Elseif Player.isEthnic(black) && !Player.isMale() && !isTimingOut(strt_black_f)
+        Actor:: "I can't help but fantasize about those strong black women and their voluptuous curves. Personally, I've always preferred thicker women to the skinny fashion model types."
+
+
+    Elseif Player.isEthnic(indian) && Player.isMale() && !isTimingOut(strt_indian_m)
+        Actor:: "I can't help but fantasize about these exotic South Asian men with their dark skin matched by thick black body hair."
+        
+    Elseif Player.isEthnic(indian) && !Player.isMale() && !isTimingOut(strt_indian_f)
+        Actor:: "There are just something about exotic yet sexually repressed South Asian women that really attract me to them. I also don't mind my ladies being a bit on a hairier side."
+
+        
+    Elseif Player.isEthnic(arab) && Player.isMale() && !isTimingOut(strt_arab_m)
+        Actor:: "I can't help but fantasize about these exotic Arab men with their manly black beard and hairy chest."
+        If Actor.isMale()
+            Actor:: "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+        Else
+            Actor:: "I find their more dominant attitude towards women somewhat arousing too."
+        Endif
+        
+    Elseif Player.isEthnic(arab) && !Player.isMale() && !isTimingOut(strt_arab_f)
+        Actor:: "There are just something about exotic yet sexually repressed Arab women that really attract me to them."
+        If !Actor.isMale()
+            Actor:: "The fact that homosexuality is a forbidden fruit in their culture makes it even more exciting."
+        Else
+            Actor:: "I find their more traditional attitude towards the role of the woman in a relationship somewhat arousing too."
+        Endif
+
+
+    Elseif Player.isEthnic(latin) && Player.isMale() && !isTimingOut(strt_latin_m)
+        Actor:: "I can't help but fantasize about these passionate Latino men with their tanned skin and dark handsome features. It's so sexy when they talk dirty in their mother tongue."
+        
+    Elseif Player.isEthnic(latin) && !Player.isMale() && !isTimingOut(strt_latin_f)
+        Actor:: "I can't help but fantasize about those sexy Latinas with their voluptuous curves and fiery passion. I'd love nothing more but to dance with them all night."
+
+        
+    Elseif Player.isEthnic(asian) && Player.isMale() && !isTimingOut(strt_asian_m)
+        Actor:: "I can't help but fantasize about these cute youthful-looking East Asian men. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair."
+        Actor:: "I also find their intelligence and more gentle and shy demeanor absolutely irresistible."
+        
+    Elseif Player.isEthnic(asian) && !Player.isMale() && !isTimingOut(strt_asian_f)
+        Actor:: "There are just something about smart but shy youthful-looking East Asian women that really attract me to them. I have no idea why people tease them for their smaller eyes, since I personally find them such an attractive feature that goes well with their jet black hair. I also don't mind my ladies being all natural down there."
+        Actor:: "I find their somewhat more submissive behavior in a relationship quite arousing too."
+
+
+    Elseif Player.isEthnic(white) && Player.isMale() && !isTimingOut(strt_white_m)
+        Actor:: "I can't help but admit I've always preferred white men to <Actor.race> men. Subconsciously, maybe I enjoy a little bit having a partner with a more dominant perceived social status and whose race historically was in a position of authority over my own <Actor.race> people, but most importantly, I just find white men the most attractive and get turned on by the contrast between skin tones when we make love."
+        
+    Elseif Player.isEthnic(white) && !Player.isMale() && !isTimingOut(strt_white_f)
+        Actor:: "I can't help but admit I've always preferred white women to <Actor.race> women. Subconsciously, maybe I enjoy that little victorious feeling of being able to 'score' with a white girl and get that look of admiration and jealousy from my fellow <Actor.race> friends, but most importantly, I just find white women the most attractive and want to show her what's it like to be with a <Actor.race> <Actor.man_or_woman>."
+    Endif
+    "Holy shit ... I've come across some flirtations in my life, but that was definitely super forward and almost creepy. This <Actor.race> <Actor.guy_or_girl> seems to be obsessed with getting those <Player.race> <Player.dicks_or_pussies> ..."
+    "Not sure how I feel about this?"
+    0:: "Invite <Actor.him_or_her> home right away"
+    1:: "Exchange numbers"
+    2:: "Get offended and leave"
+    
+    If 0
+        "This <Actor.race> <Actor.guy_or_chick> is a bit weird for sure, but I can't say no to free <Actor.dick_or_pussy> that so willingly offers itself ..."
+        moveTo(home)
+        setBackground(home)
+        "I invited <Actor.him_or_her> home and as soon as we were there, I gave <Actor.him_or_her> that <Player.race> <Player.dick_or_pussy> <Actor.he_or_she> so craved."
+        Sex(Player, Actor)
+    Elseif 1
+        "I'm a bit flattered by the clear sexual interest to be honest, even if it's racially motivated. I guess there's nothing wrong with not being politically correct and freely admitting you have a clear preference for a certain race."
+        "I decided to exchange numbers with my new <Actor.race> admirer. Maybe we can go on a date soon."
+        Actor.makePermanent()
+        exchangeContact(Actor)
+    Else
+        Player:: "So basically, you consider <Player.race> <Player.men_or_women> like me as some sort of exotic sexual pets."
+        Player:: "That's so racist. Bye!"
+    Endif
+
+    SceneEnd()
+    timeout(50, meet_ir_fan)

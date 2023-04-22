@@ -1,0 +1,90 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: Actor = getSpecific(PassedOn)
+OTHER: none
+
+    SceneStart()
+    setBackground(home)
+    "I decided to take advantage of my <Actor.relationship>'s absence to snoop around <Actor.his_or_her> belongings."
+    If Random(0, 10000) < 20*Actor:perversion
+        "Wait, what the hell is this stain on my <Actor.relationship>'s sheet?"
+        0:: "<Actor.his_or_her> cum"
+        1:: "Who cares?"
+        
+        If 0
+            "Was <Actor.he_or_she> masturbating in <Actor.his_or_her> room, then couldn't help but ejaculate all over <Actor.his_or_her> sheet?"
+            Actor:incest += Random(0, 2)
+        Endif
+    Elseif Random(0, 10000) < 22*Actor:perversion
+        "Hmm, let's check inside <Actor.his_or_her> drawers"
+        "Wait, what's this book?"
+        "'Forbidden Affairs with My <Actor.Callplayer>' the title says ..."
+        "Wow, I would never have imagined that my <Actor.relationship> read incest erotica. Is <Actor.he_or_she> fantasizing about me while reading this book?"
+        Actor:incest += Random(0, 4)
+    Elseif Random(0, 10000) < 24*Actor:perversion
+        "Hmm, what's this thing?"
+        "I know what it is ... It's a <Actor.Fleshlight_or_dildo>!"
+        "Wow, I would never have imagined that my <Actor.relationship> used sextoys. I won't deny that this discovery turns me on so much."
+        Actor:incest += Random(0, 4)
+    Elseif Random(0, 10000) < 26*Actor:perversion   
+        "Oh, this is the drawer for <Actor.his_or_her> underwear ... maybe I should ..."
+        0:: "Take a pair of <Actor.boxers_or_panties>"
+        1:: "Leave it"
+
+        "I couldn't help it. I have fantasized about my <Actor.relationship> before. I should take these for my next masturbation session. It's just harmless fantasy, right? <Actor.He_or_She> won't notice that one pair has gone missing ..."
+        Actor:incest += Random(0, 4)
+    Elseif Random(0, 10000) < 28*Actor:perversion && !Actor.isVirgin()
+        "<Actor.name>'s laptop seems to be on, just with the screen turned off due to being idle."
+        "I wasn't planning to touch the laptop at first since it would be too risky, but by accident, while snooping around <Actor.name>'s stuffs, I accidentally elbowed the spacebar on her laptop."
+        "The screen turns on and moaning sounds follow ..."
+        Player.hide()
+        Actor2 = generatePersonTemporary()
+        While !Actor.isInterestedIn(Actor2)
+            Actor2 = generatePersonTemporary()
+        Endwhile
+        blockPregnancy()
+        Actor.show()
+        Actor2.show()
+        SexNoAffair(Actor, Actor2)
+        Actor2.hide()
+        Actor.hide()
+        Player.show()
+        "It's an old sex tape of <Actor.name> and one of <Actor.his_or_her> exes ... Apparently <Actor.he_or_she> was masturbating to it and forgot to shut down the laptop after finishing."
+        0:: "Masturbate to the sex tape right here"
+        1:: "Forward the tape to my PC to masturbate to it later ..."
+        
+        If 0
+            "I couldn't help myself and end up masturbating to my <Actor.relationship>'s hot sex scene with <Actor.his_or_her> ex right there in <Actor.his_or_her> bedroom ..."
+            Filter(Solo)
+            Sex(Player)
+            Actor.dress()
+            Actor.show()
+            Actor:: "<Player.name>! What the fuck are you doing in my room?"
+            Actor:: "Oh my god ... you're watching my ... video ..."
+            Actor:: "Are you masturbating to ... me?"
+            0:: "I'm fantasizing about your ex ..."
+            1:: "I'm fantasizing about you ..."
+
+            If 0
+                Player:: "Sorry, but your ex was so hot in that video ... I couldn't help myself ..."
+                Actor:: "Okay, that's kinda weird ... Can you just leave?"
+            Else
+                "<Actor.name> was obviously feeling a bit lonely and needy if <Actor.he_or_she> was rewatching an old sex tape with an ex ..."
+                "This is a once-in-a-lifetime opportunity to confess my attraction to <Actor.him_or_her> ..."
+                Player:: "Yes, I just couldn't help myself ... You're so hot ... I wish I was in your ex's place ..."
+                Actor:: "Well ... maybe tonight, you can be ..."
+                "One thing leads to another, and soon enough, I was no longer a passive watcher of an old video, but a very active participant of the action."
+                Sex(Player, Actor)
+                Actor:incest += 100
+            Endif
+        Endif
+    Else
+        "Unfortunately I couldn't find anything interesting. Before long, I heard footsteps coming towards the room. I had to rush out of there before getting caught."
+        Home = Actor.getBuilding(home)
+        Actor.setCurrentLocation(Home)
+        Until = HoursElapsed + Random(1, 3)
+        Actor.setUntil(Until)         
+    Endif
+
+    SceneEnd()

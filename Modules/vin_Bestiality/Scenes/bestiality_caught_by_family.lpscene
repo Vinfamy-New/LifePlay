@@ -1,0 +1,43 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getCreature(); Actor2 = getRelative(); If Actor.isMale() && Actor.hadSex() && Actor2.livesWithPlayer() && Actor2.isInterestedIn(Actor) && Actor.isCreatureType(Dog)
+OTHER:
+
+    // While you're being knotted and stuck that way, one of the relatives living with you caught you in the act, their reaction and willingness to join in depends on their perversion, which increases gradually each time they see it.
+    
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    Actor.show()
+    "I'm simply watching TV in the living room with my dog <Actor.name> around. I can't help but notice <Actor.name> is getting too excited around me again. We've already tasted the forbidden fruit and no-one else is in the apartment right now."
+    "But is it really safe to fuck my dog in the living room? Someone could walk in at any moment ..."
+    0:: "Strip naked and fuck <Actor.name>"
+    1:: "Let's not risk it"
+    
+    If 0
+        Player.strip()
+        "It won't take too long, we'll be long done before someone else returns home."
+        Sex(Actor, Player)
+                
+        animatePair(Actor, Player, Doggy)
+        "<Actor.name>'s knot seems to stay swollen forever today ... It gives me the best orgasm in the world, but we're pretty much stuck in this position for the time being ..."
+        
+        Actor2.dress()
+        Actor2.show()
+        Actor2:: "<Player.name>, I'm home. How was your ... What the fuck!"
+        "Oh no, my <Actor2.relationship> <Actor2.name> got home early and caught me in the act while <Actor.name>'s knot remains swollen inside of me."
+        Actor2:perversion += Random(0, 5)
+        If Actor2:perversion > 50
+            Actor2:: "That looks like a mind-blowing orgasm ... You wouldn't mind your <Actor2.relationship> having a go at your dog as well, would you?"
+            Player:: "Of course not, come join us!"
+            Sex(Actor, Actor2, Player)
+        Elseif Actor2:perversion > 25
+            Actor2:: "Okay ... definitely not my cup of tea ... I'll just go to my room and pretend I saw nothing."
+        Else    
+            Actor2:: "That's disgusting! I can't believe I have a degenerate <Actor2.callplayer> like you."
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, bestiality_caught_by_family)
+    

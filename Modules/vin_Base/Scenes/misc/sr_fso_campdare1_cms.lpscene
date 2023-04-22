@@ -1,0 +1,54 @@
+WHAT: all
+WHERE: forest, mountain, river
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Actor.isMale() && Actor.isDating() && Actor:perversion > 40
+OTHER: isModEnabled(vin_NTR)
+
+    //Summery - the player dare's their girlfriend/wife to do something naughty while at their camp. There are 2 things that can be dared.
+    
+    SceneStart()
+    
+    "While camping with <Actor.name> I began thinking about a hentai I watched recently with same setting as here."
+    "Perhaps I should ask <Actor.name> to do one of the things in the hentai?"
+    0:: "I'll dare <Actor.name> to strip nude and sleep with herself in full view of the tent's window."
+    1:: "I'll dare <Actor.name> to masturbate right behind a tree near the camp site while I film her!"    
+    2:: "Nevermind actually. Lets not get too crazy out here. Who knows what might happen."
+    
+    If 0
+        Actor.strip()
+        "<Actor.name> agreed to my dirty idea and she stripped down nude. She left the flap to her tent's window down and got within her tent. She then fell to sleep."
+        If Random(0, 100) < 50
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show()
+            Actor2.animate(camera)
+            "Unfortunately, she is caught by a random person who proceeds to take pictures of her and then leaves"
+        Else
+            "Thankfully, noone else saw it and she manages to sleep peacefully"
+        Endif
+    Elseif 1
+        "<Actor.name> agreed to my dirty idea. She quickly ran behind a nearby tree still close to the camp and began to play with herself."
+        Filter(Solo)
+        Sex(Actor)
+        //two things may happen from here. She is caught and the stranger propsitions her for sex, or no one catches her."
+        If Random(0, 100) < 50
+            Actor2 = generatePersonTemporary()
+            While !Actor2.isMale()
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.dress()
+            Actor2.show()
+            "She's caught in the act by a stranger, who asks if he can bang her."
+            0:: "Let him"
+            1:: "Stop him"
+            
+            If 0
+                Sex(Actor, Actor2)
+            Endif
+        Else    
+            "Thankfully, noone else saw it and she wasn't caught in the act"
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(200, sr_fso_campdare1_cms)

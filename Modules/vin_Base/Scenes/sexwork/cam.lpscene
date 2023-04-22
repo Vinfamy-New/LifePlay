@@ -1,0 +1,82 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER: none
+
+    // Can become a webcam model. Accepting requests from viewers can yield extra cash.
+    SceneStart()
+    "Do I want to start a live webcame show right now?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        setBackground(home)
+        pornfame += 0.5
+        Selfie = Random(0.7, 1.3)*[pornfame + attractiveness]
+        "Let's go live ..."
+        "Let's start by playing with myself a bit while giving some jerk-off instructions to my audience, that always gets the party going ..."
+        Filter(Solo)
+        Sex(Player)
+        "The tips are starting to pour in after my little live solo show ..."
+        If Random(0, 100) < 30
+            "Quite a few viewers are requesting a live oral show ..."
+            Filter(Oral)
+        Elseif Random(0, 100) < 50
+            "Quite a few viewers are requesting a live anal show ..."
+            Filter(Anal)
+        Else
+            "Quite a few viewers are requesting to watch me get fucked ..."
+        Endif
+        Actor = getSpecific(Dating)
+
+        If Actor.isValid()
+            Actor.dress()
+            Actor.show()
+            "Right that moment, I hear the footsteps of my <Actor.boyfriend_or_girlfriend> <Actor.name> just arriving home ... Perfect timing ..."
+            0:: "Indulge my viewers with a live show with <Actor.name> ..."
+            1:: "No"
+            
+            If 0
+                Selfie *= Random(1.5, 2.5)
+                Sex(Player, Actor)
+                pornfame += 1
+            Endif
+        Else
+            "Unfortunately, I don't have a co-star to do that with ..."
+        Endif
+        
+        // when you are recording an online porn shot (solo or with someone), you'll leave in the middle of the recording to grab more lube, leaving your pc recording live and yours fans waiting. While your are out, there's a chance where your partner or family member will come to your room and they will see the streaming and a dildo on your chair. Your partner or family member will get turned on by knowing what you was doing and they will perform a live porn for your audience and when you return, they will leave right before, but you will notice your chat going crazy. The lines can be something like that: - Hi sweeties! Enjoy the show. - Shit, I need some lube (You will leave the room to grab some lube in the bathroom). - Love/Sis, can I come in? Love? I've come to ask if you want to... What?! (They notice the dildo and the live chat on pc). - So my love was doing something like that? Maybe I can have some fun too (proceeds to masturbation); - Shit, my she's back! I'm leaving! Bye! (she leaves the room). - Finally, I've found some lube. What? They gave me so many tips! But I wasn't even... Whatever, thank you sweeties! (something like that, feel free to change some lines ). Thank you!
+        
+        Actor2 = getRelative()
+        If Actor2.isValid() && [Actor2:perversion > 50 || Actor2.hadSex()]
+            "Hmm, I ran out of lube. Let's go get some ..."
+            Player:: "I'll be right back! Keep watching, guys!"
+            Player.hide()
+            Actor.hide()
+            Actor2.dress()
+            Actor2:: "<Player.name>, can I come in?"
+            Actor2:: "..."
+            Actor2.show()
+            Actor2:: "I've come to ask if you want to... What?!"
+            "Unbeknown to me, as soon as I was out of the room, my <Actor2.relationship> happened to walk into it."
+            Actor2:: "So, my <Actor2.callplayer> was doing a live cam show ..."
+            Actor2:: "Maybe I can have some fun too ..."
+            Filter(Solo)
+            Sex(Actor2)
+            Selfie *= Random(1.5, 2.5)
+            Actor2:: "Shit, <Player.name> is coming back. Let's get out of here ..."
+            Actor2.hide()
+            Player.show()
+            Player:: "Finally, I found some lube. I hope my viewers didn't all get bored and stop watching."
+            Player:: "What? So many tips while I was gone! Just how? I wasn't even in the room ..."
+            "Whatever ... they are such simps ..."
+            Player:: "Thank you sweeties, you're so generous! You're the best viewers ever!"
+        Endif       
+        
+        "After playing with myself some more while interacting with my viewers, I ended today's cam show."
+        IncomeConverted = Selfie.convertToLocalCurrency(true)
+        money => money + Selfie
+        "I earned <IncomeConverted> in total from camming today. Not bad!"
+    Endif
+    SceneEnd()

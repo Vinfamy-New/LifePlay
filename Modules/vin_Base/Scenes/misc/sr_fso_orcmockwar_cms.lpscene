@@ -1,0 +1,215 @@
+WHAT: all, -sleep, -nap
+WHERE: forest, mountain
+WHEN: 0 - 24
+WHO: Actor = getCompanion(); If !Actor.isMale() && Actor.isDating() && Actor.isRace(Orc)
+OTHER: PercentageOrcs > 0 && PercentageElves > 0 && Player.isMale() && Random(0, 100) < 50 && isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual)
+
+    //The player's Orc girlfriend and the player are invited to a "war game" between the Orc tribe the girlfriend belongs to and another orc tribe. There are a few different outcomes here.
+
+    SceneStart()
+
+    "While me and my lover were having fun around the campsite an Orc from her tribe noticed us."
+    Actor2 = generatePersonTemporary()
+    Actor2.blendPreset(orc)
+    Actor2.dress()
+    Actor2.show()
+    Actor2:: "Hey you two. Would the two of you want to participate in a friendly wargame between our clan and another?"
+    Actor:: "I would love that! Can we go do that love?"
+    0:: "Sure. I always wanted to watch you show off your combat skills."
+    1:: "No, lets focus on our date, maybe next time."
+
+    if 0
+        "We joined up with other memebers of her tribe, men and women I've not met before and some I have."
+        "Their war leader explained the rules to me."
+        Actor3 = getPerson(tag_orcchief)
+        If !Actor3.isValid()
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isMale()
+                Actor3 = generatePersonTemporary()
+            endwhile
+            Actor3.blendPreset(orc)
+        Endif
+        Actor3.dress()
+        Actor3.show()
+        Actor3:: "Defeated tribe members can be taken right there on the field by who defeated them."
+        Actor3:: "The tribe that has the largest defeat will be taken for fun times by the other tribe for a few hours."
+        Actor3:: "It is important to note that there will be no condoms used since that would break the rules we set between the tribes."
+        Actor3:: "Those of you that are married or dating may wish to stay close to your mate and work as a team."
+
+        "After hearing those rules my mind began racing. Should I help my girl out? Or should I stay out of it? Or...should I sabotage her?" 
+        0:: "I should stick by <Actor.name>'s side. I love her too much to leave her to battle alone!"
+        1:: "I always wanted to watch <Actor.name> fight onbehalf of her tribe. I'll stay out of it"
+        2:: "I had a terrible idea...why not sabotage her?"
+
+        If 0
+            If Random(0, 100) < martial
+                Actor4 = generatePersonTemporary()
+                While !Actor4.isMale()
+                    Actor4 = generatePersonTemporary()
+                Endwhile
+                Actor4.blendPreset(orc)
+                Actor4.dress()
+                Actor4.show()
+                
+                Actor5 = generatePersonTemporary()
+                While Actor5.isMale()
+                    Actor5 = generatePersonTemporary()
+                Endwhile
+                Actor5.blendPreset(orc)
+                Actor5.dress()
+                Actor5.show()                
+                
+                "Thanks to our fighting ability, we managed to defeat another pair of male and female orcs. It's time to celebrate this victory ... I'm allowed to take my prize of course."
+                0:: "Fuck <Actor.name> to celebrate"
+                1:: "Fuck the male orc as my prize"
+                2:: "Fuck the female orc as my prize"
+                
+                If 0
+                    Sex(Player, Actor)
+                Elseif 1
+                    Sex(Player, Actor4)
+                Else
+                    Sex(Player, Actor5)
+                Endif
+                
+                "Having witnessed the whole thing, the defeated male orc begged to get some action as well or he'll die of frustration ..."
+                0:: "Let him fuck his woman"
+                1:: "Let him fuck mine"
+                
+                If 0
+                    Sex(Actor4, Actor5)
+                Else
+                    Sex(Actor4, Actor)
+                Endif
+            Else
+                "Unfortunately, we lost the simulation. Our fighting ability had a lot to improve still."
+            Endif
+        Elseif 1
+            If Random(0, 2)*Actor:martial > 50 || !isModEnabled(vin_NonConsensual)
+                "Thanks to her martial prowess, she defeated both of her opponent orcs on her own."
+                "Meanwhile, I cheered on excitedly and was so happy to watch her win."
+            Elseif Random(0, 2)*Actor:martial < 50
+            
+                Actor4 = generatePersonTemporary()
+                While !Actor4.isMale()
+                    Actor4 = generatePersonTemporary()
+                Endwhile
+                Actor4.blendPreset(orc)
+                Actor4.dress()
+                Actor4.show()
+                
+                Actor5 = generatePersonTemporary()
+                While !Actor5.isMale()
+                    Actor5 = generatePersonTemporary()
+                Endwhile
+                Actor5.blendPreset(orc)
+                Actor5.dress()
+                Actor5.show()
+                
+                "Unfortunately, she was noticed by a group of 2 elite male orcs from the other side and is defeated and raped right there and then used again at their tribe's house for hours on end."
+                Sex(Actor4, Actor5, Actor)
+                Sex(Actor2, Actor3, Actor)
+                Sex(Actor4, Actor2, Actor5, Actor3, Actor)
+                
+            Elseif Random(0, 2)*Actor:martial < 20
+                Actor5 = generatePersonTemporary()
+                While Actor5.isMale()
+                    Actor5 = generatePersonTemporary()
+                Endwhile
+                Actor5.blendPreset(orc)
+                Actor5.dress()
+                Actor5.show()    
+                "Unfortunately, she gets defeated by a random female who then forces her to play with herself while the female films it."
+                Actor5.animate(camera)
+                Filter(Solo)
+                Sex(Actor)
+            Else
+                "Unfortunately, she was defeated by a male and female orc couple that then has a threesome with her for hours on end."
+                Actor4 = generatePersonTemporary()
+                While !Actor4.isMale()
+                    Actor4 = generatePersonTemporary()
+                Endwhile
+                Actor4.blendPreset(orc)
+                Actor4.dress()
+                Actor4.show()
+                
+                Actor5 = generatePersonTemporary()
+                While Actor5.isMale()
+                    Actor5 = generatePersonTemporary()
+                Endwhile
+                Actor5.blendPreset(orc)
+                Actor5.dress()
+                Actor5.show() 
+                
+                Sex(Actor4, Player, Actor5)
+            Endif
+        Else
+            "How exactly?"
+            0:: "I'll expose her mid battle suddenly showing her holes off to whoever she is fighting!"
+            1:: "I'll talk to the orc chieftan of the other side real quick he keeps staring at <Actor.name>'s breasts and butt while the two sides are readying up."
+            
+            If 0
+                Actor4 = generatePersonTemporary()
+                While !Actor4.isMale()
+                    Actor4 = generatePersonTemporary()
+                Endwhile
+                Actor4.blendPreset(orc)
+                Actor4.dress()
+                Actor4.show()
+                
+                Actor.stripOne()
+                Actor.stripOne()
+                "While fighting a random male orc on the otherteam you suddenly pull down her lower gear showing her special holes off to him!"
+                
+                If Random(0, 100) < 50
+                    "He understands what you are after and takes her roughly right there while she is suprised."
+                    Filter(Aggressive)
+                    Sex(Actor4, Actor)
+                Else
+                    "However, this backfires and instead she thinks you used it as a tactic to suprise him and it indeed suprised him enough that she beats him easily."
+                    Actor:: "Wow that tactic actually worked. You know what, maybe we should try that again next war game! Great job love!"                
+                Endif
+            Elseif 1
+                "I went to the orc cheiftan of the other side. He gave me a unique elf in origin diguise spell. He would not say how he aquired it."
+                "He did say that if I make sure he defeats her in combat he will allow me to use her infront of his entire tribe at his house after he has used her on the field and at his house first."
+                "I need to be careful about this. I feel if I accept this then in the future he may have other missions/assignemnts for me."
+                0:: "I accepted his offer and used the weird magic item. It made me nearly invisible!"
+                1:: "I gracefully declined his offer and asked if there is a different way"
+    
+                If 0
+                    If Actor3.isTemporary()
+                        Actor3.makePermanent()
+                    Endif
+                    Actor3.setActorVar(tag_orcchief, 1)
+
+                    If she is in combat focused on another she wouldn't be able to see me at all."
+                    "I stuck by her side and when she ecountered the cheiftan of enemy team i kept slowly making her loose clothing as sneakily as possible. Somehow she didn't noitice at all."
+                    Actor.strip()
+                    "Her clothing fully stripped I suddenly spanked her hard making her jump and flinch. He took advantage and closed the gap and defeated her."
+                    "the cheiftan then rapes her on field and then she is taken back to his house where he has sex with her again."
+                    Filter(Aggressive)
+                    Sex(Actor3, Actor)
+                    "After that the player then rapes her while he wears a disguise to hide who he is offically making him part of the other tribe."
+                    Filter(Aggressive)
+                    Sex(Player, Actor)
+                Else
+                    Actor3:: "I suppose you could talk her into fighting nude as a 'distraction' tactic. I'll be fully prepared for her."
+                    Actor.strip()
+                    "I managed to talk her into this tactic her competitive nature not letting her back down."
+                    
+                    "While she fought nude <Actor3.name> managed to sneak up on her and suprise her from behind. He defeated her and proceeded to take her right there."
+                    Actor:::"I'm sorry love! I didn't expect this! Please don't watch this shame!"
+                    Player.animate(camera)
+                    "Of course this was secretly what I wanted so I moved out of her vision and began filming to have a fun video to watch at any time."
+                    Filter(Aggressive)
+                    Sex(Actor3, Actor)
+                    "After they finished she got up off the ground and kept moving like it never happened. In fact she was met with another enemy on the field and beat him!"
+                    "She then ran up to me and kissed me, she was excited to have participated in the war game and wanted to do so in the future again."
+                Endif
+            Endif         
+        Endif
+    Elseif 1
+        "We declined the war simulation and finished our date up together. It was quite enjoyable for us both!"
+    Endif    
+    SceneEnd()
+    timeout(200, sr_fso_orcmockwar_cms)

@@ -1,0 +1,83 @@
+WHAT: all
+WHERE: work
+WHEN: 8 - 18
+WHO: Colleague = getSpecific(Colleague); If Colleague:intelligence < intelligence && Colleague:rapportwithplayer > 0
+OTHER: Random(0, 100) < 0.02*(intelligence*ActionDuration)
+
+    SceneStart()
+    setbackground(Work)
+    Colleague.dress()
+    Colleague.show(2)
+
+    Player(Curious):: "What's the matter, <Colleague.name>? You don't look too happy!"
+    Colleague(Drained):: "I've got a deadline tomorrow. So much work left still. God, I'm so overwhelmed. It's going to be an all-nighter tonight."
+    0:: "Wish <Colleague.him_or_her> luck"
+    1:: "Offer help"
+
+    If 0
+        Player(Sad):: "Oh that's horrible to hear. Good luck anyways!"
+        Colleague(Sad):: "Yeah, I definitely need some luck to finish this mountain of work."
+        Colleague:rapportwithplayer -= Random(0, 2)
+        If Colleague.isInterestedin(Player)
+            Colleague:attractiontoplayer += ( Random(0,3)*Colleague:masochist/100 )
+        Endif
+    Else
+        Player(Happy):: "I actually don't have too much on my plate right now. I can help you, if you want?"
+        karma += 2.5
+        Colleague(Excited):: "Oh thank you! Yes, I'll need all the help I can get ... Here, come, I'll update you on the project."
+        Colleague:rapportwithplayer += Random(0, 5)
+        If Colleague.isInterestedin(Player)
+            Colleague:attractiontoplayer -= ( Random(0,10)*Colleague:masochist/100 )
+        Endif
+        passTime(0.5, 2)
+        "With my help, <Colleague.name> managed to meet the deadline. <Colleague.He_or_She> was very grateful."
+        If intelligence < Random(0, 100)
+            Player:jobperformance -= Random(0, 1)
+            "Unfortunately, I was too distracted by helping out <Colleague.name> that I forgot to do some of my own work."
+        Endif        
+        If !Colleague.isContactExchanged()
+            Player(Happy):: "Hey, you know what? I don't think I actually have your number outside of work."
+            Colleague(Excited):: "Oh really? Let's exchange contacts then."
+            exchangeContact(Colleague)
+        Endif
+        
+        "Now that I have helped <Colleague.name> meet the deadline, I imagine <Colleague.he_or_she> wouldn't turn me down if invited to go out to celebrate somewhere?"
+        0:: "Invite <Colleague.him_or_her> to a bar"
+        1:: "Turn <Colleague.him_or_her> down"
+        
+        If 0
+            Colleague(Excited):: "Excellent idea. We really need to celebrate. I know a bar nearby. And for all your help today, drinks are on me!"
+            setBackground(bar)
+            "We had a few drinks at the bar and a nice conversation but it is getting quite late now ..."
+            Colleague:attractiontoplayer += Random(0, 2)           
+            If Random(75, 150) > Colleague:attractiontoplayer + Colleague:perversion
+                "We said goodbye and parted ways."
+            Else
+                Colleague(Flirty):: "Hey, do you want to have another drink at my home?"
+                "Maybe <Colleague.he_or_she> wanted to give me a more 'personal' reward for helping out today?"
+                0:: "Come home with <Colleague.name>"
+                1:: "Say goodbye"
+                
+                If 0
+                    Player(Flirty):: "Of course. I would love to!"
+                    "A while later ..."
+                    Loc = Colleague.getBuilding(Home)
+                    moveTo(Loc)
+                    "As soon as we were inside, <Colleague.name> kissed me. I immediately understood what was going on and happily took my reward for being such a good team player today ..."
+                    Colleague:attractiontoplayer += Random(0, 5)
+                    Sex(Colleague, Player)
+                    Colleague.hide()
+                    "After we had sex, I left, more than satisfied with the good karma from helping out a colleague."
+                Else
+                    Player(Irritated):: "No, thank you. I'd better get going."
+                Endif
+            Endif               
+        Else
+            Player(Sad):: "I'd love to, but to be honest, I'm exhausted from all the work. We should definitely plan something soon though!"
+            Colleague(Wink):: "No worries, go home and have a good sleep. You earned it!"
+            Colleague:attractiontoplayer -= Random(0, 2)
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(48, help_colleague)

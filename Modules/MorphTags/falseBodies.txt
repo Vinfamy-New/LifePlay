@@ -1,0 +1,28 @@
+sfd_tg_tgbody05a: teen
+sfd_tg_tgbody04: teen
+sfd_tg_tgbody03: teen
+sfd_tg_tgbody02: teen
+FBMEmaciated
+FBMThin
+FBMSYVampire: fantasy
+FBMStephanie8
+EJEthnicsWhiteBody: ethnic
+EJEthnicsPolinesiaBody: ethnic
+EJEthnicsLatinaBody: ethnic
+EJEthnicsIndianBody: ethnic
+EJEthnicsBlackBody: ethnic
+EJEthnicsAsianBody: ethnic
+EJEthnicComancheBody: ethnic
+FBMSYFaerie: fantasy
+FBMSYRusalka: fantasy
+FBMSYPixie: fantasy
+FBMVoluptuous
+CTRLFitness
+FBMFitnessSize
+FBMSYOrc: fantasy
+CTRLBodybuilder
+FBMBodybuilderSize
+FBMPearFigure
+FBMBodySize
+FBMHeavy
+CTRLWeight

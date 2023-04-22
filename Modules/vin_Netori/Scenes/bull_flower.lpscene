@@ -1,0 +1,42 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getPerson(tag_NTRCuck); Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+OTHER: !isWithCompanion()
+
+    SceneStart()
+    "I was going about my business when my phone rang"
+    secondScreen(Actor)
+    Actor.show()
+    "It's <Actor.name>, whose <Actor2.boyfriend_or_girlfriend> <Actor2.name> I'm banging with <Actor.his_or_her> blessing."
+    Actor:: "Hey <Player.name>, I'll be out of two for most of today. You think you could come over and keep my <Actor2.boyfriend_or_girlfriend> company? I don't want <Actor2.him_or_her> to feel lonely and <Actor2.he_or_she> just won't stop telling me how <Actor2.he_or_she> just can't seem to get enough of you."
+    0:: "Agree to fuck <Actor2.name> all day"
+    1:: "Decline"
+    
+    If 0
+        secondScreen()
+        setBackground(home)
+        Actor2.show()
+        "Soon enough I was over at <Actor.name>'s place. <Actor.His_or_her> <Actor2.boyfriend_or_girlfriend> greeted me completely naked, probably didn't bother to put on clothes since <Actor2.he_or_she> knew we would be fucking all day anyway ..."
+        Sex(Player, Actor2)
+        setBackgroundCustom(livingroom)
+        "After a couple of rounds, we decided to take a little break and had some snacks while watching porn in the living room."
+        "Suddenly, the door bell rang."
+        Actor3 = generatePersonTemporary()
+        Actor3.dress()
+        Actor3.show()
+        Actor3:: "Excuse me, I'm here to deliver our premium deluxe flower bouquet to <Actor2.Mr_or_Ms> <Actor2.name> <Actor2.name_last>. It's from <Actor.Mr_or_Ms> <Actor.name> <Actor.name_last>"
+        "Ah, how thoughtful, I wonder what the message on the card would be: I love you baby, and congratulations on your sex marathon with another <Player.guy_or_girl>?"
+        "Suddenly, an even better idea comes to my head ..."
+        0:: "Invite the delivery <Actor3.guy_or_girl> to join us."
+        1:: "Just take the flower and continue fucking."
+        
+        If 0
+            Sex(Player, Actor3, Actor2)
+        Else
+            Actor3.hide()
+            Sex(Player, Actor2)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, bull_flower)

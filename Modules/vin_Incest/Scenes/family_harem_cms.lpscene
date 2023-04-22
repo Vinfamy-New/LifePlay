@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24 
+WHO: Actor = getRelative(Parent); If !Actor.isMale() && Actor.hadSex()
+OTHER: Player.isMale()
+
+    SceneStart()
+    "I already had sex with my mom, I might as well take over my Dad as her husband and become the head of the house?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Actor:incest => 100
+        Actor:attractiontoplayer => 100
+        "As the new man of the house, I own the family now basically and can now make a harem out of the rest of the female members of the family"
+        0:: "Fuck them all"
+        1:: "Ask Mom to take them all off birth control before impregnating them all"
+        2:: "No"
+        
+        If 2
+            "Too far ..."
+        Else
+            "Let the party begin!"
+            count = 0
+            While Actor.isValid() && count < 20
+                If !Actor.isMale()
+                    "Next is my <Actor.relationship> <Actor.name> ..."
+                    Sex(Player, Actor)
+                    If 1
+                        Actor.impregnate(Player)
+                    Endif
+                    Actor:incest => 100
+                    Actor:attractiontoplayer => 100
+                Endif
+                Actor = getRelative()
+                count += 1
+            Endwhile
+        Endif
+    Endif
+    SceneEnd()
+    timeout(1000, family_harem_cms)

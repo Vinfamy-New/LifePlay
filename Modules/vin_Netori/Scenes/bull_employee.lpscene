@@ -1,0 +1,36 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "Being the boss gives me certain powers."
+    Actor2 = Actor.getRelatedPerson(Spouses, Dating)
+    Actor2.dress()
+    secondScreen(Actor2)
+    Actor2.show()
+    "One of my employees <Actor.name> is currently in a relationship with a <Actor2.guy_or_girl> named <Actor2.name>, judging from their Facebook pages."
+    secondScreen()
+    "Maybe <Actor.name> would let me fuck <Actor.his_or_her> <Actor2.boyfriend_or_girlfriend> ... After all, I'm the one providing them with a good living through a salary. Besides, I'm sure <Actor.name> wouldn't mind the prospect of a future raise or promotion."
+    0:: "Make my proposal"
+    1:: "Resist the temptation"
+    
+    If 0
+        Cuck = Actor.getActorVar(tag_NTRCuck)
+        If Cuck > 0 || Random(0, 50) < Actor:masochist
+            Actor.setActorVar(tag_NTRCuck, 1)
+            "<Actor.name> agreed to my proposal for the sake of <Actor.his_or_her> career."
+            "Soon enough, <Actor.he_or_she> convinces <Actor2.name> to meet me at a nice hotel."
+            Actor.hide()
+            setBackground(home)
+            Actor2.show()
+            "We got down to business right away, <Actor2.name> seemed enthusiastic enough about doing <Actor2.his_or_her> part in the couple's financial future."
+            Sex(Player, Actor2)
+        Else
+            "<Actor.name> turned me down, trying <Actor.his_or_her> best not to offend me too much."
+            "It's my choice whether I should fire <Actor.him_or_her> of course. Even if I do, it's best to wait a bit or it would be a clear legal case for unfair dismissal."
+        Endif
+    Endif
+    SceneEnd()
+    

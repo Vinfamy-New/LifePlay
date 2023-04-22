@@ -1,0 +1,50 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getRelative(Child, StepChild); If Actor2.isMale() && [[!Actor.isMale() && Random(80, 500) < masochist] || [!Player.isMale() && Random(80, 500) < Actor:masochist]] && Actor.isMarried()
+OTHER: isModEnabled(vin_NTR) && isPlayerMarried()
+    
+    // Basically what the Incest Owned is , First you decide The Son takes over as Husband if playing as Male or Female as your New Spouse the same also applies if you are playing as the Son you become Your Mother's New Husband legally .
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    Actor2.dress()
+    Actor2.show()
+    If Player.isMale()
+        "I'm the biggest cuck out there. Should I watch my son <Actor2.name> fuck my wife and take over as her new husband?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Sex(Actor2, Actor)
+            Actor.setDatingId()
+            loseDating()
+            addNpcRelationship(Spouses, Actor2, Actor)
+            "My son and my wife are now married."
+        Endif
+    Else
+        "My husband is the biggest cuck out there. Should I ask my son <Actor2.name> fuck me and take over from <Actor.name> as my new husband?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Sex(Actor2, Player)
+            Actor.setDatingId()
+            loseDating()
+            Actor3 = generatePerson()
+            Actor3.setExRelative(Actor2)
+            Actor3.cloneFrom(Actor2)
+            Actor3:attractiontoplayer => Random(40, 100)
+            Actor3:incest => 0
+            Actor2.deletePerson()
+            exchangeContact(Actor3)
+            Actor3.setDating()
+            loseHomeDating()
+            Actor3.blockNpcRelationships()
+            Actor3.setActorVar(tag_Married, 1)
+            getMarried()
+            "My son and I are now married."
+        Endif        
+    Endif
+    SceneEnd()
+    timeout(1000, incest_owned)

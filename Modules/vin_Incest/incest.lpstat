@@ -1,0 +1,9 @@
+STAT_ID: incest
+STAT_NAME: Incestuous Tension; Your progress towards a full-blown incest relationship with this relative. You can increase this gradually via random scenes and the 'Spend time with family' action.
+PLAYER_ONLY: false
+HIGHER_BETTER: true
+STAT_MIN: 0
+STAT_MAX: 100
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 0
+NPC_ONLY: true

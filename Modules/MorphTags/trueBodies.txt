@@ -1,0 +1,21 @@
+CTRLFitness
+FBMFitnessSize
+EJEthnicsMale_Polin_Body: ethnic
+EJEthnicsMale_Native_Body: ethnic
+EJEthnicsMale_Latin_Body: ethnic
+EJEthnicsMale_Indian_Body: ethnic
+EJEthnicsMale_Caucasian_Body: ethnic
+EJEthnicsMale_Asian_Body: ethnic
+EJEthnicsMale_African_Body: ethnic
+CTRLBodybuilder
+FBMBodybuilderSize
+FBMSYVampire: fantasy
+FBMLithe
+FBMThin
+FBMEmaciated
+FBMStocky
+FBMPortly
+FBMBodySize
+FBMHeavy
+CTRLWeight
+

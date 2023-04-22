@@ -1,0 +1,25 @@
+WHAT: all
+WHERE: home
+WHEN: 0 - 24
+WHO: Actor = getRelative(); If Actor.livesWithPlayer() && Actor:masochist < -70 && Actor.isInterestedIn(Player) && Actor:incest > 10
+OTHER: isAtHome() && masochist > 70 && isModEnabled(vin_NonConsensual)
+
+    SceneStart()
+    Actor.dress()
+    Actor.show()
+    "I was in my room when my <Actor.relationship> just walked in to hang around for no reason."
+    Actor:incest += 5
+    If Actor:incest > 45
+        Actor:: "I'll fuck you now. Get on the bed"
+        Filter(Aggressive)
+        Sex(Actor, Player)
+        Actor:: "Thank you, <Actor.callplayer>."
+    Elseif Actor:incest > 30
+        Actor:: "Now lick me dry ..."
+        Filter(Oral)
+        Sex(Actor, Player)
+    Else
+        Actor:: "Now let me touch you a bit ..."
+    Endif
+    SceneEnd()
+    timeout(1000, cms_ica_sep08)

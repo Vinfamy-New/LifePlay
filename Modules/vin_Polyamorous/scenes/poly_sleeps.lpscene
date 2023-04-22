@@ -1,0 +1,31 @@
+WHAT: sleep
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = getSpecific(Dating); If Actor.livesWithPlayer() && Actor2.livesWithPlayer() && Actor.isInterestedIn(Actor2) && Actor2.isInterestedIn(Actor)
+OTHER: OpenRelationship()
+
+    // Sleep together with two partners only for them to have some fun with each other while you are asleep.
+    
+    SceneStart()
+    Player.animate(na_sleep)
+    Player.closeEyes(true)
+    Actor.show()
+    Actor2.show()
+    "I was a bit tired today so went to sleep earlier than usual, with my live-in partners <Actor.name> and <Actor2.name> joining me in the bedroom."
+    Actor:: "I can't believe <Player.he_or_she> just fell asleep like that without fucking us first."
+    Actor2:: "Yeah ... how can I sleep when I'm so horny still."
+    Actor:: "Why don't we comfort each other since <Player.name> isn't capable tonight?"
+    Actor2:: "Sounds great to me!"
+    Sex(Actor, Actor2)
+    "Am I in that deep a sleep that I'll miss out on all this fun?"
+    0:: "Wake up and have a threesome"
+    1:: "Continue sleeping"
+    
+    If 0
+        Player.closeEyes(false)
+        Player:: "How dare you two have fun without me?"
+        Player:: "You both deserve to be punished!"
+        Sex(Player, Actor, Actor2)
+    Endif
+    SceneEnd()
+    timeout(300, poly_sleeps)

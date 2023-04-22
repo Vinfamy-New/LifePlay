@@ -1,0 +1,72 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 0 - 24 
+WHO: Actor = getRelative(); If Actor:age < age && Random(30, 100) < Actor:attractiveness && Actor.livesWithPlayer() && Player.isInterestedIn(Actor) && Actor.isInterestedIn(Player)
+OTHER: money > 3000
+
+    // You find out someone living with you is struggling financially and looking for a sugardaddy / mama. You can offer to keep such an arrangement 'in house' instead
+    
+    SceneStart()
+    Arranged = Actor.getActorVar(tag_famsugarbabe)
+    
+    If Arranged > 0
+        "My <Actor.relationship> <Actor.name> has agreed to be my sugarbabe. The most convenient sugarbabe ever - living next door, I can ask <Actor.him_or_her> to come over to my bedroom any time to fulfill <Actor.his_or_her> end of the arrangement, although it does come with a cost."
+        0:: "Call my <Actor.relationship>-turns-sugarbabe over"
+        1:: "Not today"
+        2:: "End the arrangement"
+        
+        If 0
+            Actor.dress()
+            Actor.show()
+            Actor:: "At your service, <Player.Daddy_or_Mama>"
+            "My <Actor.relationship> came over right away, ready and eager to please <Actor.his_or_her> <Actor.callplayer>-turns-<Player.sugardaddy_or_sugarmama>."
+            Sex(Player, Actor)
+            "I paid my <Actor.relationship>-turns-sugarbabe the agreed upon amount as per our arrangement. This is sure as hell a lot more expensive but also a lot more enjoyable than paying a family member for simple chores around the house."
+            money -= 100
+        Elseif 1
+            "It's a good arrangement, but I'm just not in the mood today."
+        Else
+            "I decided that I had enough fun with my <Actor.relationship>. The novelty of having a sugarbabe related to me has worn off somewhat and I would rather pay for someone else now."
+            Actor.setActorVar(tag_famsugarbabe, 0)
+            timeout(500, family_sugar_alternative)
+        Endif
+    Else
+        "It's no secret that my <Actor.relationship> <Actor.name> is struggling financially. I recently even overheard <Actor.him_or_her> talking on the phone with a friend admitting that <Actor.he_or_she> was looking for a <Player.sugardaddy_or_sugarmama>."
+        0:: "Confront my <Actor.relationship> about this"
+        1:: "Keep quiet"
+        
+        If 0
+            setBackgroundCustom(livingroom)
+            Actor.dress()
+            Actor.show()
+            "I sat my <Actor.relationship> down in the living room one evening and mentioned this issue."
+            "At first, my <Actor.relationship> got embarrassed and denied ever looking for a <Player.sugardaddy_or_sugarmama>, but eventually admitted it."
+            Actor:: "At the end of the day, it's my body, my choice, <Actor.callplayer>! I really need to make that money."
+            Actor:: "But it doesn't matter anyway, I'm not getting any offers from anyone half generous. You won't believe how competitive the sugardating scene is nowadays. So many hotter <Actor.guys_or_girls> than me offering themselves on these sugardating sites."
+            0:: "Offer to be my <Actor.relationship>'s <Player.sugardaddy_or_sugarmama>"
+            1:: "Drop the issue"
+            
+            If 0
+                Player:: "How about me?"
+                Actor:: "What about you? Wait ... you mean ... you want to be my <Player.sugardaddy_or_sugarmama>. Ew, that's too weird, that's incest."
+                Player:: "Think about it. I'm already your <Actor.callplayer>, so it wouldn't be too much a step up for you to call me '<Player.Daddy_or_Mama>'."
+                Player:: "Plus, we can keep this whole arrangement 'in-house' and completely secret. Unlike other potential <Player.sugardaddies_or_sugarmamas> who may brag to their other rich friends about banging a hot young thing, it's in my best interest to keep this secret."
+                Player:: "You don't even have to leave the house to fulfill your end of the bargain half of the times. Very convenient, don't you think?"
+                Player:: "Think about it. Weren't you paid pocket money for house chores as a kid? This is just the adult version of that." 
+                "After a long time thinking to <Actor.himself_or_herself>, my <Actor.relationship> finally sighed and accepted my offer."
+                Actor:: "Okay ... I guess you've made some good points, <Player.Daddy_or_Mama>."
+                Player:: "You have no idea how much it turned me on to hear you call me that. Why don't we seal the deal by having some fun, my sweet sugarbabe?"
+                Sex(Player, Actor)
+                "I paid my <Actor.relationship>-turns-sugarbabe the agreed upon amount, the first of many, no doubt."
+                money -= 100
+                Actor.setActorVar(tag_famsugarbabe, 1)
+                Actor:incest => 100
+            Else
+                timeout(500, family_sugar_alternative)
+            Endif
+        Else
+            timeout(500, family_sugar_alternative)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, family_sugar_alternative)

@@ -1,0 +1,61 @@
+WHAT: all
+WHERE: fraternity
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // If you're part of a sorority/ fraternity, you may get convinced to sell your body to various professors of the university to help raise funds. Most are from other departments, but occasionally you may run into one of your own professors. Sometimes, a fellow Greek brother/sister may join you.
+    
+    SceneStart()
+    "My <Player.fraternity_or_sorority> is cash-strapped from too much partying and has come up with a pretty unique way to raise funds: by pimping out <Player.brothers_or_sisters> as discreet escorts for those well-paid professors of our university, who have always fantasized about fucking a student and are willing to pay a premium for the privilege."
+    "The <Player.fraternity_or_sorority> lets the <Player.brothers_or_sisters> take half of the cut. The hard workers gain respect and become more popular of course, which I suspect is the main motivator for many of my <Player.brothers_or_sisters>."
+    0:: "Whore myself out to a professor to raise funds for my <Player.fraternity_or_sorority>"
+    1:: "Not today"
+    2:: "Never!"
+    
+    If 0
+        If Random(0, 100) < 50
+            Actor2 = getSpecific(Fraternity)
+            If Actor2.isValid()
+                Actor2.dressUniform(sexwork)
+                Actor2.show()
+                "Another <Actor2.brother_or_sister> <Actor2.name> will join me today. Apparently, this particular professor requested a threesome and was willing to pay double for it. Fine by me ..."
+            Endif
+        Endif
+        
+        setBackground(home)
+        "Soon, the professor arrives at our <Player.fraternity_or_sorority>, making sure to not be seen before going into my bedroom."
+        
+        If Random(0, 100) < 20
+            Actor = getSpecific(Lecturer)
+            "Oh no, it's Dr <Actor.name> <Actor.name_last>, my <Actor.Major> lecturer ... This could have ended up awkward but thankfully, the cheeky <Actor.bastard_or_bitch> acted the whole time like <Actor.he_or_she> didn't know me. I won't really know the consequences of this until I see <Actor.him_or_her> in class though ... Would <Actor.he_or_she> want to make this into a long-term affair in class?"
+        Endif
+        
+        If !Actor.isValid()
+            Actor = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor)
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor:age => Random(35, 65)
+            Actor.randomizeFace()
+            Actor.randomizeHairs()
+        Endif
+        dressFormal()
+        
+        Actor.dress()
+        Actor.show()
+        "Let's get to work for my <Player.fraternity_or_sorority>!"
+        If Actor2.isValid()
+            Sex(Actor, Actor2, Player)
+        Else
+            Sex(Actor, Player)
+        Endif
+        "I made some money for myself while giving the other half to the <Player.fraternity_or_sorority> as agreed. My status within the <Player.fraternity_or_sorority> rose as a result and I've become a bit more popular."
+        interpersonal += 0.5
+        money += 100
+    Elseif 2
+        "I didn't enroll in a university nor join a <Player.fraternity_or_sorority> to become a prostitute."
+        timeout(2000, john_frat)
+    Endif
+    SceneEnd()
+    timeout(100, john_frat)

@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: join_relationship
+ACTION_NAME: Ask to let me join relationship
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: join_relationship
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.hasRelationship(Spouses, Dating) && Actor.hadSex() && !Actor.isDating()

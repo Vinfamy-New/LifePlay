@@ -1,0 +1,22 @@
+WHAT: all, -sleep, -nap
+WHERE: home
+WHEN: 22-4
+WHO: Actor = getSpecific(Neighbour); Actor2 = getRelative(); If Actor:perversion < 20 && Actor2.livesWithPlayer() && Actor2:incest > 75 && Actor:rapportwithplayer < Random(-50, 50)*Random(0,1)
+OTHER: isAtHome() && intelligence < Random(0, 100)*Random(0, 1)*Random(0, 1)
+
+    SceneStart()
+    Actor.dress()
+    Actor.show(2)
+    Actor(Angry):: "Degenerate!"
+    "It's my neighbour <Actor.name>. What the hell is going on?"
+    Player(Surprised):: "What happened? Why are you calling me names?"
+    Actor(Angry):: "I saw everything, scum! You were sleeping with your own <Actor2.relationship>!"
+    If isQuestCompleted(legalized)
+        Player(Angry):: "So what? It's legal now! You have no right to judge us!"
+        Actor:: "It might be legal ... but it doesn't mean I have to agree with it!"
+    Else
+        "Oh no! We got caught ... There's no point making up any excuses. I need to just keep my head down and walk away. Let's hope this goes unreported at least."
+    Endif
+    Actor:rapportwithplayer -= Random(0, 100)
+    SceneEnd()
+    timeout(1000, neighbour_catches_incest, neighbour_blackmails_incest, neighbour_blackmails_family_incest)

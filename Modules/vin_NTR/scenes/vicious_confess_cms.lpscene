@@ -1,0 +1,71 @@
+WHAT: all
+WHERE: home
+WHEN: 8-22
+WHO: NPC2 = getSpecific(Dating); NPC1 = getPerson(true); If NPC1.isInterestedIn(NPC2) && NPC2.isInterestedIn(NPC1) && NPC1:rapportwithplayer < -10
+OTHER:
+
+    SceneStart()
+    setBackground(street)
+    NPC1.dress()
+    NPC1.show()
+    "<NPC1.name> used to be one of my good friends, but we have fallen out hard lately and are always having arguments whenever we cross paths."
+    "During one such argument, <NPC1.name> viciously 'confessed' to me that <NPC1.he_or_she> had had sex with with my <NPC2.boyfriend_or_girlfriend> <NPC2.name> ..."
+    0:: "Get angry at both of them!" 
+    1:: "Admit this turns me on"
+    2:: "I don't believe <NPC2.name> cheated"
+
+    If 0 
+        "Getting quite angry, I shouted out and insulted <NPC1.name> ..."
+        NPC1.hide()
+        NPC2.dress()
+        setBackground(home)
+        NPC2.show()
+        "As soon as <NPC2.name> is home, I accused <NPC2.him_or_her> of cheating with one of the <NPC1.guys_or_girls> I hated the most."
+        "<NPC2.He_or_She> denied ever cheating but I didn't believe <NPC2.him_or_her> and continuing insulting <NPC2.him_or_her>."
+        "Whether the cheating accusation is true or not, our relationship is seriously damaged now ..."
+        NPC2:attractiontoplayer -= Random(20, 40) 
+    Elseif 1
+        masochist += 2
+        NPC1:: "You are some sort of a <Player.cuckold_or_cuckquean>, aren't you? What a pathetic subby you are!"
+        If NPC1.isInterestedIn(Player)
+            "<NPC1.name> said <NPC1.he_or_she> wanted to humilate me even more ... by fucking me."
+            0:: "Submit to <NPC1.name>"
+            1:: "This goes too far!"
+            
+            If 0
+                setBackground(home)
+                masochist += 2
+                If NPC1.isMale() || Player.isFemale()
+                    Filter(Aggressive)
+                Else
+                    Filter(AggressiveFM)
+                Endif
+                Sex(NPC1, Player)
+            Else
+                NPC1:: "Then I will just get on my way to fuck your <NPC2.boyfriend_or_girlfriend> once again"
+            Endif
+        Else
+            "<NPC1.name> said <NPC1.he_or_she> wanted to take you with <NPC1.him_or_her> and visit your partner."
+            0:: "Go along"
+            1:: "This goes too far!"
+
+            If 0
+                setBackground(home)
+                masochist += 2
+                NPC2.dress()
+                NPC2.show()
+                NPC1:: "Baby I'm so horny right now and look who's with me...Your <Player.boyfriend_or_girlfriend> <Player.name>"
+                NPC2:: "Shit...Why did you..."
+                NPC1:: "Don't worry baby. <Player.name> promised to behave and sit down while I fuck your brains out" 
+                Sex(NPC1, NPC2)
+            Else
+                NPC1:: "Then I will just go alone and fuck <NPC2.name>'s brains out once again" 
+            Endif
+        Endif                
+    Else
+        Player:: "I don't believe a single word from you. <NPC2.name> would never cheat on me, especially not with someone like you!"
+        NPC1:: "Believe what you want, but soon you will see yourself, when <NPC2.name> will leave you for me!"  
+    Endif
+    
+    SceneEnd()
+    timeout(300, vicious_confess_cms)

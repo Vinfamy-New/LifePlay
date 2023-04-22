@@ -1,0 +1,41 @@
+WHAT: all
+WHERE: all
+WHEN: 0-24
+WHO: Actor = getPerson(tag_imp)
+OTHER: none
+
+    // in which case she'll occasionally 'report back' with a video of hers and a random lover with an offer to share
+    
+    SceneStart()
+    "It's a normal day when suddenly <Actor.name> sends me a video message."
+    "<Actor.name> is of course my ex who used to be a male cuckold who eventually transitioned into a woman."
+    "I was the one to personally train her to be comfortable in her new body and was also the one to encourage her to go out there and live like a free spirit, fucking as many men as possible."
+    "So I have a pretty good idea what kind of video she sent me ... No doubt a new conquest she wanted to show off."
+    0:: "Open the video message"
+    1:: "Not in the mood"
+    
+    If 0
+        Player.hide()
+        setBackground(home)
+        Actor2 = generatePersonTemporary()
+        While !Actor2.isMale()
+            Actor2 = generatePersonTemporary()
+        endWhile
+        Actor.show()
+        Actor2.show()
+        "Quite a good looking guy actually, no wonder she wanted to show off."
+        Sex(Actor, Actor2)
+        Actor:: "Come on, come over and join us! You know I'll share any men with you. Without your encouragement and training, I would still be living a lie."
+        0:: "Come join them"
+        1:: "No thanks, enjoy!"
+        
+        If 0
+            Player.show()
+            "She sent me the address they were at and soon I joined them."
+            Sex(Actor2, Player, Actor)
+        Else
+            Player.show()
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, imp_post)

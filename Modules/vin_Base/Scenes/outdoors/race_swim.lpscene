@@ -1,0 +1,138 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    SceneStart()
+    
+    // The target may dare you to a bet, with possible alternative payment
+    
+    Actor.animate(swim)
+    Player.animate(swim)
+    
+    "<Actor.name> dares me to bet on our next race."
+    0:: "Bet"
+    1:: "I don't gamble"
+    
+    If 0
+        Player:: "Fine, I'll win anyway. You're just giving away free money."
+        If fitness > Actor:fitness*Random(0.75, 1.25)
+            // Your victory may impress a stranger
+            "I won the race."
+            Laid = false
+            Actor:: "Damn it! Losing that money is gonna hurt ..."
+            0:: "Pay up!"
+            1:: "No need"
+            2:: Player.isInterestedIn(Actor):: "You know, you can pay with your body instead"
+            3:: !Actor.isContactExchanged():: "I'll be happy with your number"
+            
+            If 0
+                Player:: "Yeah, yeah, just pay up! You asked for a bet, remember?"
+                money += 100
+            Elseif 1
+                Player:: "Forget about it. It was just a fun dare. I never intended to take your money."
+                karma += 5
+            Elseif 2
+                If Actor:perversion > 50 || Actor.hadSex()
+                    Actor:: "I guess I could do that ... Do you know somewhere we can go to be a bit private at least?"
+                    0:: "There must be some hidden spot around here"
+                    1:: "Let's find a hotel room nearby"
+                    
+                    If 1
+                        setBackground(home)
+                    Endif
+                    Sex(Actor, Player)
+                    Laid = true
+                Else
+                    Actor:: "I'd rather pay with cash. You really thought I would prostitute myself out for a little bet?"
+                    money += 100
+                Endif
+            Else
+                Player:: "Don't worry about it, though I wouldn't mind exchange numbers with you so that we can hang out more in the future. I really had fun today."
+                Actor.makePermanent()
+                exchangeContact(Actor)
+            Endif
+            
+            If !Laid
+                Actor2 = generatePersonTemporary()
+                If Actor2.isInterestedIn(Player) && Player.isInterestedIn(Actor2) && Actor2:attractiontoplayer > 20
+                    Actor2.dress()
+                    Actor2.show()
+                    Actor2:: "Wow, I saw that race. That was an impressive victory. You're so fit!"
+                    "What a nice surprise to have an admiring fan."
+                    "I decided to flirt back a bit, and <Actor2.name> was very receptive. I wonder if I could push my luck."
+                    0:: "Bid farewell"
+                    1:: "Exchange numbers"
+                    2:: "Try to sleep with <Actor2.name> right away"
+                    
+                    If 0
+                        Player:: "Sorry, nice talking to you but I've got to go."
+                    Elseif 1
+                        Player:: "Maybe if we exchange numbers, I could show you a thing or two about swimming in the future."
+                        Actor2:: "Of course!"
+                        Actor2.setPermanent()
+                        exchangeContact(Actor2)
+                    Else
+                        Player:: "You know, they say being good at swimming means you'll be good in bed as well. Fitness, flexibility, endurance ..."
+                        If Random(50, 100) < Actor2:perversion + Actor2:attractiontoplayer
+                            Actor2:: "First time I've heard that, but I'm suddenly overcome with the urge to find out the truth myself."
+                            0:: "There must be some hidden spot around here"
+                            1:: "Let's find a hotel room nearby"
+                            
+                            If 1
+                                setBackground(home)
+                            Endif
+                            Sex(Actor2, Player)
+                        Else
+                            Actor2:: "I'm not that easy. Who do you take me for?"
+                        Endif
+                    Endif
+                Else
+                    "I really enjoyed that victory."
+                Endif
+            Endif
+        Else
+            // If Netorare is enabled, the target's victory may impress your companion
+            "Unfortunately, I lost the race."
+            If Actor:rapportwithplayer > 40
+                "You know what. Don't worry about the bet. It was just a joke."
+            Else
+                Laid = false
+                Actor:: "Haha, I won. You should pay up!"
+                0:: "Pay up"
+                1:: "Offer my body instead"
+                
+                If 0
+                    money -= 100
+                Else
+                    If Random(50, 100) < Actor:perversion + Actor:attractiontoplayer
+                        Actor:: "Okay, I guess that'll work too. Where should we go?"
+                        0:: "There must be some hidden spot around here"
+                        1:: "Let's find a hotel room nearby"
+                        
+                        If 1
+                            setBackground(home)
+                        Endif
+                        Sex(Actor, Player)
+                        Laid = true                        
+                    Else
+                        Actor:: "Nah, you're not my type. I'd rather take the cash."
+                        money -= 100
+                    Endif
+                Endif
+                
+                If !Laid && CurrentCompanion.isValid() && CurrentCompanion.isInterestedIn(Actor) && CurrentCompanion:perversion > 50
+                    CurrentCompanion:: "Wow, I saw that race. That was an impressive victory. You're so fit!"
+                    "As if to add insult to injury, <CurrentCompanion.name> seemed impressed and frankly a bit turned on by <Actor.name>'s dominant victory over me."
+                    masochist += 0.25
+                    "They flirted with each other for a while, before disappearing together to some hidden spot, not caring at all that I was right there."
+                    Sex(Actor, CurrentCompanion)
+                Endif
+            Endif
+        Endif
+    Else
+        Actor:: "How boring!"
+    Endif
+    
+    SceneEnd()

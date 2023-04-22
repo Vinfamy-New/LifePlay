@@ -1,0 +1,39 @@
+WHAT: all
+WHERE: home
+WHEN: 0-24
+WHO: Actor = getSpecific(Dating); Actor2 = Actor.getRelatedPerson(Poly)
+OTHER:
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "I arrive home only to hear some moaning sounds coming from the bedroom ..."
+    0:: "Check it out"
+    
+    If 0
+        setBackground(home)
+        Sex(Actor, Actor2)
+        "In my absence, my <Actor.boyfriend_or_girlfriend> <Actor.name> invited <Actor.his_or_her> own <Actor2.boyfriend_or_girlfriend> <Actor2.name> over to have some fun! <Actor.name> did talk to me about having another <Actor2.boyfriend_or_girlfriend> outside of our relationship and I did agree. Still, to have another <Actor2.man_or_woman> come in and fuck my <Actor.boyfriend_or_girlfriend> right 'inside my own territory' makes me feel ..."
+        0:: "Jealous and angry"
+        1:: "Horny and ready to join them"
+        2:: "Unsure and would rather just slip away quietly"
+        
+        If 0
+            Player(Angry):: "What the fuck! This is outrageous. Just because I accept that you can have your own <Actor2.boyfriend_or_girlfriend> doesn't mean you can invite <Actor2.him_or_her> here and fuck on our bed!"
+            Actor:attractiontoplayer -= 3
+            Actor2:attractiontoplayer -= 3
+            masochist -= 2
+            timeout(600, poly_poly_walkin)
+        Elseif 1
+            Player(Flirty):: "I see you're doing just fine without me, baby."
+            Actor2:: "Oops, <Actor.name>, it looks like your <Player.boyfriend_or_girlfriend> comes home early ..."
+            Player:: "<Actor2.name>, I hope you don't mind if I join you two now? After all, you owe me as much for my generousity in letting <Actor.name> become your <Actor.boyfriend_or_girlfriend> as well"
+            Actor2:: "Of course, join us. It's your bed after all!"
+            Sex(Player, Actor, Actor2)
+            masochist += 1
+            Actor:attractiontoplayer += 3
+            Actor2:attractiontoplayer += 3
+        Endif
+    Endif
+
+    SceneEnd()
+    timeout(300, poly_poly_walkin)

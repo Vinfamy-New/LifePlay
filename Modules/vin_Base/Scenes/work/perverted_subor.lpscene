@@ -1,0 +1,92 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24 
+WHO: Actor = getSpecific(Colleague); If jobexperience - Actor:jobexperience > 30 && Random(50, 100) < Actor:perversion && Actor:attractiontoplayer > 20 && !Actor.isDating()
+OTHER: none
+
+    // Subordinates with at least above average perversion may proactively and repeatedly try to seduce you, which can eventually turn into a simple request for promotion, or a relationship / sugarbabe arrangement.
+    
+    SceneStart()
+    
+    If !Actor.isValid()
+        Actor = getSpecific(PassedOn)
+    Endif
+    Actor.dress()
+    Actor.show()
+    If Actor.hadSex()
+        "I've slept with <Actor.name>, one of my subordinates in the office. <Actor.He_or_She> seems to be dropping hints today that <Actor.he_or_she> is ready for our next passionate session after work ..."
+        0:: "Go for it"
+        1:: "Restrain from it"
+        
+        If 0
+            setBackground(home)
+            "As soon as work finishes, I went back to <Actor.name>'s place for some supervisor-subordinate bonding ..."
+            Sex(Player, Actor)
+            Actor:attractiontoplayer += 2
+            
+            If Random(0, 100) < 30
+                SugarBabe = SugarBabe.getGlobal()
+                If !isTimingOut(recommend_promotion) && Random(50, 100) < Actor:intelligence
+                    "Once we're done being intimate, <Actor.he_or_she> finally gets around to discussing what <Actor.he_or_she> really wants ..."
+                    "<Actor.name> is asking that I make a strong case for <Actor.his_or_her> promotion in front of the boss ..."
+                    0:: "Recommend <Actor.name> for promotion"
+                    1:: "Turn <Actor.him_or_her> down"
+                    
+                    If 0
+                        "I kinda had to accept <Actor.his_or_her> request. After all, I've been banging my subordinate on a regular and I don't want that to be public knowledge."
+                        setBackground(work)
+                        "First thing the next morning in the office, as promised, I recommended to my boss that <Actor.name> should get promoted."
+                        Actor:jobexperience += 20
+                        "This was approved, much to <Actor.his_or_her> delight."
+                        timeoutPrecise(336, recommend_for_promotion)
+                    Else
+                        "<Actor.name> abruptly changed <Actor.his_or_her> attitude and got mad at me, accusing me of taking advantage of <Actor.him_or_her> ..."
+                        Actor:attractiontoplayer -= 20
+                    Endif
+                Elseif Actor:jobexperience < 50 && SugarBabe == 0
+                    "Once we're done being intimate, <Actor.he_or_she> told me about <Actor.his_or_her> recent financial struggles. In contrast, <Actor.He_or_She> has discovered how much I was earning in my position. Since I have obviously been enjoying <Actor.his_or_her> company and body so much, <Actor.he_or_she> offers <Actor.himself_or_herself> to me as a sugarbabe."
+                    "Become <Actor.name>'s <Player.sugardaddy_or_sugarmama>?"
+                    0:: "Yes"
+                    1:: "No"
+                    
+                    If 0
+                        "We agreed on a sugar dating arrangement from now on ..."
+                        SugarBabe = Actor.getID()
+                        SugarBabe.setGlobal(SugarBabe)
+                    Endif
+                Elseif Random(25, 100) < Actor:attractiontoplayer
+                    "<Actor.name> is being even more intimate during sex tonight more than usual ..."
+                    "After some awkwardness after sex, <Actor.name> finally confessed <Actor.his_or_her> feeling for me ..."
+                    0:: "Ask <Actor.name> to become my <Actor.boyfriend_or_girlfriend>"
+                    1:: "Reject <Actor.him_or_her>"
+                    
+                    If 0
+                        Actor.setDating()
+                        Actor:attractiontoplayer += 10
+                        "<Actor.name> and I are now dating. Our relationship has become a whole lot more than professional."
+                    Else
+                        "<Actor.name> seems heartbroken by my rejection. Maybe I should stop sleeping with <Actor.him_or_her>, otherwise I would just be exploiting <Actor.his_or_her> feeling for my pleasure."
+                    Endif
+                Endif            
+            Endif
+        Else
+            Actor:attractiontoplayer -= 5            
+        Endif
+    Else
+        "<Actor.name> has recently <Actor.he_or_she> really upped <Actor.his_or_her> flirting game towards me and couldn't make it much clearer that if I want to sleep with <Actor.him_or_her>, I could. I can't tell if <Actor.he_or_she> is genuinely interested in me as a person or is just trying to sleep with <Actor.his_or_her> boss for some career benefits."
+        0:: "Take my chance to fuck <Actor.name>"
+        1:: "Keep things professional"
+
+        If 0
+            "I responded to <Actor.name>'s flirting in kind. As if <Actor.he_or_she> has been waiting for the opportunity for a while, <Actor.He_or_she> took no hesitation and invited me back to <Actor.his_or_her> place after work."
+            setBackground(home)
+            "And I happily obliged ..."
+            Sex(Player, Actor)
+            "To my surprise, <Actor.name> didn't ask for anything work-related after sex. Maybe that will come later ... Or maybe I'm reading too much into this and <Actor.name> is simply attracted to me ..."
+        Else
+            Actor:attractiontoplayer -= 5
+        Endif
+    Endif
+    
+    SceneEnd()
+    timeout(150, perverted_subor)

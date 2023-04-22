@@ -1,0 +1,51 @@
+// Morphs
+MORPH Genesis8Female__PHMEarsElfLong: 100% 0.8=>1.2
+MORPH Genesis8Female__Teeth Upper Caynines Vampire: 100% 0.0
+
+MORPH Genesis8Female__Eyes Slant In: 100% 0.8=>1.2
+MORPH Genesis8FemaleEyelashes__Eyes Slant In: 100% 0.8=>1.2
+MORPH Genesis8Female__PHMFaceYoung: 100% 0.8=>1.2
+MORPH Genesis8FemaleEyelashes__PHMFaceYoung: 100% 0.8=>1.2
+MORPH Genesis8Female__RFMC_Face Overall Heart: 100% 0.8=>1.2
+MORPH Genesis8FemaleEyelashes__RFMC_Face Overall Heart: 100% 0.8=>1.2
+MORPH Genesis8Female__RSM Face Starter Heart: 100% 0.8=>1.2
+MORPH Genesis8FemaleEyelashes__RSM Face Starter Heart: 100% 0.8=>1.2
+MORPH Genesis8Female__PHMEyesAngledInner: 100% 0.8=>1.2
+MORPH Genesis8FemaleEyelashes__PHMEyesAngledInner: 100% 0.8=>1.2
+MORPH Genesis8Female__FBMSYPixie: 100% 0.8=>1.2
+MORPH Genesis8Female__FBMLithe: 100% 0.8=>1.2
+MORPH XY__FBMLithe: 100% 0.8=>1.2
+MORPH Genesis8Female__PHMBrowWidth: 100% 0.8=>1.2
+MORPH Genesis8Female__RFMC_Brows Rotates: 100% 0.8=>1.2
+MORPH Genesis8Female__RSM Brow Rotate 02: 100% -1.0
+
+MORPH Genesis8Female__FHMSYOrcHead02: 100% 0.0
+MORPH Genesis8Female__FHMSYOrcHead: 100% 0.0
+MORPH Genesis8FemaleEyelashes__FHMSYOrcHead02: 100% 0.0
+MORPH Genesis8FemaleEyelashes__FHMSYOrcHead: 100% 0.0
+MORPH Genesis8Female__FBMBodybuilderSize: 100% 0.0
+MORPH Genesis8Female__FBMSYOrc: 100% 0.0
+MORPH XY__FBMBodybuilderSize: 100% 2.0
+MORPH XY__FBMSYOrc: 100% 0.0
+
+MORPH Genesis8Female__FHMSYVampire: 100% 0.0
+MORPH Genesis8FemaleEyelashes__FHMSYVampire: 100% 0.0
+MORPH Genesis8Female__PHMSYEarAncientVampire: 100% 0.0
+MORPH Genesis8Female__FBMSYVampire: 100% 0.0
+MORPH XY__FBMSYVampire: 100% 0.0
+
+
+// Skin
+SKIN Skin_Color_R: 100% 0.93=>1.0
+SKIN Skin_Color_G: 100% 0.72=>0.85
+SKIN Skin_Color_B: 100% 0.63=>0.75
+SKIN Skin_Color_A: 100% 1.0
+SKIN Eye_Color_R: 100% 1.0
+SKIN Eye_Color_G: 100% 1.0
+SKIN Eye_Color_B: 100% 0.0
+SKIN Eye_Color_A: 100% 1.0
+
+
+// Stats
+STAT attractiveness: 100% 75.0=>100.0
+STAT intelligence: 100% 75.0=>100.0

@@ -1,0 +1,30 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    If isWithCompanion()
+        endDate()
+    Endif
+    sttt_stage.setGlobal(0)
+    SceneStart()
+    Actor = getSpecific(Boss)
+    
+    If Actor.isValid()
+        "Should I start my quest towards replacing my boss <Actor.name> and become the Department Head? Power and money awaits ..."
+        0:: "Yes"
+        1:: "No"
+        
+        If 1
+            QuestEnd()
+        Else
+            B1.generateBuildingAlias(work)
+            B1.addObjective(sttt_obj)
+            sttt_stage.setGlobal(1)        
+        Endif
+    Else       
+        "I must be working in an office job under a boss to start this quest. Quest was not started."
+        QuestEnd()
+    Endif        
+    SceneEnd()

@@ -1,0 +1,34 @@
+WHAT: all
+WHERE: all, -home, -prison, -work
+WHEN: 0 - 24
+WHO: none
+OTHER: Player.isFemale()
+
+
+    SceneStart()
+    "I was going about my day when I was suddenly stopped by a female police officer."
+    Actor = generatePersonTemporary()
+    While Actor.isMale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.dressUniform(Police)
+    Actor.show()
+    Actor:: "Excuse me, citizen, that shop owner over there accuses you of shoplifting. You'll have to follow me to the nearest police station for a strip search ..."
+    "What!? This is ridiculous! I haven't even been inside that damn shop!"
+    0:: "Agree to the strip search"
+    1:: "Scare her off with my legal rights"
+    
+    If 0
+        "I'm innocent but I don't want to risk being arrested for obstruction of justice ..."
+        setBackground(police)
+        "Back in the police station, the strip search began"
+        Filter(Stripsearch)
+        SexNoAffair(Actor, Player)
+        "The search found nothing and I was free to go, but did the cop go too far there? The whole thing didn't seem entirely by the books and she seemed to enjoy herself a bit too much touching all my private parts."
+    Else
+        "I gave the cop an earful about my rights, clearly demonstrating that I wasn't any easy target to bully."
+        "The cop eventually gave in and let me go."
+    Endif
+    
+    SceneEnd()
+    timeout(450, strip_search_cms)

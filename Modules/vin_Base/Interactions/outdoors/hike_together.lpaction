@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: hike_together
+ACTION_NAME: Hike together
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: energy -20 (DURATION), fitness +0.1 (DURATION), mood +3 (END)
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: hike
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isCreature() && [WHERE == forest || WHERE == mountain]     

@@ -1,0 +1,360 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER: none
+
+    SceneStart()
+    dressFormal()
+    before = c_security.getGlobal()
+    "The latest poll indicates that about <before>% of citizens are happy with the state of public security."
+    
+    after = before
+    Aide = getPerson(tag_Aide)
+    "I spent some time working to try to improve the security."
+    If isModEnabled(vin_NonConsensual) && Random(0, 90)*Random(0, 1) > after
+        // If you're the mayor and public security is low and you're trying to tackle crime, you may be forced to listen to rap music by criminals. Your aide may save you or sometimes they'll target your aide instead and so can try to save them, with the hero possibly being rewarded. Alternatively, they may target your relatives or significant other instead. (Don't worry, if you're trying to save someone else, you can only lose and be forced to watch if Netorare is enabled. You always win if that module is off.)
+        
+
+        
+        setBackground(street)
+        "After another long day implementing new measures to tackle organized crime in the city, I head home."
+        If Aide.isValid()
+            "My aide was happy to drive me home. It's pretty much a unwritten part of <Aide.his_or_her> job description really."
+        Endif
+        setBackground(livingroom)
+        
+        If Random(0, 100) < 30
+            Random
+                Raped = getSpecific(Dating)
+                Raped = getRelative()
+            endRandom
+        Elseif Random(0, 100) < 20 && Aide.isValid()
+            Raped = Aide
+        Endif
+
+        "Unbeknown to me, I was secretly being followed home by some dodgy characters. As soon as I open the door, they make their presence known and forcefully enter my home."
+        
+        If Raped.isValid()
+            Raped.dress()
+            Raped.animate(fightlost)
+            
+            "Before I have time to react, they completely took <Raped.name> by surprise by knocked <Raped.him_or_her> down."
+            If Raped.isRelative()
+                "I should have known that my efforts to tackle organized crime could bring harm to my innocent <Raped.relationship>."
+            Elseif Raped.isDating()
+                "I should have known that my efforts to tackle organized crime could bring harm to my innocent <Raped.boyfriend_or_girlfriend>."
+            Else
+                "I should have known that our efforts to tackle organized crime could bring harm to my enthusiastic aide."                
+            Endif
+            
+            Actor = generatePersonTemporary()
+            While !Raped.isInterestedIn(Actor)
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor.dressUniform(Crime)
+            Actor.show()
+            
+            Actor:: "Consider this a warning from the boss, dear Mayor!"
+            
+            Actor2 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dressUniform(Crime)
+            Actor2.show()
+
+            Actor2:: "We're going to rape someone close to you and you're going to watch. Remember this the next time you think about fucking with our gang business!"
+            0:: "Fight back and rescue <Raped.him_or_her>."
+            1:: "Surrender and watch"
+            
+            If 0
+                Player:: "Get your filthy hands off <Raped.him_or_her>, you criminals!"
+                Player.animate(martialart)
+                Actor.animate(martialart)
+                Actor2.animate(martialart)
+                "I try to fight off the gang members by myself like a badass Mayor that I am."
+                If martial*2 > Actor:martial + Actor2:martial || !isModEnabled(vin_NTR)
+                    after += 5
+                    masochist -= 3
+                    Raped:rapportwithplayer += 10
+                    Raped:attractiontoplayer += 20
+                    Actor.animate(fightlost)
+                    Actor2.animate(fightlost)
+                    "I managed to defeat the criminals despite being outnumbered."
+                    Actor.hide()
+                    Actor2.hide()
+                    "The police soon arrives to arrest them. This will no doubt send shockwaves to the underworld not to underestimate me as a mayor."
+                    Raped:: "Oh my God, you saved me!"
+                    0:: "It was the right thing to do"
+                    1:: "Your savior deserves a reward ..."
+                    
+                    If 1
+                        If !Raped.hadSex() && Raped.isRelative()
+                            Raped:: "But I'm your <Raped.relationship> ... What kind of Mayor engages in incest like that?"
+                            Player:: "Just don't think of me as your <Raped.callplayer> then, think of me as your heroic mayor that's strong enough to fight off two criminals with <Player.his_or_her> bare hands to save a citizen in need ..."
+                            Raped:: "Alright then, I guess that's one way to think about it."
+                        Else
+                            Raped:: "I guess I would have been raped by two dirty criminals without your heroic action. You deserve a special reward!"
+                        Endif
+                        Sex(Player, Raped)
+                    Endif
+                Else
+                    after -= 10
+                    masochist += 2
+
+                    Player.animate(fightlost)
+                    "Unfortunately, I was outnumbered and knocked down as well."
+                    Actor2:: "You overestimated your fighting ability just as much as you overestimated your power as a Mayor to fuck with our gang business."
+                    Actor:: "Still, this mayor has more fighting spirit that we expected. Maybe just raping someone else in front of <Player.him_or_her> isn't enough of a warning."
+                    Actor2:: "You're right. <Player.He_or_She> deserves to be raped as well. That'll teach <Player.him_or_her>."
+                    If Player.isMale() && !Actor2.isMale()
+                        Filter(AggressiveFM)                
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    TalkNonConsensual()
+                    SexNoAffair(Actor2, Player)
+                    Actor2.setActorVar(tag_Rapist, 1)
+                    
+                    "While being raped, I had to watch <Raped.name> suffering from the same fate as well."
+                    If Raped.isMale() && !Actor.isMale()
+                        Filter(AggressiveFM)                
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    TalkNonConsensual()
+                    SexNoAffair(Actor, Raped)
+                    "Having raped their mayor and no doubt boasted to all their fellow outlaws about it, the criminals become more brazen and the crime rate actually rises."
+                Endif
+            Elseif 1
+                "There're two of them, <Raped.name> is already knocked down. I have no chance to resist."
+                after -= 5
+                masochist += 3
+                Raped:rapportwithplayer -= 10
+                Raped:attractiontoplayer -= 20
+                Actor:: "How obedient! The boss was right, this mayor of ours is all talk and is nothing more than a coward. We really have nothing to fear."
+                If Raped.isMale() && !Actor.isMale()
+                    Filter(AggressiveFM)                
+                Else
+                    Filter(Aggressive)
+                Endif
+                TalkNonConsensual()
+                Actor:: "No... please, <Player.name>, do something! Help me!"
+                SexNoAffair(Actor, Raped)
+                
+                Actor:: "Hey, <Actor2.brother_or_sister>, why don't you join me to rape ? You're supposed to be the lookout but just look at this cowardly Mayor out of ours, watching someone dear to <Player.him_or_her> getting raped and not having the courage to do anything."
+                Actor2:: "You're right ... this coward wouldn't dare to do anything even if our backs are turned."
+                SexNoAffair(Actor2, Actor, Raped)
+                "Having humiliated their mayor and no doubt boasted to all their fellow outlaws about it, the criminals become more brazen and the crime rate actually rises."
+            Endif
+        Else
+            "Oh no, I'm confronted alone by two gang members in my own home. Their boss must have been angry with my effort to tackle crime in the city and sent them."
+            
+            Actor = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor)
+                Actor = generatePersonTemporary()
+            Endwhile
+            Actor.dressUniform(Crime)
+            Actor.show()
+            
+            Actor:: "Consider this a warning from the boss, dear Mayor!"
+            
+            Actor2 = generatePersonTemporary()
+            While !Player.isInterestedIn(Actor2)
+                Actor2 = generatePersonTemporary()
+            Endwhile
+            Actor2.dressUniform(Crime)
+            Actor2.show()
+
+            Actor2:: "We're going to rape you and you'll have no chance but to endure. Remember this the next time you think about fucking with our gang business!"
+            0:: "Fight back"
+            1:: "Accept my fate"
+            
+            If 0 && martial*2 > Actor:martial + Actor2:martial
+                after += 5
+                masochist -= 3
+                Actor.animate(fightlost)
+                Actor2.animate(fightlost)
+                "Despite being outnumbered, I managed to defeat the two gang members."
+                Actor.hide()
+                Actor2.hide()
+                "The police soon arrives to arrest them. This will no doubt send shockwaves to the underworld not to underestimate me as a mayor."
+            Else
+                "I was soon knocked down by the two gang members."
+                Player.animate(fightlost)
+                If Aide.isValid()
+                    Aide.dress()
+                    Aide.show()
+                    "Thankfully, my aide, who had just dropped me off, heard the commotion from outside and rushed in to help."
+                    Aide.animate(martialart)
+                    Actor.animate(martialart)
+                    Actor2.animate(martialart)
+                    If Aide:martial > Actor:martial + Actor2:martial
+                        after += 5
+                        Actor.animate(fightlost)
+                        Actor2.animate(fightlost)
+                        "Despite being outnumbered, my aide managed to defeat the two gang members."
+                        Actor.hide()
+                        Actor2.hide()
+                        "The police soon arrives to arrest them. This will no doubt send shockwaves to the underworld not to underestimate me as a mayor, especially with such a badass aide protecting me."
+                        0:: "Reward my aide with sex"
+                        1:: "Just thank <Aide.him_or_her>"
+                        
+                        If 0
+                            Player:: "I may be your boss but you're my <Aide.hero_or_heroine> today. Why don't you come fuck your Mayor in distress as a reward?"
+                            Sex(Player, Aide)
+                        Endif
+                    Else
+                        after -= 5
+                        masochist += 3
+                        Aide.animate(fightlost)
+                        "Unfortunately, my aide too had no chance due to being outnumbered and was knocked down as well."
+                        Actor:: "You're a loyal servant to your Mayor. I'm sure you've done plenty of groundwork for your Mayor to cause harm to our gang."
+                        Actor2:: "Fine, then we'll just rape you together with your boss."
+                        If Player.isMale() && !Actor.isMale()
+                            Filter(AggressiveFM)                
+                        Else
+                            Filter(Aggressive)
+                        Endif
+                        TalkNonConsensual()
+                        SexNoAffair(Actor, Player)
+                        Actor.setActorVar(tag_Rapist, 1)
+
+                        "While getting raped, I had to watch my aide getting raped at the same time. Poor <Aide.guy_or_girl>, <Aide.he_or_she> tried to save me only to suffer the same fate."
+                        If Aide.isMale() && !Actor2.isMale()
+                            Filter(AggressiveFM)                
+                        Else
+                            Filter(Aggressive)
+                        Endif
+                        TalkNonConsensual()
+                        SexNoAffair(Actor2, Aide)
+                        "Having raped their mayor and no doubt boasted to all their fellow outlaws about it, the criminals become more brazen and the crime rate actually rises."
+                    Endif
+                Else
+                    If Player.isMale() && !Actor.isMale()
+                        Filter(AggressiveFM)                
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    TalkNonConsensual()
+                    SexNoAffair(Actor, Player)
+                    Actor.setActorVar(tag_Rapist, 1)
+
+                    Actor2:: "Now it's my turn with our lovely Mayor here."
+                    If Player.isMale() && !Actor2.isMale()
+                        Filter(AggressiveFM)                
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    TalkNonConsensual()
+                    SexNoAffair(Actor2, Player)
+                    Actor2.setActorVar(tag_Rapist, 1)
+                    
+                    Actor:: "Watching you made me excited again. Let's go for another round together. I think our lovely Mayor here is starting to enjoy all this."
+                    Sex(Actor, Actor2, Player)
+
+                    "Having raped their mayor and no doubt boasted to all their fellow outlaws about it, the criminals become more brazen and the crime rate actually rises."
+                Endif
+            Endif
+            
+        Endif
+    Else
+        If Aide.isValid()
+            Aide.dress()
+            Aide.show()
+            "Helping me in particular today is my trusted aide <Aide.name>."
+            0:: "Let <Aide.him_or_her> concentrate on work"
+            1:: "Take every opportunity to flirt"
+            
+            If 0
+                after += 0.01*[Aide:intelligence + Aide:interpersonal]
+            Else
+                Aide:attractiontoplayer += 2
+                If Aide:attractiontoplayer > 30 || Aide.hadSex()
+                    "<Aide.name> seems responsive to my flirting and would probably be down to help me the Mayor release some stress."
+                    0:: "Fuck my aide"
+                    1:: "Enough fun"
+                    
+                    If 0
+                        Sex(Player, Aide)
+                        If Random(0, 100) < Aide:intelligence
+                            "Unfortunately, my aide was too busy getting fucked that <Aide.he_or_she> made a rather big mistake for work."
+                            after -= Random(0, 2)
+                        Endif
+                    Endif
+                Endif
+            Endif
+            
+        Endif
+        
+        If Random(0, 100) < 66
+            "Nothing unusual happened and I think I've made some good decisions to improve public security."
+            after += 0.02*[intelligence + interpersonal]
+        Elseif Random(0, 100) < 50
+            Actor = generatePersonTemporary()
+            Actor.dress()
+            Actor.show()
+            "A powerful crime boss is offering me a sizable bribe to agree to a deal that would do harm to public security."
+            0:: "Accept the bribe"
+            1:: "How about sex instead?"
+            2:: "Stay upright"
+            
+            If 0
+                money += Random(1000, 2000)
+                after -= Random(0, 5)
+            Elseif 1
+                Sex(Player, Actor)
+                after -= Random(0, 5)
+                If Aide.hadSex()
+                    "Since I've been sleeping with my aide <Aide.name> as well, I could ask <Aide.him_or_her> to join us for some fun ..."
+                    0:: "Have a threesome with my aide"
+                    1:: "Enough fun"
+                    
+                    If 0
+                        Sex(Player, Aide, Actor)
+                    Endif
+                Endif
+            Endif
+        Else
+            Actor = generatePersonTemporary()
+            Actor.dress()
+            Actor.show()
+            "A representative from an underfunded police district is practically begging for government funding. According to my aide <Aide.name>'s analysis, it's not clear whether it would be a wise spending as the area in question is so ridden with crime it's basically futile."
+            0:: "Spend the money to help"
+            1:: "Demand sex in exchange"
+            2:: "Refuse"
+            
+            If 0
+                karma += 5
+                jobperformance -= Random(0, 2)
+                after += Random(-3, 3)
+            Elseif 1
+                jobperformance -= Random(0, 2)
+                Sex(Player, Actor)
+                after += Random(-3, 3)
+                If Aide.hadSex()
+                    "Since I've been sleeping with my aide <Aide.name> as well, I could ask <Aide.him_or_her> to join us for some fun ..."
+                    0:: "Have a threesome with my aide"
+                    1:: "Enough fun"
+                    
+                    If 0
+                        Sex(Player, Aide, Actor)
+                    Endif
+                Endif            
+            Endif    
+        Endif
+    Endif
+    
+    If before < after || after < before
+        jobperformance += 0.15*[after - before]
+    Endif
+    
+    If after < 0
+        after => -100
+    Elseif after > 100
+        after => 100
+    Endif 
+    
+    c_security.setGlobal(after)
+    SceneEnd()

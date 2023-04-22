@@ -1,0 +1,98 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: none
+OTHER: jobexperience > 50
+
+    // IF your jobexperience is at least 50, your boss might occasionally ask you to interview potential new junior hires, who might try to bribe you with money, their number, their body or their SO's body to get hired
+    
+    SceneStart()
+    "My boss is away on an office trip and since I'm relatively senior now, the boss has asked me to interview a recent college graduate for a low-paid and unimportant junior position. So unimportant that the boss can't be bothered and I'm allowed the final say whether to hire the candidate as well."
+    0:: "Interview the candidate"
+    1:: "Let another senior colleague do the job"
+    
+    If 0
+        Actor = generatePersonTemporary()
+        Actor:age => Random(21, 25)
+        
+        Actor.dress()
+        secondScreen(Actor)
+        Actor.show()
+        "The candidate is called <Actor.name>."
+        secondScreen()
+        Actor2 = generatePersonTemporary()
+        Actor2:age => Random(21, 25)
+        secondScreen(Actor2)
+        Actor2.show()
+        "As part of the interview process, I had to check <Actor.name>'s social media history for controversial posts. Nothing there, except finding out <Actor.he_or_she> has a colleague sweetheart called <Actor2.name>. All pretty typical of a recent colleague graduate."
+        secondScreen()
+        Actor.show()
+        "Here is the candidate. Let's begin the interview."
+        "It only took me a few minutes to figure out that <Actor.he_or_she> was a mediocre candidate at best. There are probably plenty of better candidates, still this is a junior position so it's not going to do much harm to give the kid a chance to learn."
+        "One thing about <Actor.name> is that <Actor.he_or_she> seemed really desperate for this job, must have been rejected in all the other interviews, I reckon."
+        Player:: "To be completely honest with you, <Actor.name>, I don't think you quite have what's required for this position."
+        Actor:: "Please ... I really need this job ... It's terrible for my future to remain unemployed for long after graduation ... I'll do anything ..."
+        0:: "Reject <Actor.name>"
+        1:: "Give <Actor.him_or_her> the job out of kindness"
+        2:: "Demand a bribe"
+        3:: "How about your number for a future date?"
+        4:: "Let me fuck you!"
+        5:: "Let me fuck that hot college <Actor2.boyfriend_or_girlfriend> of yours!"
+        
+        If 0
+            Player:: "Sorry, but I've been entrusted to find the best candidate ... Good luck with your other job applications."
+            Hired = false
+        Elseif 1
+            Player:: "You know what ... I remember being in your shoes. Fine, it's only a junior position. There's no reason why you can't improve by learning on the job."
+            Actor:rapportwithplayer += 50
+            Actor:attractiontoplayer += 25
+            karma += 20
+            "I felt like doing a good deed today ... Besides, there's no harm having a junior colleague who will be forever grateful for my help early on in their career. A useful ally in the workplace in the future perhaps."
+            Hired = true
+        Elseif 2
+            Actor:: "Here's all I have on me ... I'm a bit broke with all that college debt, you know."
+            money += 300
+            Hired = true
+        Elseif 3
+            Actor:: "I'm in a relationship ... but okay ... I guess there's no harm giving you my number."
+            "I reckon these colleage relationships won't really last long after graduation. I think I have a chance here"
+            Actor.makePermanent()
+            exchangeContact(Actor)
+            Hired = true
+        Elseif 4
+            Actor:: "I can't believe I'm doing this ... I guess I'm really desperate for this job."
+            "We meet in a hotel room later on."
+            setBackground(home)
+            Sex(Player, Actor)
+        Else
+            Actor:: "I can't believe I'm going to try to talk my <Actor2.boyfriend_or_girlfriend> into this ... We've been together throughout college. I guess I'm really desperate for this job."
+            "I meet with the candidate <Actor2.boyfriend_or_girlfriend> in a hotel room later on."
+            setBackground(home)
+            Sex(Player, Actor2)
+        Endif
+        
+        If Hired
+            "I recommended that <Actor.name> get hired for the position. HR sorted out the contract swiftly and soon <Actor.he_or_she> joined the company as my latest junior colleague."
+            Actor.makePermanent()
+            Actor.addColleague()
+            Actor:jobexperiene => 5
+            
+            If Random(0, 100) < 50
+                "As with many college relationships, <Actor.name>'s relationship with <Actor.his_or_her> college sweetheart ended only a month into the new job."
+                If 4 || 5
+                    "Maybe I'm partly responsible for the breakup with that indecent arrangement earlier."
+                Endif
+            Else
+                "<Actor.name>'s relationship with <Actor.his_or_her> college sweetheart remained strong as they both found jobs in the same city."
+                Actor2.makePermanent()
+                addNpcRelationship(Dating, Actor, Actor2)
+                If 4 || 5
+                    "They must really be in love for the relationship to survive after the indecent arrangement with me earlier."
+                Endif                
+            Endif
+        Endif
+    Else
+        "I let another colleague do the interview, who ended up rejecting the candidate anyway. I'm glad I didn't waste my time then."
+    Endif
+    SceneEnd()
+    timeout(200, interview_bribe)

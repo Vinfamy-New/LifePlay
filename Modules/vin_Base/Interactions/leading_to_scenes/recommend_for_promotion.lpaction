@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: recommend_for_promotion
+ACTION_NAME: Recommend for promotion
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: recommend_for_promotion
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isColleague() && jobexperience - Actor:jobexperience > 30

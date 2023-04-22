@@ -1,0 +1,51 @@
+WHAT: all
+WHERE: home
+WHEN: 17 - 21
+WHO: Actor = getSpecific(Dating); If Actor2 = getSpecific(Relative) && Actor2.livesWithPlayer()
+OTHER: isAtHome()
+
+    SceneStart()
+    setBackgroundCustom(livingroom)
+    "My <Actor.boyfriend_or_girlfriend> <Actor.name> and I are having dinner at my place today. My <Actor2.relationship> <Actor2.name> was there too. Good way to introduce <Actor.him_or_her> to the family I suppose."
+    Actor2:: "I'll do the dishes ..."
+    Actor2.hide()
+    Actor:: "I probably should go help your <Actor2.relationship> with the dishes."
+    0:: "Let <Actor.him_or_her> go"
+    1:: "Go to the kitchen myself"
+    
+    setBackgroundCustom(kitchen)
+    If 0
+        Player.hide()
+        Actor.show()
+        Actor:: "You need any help?"
+        Actor2:: "If you don't mind, thank you!"
+        If Actor2.isInterestedIn(Actor) && Random(50, 100) < Actor2:perversion
+            "Unbeknown to me, my <Actor2.relationship> tried to seduce <Actor.name> in the kitchen."
+            If Random(80, 200) < Actor:perversion
+                Actor:: "You're such a pervert ... you want me to do it with you right behind my <Player.boyfriend_or_girlfriend>'s back ... that sounds kinda exciting actually."
+                Actor:: "Okay, you win ..."
+                Sex(Actor, Actor2)
+            Else
+                Actor2:: "No way, definitely not when <Actor.name> is just in the other room."
+            Endif
+        Endif
+    Else
+        Player.show()
+        Actor.hide()
+        Player:: "You need any help?"
+        Actor2:: "If you don't mind, thank you!"
+        0:: isModEnabled(vin_Incest):: "Seduce <Actor2.him_or_her>"
+        1:: "Just wash the dishes"
+        
+        If 0
+            If Random(40, 200) < Actor2:incest + Actor2:perversion
+                Actor2:: "You're such a pervert ... you want me to do it with you right behind your <Actor.boyfriend_or_girlfriend>'s back ... that sounds kinda exciting actually."
+                Actor2:: "Okay, you win ..."
+                Sex(Player, Actor2)
+            Else
+                Actor2:: "No way, definitely not when your <Actor.boyfriend_or_girlfriend> is just in the other room."
+            Endif
+        Endif    
+    Endif
+    SceneEnd()
+    timeout(500, cms_ica_sep02)

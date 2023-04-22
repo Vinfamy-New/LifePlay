@@ -1,0 +1,188 @@
+WHAT: all
+WHERE: home, hotel
+WHEN: 0 - 24
+WHO: none
+OTHER: TfGame() && Player.isMale()
+
+    // Watch por n and get aroused by some dick on screen -> imagine yourself in the girl's place -> seek out female POV por n -> find a favorite female pornsta r that shares your skin and hair color and watch her almost exclusively to put yourself in her place getting smashed by various dudes -> More attracted to the dudes and subscribe to their OnlyFa ns even just for their solo clips -> Use DeepFak e AI to make your favorite female pornsta r's face look more like you.
+    
+    SceneStart()
+    dys = Player.getActorVar(tf_dys) 
+    stage = Player.getActorVar(tfgrad_porn)
+    
+    "I'm in the mood to watch some porn and have a wank ..."
+    0:: "Go for it"
+    1:: "Not right now"
+    
+    If 0
+        If dys > 66 && stage > 3
+            Actor = getPerson(tag_tfgradporn)
+            If Random(0, 100) < 50 && dys > 76 && Actor.isValid()
+                Actor.show()
+                "I have watched my favorite porn actress <Actor.name> fuck numerous male pornstars while imagining myself in her place"
+                "Despite having chosen her as my favorite pornstar to follow and watch every new release as she resembles me somewhat in basic physical attribute like skin color, hair color and height, she's far from a perfect clone. Put this way, she looks like she could be a distant relative of me, but she still doesn't look anything like how I imagine myself would look if I were a woman. That kills the illusion sometimes."
+                "Of course, DeepFake AI technology is on my side and spending a lot of time, I can probably change her face in certain clips and photosets into a female version of my face."
+                0:: "Use DeepFake AI to swap her face for mine"
+                1:: "Too time-consuming"
+                
+                If 0
+                    Actor2 = generatePersonTemporary()
+                    While !Actor2.isMale()
+                        Actor2 = generatePersonTemporary()
+                    endWhile
+                    "Seeking that perfect connection between me and the woman in whose place I've imagined myself, I spent hours and hours trying to make DeepFakes of her porn clips and photosets, swapping her face with a feminized version of my face."
+                    Sex(Actor2, Actor)
+                    "Watching MYSELF in a female body getting fucked by many famous porn actors gave me the most intense orgasms. Of course, when post-nut clarity kicks in and realizing I still have a dick, I feel horrible and wish what I just watch wasn't deepfake but reality."
+                    dys += 6
+                    stage => 6                    
+                Endif
+            Else
+                Actor.delete()
+                "Having watched my favorite porn actress fuck numerous male pornstars while imagining myself in her place and sometimes even in clips filmed from her POV, I eventually find that I don't really need my 'female protagonist' to be there all the time even."
+                "In fact, I must admit having imagined myself as a woman being fucked by them so many times, I've developed a certain amount of attraction towards the male pornstars themselves."
+                Actor = generatePersonTemporary()
+                While !Actor.isMale()
+                    Actor = generatePersonTemporary()
+                endWhile
+                Actor.show()
+                "Of course, all these male pornstars have their own OnlyFans ... where they post almost daily dick pics and solo clips. I suspect their target audience for these clips is the gay guys attracted to straight men, but imagining myself as a woman when aroused is such a second nature to me now, that watching these male pornstars' solo clips may just feel incredibly straight to me ..."
+                0:: "Imagining myself as a woman, I can jerk off to even male solo clips"
+                1:: "Nope, I still need an actual woman involved"
+                
+                If 0
+                    "This is no different from a straight woman having webcam sex with her male pornstar crush, right ... After all, the male pornstar has no idea who's on the other side of the screen watching his clips. Maybe he's himself getting hard fantasizing that it's a hot female fan of his rubbing her pussy to his solo clips."
+                    dys += 5
+                    stage => 5
+                    Filter(Solo)
+                    Sex(Actor)
+                Endif
+            Endif
+        Elseif dys > 33 && stage > 1
+            If Random(0, 100) < 50 && dys > 43
+                "I must admit that imagining myself in the female pornstar's place gave me some mind-blowing orgasm last time."
+                Actor = getPerson(tag_tfgradporn)
+                "But there are just so many different female pornstars in the industry, each having a different face and body, or even different in something obvious like hair color or skin color. It's hard to imagine myself in the female pornstar's role if it's a different girl in each clip I watch, or if the girl's clearly a different race from me."
+                0:: "Pick a favorite pornstar that shares my skin and hair color"
+                1:: Actor.isValid():: "Continue watching my favorite pornstar <Actor.name>"
+                2:: "Just go for any porn actress"
+                
+                If 2
+                    "That's limiting my choices too much. I'll happily watch any porn actress."
+                Else
+                    If 0 && Actor.isValid() 
+                        Actor.setActorVar(tag_tfgradporn, 0)
+                        Actor.delete()
+                    Endif
+                    
+                    If 0
+                        "It took me a while, but I finally found a porn actress that matches my basic physical attributes. She actually looks like she could be related to me."
+                        Actor = Player.generatePersonTemporaryMatchRace()
+                        While !Actor.isFemale()
+                            Actor = Player.generatePersonTemporaryMatchRace()
+                        endWhile
+                        Actor.show()
+                        
+                        "Am I happy with my choice?"
+                        0:: "She's my fav from now on"
+                        1:: "I'll come across some other girl that looks more like me"
+                        
+                        If 0
+                            Actor.makePermanent()
+                            dys += 4
+                            "What's her porn stage name?"
+
+                            Actor.enterFirstName()
+                            "I will be following all of <Actor.name>'s latest porn releases and watching all of them while imagining myself in her place being fucked by her various male co-stars."
+                            Actor.setActorVar(tag_tfgradporn, 1)
+                        Endif
+                    Else
+                        Actor2 = generatePersonTemporary()
+                        While !Actor2.isMale()
+                            Actor2 = generatePersonTemporary()
+                        endWhile
+                        Actor.show()
+                        Actor2.show()
+                        "A major porn studio just released a scene featuring <Actor.name> fucking a seasoned male pornstar. Let's watch it and imagine myself in her place while jerking off."
+                        dys += 4
+                        stage => 4
+                        Sex(Actor2, Actor)
+                    Endif
+                Endif
+            Else
+                "I must admit that imagining myself in the female pornstar's place gave me some mind-blowing orgasm last time."
+                "But most porn clips are either filmed in third person or in the male POV, which kinda kills my female role-playing sometimes. Female POV porn is quite rare."
+                0:: "Spend time finding a female POV clip"
+                1:: "Just go for a normal clip"
+                
+                Actor = generatePersonTemporary()
+                If 0
+                    "It took me a while, but I finally found a porn clip filmed entirely from the female pornstar's POV, which goes perfectly with me imagining myself in her place while jerking off."
+                    dys += 3
+                    stage => 3
+                    "Some of the actions are mindblowingly hot from this angle: like how his cock slides in and out of 'my' mouth, or how I can see his toned chest and sex pack while he gives it to 'me' in the otherwise boring missionary position."
+                    "(You can click anywhere and switch camera to POV)"
+                Endif
+                
+                Actor.show()
+                Actor2 = generatePersonTemporary()
+                While Actor2.isSameGender(Actor)
+                    Actor2 = generatePersonTemporary()
+                endWhile
+                "This is hot ..."
+                Sex(Actor, Actor2)
+            Endif
+        Else
+            Actor = generatePersonTemporary()
+            Actor.show()
+            "I just picked the most popular porn clip on Pornhub for the last week. Pretty cookie-cutter Boy-Girl stuff."
+            Actor2 = generatePersonTemporary()
+            While Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.show()
+            "Let's watch it ..."
+            Sex(Actor, Actor2)
+            Actor.hide()
+            Actor2.hide()
+            
+            If Random(0, 100) < 50 && dys > 10
+                "As a straight guy watching that, surely I'm jerking off to the mental image of me replacing the male pornstar fucking the hot chick."
+                0:: "Masturbate while imagining myself as the guy"
+                1:: "Masturbate while imagining myself as the girl"
+                
+                If 1
+                    "I can't help but feel more aroused imagining myself in the female pornstar's place, getting fucked by this stud. I'll probably feel a bit embarrassed with myself when post-nut clarity kicks in later, but it's just a harmless fantasy nobody needs to know, right?"
+                    dys += 2
+                    stage => 2
+                Endif
+                
+                Filter(Solo)
+                Sex(Player)
+            Else
+                "As a straight guy watching that, surely I'm jerking off to the hot body of the female pornstar."
+                0:: "Masturbate while focusing entirely on the girl's body"
+                1:: "The guy's cock is quite aethestically pleasing I must say"
+                
+                If 1
+                    "I can't help but notice how big and perfectly shaped the male pornstar's dick is. As an owner of a penis myself, I probably should be jealous, but the sight of his dick is strangely arousing and I could even feel my mouth water a bit."
+                    dys += 1
+                    stage => 1
+                Endif
+                
+                Filter(Solo)
+                Sex(Player)            
+            Endif
+        Endif
+    Endif
+    
+    Player.setActorVar(tfgrad_porn, stage)
+    If dys > 100
+        dys => 100
+    Endif
+    "My gender dysphoria level is now <dys>."
+    Player.setActorVar(tf_dys, dys)
+    If dys > 90
+        followUp(tfgrad_magic)
+    Endif
+    SceneEnd()
+    timeout(100, tfgrad_porn)

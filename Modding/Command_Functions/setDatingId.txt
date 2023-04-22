@@ -1,0 +1,13 @@
+Actor.setDatingId()
+
+USE:
+Used for polyamorous for setting up which lover to break up with before you use loseDating()
+
+TYPE: Command, Reference
+RETURNS: /
+THEME: Relationships
+COMPARE: loseDating, setDating
+
+EXAMPLE:
+                Actor.setDatingId()
+                loseDating()

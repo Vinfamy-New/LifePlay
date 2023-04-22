@@ -1,0 +1,54 @@
+WHAT: all
+WHERE: home
+WHEN: 8 - 21
+WHO: Actor2 = getSpecific(Dating)
+OTHER:
+
+    //  Your SO's abusive ex wants them back. So rather than hiding from or fighting them. You can bribe them. Option 1: You pay them 10,000. Option 2: You offer to match-make  them with one of your contacts. Option 3: You can offer them sex (If they're inrested in your gender.)
+    
+    SceneStart()
+    "<Actor2.name>'s ex hasn't got over <Actor2.him_or_her> and has been bothering us at our place recently. <Player.He_or_She>'s at our door again, thankfully this time <Actor2.name> is away. Should I open the door and try to bribe <Actor.him_or_her> to leave my <Actor2.boyfriend_or_girlfriend> alone?"
+    0:: "Open the door and talk"
+    1:: "Just ignore <Player.him_or_her>"
+    
+    If 0
+        setBackgroundCustom(livingroom)
+        Actor = generatePersonTemporary()
+        While !Actor.isSameGender(Player)
+            Actor = generatePersonTemporary()
+        Endwhile
+        Actor.dress()
+        Actor.show()
+        Player:: "<Actor2.name> isn't home, but I'm here in peace with an offer."
+        0:: "Bribe <Actor.him_or_her> with some cash"
+        1:: "Offer to match-make this ex with a contact"
+        2:: "Offer sex with me!"
+        
+        If 0
+            Player:: "Take this money and leave <Actor2.name> alone!"
+            Actor:: "I really need this money ... so okay ..."
+            money -= 500
+        Elseif 1
+            Player:: "I'll introduce you to another <Actor2.guy_or_girl> I know, just leave <Actor2.name> alone."
+            "Who should I match make with <Actor2.name>'s ex?"
+            selectNpc()
+            Actor3 = getSelectedNpc()
+            
+            secondScreen(Actor3)
+            Actor3.show()
+            "I decided to introduce the ex to <Actor3.name>>. They agreed to go on a blind date together."
+            If Actor.isInterestedIn(Actor3) && Actor3.isInterestedIn(Actor) && !Actor3.hasRelationship(Spouses, Dating) && !Actor3.isDating()
+                "The date must have gone well as they ended up as a couple. Now I can be sure <Actor.name> will leave my <Actor2.boyfriend_or_girlfriend> alone for good."
+                Actor.makePermanent()
+                addNpcRelationship(Dating, Actor, Actor3)
+            Else
+                "The date must have gone badly as they didn't end up as a couple ..."
+            Endif
+        Else
+            Player:: "You can't have my <Actor2.boyfriend_or_girlfriend>, but you can have me!"
+            Actor:: "Okay then ... it's better than nothing ..."
+            Sex(Actor, Player)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, bribe_dating_ex_cms)

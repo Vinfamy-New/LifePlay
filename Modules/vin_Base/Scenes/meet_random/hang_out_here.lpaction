@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: hang_out_here
+ACTION_NAME: Spend time with others
+WHERE: home, work
+WHEN: 0 - 24
+MINUTES: 120 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: false
+SCENE_ALWAYS: hang_out_here_cms
+ANIMATION: browse

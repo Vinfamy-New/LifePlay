@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: orc_breeds
+ACTION_NAME: Breed with a fellow orc
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: orc_breeds
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isRace(Orc) && Player.isRace(Orc) && !Actor.isSameGender(Player)

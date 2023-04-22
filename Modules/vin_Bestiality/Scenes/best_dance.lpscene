@@ -1,0 +1,72 @@
+WHAT: all
+WHERE: all
+WHEN: 0 - 24 
+WHO: Actor3 = getCompanion(); Actor = getCreature(); If Player.isInterestedIn(Actor3) && Actor3:attractiontoplayer < 40 && Player.isInterestedIn(Actor) && Actor.isCreatureType(Dog)
+OTHER: dance < 50
+
+    // If your dance stat is low and on a date with someone you're interested in, you may decide to sexy dance and striptease to seduce them. You end up embarrassing yourself and scaring your date off so you decide to practice. You need an audience to practice so your pets come to mind.
+
+    SceneStart()
+    "I'm on a date with <Actor3.name>. Maybe I should invite <Actor3.him_or_her> home and hook up?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        moveTo(home)
+        setBackgroundCustom(livingroom)
+        "I'm back to my place with <Actor3.name> but unfortunately I don't think <Actor3.he_or_she> quite gets the message of what I want."
+        "Maybe I should make it obvious and seduce <Actor3.him_or_her> with a sexy dance?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            Player.animate(dance)
+            "I stood up and started to do my best to sexy dance. I soon started removing my clothes."
+            "However, my lack of skill and nervousness turned the whole thing into a disaster."
+            Actor3:: "Hahahaha"
+            "Oh no, <Actor3.name> is clearly anything but turned on by my 'sexy' dance."
+            Player.animate()
+            Actor3:: "I'm so sorry, I didn't mean to laugh. But you looked so silly doing that ..."
+            "Great ... with my terrible dancing skill, I ended up embarrassing myself and killing the mood. I bet <Actor3.he_or_she>'s going to tell all <Actor3.his_or_her> friends about this incident and laugh with them about it too ..."
+            Actor3.hide()
+            endDate()
+            "The date eventually ended awkwardly and I remained very much unlaid. All because of my pathetic attempt to seduce a date with a sexy dance ..."
+            "That was so embarrassing. I'm never going to try that again."
+            "At least not without some serious practice."
+            "The thing is, there's no point just practicing dancing alone. Doing it alone is one thing. Stage fright is another thing entirely and doing it in front of an audience is so stressful. I can't just practice dancing in front of some random person."
+            Actor.show()
+            "Just as I was thinking that, I see my pet dog <Actor.name> ..."
+            Player.moveToPersonStand(Actor, 50)
+            "An idea popped into my head. That's an audience that I can practice in front of and I can trust not to be judgmental and laugh and tell everybody about my failure."
+            "Being an animal, <Actor.name> is also a lot easier to read in terms of whether my dance is arousing or not."
+            0:: "Practice sexy dancing in front of <Actor.name>"
+            1:: "Just give up on dancing"
+            
+            If 0
+                Player.animate(dance)
+                "Doing it in front of my loyal pet companion who I know wouldn't judge me gives me the confidence to start my striptease properly this time."
+                count = 0
+                While !Player.isNaked() && count < 10
+                    Player.stripOne()
+                    "Off this goes ..."
+                    count += 1
+                Endwhile
+                dance += 3
+                "My dance this time was a success and I could tell <Actor.name> was getting increasingly aroused and restless. I feel a sense of pride as if I'm the most popular stripper in the world."
+                "That's a good thing about practicing in front of an animal - they don't hide their excitement and you can just tell how well you're doing."
+                "However, I think my sexy dance has left <Actor.name> a bit too restless now ... after all, by nature, animals don't bother with all the slow seduction ... if they're horny, they're ready to mate ..."
+                "And to be honest, I was 'ready to mate' with my date earlier as well ... and now I find myself naked in front of my very aroused pet dog ..."
+                "I can't seriously be considering it, can I?"
+                0:: "Reward my four-legged audience with a happy ending"
+                1:: "Put my clothes back on"
+                
+                If 0
+                    Sex(Actor, Player)
+                Endif
+            Endif
+        Else
+            "I'm not great at dancing. Might kill the mood. Let's just spend some more time with <Actor3.name>. I'm sure <Actor3.he_or_she>'ll get the message eventually."
+        Endif
+    Endif
+    SceneEnd()
+    timeout(200, best_dance)

@@ -1,0 +1,90 @@
+WHAT: all
+WHERE: work
+WHEN: 0 - 24
+WHO: Actor = getSpecific(Boss); If Actor.hadSex() && [OpenRelationship() || !Actor.isDating()]
+OTHER: none
+
+    SceneStart()
+    Plaything = Plaything.getGlobal()
+    If Plaything == 1
+        "I'm currently the office plaything. Everyone in the office knows it and those interested can use me whenever they want."
+        0:: "Continue being the office plaything"
+        1:: "Quit being the office plaything"
+        
+        If 0
+            If isModEnabled(vin_BDSM) && !Player.isMale()
+                "Before I begin my 'shift' today, my boss asked me to put on some bondage gear as special uniform appropriate for an office plaything like myself."
+                Player.dressBondage()
+            Endif
+            
+            Actor2 = getSpecific(Colleague)
+            While Actor2.isValid() && !Actor2.isInterestedIn(Player) && Actor2:perversion > 50
+                Actor2 = getSpecific(Colleague)
+            Endwhile
+            If !Actor2.isValid() || Random(0, 100) < 30
+                Actor.dress()
+                Actor.show()
+                "It's the boss <Actor.himself_or_herself> that requires the office plaything's touch today."
+                0:: "Fuck my boss in the office"
+                1:: "I'm not in the mood today"
+                
+                If 0
+                    Sex(Actor, Player)
+                    perversion += 0.5
+                    If jobperformance < 50
+                        jobperformance => 50
+                    Endif
+                    jobperformance += 5
+                Endif
+            Else
+                Actor2.dress()
+                Actor2.show()
+                "It's my colleague <Actor2.name> that requires the office plaything's touch today."
+                0:: "Fuck <Actor2.name> in the office"
+                1:: "I'm not in the mood today"
+                
+                If 0
+                    Sex(Actor2, Player)
+                    perversion += 0.5
+                    If jobperformance < 50
+                        jobperformance => 50
+                    Endif
+                    jobperformance += 5
+
+                    If Random(0, 100) < 33
+                        Actor.dress()
+                        Actor.show()
+                        Actor:: "<Actor2.name>, I see you're taking full advantage of the company's benefits package."
+                        Actor:: "And <Player.name>, I see you're excelling in your role as the office plaything ..."
+                        Actor:: "Since I'm paying you both, I hope you won't mind me joining me, would you?"
+                        Actor2:: "Of course not, boss ..."
+                        Sex(Actor, Actor2, Player)
+                    Endif
+                Endif            
+            Endif
+        Else
+            "I told my boss that I'd rather move on from this special role within the company and just be a normal employee from now on. Reluctantly, <Actor.he_or_she> called a meeting to make the announcement which was reacted to with many disappointed faces."
+            perversion -= 3
+            Plaything.setGlobal(0)
+        Endif
+    Else
+        Actor.dress()
+        Actor.show()
+        "I'm already sleeping with my boss. Maybe I should ask <Actor.him_or_her> to declare me as the office plaything and let the rest of my colleagues have their ways with it whenever they want."
+        "This could be a good way to make sure I keep advancing in this company without actually doing much actual work. After all, keeping 'employee satisfaction' high would be my very crucial contribution to the business."
+        0:: "Become the office plaything"
+        1:: "Let's think about this some more"
+        2:: "Never!"
+        
+        If 0
+            perversion += 3
+            Actor:: "Haha, it's good that you know your place and understand how best you can serve this company!"
+            Actor:: "Fine, let's schedule a team meeting soon where I will make an announcement about your new role."
+            "My boss stuck to <Actor.his_or_her> words, at the meeting, I was declared as the office plaything, always ready to be used by any of the other employees. While this announcement shocked some of my more conservative colleagues, it's clear that others immediately became very interested in the prospect of taking advantage of this new and more sensual method for bonus compensation from the company."
+            Plaything.setGlobal(1)
+        Elseif 2
+            timeout(2000, office_plaything)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(50, office_plaything)

@@ -1,0 +1,51 @@
+WHAT: all
+WHERE: all
+WHEN: 8-22
+WHO: none
+OTHER: TfGame() && !Player.isMale() && Player.isInterestedInWomen() && !isWithCompanion()
+
+    // A bi girl who was way out of your league when you were male is now suddenly much easier to approach in your female form
+    
+    SceneStart()
+    "I have found that after my transformation, most of the people that knew me still know me, but they all act like they know me as a woman the whole time ..."
+    "... which can be problematic, since sometimes one of my guy friends who I used to watch sports and play video games with would now try to ask me out or even send me their dick pics."
+    "Usually, I find it too weird and just block them."
+    "But this time, it's different ..."
+    Actor = generatePersonTemporary()
+    While !Actor.isFemale()
+        Actor = generatePersonTemporary()
+    Endwhile
+    Actor.blendPreset(fashion_model_F)
+    Actor:age => Random(18, 29)
+    Actor:attractiveness => Random(80, 100)
+    Actor:interpersonal => Random(80, 100)
+    Actor.randomizeFace()
+    Actor.randomizeHairs()
+    Actor.makeInterested(Player)
+    Actor:attractiontoplayer += 60
+    Actor:rapportwithplayer += 60
+    secondScreen(Actor)
+    Actor.show()
+    Actor:: "<Player.name>, do you fancy a girls' night out tonight? Just the two of us!"
+    "It's <Actor.name> herself! She's a beautiful and popular girl who I have had a crush on for a long time. Unfortunately, she has always been totally out of my league and never really paid any attention to me."
+    "It now seems though that she considers this female version of me somewhat of a close friend ..."
+    "I have heard some rumours that <Actor.name> might be bisexual and have experiemented with lesbian sex with her so-called besties ..."
+    "Maybe now that I'm a girl, I finally have a chance with her!"
+    0:: "Have a girls' night out with <Actor.name>"
+    1:: "Ignore <Actor.name>"
+    
+    If 0
+        secondScreen()
+        Actor.makePermanent()
+        exchangeContact(Actor)
+        Actor.dress()
+        Actor.show()
+        "I agreed to the girls' night out and soon <Actor.name> showed up to pick me up."
+        Actor.startDate()
+        "Let's hope the rumours about <Actor.name> being into girls turn out to be true and tonight I could finally have as a woman what was out of my reach to me as a man."
+    Else
+        "I decided not to go down that path."
+    Endif
+
+    SceneEnd()
+    timeout(200, tf_outofmyleague)

@@ -1,0 +1,12 @@
+ACTION_UNIQUEID: breed_animal
+ACTION_NAME: Breed animal for money
+WHERE: pet, community_centre, veterinary
+WHEN: 0 - 24
+MINUTES: 90 - 150
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS: 
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: breed_animal
+ANIMATION:

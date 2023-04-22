@@ -1,0 +1,58 @@
+WHAT: all
+WHERE: all
+WHEN: 7-19
+WHO: Actor = getRelatedPeople(Poly); If Actor0.isContactExchanged() && [Random(10, 60) < Actor0:attractiontoplayer || Random(10, 60) < Actor1:attractiontoplayer]
+OTHER:
+
+    SceneStart()
+    secondScreen(Actor0)
+    Actor0.show()
+    "It's no secret that <Actor0.name> and <Actor1.name> are a polyamorous couple, frequently sleeping with other people. They're inviting me over to their place for dinner tonight. It doesn't take a rocket scientist to figure out what they have in mind for dessert ..."
+    0:: "Have a threesome with <Actor0.name> and <Actor1.name>"
+    1:: "They should find somebody else"
+    
+    If 0
+        secondScreen()
+        setBackgroundCustom(kitchen)
+        Actor0.dress()
+        Actor1.dress()
+        Actor0.show()
+        Actor1.show()
+        "I came over for dinner with the kinky couple and soon enough we ended up in the bedroom together"
+        setBackground(home)
+        Sex(Actor0, Actor1, Player)
+        
+        If Actor0.isInterestedIn(Player)
+            Actor0:attractiontoplayer += 10
+        Endif
+        
+        If Actor1.isInterestedIn(Player)
+            Actor1:attractiontoplayer += 10
+        Endif
+        
+        If Actor0.isDating() && Actor1.isDating() && [Random(30, 100) < Actor0:attractiontoplayer || Random(30, 100) < Actor1:attractiontoplayer]
+            "After having some fun with this open-minded couple, I was getting ready to go home when they stopped me to say something."
+            Actor0:: "<Player.name>, the three of us had incredible chemistry back there."
+            Actor1:: "Absolutely, we both slept around with a lot of other people casually, but you're special."
+            Actor0:: "What do you think about making this polyamorous relationship the three of us are having official and about more than just sex?"
+            0:: "Become <Actor0.name> and <Actor1.name>'s steady polyamorous partner"
+            1:: "No"
+            
+            If 0
+                Player:: "Of course, I'd love to!"
+                If !OpenRelationship()
+                    startOpenRelationship()
+                Endif
+                removeNpcRelationship(Actor0, Actor1)
+                Actor0.setDating()
+                Actor1.setDating()
+                addNpcRelationship(Dating, Actor0, Actor1)
+                exchangeContact(Actor0)
+                exchangeContact(Actor1)
+            Else
+                "This was just some fun, I'd rather not deal with the emotional baggage of a threeway open relationship."
+            Endif
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, poly_couple_repeats)

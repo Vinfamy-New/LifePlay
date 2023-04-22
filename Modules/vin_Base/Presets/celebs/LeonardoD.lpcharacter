@@ -1,0 +1,99 @@
+// Information
+INFO Is_Male: 100% true
+INFO Interested_In_Men: 100% false
+INFO Interested_In_Women: 100% true
+INFO Interested_In_Transgender: 100% false
+INFO First_Name: 100% Leonardo
+INFO Last_Name: 100% D
+INFO Race: 100% Daz
+INFO Genital: 100% Penis
+
+// Morphs
+MORPH Genesis8Female__CTRLSYFESanderFace: 100% 1.0
+MORPH Genesis8Female__Head Width: 100% 0.5
+MORPH Genesis8Female__Eyes Smaller: 100% 0.5
+MORPH Genesis8Female__Nose Lower Height: 100% 0.25
+MORPH Genesis8Female__Jaw Strength: 100% -0.25
+MORPH Genesis8Female__Eyes Slant In: 100% 0.25
+MORPH Genesis8Female__Eyes Scale: 100% 0.5
+MORPH Genesis8Female__Eyes Height A: 100% -0.5
+MORPH Genesis8Female__Eyes Droop: 100% 0.25
+MORPH Genesis8Female__Eyes Distance: 100% 0.25
+MORPH Genesis8Female__PHMNoseHeight: 100% 0.25
+MORPH Genesis8Female__PHMMouthWidth: 100% -0.5
+MORPH Genesis8Female__PHMMouthHeight: 100% 0.25
+MORPH Genesis8Female__PHMJawSize: 100% -0.25
+MORPH Genesis8Female__PHMJawCurve: 100% 0.5
+MORPH Genesis8Female__PHMJawAngle: 100% -0.25
+MORPH Genesis8Female__PHMChinWidth: 100% 0.75
+MORPH Genesis8Female__PHMChinDepth: 100% 0.5
+MORPH Genesis8Female__PHMBrowWidth: 100% 0.695624
+MORPH Genesis8Female__FBMHeavy: 100% 0.052923
+MORPH Genesis8Female__FBMPortly: 100% 0.29609
+MORPH Genesis8FemaleEyelashes__CTRLSYFESanderFace: 100% 1.0
+MORPH Genesis8FemaleEyelashes__Eyes Smaller: 100% 0.5
+MORPH Genesis8FemaleEyelashes__Eyes Slant In: 100% 0.25
+MORPH Genesis8FemaleEyelashes__Eyes Scale: 100% 0.5
+MORPH Genesis8FemaleEyelashes__Eyes Height A: 100% -0.5
+MORPH Genesis8FemaleEyelashes__Eyes Droop: 100% 0.25
+MORPH Genesis8FemaleEyelashes__Eyes Distance: 100% 0.25
+MORPH Everyday__Head Width: 100% 0.5
+MORPH Everyday__Wet 02: 100% 0.1
+MORPH Everyday__Top Size: 100% 0.25
+MORPH Everyday__Temples Front: 100% 0.25
+MORPH Everyday__Sides Bigger-Less: 100% -0.5
+MORPH Everyday__!Top Front_SIdes Fit 01: 100% 0.8
+MORPH Everyday__!Sideburns Fit: 100% 1.0
+MORPH Everyday__!Bottom Back_Sides Fit: 100% 1.0
+MORPH Everyday__!Bottom Back_Mid Fit: 100% 1.0
+MORPH Everyday__!Back Mid Fit: 100% 1.0
+SCALE X: 100% 1.0
+SCALE Y: 100% 1.0
+SCALE Z: 100% 1.0
+
+//Hair
+HAIR Hairstyle: 100% Everyday
+HAIR Hair_Thickness: 100% 1.0
+HAIR Hair_Color_R: 100% 0.3
+HAIR Hair_Color_G: 100% 0.1
+HAIR Hair_Color_B: 100% 0.0
+HAIR Hair_Color_A: 100% 0.85
+
+HAIR Brow_Color_R: 100% 0.0
+HAIR Brow_Color_G: 100% 0.0
+HAIR Brow_Color_B: 100% 0.0
+HAIR Brow_Color_A: 100% 1.0
+
+// Skin
+SKIN Eye_Color_R: 100% 0.0
+SKIN Eye_Color_G: 100% 0.3
+SKIN Eye_Color_B: 100% 1.0
+SKIN Eye_Color_A: 100% 0.8
+SKIN Face_Texture: 100% /Modules/vin_Base/Presets/celebs/LeonardoD_face.jpg
+SKIN Face_Overlay: 100% NoHair
+SKIN Torso_Texture: 100% /Modules/vin_Base/Presets/celebs/LeonardoD_torso.jpg
+SKIN Torso_Overlay: 100% NoHair
+SKIN Arms_Texture: 100% /Modules/vin_Base/Presets/celebs/LeonardoD_arms.jpg
+SKIN Arms_Overlay: 100% NoHair
+SKIN Legs_Texture: 100% /Modules/vin_Base/Presets/celebs/LeonardoD_legs.jpg
+SKIN Legs_Overlay: 100% NoHair
+SKIN Skin_Color_R: 100% 1.0
+SKIN Skin_Color_G: 100% 0.95
+SKIN Skin_Color_B: 100% 0.7
+SKIN Skin_Color_A: 100% 1.0
+SKIN BHairColor_R: 100% 0.015
+SKIN BHairColor_G: 100% 0.003
+SKIN BHairColor_B: 100% 0.0
+SKIN BHairColor_A: 100% 1.0
+SKIN Skin_Roughness: 100% 0.0
+SKIN Skin_Oil: 100% 0.25
+SKIN Skin_Fresnel: 100% 0.0
+SKIN Skin_Age: 100% 0.0
+SKIN Skin_Sagging: 100% 0.0
+SKIN Muscle_Tone: 100% 0.0
+SKIN BHairThickness: 100% 0.25
+SKIN BHairstyle: 100% NoHair
+SKIN AdjustGenital_R: 100% 0.3
+SKIN AdjustGenital_G: 100% 0.3
+SKIN AdjustGenital_B: 100% 0.3
+SKIN FHairstyle: 100% NoHair

@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: pregnancy_pact
+ACTION_NAME: Pregnancy pact
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 60 - 120
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: pregnancy_pact
+ANIMATION:
+WHO: Actor = getTarget(); If !Actor.isPregnant() && !Player.isPregnant() && !Actor.isCreature() && !Actor.isMale() && !Player.isMale() && !Actor.isTemporary() && !isWithCompanion()

@@ -1,0 +1,13 @@
+ACTION_UNIQUEID: set_family_relation
+ACTION_NAME: Set Family Relation
+WHERE: interaction
+WHEN: 0 - 24
+MINUTES: 1 - 1
+TIMEOUT_MINUTES: 0
+ALSO_TIMEOUT: 
+EFFECTS:
+CONDITIONS:
+MOVE_FIRST: true
+SCENE_ALWAYS: set_family_relation
+ANIMATION:
+WHO: Actor = getTarget(); If Actor.isRelative()

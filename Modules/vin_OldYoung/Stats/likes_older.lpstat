@@ -1,0 +1,9 @@
+STAT_ID: likes_older
+STAT_NAME: Likes Older; Ranges from -100 (prefers much younger lover) to 100 (prefers much older lover). This has a big impact on NPC attraction and on which Old-Young scenes trigger
+PLAYER_ONLY: false
+HIGHER_BETTER: no_difficulty_adjustment
+STAT_MIN: -100
+STAT_MAX: 100
+DAILY_CHANGE: 0
+DEFAULT_VALUE: 0
+NPC_ONLY: false

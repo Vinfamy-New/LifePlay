@@ -1,0 +1,89 @@
+WHAT: none
+WHERE: none
+WHEN: 0-24
+WHO: none
+OTHER:
+
+    SceneStart()
+    "I'm volunteering to help out a local animal shelter today."
+    karma += 1
+    Actor = generateCreatureTemporary()
+    If Actor.isCreatureType(Dog)
+        Actor2 = generateCreatureTemporary(Dog)
+    Elseif Actor.isCreatureType(Horse)
+        Actor2 = generateCreatureTemporary(Horse)
+    Endif
+    "It's hard work but good fun."
+    Actor3 = generatePersonTemporary()
+    While Actor3.isMale()
+        Actor3 = generatePersonTemporary()
+    Endwhile
+    If Random(0, 100) < 20
+        Actor.show()
+        "I can't help but notice that one of animals, <Actor.name> has been a lot more aggressive, horny and no doubt fertile lately. <Actor.He_or_She> must be in <Actor.his_or_her> mating season."
+        0:: "Sexually relieve <Actor.name> myself"
+        1:: "Do nothing"
+        
+        If 0
+            "It's only part of keeping the animals healthy."
+            Sex(Actor, Player)
+            If !Player.isMale() && Random(0, 100) < 50
+                If Random(0, 100) < 50 && Actor.isCreatureType(Dog)
+                    "Suddenly, we were interrupted by another volunteer."
+                    Actor3.dress()
+                    Actor3.show()
+                    Actor3:: "I see you've taken upon yourself to help out with managing <Actor.name>'s sex drive. I've had experience with <Actor.name> before. You won't be able to satisfy <Actor.him_or_her> on your own. Here, let me come join and help you."
+                    Sex(Actor, Actor3, Player)
+                Else
+                    Actor2.show()
+                    "Suddenly, another animal clearly also in its mating season caught me satisfying <Actor.name> and wants <Actor2.his_or_her> fun too."
+                    Sex(Actor2, Actor, Player)
+                Endif
+            Endif
+        Else
+            If isModEnabled(vin_NonConsensual) && Actor:rapportwithplayer < 0 && Random(-100, -20) > Actor:masochist
+                If Player.isInterestedIn(Actor)
+                    "Frustrated and driven by instinct, <Actor.name> jumped on me and raped me"
+                    Sex(Actor, Player)
+                Endif
+            Endif
+        Endif
+    Elseif Random(0, 100) < 20
+        Player:: "Oh no ... I've made a mess!"
+        "I was cleaning the supply room when I accidentally dropped the whole storage box of vials spilling all their content onto myself."
+        "What is this liquid? It seems to stick to my clothes and skin a lot."
+        "Upon looking at the label, I found out it was some sort of pheromones used for breeding animals."
+        0:: "Just clean myself up quickly and continue working"
+        1:: "Go home early"
+        
+        If 0
+            Actor.show()
+            Actor2.show()
+            "Later on, I was cleaning another room of the shelter. I can't help but notice the animals around me are acting rather aggressively today. Maybe it's the pheromones triggering some response from them. It may get dangerous."
+            0:: "Continue working"
+            1:: "Go home early"
+            
+            If 0
+                "Driven by pheromones, one of the animals <Actor.name> jumped on me and raped me"
+                Sex(Actor, Player)
+                
+                "Driven by pheromones, another animals <Actor2.name> jumped on me and raped me"
+                Sex(Actor2, Player)
+                
+                If Random(0, 100) < 50
+                    "Suddenly, another volunteer rushes in to help."
+                    Actor3.dress()
+                    Actor3.show()
+                    Actor3:: "Oh my god, what's happening! Are you okay?"
+                    "Unfortunately for her, the animals, still under the influence of the pheromones, didn't spare her either. At least they were too busy with her that I had a chance to make a run for it."
+                    Sex(Actor2, Actor, Actor3)
+                Elseif !Player.isMale()
+                    "Finally, both animals raped me at the same time"
+                    Sex(Actor2, Actor, Player)
+                Endif
+            Endif
+        Endif
+    Else
+        "Nothing out of the ordinary happened."
+    Endif
+    SceneEnd()

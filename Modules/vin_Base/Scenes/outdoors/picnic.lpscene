@@ -1,0 +1,211 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // Invite 3 more people. Usually just improves rapport, but gender combinations and perversion stats work out, potential group adult scene.
+    // If you and the first invitee are both in relationships, they suggest making it a double date, which may turn into swinging.
+    // If only one invitee and interested genders work out, turns into a date. If your date doesn't have much attraction for you, they may bring along a friend, who you may have better luck with.
+    
+    SceneStart()
+    Player.animate(picnic)
+    "Who should be my first guest?"
+    selectNPC()
+    Guest1 = getSelectedNPC()
+    If !Guest1.isValid()
+        "I can't quite decide on who to invite."
+    Elseif Guest1:rapportwithplayer > 0 || Guest1:attractiontoplayer > 0
+        Guest1.hide()
+        "<Guest1.name> happily accepted my invitation."
+        
+        If Guest1.hasRelationship(Spouses, Dating) && Player.isDating() && !Guest1.isDating()
+            dice = 2
+            "<Guest1.name> suggested to make it a double date. I thought it was a good idea."
+            Guest2 = Guest1.getRelatedPerson(Spouses, Dating)
+            Guest3 = getSpecific(Dating)
+            "<Guest1.His_or_her> <Guest2.boyfriend_or_girlfriend> <Guest2.name> and my <Guest3.boyfriend_or_girlfriend> <Guest3.name> will join us."
+        Endif
+    Else
+        Guest1.hide()
+        "<Guest1.name> turned down my invitation. Oh well ... Let's try to organize a picnic with someone else."
+        Guest1.delete()
+    Endif
+    
+    If Guest1.isValid() && !Guest2.isValid()
+        "Should I invite a second guest?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "Who should I invite?"
+            selectNPC()
+            Guest2 = getSelectedNPC()
+            If !Guest2.isValid()
+                "I can't quite decide on who to invite."
+            Elseif Guest2:rapportwithplayer > 0 || Guest2:attractiontoplayer > 0
+                Guest2.hide()
+                "<Guest2.name> happily accepted my invitation."
+            Else
+                Guest2.hide()
+                "<Guest2.name> turned down my invitation. Oh well ..."
+                Guest2.delete()
+            Endif
+        Endif
+    Endif
+
+    If Guest2.isValid() && !Guest3.isValid()
+        "Should I invite a third guest?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            "Who should I invite?"
+            Guest3 = getSelectedNPC()
+            If !Guest3.isValid()
+                "I can't quite decide on who to invite."
+            Elseif Guest3:rapportwithplayer > 0 || Guest3:attractiontoplayer > 0
+                Guest3.hide()
+                "<Guest3.name> happily accepted my invitation."
+            Else
+                Guest3.hide()
+                "<Guest3.name> turned down my invitation. Oh well ..."
+                Guest3.delete()
+            Endif
+        Endif
+    Endif
+    
+    If Guest1.isValid()
+        If !Guest2.isValid() && !Guest3.isValid()
+            dice = 3
+            If Guest1:attractiontoplayer < 10
+                Guest2 = generatePersonTemporary()
+                "<Guest1.name> decided to bring along a friend, <Guest2.name>."
+            Endif
+        Else
+            dice = 1
+        Endif
+        
+        Guest1.dress()
+        Guest1.show()
+        Guest1.animate(picnic)
+        Guest1:rapportwithplayer += 3
+        Guest1:attractiontoplayer += 3
+        If Guest2.isValid()
+            Guest2.dress()
+            Guest2.show()
+            Guest2.animate(picnic)
+            Guest2:rapportwithplayer += 3
+            Guest2:attractiontoplayer += 3
+            
+            If Guest3.isValid()
+                Guest3.dress()
+                Guest3.show()
+                Guest3.animate(picnic)
+                Guest3:rapportwithplayer += 3
+                Guest3:attractiontoplayer += 3
+            Endif
+        Endif
+        
+        "Let's start the picnic!"
+        If dice == 1
+            If Guest1:perversion > 50 && Guest2:perversion > 50 && [Guest3:perversion > 50 || !Guest3.isValid()] && [Player.isInterestedIn(Guest1) || Player.isInterestedIn(Guest2)]
+                "As we were having fun and getting a bit drunk, <Guest1.name> suggested something crazy: group sex!"
+                0:: "Let's all fuck!"
+                1:: "Not my idea of a picnic"
+                
+                If 0
+                    perversion += 0.5
+                    If Guest3.isValid()
+                        Sex(Player, Guest1, Guest2, Guest3)                    
+                    Else
+                        Sex(Player, Guest1, Guest2)
+                    Endif
+                Endif
+            Else
+                "We had a good time together and our rapport improved."
+            Endif
+        Elseif dice == 2
+            If Player.isInterestedIn(Guest2) && Guest1.isInterestedIn(Guest3) && [[Guest1:perversion > 50 && Guest2:perversion > 50 && Guest3:perversion > 50] || OpenRelationship()] 
+                "As we were having fun and getting a bit drunk, <Guest1.name> suggested some swinging fun!"
+                0:: "Let's swap partners!"
+                1:: "Not my idea of a picnic"
+                
+                If 0
+                    perversion += 0.5
+                    Sex(Player, Guest2)
+                    Sex(Guest1, Guest3)
+                Endif
+            Else
+                "We had a good time together and our rapport improved. Double dates are always good for strengthening relationships."
+            Endif        
+        Else
+            If Guest2.isValid()
+                "Now that <Guest1.name> brought along a friend that I've never met before. Maybe I might as well get to know <Guest2.name> a bit?"
+                0:: "Involve <Guest2.name> in the conversation"
+                1:: "Just focus on <Guest1.name>"
+                
+                If 1
+                    Date = true
+                    "I acted like <Guest2.name> wasn't even there. Probably feeling a bit awkward, <Guest2.name> soon made an excuse to leave us alone."
+                    Guest2.hide()
+                    Guest1:attractiontoplayer -= 3
+                Else
+                    Date = false
+                    "The three of us had an enjoyable picnic. I got along particularly well with <Guest2.name> and <Guest1.name> even encouraged us to exchange numbers."
+                    Guest2:rapportwithplayer += 20
+                    Guest2:attractiontoplayer += 20
+                    Guest2.makePermanent()
+                    exchangeContact(Guest2)
+                    If Player.isInterestedIn(Guest2) && Guest2.isInterestedIn(Player)
+                        Guest1.hide()
+                        "Sensing a certain level of chemistry between me and my new friend, <Guest1.name> excused <Guest1.himself_or_herself> and left the two of us together, leaving plenty of time for me to charm <Guest2.name> and win <Guest1.his_or_her> heart!"
+                        "As much fun as we were having though, things have stayed strictly friendly so far. Maybe I should make my move?"
+                        0:: "Kiss <Guest2.name>"
+                        1:: "Keep it safe"
+                        
+                        If 0
+                            animatePair(Player, Guest2, Kissing)
+                            If Random(50, 100) < Guest2:attractiontoplayer + Guest2:perversion
+                                "It was my lucky day as <Guest2.name> wanted the same thing."
+                                Sex(Player, Guest2)
+                            Else
+                                "Unfortunately for me, <Guest2.name> pushed me away."
+                            Endif
+                        Endif
+                    Else
+                        "Eventually, the three of us finished the picnic and parted ways."
+                        Guest1:rapportwithplayer += 3
+                    Endif
+                Endif
+            Else
+                Date = true
+            Endif
+            
+            If Date
+                "It's just me and <Guest1.name> having a picnic."
+                If Player.isInterestedIn(Guest1)
+                    "Just the way I like it, plenty of time for me to charm <Guest1.him_or_her> and win <Guest1.his_or_her> heart!"
+                    Guest1:attractiontoplayer += 3
+                    "As much fun as we were having though, things have stayed strictly friendly so far. Maybe I should make my move?"
+                    0:: "Kiss <Guest1.name>"
+                    1:: "Keep it safe"
+                    
+                    If 0
+                        animatePair(Player, Guest1, Kissing)
+                        If Guest1.hadSex() || Random(50, 100) < Guest1:attractiontoplayer + Guest1:perversion
+                            "It was my lucky day as <Guest1.name> wanted the same thing."
+                            Sex(Player, Guest1)
+                        Else
+                            "Unfortunately for me, <Guest1.name> pushed me away."
+                        Endif
+                    Endif
+                Else
+                    "Still, we had plenty of fun and our friendship improved."
+                    Guest1:rapportwithplayer += 3
+                Endif
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()

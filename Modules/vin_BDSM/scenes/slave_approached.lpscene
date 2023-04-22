@@ -1,0 +1,114 @@
+WHAT: all
+WHERE: all, -home,-prison
+WHEN: 0-24
+WHO: Actor = getCompanion(); If Actor:masochist > 99 && !Actor.isMale() && Actor.isInterestedIn(Player) && Player.isInterestedIn(Actor) && Actor.hadSex()
+OTHER:
+
+    // If your current companion is someone whom you're the Master to, random NPCs (one or multiple at the same time)may approach you in public places asking to have a go in exchange for money or you having a go at their own slav e.
+    
+    SceneStart()
+    Slave = Actor.getActorVar(tag_Slave)
+    If Slave > 0
+        Actor.dressBondage(Collar)
+        "I'm currently taking my slave <Actor.name> around in public like a little submissive pet."
+        "Whether it's the our general demeanor or the collar on <Actor.his_or_her> neck that gives it away, it's clear as day to anyone who comes across us my total dominance over my slave."
+        If Random(0, 100) < 25
+            Actor2 = generatePersonTemporary()
+            Actor2.dress()
+            Actor2.show()
+            "Soon we were approached by a stranger."
+            Actor2:: "<Actor.He_or_She>'s your slave, isn't <Actor.he_or_she>? I've long heard about people in such <Player.Master_or_Mistress>-over-slave relationships."
+            Actor2:: "Your slave is a hot piece of meat. Is <Actor.He_or_She> available for serving other people at a fee?"
+            0:: "Pimp my slave out to this stranger for some cash"
+            1:: "Only if I'm involved as well"
+            2:: "<Actor.He_or_She>'s mine only"
+            
+            If 0
+                setBackground(home)
+                "I took the stranger's cash and soon we ended up in a hotel room together."
+                money += 200
+                Player:: "Slave, you must satisfy my new friend's needs to the best of your ability. Do not disappoint me and make yourself worth the price I received. Don't you dare harm my business integrity!"
+                Actor:: "Yes, of course, anything you want, <Player.Master_or_Mistress>. I'll pleasure our new patron as best as I can on your behalf."
+                Sex(Actor2, Actor)
+            Elseif 1
+                setBackground(home)
+                "I took the stranger's cash and soon we ended up in a hotel room together. Still, I refused to let anyone have a go at my slave without my involvement. Reluctantly, the stranger agreed to the deal."
+                money += 200
+                Player:: "Slave, you must satisfy my new friend's needs to the best of your ability. Do not disappoint me and make yourself worth the price I received. Don't you dare harm my business integrity!"
+                Player:: "I'll be involved as well, just to make sure you do a good job."
+                Actor:: "Yes, of course, anything you want, <Player.Master_or_Mistress>. I'll pleasure our new patron as best as I can on your behalf."
+                Sex(Player, Actor2, Actor)            
+            Endif
+        Elseif Random(0, 100) < 33
+            Actor2 = generatePersonTemporary()
+            While Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.dress()
+            Actor2.show()
+            "Soon we were approached by some strangers."
+            
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Actor2)
+                Actor3 = generatePersonTemporary()
+            endWhile
+            Actor3.dress()
+            Actor3.show()
+            
+            Actor2:: "<Actor.He_or_She>'s your slave, isn't <Actor.he_or_she>? I've long heard about people in such <Player.Master_or_Mistress>-over-slave relationships."
+            Actor2:: "Your slave is a hot piece of meat. Is <Actor.He_or_She> available for serving other people at a fee?"
+            0:: "Pimp my slave out to these strangers for some cash"
+            1:: "<Actor.He_or_She>'s mine only"
+            
+            If 0
+                setBackground(home)
+                "I took the strangers' cash and soon we ended up in a hotel room together."
+                money += 300
+                Player:: "Slave, you must satisfy my new friends' needs to the best of your ability. Do not disappoint me and make yourself worth the price I received. Don't you dare harm my business integrity!"
+                Actor:: "Yes, of course, anything you want, <Player.Master_or_Mistress>. I'll pleasure our new patrons as best as I can on your behalf."
+                Sex(Actor2, Actor3, Actor)           
+            Endif            
+        Else
+            Actor2 = generatePersonTemporary()
+            While Actor2.isSameGender(Actor)
+                Actor2 = generatePersonTemporary()
+            endWhile
+            Actor2.dress()
+            Actor2.show()
+            "Soon we were approached by some strangers."
+            
+            Actor3 = generatePersonTemporary()
+            While !Actor3.isSameGender(Actor)
+                Actor3 = generatePersonTemporary()
+            endWhile
+            Actor3.show()
+            Actor3.dressBondage(Collar)
+            
+            "The collar on one of them makes it obvious: They are another pair of <Actor2.Master_or_Mistress> and slave, out and about in public just like us. Looks like we're in luck."
+            Actor2:: "I'm glad to meet other people like us."
+            Actor2:: "Your slave is a hot piece of meat. What do you say we swap our slaves for a night of fun?"
+            0:: "Swap slaves for sex"
+            1:: "Turn them down"
+            
+            If 0
+                setBackground(home)
+                "Soon, the four of us ended up in a hotel room nearby."
+                "I let my fellow <Actor2.Master_or_Mistress> have a go at my slave first."
+                Sex(Actor2, Actor)
+                "Then it was my turn to have a taste of another's slave."
+                Sex(Player, Actor3)
+            Endif
+        Endif
+    Else
+        "My current companion has already slept with me and seems very submissive to me. Maybe I should exert my authority over <Actor.name> in a <Player.Master_or_Mistress> over slave relationship?"
+        0:: "Yes"
+        1:: "No"
+        
+        If 0
+            passOn(Actor)
+            endDate()
+            followUp(master_to_slave)
+        Endif
+    Endif
+    SceneEnd()
+    timeout(100, slave_approached)

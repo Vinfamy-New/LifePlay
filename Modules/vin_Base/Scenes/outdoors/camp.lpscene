@@ -1,0 +1,152 @@
+WHAT: none
+WHERE: none
+WHEN: 0 - 24
+WHO: none
+OTHER:
+
+    // This will prompt you to camp there overnight either alone or with your companion.
+    // So much time for bonding ... or seduction
+    // There may be rap music during the night if a certain module is enabled. Alternative outcome if Netorare is enabled.
+
+    SceneStart()
+    "Camp here and rest?"
+    0:: "Yes"
+    1:: "No"
+    
+    If 0
+        Player.animate(camp)
+        If isWithCompanion()
+            CurrentCompanion.animate(camp)
+        Endif
+        "I set up camp and rested."
+        If isWithCompanion()
+            CurrentCompanion.animate(camp)
+            "There's a plenty of time to spend with <CurrentCompanion.name> while camping here ..."
+            0:: "Bond with <CurrentCompanion.name>"
+            1:: Player.isInterestedIn(CurrentCompanion) :: "Seduce <CurrentCompanion.name>"
+            
+            If 0
+                CurrentCompanion:rapportwithplayer += 10
+            Else
+                CurrentCompanion:attractiontoplayer += 10
+                If Random(50, 100) < CurrentCompanion:attractiontoplayer + CurrentCompanion:perversion || CurrentCompanion.hadSex()
+                    "With just the two of us there for so many hours, one thing eventually led to another and we ended up getting intimate."
+                    Sex(Player, CurrentCompanion)
+                Else
+                    "<CurrentCompanion.name> didn't turn me down per se but didn't allow things to escalate either."
+                Endif
+            Endif
+            
+            Actor = generatePersonTemporary()
+            
+            If isModEnabled(vin_NTR) && isModEnabled(vin_NonConsensual) && Actor:perversion > 50 && Actor.isInterestedIn(CurrentCompanion)
+                Player.animate(camp)
+                CurrentCompanion.animate(camp)
+                Actor.dress()
+                Actor.show()
+                Actor.moveToPersonStand(CurrentCompanion, 50)
+                "Later on, while both of us were asleep in our tents. A stranger sneaked into our camp and attacked <CurrentCompanion.name> ... Overcome with surprise, <CurrentCompanion.name> was quickly overwhelmed."
+                CurrentCompanion.animate(fightlost)
+                Player.moveToPersonStand(Actor, 50)
+                "I rushed in to help and tried to fight off the attacker!"
+                Actor.animate(martialart)
+                Player.animate(martialart)
+                "A fight ensued."
+                If Actor:martial > martial
+                    Player.animate(fightlost)
+                    "Unfortunately, I was no match for our attacker and was quickly knocked to the ground."
+                    "With the only obstacle left now gone, the creep then proceeded to rape <CurrentCompanion.name>!"
+                    TalkNonConsensual()
+                    If !Actor.isMale() && CurrentCompanion.isMale()
+                        Filter(AggressiveFM)
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    SexNoAffair(Actor, CurrentCompanion)
+                    
+                    If Actor.isInterestedIn(Player)
+                        Actor:: "Now, it's your turn!"
+                        If !Actor.isMale() && Player.isMale()
+                            Filter(AggressiveFM)
+                        Else
+                            Filter(Aggressive)
+                        Endif
+                        SexNoAffair(Actor, Player)
+                    Endif
+                Else
+                    Actor.animate(fightlost)
+                    "I was victorious! And the creep ran away."
+                    karma += 5
+                    Actor.hide()
+                    CurrentCompanion:: "You're my hero! You really taught <Actor.him_or_her> not to assault campers."
+                    CurrentCompanion:attractiontoplayer += 20
+                    CurrentCompanion:rapportwithplayer += 20
+                    "Hero, hah? That sounds good to me ..."
+                    0:: "Push for a sexual reward"
+                    1:: "Stay classy"
+                    
+                    If 0
+                        CurrentCompanion:: "Okay ... you deserve it!"
+                        Sex(Player, CurrentCompanion)
+                    Endif
+                Endif
+            Elseif isModEnabled(vin_NonConsensual) && !CurrentCompanion.hadSex() && Player.isInterestedIn(CurrentCompanion)
+                Player.animate(camp)
+                CurrentCompanion.animate(camp)
+                "<CurrentCompanion.name> is fast asleep. I've always fancied <CurrentCompanion.him_or_her> but haven't had any success so far."
+                "Maybe this is my golden opportunity to force things through ..."
+                0:: "Force myself on <CurrentCompanion.name>"
+                1:: "I'm not that kind of person"
+                
+                If 0
+                    Player.moveToPersonStand(CurrentCompanion, 50)
+                    "The element of surprise was on my side ... and I overwhelmed <CurrentCompanion.name> before <CurrentCompanion.he_or_she> could open <CurrentCompanion.his_or_her> eyes and react at all."
+                    CurrentCompanion:: "No, I trusted you that I agreed to go camping with you alone ... How could you do this to me?"
+                    TalkNonConsensual()
+                    If !Player.isMale() && CurrentCompanion.isMale()
+                        Filter(AggressiveFM)
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    SexNoAffair(Actor, CurrentCompanion) 
+                    CurrentCompanion:attractiontoplayer -= 50
+                    CurrentCompanion:rapportwithplayer -= 50
+                    endDate()
+                Endif
+            Endif
+        Else
+            Actor = generatePersonTemporary()
+            If isModEnabled(vin_NonConsensual) && Actor:perversion > 50 && Actor.isInterestedIn(Player)
+                Player.animate(camp)
+                Actor.dress()
+                Actor.show()
+                Actor.moveToPersonStand(Player, 50)
+                "Camping alone can be pretty dangerous. Later on, while I was asleep alone in my tent. A stranger sneaked into my camp and attacked me!"
+                "I tried to fight off the attacker!"
+                Actor.animate(martialart)
+                Player.animate(martialart)
+                "A fight ensued."
+                If Actor:martial > martial
+                    Player.animate(fightlost)
+                    "Unfortunately, I was no match for our attacker and was quickly knocked to the ground."
+                    "With my last resistance now gone, the creep then proceeded to rape me!"
+                    TalkNonConsensual()
+                    If !Actor.isMale() && Player.isMale()
+                        Filter(AggressiveFM)
+                    Else
+                        Filter(Aggressive)
+                    Endif
+                    SexNoAffair(Actor, Player)
+                    mood -= 50
+                Else
+                    Actor.animate(fightlost)
+                    "I was victorious! And the creep ran away."
+                    mood += 25
+                Endif
+            Else
+                "It was an enjoyable solo camping experience."
+            Endif
+        Endif
+    Endif
+    
+    SceneEnd()
