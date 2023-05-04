@@ -1,8 +1,8 @@
-passOn(Actor)
+Actor.passOn()
 Used to pass an actor from one scene to the next scene, used with followUp() and getSpecific(PassedOn)
 
 Scene 1:
-passOn(Actor)
+Actor.passOn()
 followUp(scene2)
 
 Scene2:

@@ -1,7 +1,7 @@
 WHAT: all
 WHERE: all
 WHEN: 0 - 24
-WHO: Actor = getCompanion(); If !Actor.isRelative() && Actor.isInterestedIn(Player) && !Player.isInterestedIn(Actor) 
+WHO: Actor = getCompanion(); If !Actor.isRelative() && Actor.isInterestedIn(Player) && !Player.isInterestedIn(Actor) && [Player.isGay() || Actor.isGay()]
 OTHER: Random(20, 100) < Actor:attractiontoplayer + Actor:intoxication*0.5
 
     SceneStart()

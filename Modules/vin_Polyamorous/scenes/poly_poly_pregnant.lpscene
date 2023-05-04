@@ -21,28 +21,28 @@ OTHER: isModEnabled(vin_Pregnancy)
     Else
         "We all agreed that would be the best arrangement both for our current situation and the child's future."
         If 0
-            A1 = Actor
-            A2 = Actor2
+            Ac1 = Actor
+            Ac2 = Actor2
         Elseif 1
-            A1 = Actor
-            A2 = Player        
+            Ac1 = Actor
+            Ac2 = Player        
         Elseif 2
-            A1 = Actor2
-            A2 = Player        
+            Ac1 = Actor2
+            Ac2 = Player        
         Elseif 3
-            A1 = Actor
-            A2 = Actor3        
+            Ac1 = Actor
+            Ac2 = Actor3        
         Else
-            A1 = Actor2
-            A2 = Actor3        
+            Ac1 = Actor2
+            Ac2 = Actor3        
         Endif
         
-        If A1.isFemale()
-            Preg = A1
-            Impreg = A2
+        If Ac1.isFemale()
+            Preg = Ac1
+            Impreg = Ac2
         Else
-            Preg = A2
-            Impreg = A1        
+            Preg = Ac2
+            Impreg = Ac1        
         Endif
         
         Preg.setWantsBabies(true)

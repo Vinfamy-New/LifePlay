@@ -89,7 +89,7 @@ OTHER: none
             Actor.enterFirstName()
             Player:children += 1
             
-            If BioDaddy.isValid() && BioDaddy.isRelative() && Random(0, 100) < 50
+            If BioDaddy.isValid() && BioDaddy.isRelative() && BioDaddy.isRelativeType(Sibling, Child, Cousin, ParentSibling, Parent) && Random(0, 100) < 50
                 "Unfortunately, I was informed by the doctor that <Actor.name> was born with a birth defect."
                 If Random(0, 100) < 25
                     "This particular birth defect leads to a deformed face"

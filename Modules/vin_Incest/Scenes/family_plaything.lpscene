@@ -19,9 +19,9 @@ OTHER: none
                 Player.dressBondage()
             Endif
             
-            Actor2 = getSpecific(Colleague)
+            Actor2 = getRelative()
             While Actor2.isValid() && !Actor3.isInterestedIn(Player) && [Actor2:perversion > 50 || Actor2.hadSex()]
-                Actor2 = getSpecific(Colleague)
+                Actor2 = getRelative()
             Endwhile
             If !Actor2.isValid() || Random(0, 100) < 30
                 Random

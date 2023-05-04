@@ -12,7 +12,7 @@ OTHER: !Player.isFemale() && Player.isRace(Orc) && [Player.isInterestedInWomen()
     
     If 0
         "As I stepped around the shelves, I heard a hiss and felt a sting in my neck. Reaching for the spot, I found a dart stuck in me! Drowsiness rapidly overcame me, and as my legs gave out I noticed lithe hands from someone I didn't even hear approaching reach out to catch me..."
-        setBackground(clinic)
+        setBackground(doctor)
 
         "When I came to, I found myself strapped to a chair in a basement, a pair of elves with dart guns standing watch over me. When they noticed my eyes open, one called to someone else, 'Doctor, the greenskin's awake.' Another elf in a lab coat stepped into view..."
         

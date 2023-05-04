@@ -25,7 +25,7 @@ OTHER: Player.isVirgin() && Player.isFemale()
         2:: "On second thought, I'm not selling off my dignity"
         
         If 0
-            setBackground(clinic)
+            setBackground(doctor)
             Player.strip()
             "Since I'm genuinely a virgin, it didn't take long or much effort for the doctor to confirm my virginity."
             Step += 1            

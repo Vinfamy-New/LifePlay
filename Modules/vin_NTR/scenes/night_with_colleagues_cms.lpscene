@@ -1,7 +1,7 @@
 WHAT: all
 WHERE: home
 WHEN: 12 - 21
-WHO: Actor = getSpecific(Dating)
+WHO: Actor = getSpecific(Dating); If !Actor.isColleague()
 OTHER:
 
     SceneStart()

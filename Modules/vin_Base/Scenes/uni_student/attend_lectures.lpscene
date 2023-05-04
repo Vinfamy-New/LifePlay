@@ -192,7 +192,7 @@ OTHER:
                     Actor2.dress()
                     Actor2.show()
                     Actor3 = Actor2.getRelatedPerson(Spouses, Dating)
-                    "Apart from doing my own assignment, I was approached by a classmate, <Actor.name>, who's struggling with this particular <Actor.Major> class and is sure to get a bad grade for the assignment if <Actor.he_or_she> attempts it <Actor.himself_or_herself>. Impressed by my high grades in the previous assignment for this subject, <Actor.He_or_She> is offering me some cash to do the assignment for <Actor.him_or_her>. Sraight-up cheating to be honest, but we're unlikely to be caught."
+                    "Apart from doing my own assignment, I was approached by a classmate, <Actor2.name>, who's struggling with this particular <Actor.Major> class and is sure to get a bad grade for the assignment if <Actor2.he_or_she> attempts it <Actor2.himself_or_herself>. Impressed by my high grades in the previous assignment for this subject, <Actor2.He_or_She> is offering me some cash to do the assignment for <Actor2.him_or_her>. Sraight-up cheating to be honest, but we're unlikely to be caught."
                     0:: "Turn <Actor2.him_or_her> down"
                     1:: "Accept the cash"
                     2:: "For a friend, I'll do it for free"

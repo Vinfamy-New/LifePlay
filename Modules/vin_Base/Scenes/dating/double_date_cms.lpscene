@@ -5,6 +5,7 @@ WHO: Actor = getRelatedPeople(Spouses, Dating); Actor2 = getSpecific(Dating); If
 OTHER:
 
     SceneStart()
+    Actor2.dress()
     Actor2.show()
     "My <Actor2.boyfriend_or_girlfriend> <Actor2.name> recently has grown quite fond of <Actor0.name> and <Actor0.his_or_her> <Actor1.boyfriend_or_girlfriend> <Actor1.name>, so <Actor2.he_or_she> insists to organize a double date for all of us."
     0:: "I don't feel like it today."
@@ -45,7 +46,7 @@ OTHER:
                 "While reading this, I feel <Actor1.his_or_her> left foot rake along the inside of my thigh moving higher and higher sending shivers of excitement along my leg as it travels up my pants."
                 "Reaching my lap the foot gently pulls on my belt, making a futile attempt to drop my pants. I look at <Actor0.name>'s face and <Actor1.he_or_she> throws me a pleading look, showing me exactly what <Actor1.he_or_she> is up to" 
                 0:: "Unbelt your pants and let <Actor1.name> enjoy <Actor1.his_or_her> dessert"
-                1:: "Discretly stop <Actor1.his_her> advances"
+                1:: "Discretly stop <Actor1.his_or_her> advances"
                 2:: "Make a scene"
                 
                 If 0

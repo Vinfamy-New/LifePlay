@@ -29,7 +29,7 @@ OTHER:
         Total = Random(3, 7)
         count = 0
         While count < Total
-            Actor2 = generatePersonTempor ary()
+            Actor2 = generatePersonTemporary()
             If Actor:attractiveness > 75
                 Actor2:attractiveness => Random(75, 100)
             Elseif Actor:fitness > 75
@@ -48,9 +48,9 @@ OTHER:
             Actor2.show(2)
             Actor2.moveToPerson(Player)
             "One of <Actor.name>'s friends approached me."
-            Actor(Happy):: "Hi there, I'm <Actor2.name>. Nice to meet you!"
+            Actor2(Happy):: "Hi there, I'm <Actor2.name>. Nice to meet you!"
             Player(Happy):: "Nice to meet you, <Actor2.name>. I'm <Player.name>."
-            0:: "Offer to add <Actor.him_or_her> on Facebook"
+            0:: "Offer to add <Actor2.him_or_her> on Facebook"
             1:: "Just chat"
             
             If 0

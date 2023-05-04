@@ -39,7 +39,7 @@ OTHER: none
             Salary.setSalary()
             Player.setActorVar(tag_Mayor, 1)
             jobperformance => 50
-            "Thankfully, I won the mayoral election in the end. Even my rival had to make a concession speech. I'm now the mayor of this city and will start work immediately."
+            "Thankfully, I won the mayoral election in the end. Even my rival had to make a concession speech. I'm now the mayor of this city and will start work immediately. Of course, I had to regin from all my previous jobs to avoid conflict of interest."
 
             QuestEnd()
         Else

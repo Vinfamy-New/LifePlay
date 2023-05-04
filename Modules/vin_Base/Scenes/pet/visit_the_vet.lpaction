@@ -1,6 +1,6 @@
 ACTION_UNIQUEID: visit_the_vet
 ACTION_NAME: Visit the vet
-WHERE: veterinary, hospital, clinic
+WHERE: veterinary, hospital, doctor
 WHEN: 0 - 24
 MINUTES: 30 - 60
 TIMEOUT_MINUTES: 15

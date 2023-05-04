@@ -10,6 +10,15 @@ OTHER: none
     Endif
     stage = imp_stage.getGlobal()
     Actor = impEx.getActorAlias()
+    
+    If !Actor.isValid()
+        "For some reason, the quest failed to grab the character who underwent the surgery earlier."
+        "Please pick her again manually from your contact list so that the quest can try again ..."
+        selectNpc()
+        Actor = getSelectedNpc()
+        "<Actor.name> was picked, the quest should now remember this next time. If this name shows up as blank or you couldn't find this person in the contact list, make sure you're not hanging out with them and go to the another location far away before trying again."
+        impEx.setActorAlias(Actor)
+    Endif
 
     If stage == 1 // TRAIN
         setBackground(home)

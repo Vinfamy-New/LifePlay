@@ -2,7 +2,7 @@ WHAT: all
 WHERE: all, -home
 WHEN: 0 - 24
 WHO: none
-OTHER: Random(1, 100) < pornfame
+OTHER: Random(20, 100) < pornfame
 
     // If you're a por nstar, depending on your fame, you may get recognized in public. The fan will either simply ask for a selfie, or try to proposition you. You can then demand money straight up or demand to film the whole thing and share online as a 'Fuc k a Fan' video, which increases your fame instead.
     

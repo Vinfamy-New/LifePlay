@@ -94,7 +94,7 @@ OTHER:
 
                             If 0
                                 Actor2:rapportwithplayer -= 15
-                                passOn(Actor4)
+                                Actor4.passOn()
                                 followUp(master_to_slave)
                             Else
                                 "<Actor2.name> is forever grateful to me for completely transforming the dynamic of their relationship."
