@@ -2,7 +2,7 @@ WHAT: all, -sleep, -nap, -sleep_hotel, -nap_hotel
 WHERE: all, -work
 WHEN: 12 - 22
 WHO: Actor = getRelatedPeople(Spouses, Dating); Actor2 = getSpecific(Dating); If !Actor0.isRelative() && !Actor1.isRelative() && Actor0:rapportwithplayer > 20
-OTHER:
+OTHER: none
 
     SceneStart()
     Actor2.dress()
@@ -46,7 +46,7 @@ OTHER:
                 "While reading this, I feel <Actor1.his_or_her> left foot rake along the inside of my thigh moving higher and higher sending shivers of excitement along my leg as it travels up my pants."
                 "Reaching my lap the foot gently pulls on my belt, making a futile attempt to drop my pants. I look at <Actor0.name>'s face and <Actor1.he_or_she> throws me a pleading look, showing me exactly what <Actor1.he_or_she> is up to" 
                 0:: "Unbelt your pants and let <Actor1.name> enjoy <Actor1.his_or_her> dessert"
-                1:: "Discretly stop <Actor1.his_or_her> advances"
+                1:: "Discretely stop <Actor1.his_or_her> advances"
                 2:: "Make a scene"
                 
                 If 0
@@ -73,7 +73,7 @@ OTHER:
             Elseif isModEnabled(vin_NTR) && [Actor0:perversion > 50 || Actor0.hadSex()] && Actor0.isInterestedIn(Actor2)
                 "It's quite dark and as we eat I suddenly hear a muffled moan coming from my left side"
                 "Curiously I take a glimpse towards the strange sound and in shock have to recognize <Actor0.name>'s hand on the groin of my partner <Actor2.name>, who tries <Actor2.his_or_her> best to keep <Actor2.him_or_herself> hold the moan!" 
-                0:: "Act like nothing happend"
+                0:: "Act like nothing happen"
                 1:: "Let your partner know you know (*wink*)"
                 2:: "LET EVERYONE KNOW YOU KNOW! (Scold them)"
                 
@@ -81,14 +81,14 @@ OTHER:
                     "I don't know if I'm just to shocked and scared to tell them off, or maybe it's the scandalous and forbidden nature of their depraved act turning me on, but I'm not able to bring myself to interrupt <Actor0.name> and <Actor2.name>."
                     "Does <Actor1.name> what <<Actor1.his_or_her> partner is doing with my <Actor2.boyfriend_or_girlfriend>? Maybe <Actor1.name> has the same mixed feeling like I do right now?!"
                     "I don't want to risk anything though and entangle <Actor1.name> in a conversation about <Actor1.his_or_her> favorite topic, which makes <Actor1.him_or_her> totally oblivious to everything <Actor0.name> and <Actor2.name> are doing under the table" 
-                    "While listening to <Actor1.name>'s long and enthusiastic monolouge, my mind drifts off and I think about the naughty things happening just few inches away from us."
+                    "While listening to <Actor1.name>'s long and enthusiastic monologue, my mind drifts off and I think about the naughty things happening just few inches away from us."
                     Filter(Footjob)
                     Sex(Actor2, Actor0)
-                    "Right on time, after <Actor1.name> comes to a closure of <Actor1.his_or_her> tellings, I hear a restrained, but clearly familiar groan coming from my <Actor2.boyfriend_or_girlfriend> right beside me.
+                    "Right on time, after <Actor1.name> comes to a closure of <Actor1.his_or_her> tellings, I hear a restrained, but clearly familiar groan coming from my <Actor2.boyfriend_or_girlfriend> right beside me."
                     Player:: "Everything alright sweetheart?"
                     Actor2:: "Yes, of course. Must have been the spicy food..."
                     Player:: "I know you can't keep your fingers off from this spicy cuisine, but you got to be careful"
-                    "Everyone keeps acting like nothing has happend and we continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!" 
+                    "Everyone keeps acting like nothing has happen and we continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!" 
                 Elseif 1
                     "This really turns me on being so shamelessly cucked on a double date like this. I wonder if <Actor0.name>'s partner thinks the same, or if <Actor1.name> just doesn't know"
                     "I don't want to put it to a test, but want to help them take it a step further instead. I wait for a good moment and turn myself <Actor2.boyfriend_or_girlfriend> still pretending to <Actor0.name> I haven't noticed what <Actor0.he_or_she> is doing to my lover"
@@ -100,9 +100,9 @@ OTHER:
                     setBackground(toilets)
                     Sex(Actor0, Actor2)
                     "A little while later our partners, shortly shifted in time, come back from the restrooms. Thanks to my fabulous distraction skills, <Actor1.name> still seems to be unsuspecting about their simultaneous absence though."
-                    "Everyone keeps acting like nothing has happend and we continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
+                    "Everyone keeps acting like nothing has happen and we continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
                 Else
-                    "I scoled them and angrily walked away."
+                    "I scolded them and angrily walked away."
                 Endif
             Else
                 "It was a delightful evening. The food was good, we shared some interesting and funny stories and also had quite a few drinks together."
@@ -129,7 +129,7 @@ OTHER:
                     "I quietly continue to watch the movie, only hearing hold back moans from time to time, which distract me and let my imagination run wild" 
                     Filter(Handjob)
                     Sex(Actor0, Actor2)
-                    "After the movie has ended everyone, including me, acts like nothing has happend. We continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
+                    "After the movie has ended everyone, including me, acts like nothing has happen. We continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
                 Elseif 1
                     "This really turns me on being so shamelessly cucked on a double date like this. I wonder if <Actor0.name>'s partner thinks the same, or if <Actor1.name> just doesn't know"
                     "I don't want to put it to a test, but want to help them take it a step further instead. I wait for a good moment and turn myself <Actor2.boyfriend_or_girlfriend> still pretending to <Actor0.name> I haven't noticed what <Actor0.he_or_she> is doing to my lover"
@@ -139,15 +139,15 @@ OTHER:
                     "While waiting for them to come back, my mind fantasizes about all the dirty things they would do"
                     setBackground(toilets)
                     Sex(Actor0, Actor2)
-                    "After the movie has ended everyone, including me, acts like nothing has happend. We continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
+                    "After the movie has ended everyone, including me, acts like nothing has happen. We continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
                 Else
                     "I scoled them and angrily walked away."
                 Endif
             Elseif isModEnabled(vin_Netori) && [Actor1:perversion > 50 || Actor1.hadSex()]
-                "The cinema is quite dark and as we watch the movie I suddenly feel something at my tigh"
-                "Oh my god it's <Actor1.name> who is carassing my thigh. What a pervert!"
+                "The cinema is quite dark and as we watch the movie I suddenly feel something at my tight"
+                "Oh my god it's <Actor1.name> who is caressing my thigh. What a pervert!"
                 0:: "Let it happen"
-                1:: "Discretly stop <Actor1.his_her> advances"
+                1:: "Discretely stop <Actor1.his_her> advances"
                 2:: "Make a scene"
             
                 If 0
@@ -156,8 +156,8 @@ OTHER:
                     "I try to hold my moan as <Actor1.name> silently pleases me with <Actor1.his_or_her> fingers. I take a look towards our partners, who both obliviously to our depravity keep staring at the movie screen."
                     Filter(Handjob)
                     Sex(Actor1, Player)
-                    "Although I tried my best to stay quiet, it's still a miracle, nobody has notice what happend. <Actor0.name> throws me a satisfied smile as <Actor0.he_or_she> pulls <Actor0.his_or_her> hand out of my pants." 
-                    "After the movie has ended we act like nothing has happend. All of us continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
+                    "Although I tried my best to stay quiet, it's still a miracle, nobody has notice what happen. <Actor0.name> throws me a satisfied smile as <Actor0.he_or_she> pulls <Actor0.his_or_her> hand out of my pants." 
+                    "After the movie has ended we act like nothing has happen. All of us continue having an ordinary good night out, that eventually ends with a friendly farewell and promises to go out again sometime!"
                     Actor1:attractiontoplayer += 5
                 Elseif 1
                     "That's enough. We should stop before one of our partners spots our shameless public depravity."
